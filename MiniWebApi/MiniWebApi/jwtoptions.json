@@ -1,9 +1,0 @@
-{
-  "JwtOptions": {
-    "Issuer": "MyAuthServer",
-    "Audience": "MyAuthClient",
-    "LifeTime": 5,
-    "Key": "MySuperSecretKey17",
-    "RefreshTokenLifeTime":  120
-  }
-}
