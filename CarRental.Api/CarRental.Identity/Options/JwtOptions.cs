@@ -1,7 +1,9 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CarRental.Api.Options
+namespace CarRental.Identity.Options
 {
     public class JwtOptions
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CarRental.DAL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,13 +13,15 @@ namespace CarRental.Api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private static List<string> _values = new List<string>(new string[] { "value1", "value2" });
+        private readonly DataStorage _dataStorage;
 
-        private ILogger<ValuesController> _logger;
+        private readonly ILogger<ValuesController> _logger;
 
         public ValuesController(ILogger<ValuesController> logger)
         {
             _logger = logger;
+
+            _dataStorage = DataStorage.GetDataStorage();
         }
 
         /// <summary>
@@ -32,7 +35,7 @@ namespace CarRental.Api.Controllers
         {
             _logger.LogInformation("User send request to get values");
 
-            return Ok(_values.ToArray());
+            return Ok(_dataStorage.Values.ToArray());
         }
 
         /// <summary>
@@ -54,7 +57,7 @@ namespace CarRental.Api.Controllers
             {
                 _logger.LogInformation("User send request to get values[index]");
 
-                return Ok(_values.ElementAt(index));
+                return Ok(_dataStorage.Values.ElementAt(index));
             }
             catch (Exception ex)
             {
@@ -69,17 +72,18 @@ namespace CarRental.Api.Controllers
         /// <returns></returns>
         /// <response code="200">Nothing to return. Operation is successful.</response>
         /// <response code="400">Input value is null or empty.</response>
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public ActionResult CreateValue(string value)
+        public ActionResult CreateValue([FromBody]string value)
         {
             if (String.IsNullOrEmpty(value))
             {
                 return BadRequest();
             }
 
-            _values.Add(value);
+            _dataStorage.Values.Add(value);
 
             return Ok();
         }
@@ -99,7 +103,7 @@ namespace CarRental.Api.Controllers
         {
             try
             {
-                _values[index] = value;
+                _dataStorage.Values[index] = value;
 
                 return Ok();
             }
@@ -124,7 +128,7 @@ namespace CarRental.Api.Controllers
         {
             try
             {
-                _values.RemoveAt(index);
+                _dataStorage.Values.RemoveAt(index);
 
                 return Ok();
             }

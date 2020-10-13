@@ -4,6 +4,10 @@ using System.IO;
 using System.Reflection;
 using CarRental.Api.Options;
 using CarRental.Api.Services;
+using CarRental.BLL.Services;
+using CarRental.DAL;
+using CarRental.Identity.Options;
+using CarRental.Identity.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -89,6 +93,8 @@ namespace CarRental.Api
             });
 
             services.AddScoped<TokenService>();
+
+            services.AddScoped<AccountService>();
 
             services.Configure<JwtOptions>(Configuration.GetSection(JwtOptions.SectionName));
 

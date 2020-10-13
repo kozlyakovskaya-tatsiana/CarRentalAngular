@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using CarRental.Api.Services;
+using CarRental.Identity.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
