@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MiniWebApi.Options
+﻿namespace CarRental.Api.Options
 {
     public class SecurityDefinitionOptions
     {
         public const string SectionName = "SecurityDefinitionOptions";
 
-        public string SecuriyDefinitionName { get; set; }
+        public string SecurityDefinitionName { get; set; }
 
         public string Description { get; set; }
 

@@ -4,8 +4,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:62028",
-      "sslPort": 44348
+      "applicationUrl": "http://localhost:60617",
+      "sslPort": 44397
     }
   },
   "profiles": {
@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "MiniWebApi": {
+    "CarRental.Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

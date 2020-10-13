@@ -1,21 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.IO;
-using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
+using CarRental.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using MiniWebApi.JWT;
-using MiniWebApi.Services;
 
-namespace MiniWebApi.Controllers
+namespace CarRental.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

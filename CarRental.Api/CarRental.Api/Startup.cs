@@ -1,27 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading.Tasks;
+using CarRental.Api.Options;
+using CarRental.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MiniWebApi.JWT;
-using MiniWebApi.Options;
-using MiniWebApi.Services;
-using Swashbuckle.AspNetCore.Filters;
 
-namespace MiniWebApi
+namespace CarRental.Api
 {
     public class Startup
     {
@@ -66,7 +58,7 @@ namespace MiniWebApi
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
 
-                options.AddSecurityDefinition(securityDefinitionOptions.SecuriyDefinitionName, new OpenApiSecurityScheme
+                options.AddSecurityDefinition(securityDefinitionOptions.SecurityDefinitionName, new OpenApiSecurityScheme
                 {
                     Description = securityDefinitionOptions.Description,
                     Name = securityDefinitionOptions.Name,
