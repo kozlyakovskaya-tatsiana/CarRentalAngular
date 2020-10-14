@@ -4,6 +4,10 @@ using CarRental.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace CarRental.Api.Controllers
 {
@@ -19,7 +23,10 @@ namespace CarRental.Api.Controllers
 
         private readonly UserManager<User> _userManager;
 
-        public AccountController(ILogger<AccountController> logger, ITokenService tokenService, IAuthorizeService authorizeService, UserManager<User> userManager)
+        private readonly SignInManager<User> _signInManager;
+
+        public AccountController(ILogger<AccountController> logger, ITokenService tokenService, IAuthorizeService authorizeService,
+            UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _logger = logger;
 
@@ -29,24 +36,57 @@ namespace CarRental.Api.Controllers
 
             _userManager = userManager;
 
+            _signInManager = signInManager;
         }
 
 
-        [HttpPost]
-        public IActionResult Register(RegisterModel registerModel)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterModel registerModel)
         {
-            return Ok();
+            try
+            {
+                var user = new User { Email = registerModel.Email, UserName = registerModel.Email };
+
+                var result = await _userManager.CreateAsync(user, registerModel.Password);
+
+                if (result.Succeeded)
+                    return Ok();
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+
+                return BadRequest(ModelState);
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e);
+            }
+
         }
 
         [HttpPost("login")]
-        public IActionResult LogIn([FromBody]LoginModel loginModel)
+        public async Task<IActionResult> LogIn([FromBody] LoginModel loginModel)
         {
-            var identity = _authorizeService.GetIdentity(loginModel);
+            var user = await _userManager.FindByNameAsync(loginModel.Email);
 
-            if (identity == null)
+            if (user == null)
             {
-                return BadRequest("No such user in the system.");
+                return BadRequest("There is no account with such email.");
             }
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginModel.Password, false);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest("Password is incorrect.");
+            }
+
+            var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? "myeditrole";
+
+            var identity = _authorizeService.GetIdentity(user.UserName, role);
 
             var accessToken = _tokenService.GenerateToken(identity.Claims);
 
@@ -58,7 +98,9 @@ namespace CarRental.Api.Controllers
 
                 refresh_token = refreshToken,
 
-                userEmail = identity.Name
+                userEmail = identity.Name,
+
+                userRole = role
             };
 
             return Ok(response);

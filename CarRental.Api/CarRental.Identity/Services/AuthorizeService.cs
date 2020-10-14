@@ -15,29 +15,20 @@ namespace CarRental.Identity.Services
         {
             _userManager = userManager;
         }
-        
 
-        public ClaimsIdentity GetIdentity(LoginModel loginModel)
+
+        public ClaimsIdentity GetIdentity(string userName, string userRole)
         {
-            /*var user = _userManager.FindByLoginAsync(loginModel.Email, loginModel.Password);
-
-            
-            
-            if (user != null)
-            {
-                var claims = new List<Claim>
+            var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole)
                 };
 
-                var claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType);
+            var claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
 
-                return claimsIdentity;
-            }*/
-
-            return null;
+            return claimsIdentity;
         }
     }
 }

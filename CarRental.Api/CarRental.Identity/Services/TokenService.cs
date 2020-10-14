@@ -12,7 +12,7 @@ using System.Text;
 
 namespace CarRental.Identity.Services
 {
-    public class TokenService: ITokenService
+    public class TokenService : ITokenService
     {
         private readonly JwtOptions _jwtOptions;
 
@@ -65,8 +65,7 @@ namespace CarRental.Identity.Services
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var principal =
-                tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
 
             return principal;
         }
