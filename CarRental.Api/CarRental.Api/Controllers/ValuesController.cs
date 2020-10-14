@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CarRental.BLL;
+using CarRental.BLL.Services;
 using CarRental.DAL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +15,15 @@ namespace CarRental.Api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly DataStorage _dataStorage;
+        private readonly IValuesService _valuesService;
 
         private readonly ILogger<ValuesController> _logger;
 
-        public ValuesController(ILogger<ValuesController> logger)
+        public ValuesController(ILogger<ValuesController> logger, IValuesService valuesService)
         {
             _logger = logger;
 
-            _dataStorage = DataStorage.GetDataStorage();
+            _valuesService = valuesService;
         }
 
         /// <summary>
@@ -35,7 +37,7 @@ namespace CarRental.Api.Controllers
         {
             _logger.LogInformation("User send request to get values");
 
-            return Ok(_dataStorage.Values.ToArray());
+            return Ok(_valuesService.Values);
         }
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace CarRental.Api.Controllers
             {
                 _logger.LogInformation("User send request to get values[index]");
 
-                return Ok(_dataStorage.Values.ElementAt(index));
+                return Ok(_valuesService.Values.ElementAt(index));
             }
             catch (Exception ex)
             {
@@ -83,7 +85,7 @@ namespace CarRental.Api.Controllers
                 return BadRequest();
             }
 
-            _dataStorage.Values.Add(value);
+            _valuesService.AddValue(value);
 
             return Ok();
         }
@@ -96,7 +98,7 @@ namespace CarRental.Api.Controllers
         /// <returns></returns>
         /// <response code="200">Nothing to return. Operation is successful.</response>
         /// <response code="400">Incorrect input.</response>
-        [HttpPut("{index:int}/{value}")]
+        /*[HttpPut("{index:int}/{value}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public ActionResult UpdateValue(int index, string value)
@@ -136,6 +138,6 @@ namespace CarRental.Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
+        }*/
     }
 }

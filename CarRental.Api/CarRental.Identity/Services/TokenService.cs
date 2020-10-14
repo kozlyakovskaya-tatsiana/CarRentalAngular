@@ -12,27 +12,42 @@ using System.Text;
 
 namespace CarRental.Identity.Services
 {
-    public class TokenService
+    public class TokenService: ITokenService
     {
-        public readonly JwtOptions JwtOptions;
+        private readonly JwtOptions _jwtOptions;
 
         private readonly DataStorage _dataStorage;
 
-        public TokenService(IOptions<JwtOptions> options)
+        public TokenService(IOptions<JwtOptions> options, DataStorage dataStorage)
         {
-            JwtOptions = options.Value;
+            _jwtOptions = options.Value;
 
-            _dataStorage = DataStorage.GetDataStorage();
+            _dataStorage = dataStorage;
         }
 
-        public string GenerateToken(IEnumerable<Claim> claims, int lifeTime)
+        public string GenerateToken(IEnumerable<Claim> claims)
         {
             var jwt = new JwtSecurityToken(
-                issuer: JwtOptions.Issuer,
-                audience: JwtOptions.Audience,
+                issuer: _jwtOptions.Issuer,
+                audience: _jwtOptions.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(lifeTime),
-                signingCredentials: new SigningCredentials(JwtOptions.SymmetricSecurityKey,
+                expires: DateTime.UtcNow.AddMinutes(_jwtOptions.LifeTime),
+                signingCredentials: new SigningCredentials(_jwtOptions.SymmetricSecurityKey,
+                    SecurityAlgorithms.HmacSha256));
+
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            return encodedJwt;
+        }
+
+        public string GenerateRefreshToken(IEnumerable<Claim> claims)
+        {
+            var jwt = new JwtSecurityToken(
+                issuer: _jwtOptions.Issuer,
+                audience: _jwtOptions.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(_jwtOptions.RefreshTokenLifeTime),
+                signingCredentials: new SigningCredentials(_jwtOptions.SymmetricSecurityKey,
                     SecurityAlgorithms.HmacSha256));
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
@@ -47,7 +62,7 @@ namespace CarRental.Identity.Services
                 ValidateAudience = false,
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = JwtOptions.SymmetricSecurityKey,
+                IssuerSigningKey = _jwtOptions.SymmetricSecurityKey,
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
@@ -58,27 +73,6 @@ namespace CarRental.Identity.Services
                 tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
 
             return principal;
-        }
-
-        public ClaimsIdentity GetIdentity(LoginModel loginModel)
-        {
-            var user = _dataStorage.Users.FirstOrDefault((u => u.Email.Equals(loginModel.Email) && u.Password.Equals(loginModel.Password)));
-
-            if (user != null)
-            {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
-                };
-
-                var claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType);
-
-                return claimsIdentity;
-            }
-
-            return null;
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using CarRental.Api.Services;
-using CarRental.BLL.Services;
+﻿using CarRental.BLL.Services;
+using CarRental.Identity;
 using CarRental.Identity.Models;
 using CarRental.Identity.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -13,32 +13,33 @@ namespace CarRental.Api.Controllers
     {
         private readonly ILogger<AccountController> _logger;
 
-        private readonly TokenService _tokenService;
+        private readonly ITokenService _tokenService;
 
-        private readonly AccountService _accountService;
+        private readonly IAuthorizeService _authorizeService;
 
-        public AccountController(TokenService tokenService, ILogger<AccountController> logger, AccountService accountService)
+        public AccountController(ILogger<AccountController> logger, ITokenService tokenService, IAuthorizeService authorizeService)
         {
-            _tokenService = tokenService;
-
             _logger = logger;
 
-            _accountService = accountService;
+            _tokenService = tokenService;
+
+            _authorizeService = authorizeService;
+
         }
 
         [HttpPost("login")]
         public IActionResult LogIn([FromBody]LoginModel loginModel)
         {
-            var identity = _tokenService.GetIdentity(loginModel);
+            var identity = _authorizeService.GetIdentity(loginModel);
 
             if (identity == null)
             {
                 return BadRequest("No such user in the system.");
             }
 
-            var accessToken = _tokenService.GenerateToken(identity.Claims, _tokenService.JwtOptions.LifeTime);
+            var accessToken = _tokenService.GenerateToken(identity.Claims);
 
-            var refreshToken = _tokenService.GenerateToken(identity.Claims, _tokenService.JwtOptions.RefreshTokenLifeTime);
+            var refreshToken = _tokenService.GenerateRefreshToken(identity.Claims);
 
             var response = new
             {

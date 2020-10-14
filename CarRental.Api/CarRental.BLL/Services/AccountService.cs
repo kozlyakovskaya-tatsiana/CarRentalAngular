@@ -1,4 +1,5 @@
 ﻿using CarRental.DAL;
+using CarRental.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,11 @@ namespace CarRental.BLL.Services
     {
         private readonly DataStorage _dataStorage;
 
-        public AccountService()
-        {
-            _dataStorage = DataStorage.GetDataStorage();
-        }
+        public IEnumerable<User> Users => _dataStorage.Users;
 
+        public AccountService(DataStorage dataStorage)
+        {
+            _dataStorage = dataStorage;
+        }
     }
 }

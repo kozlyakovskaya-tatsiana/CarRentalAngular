@@ -7,13 +7,11 @@ namespace CarRental.DAL
 {
     public class DataStorage
     {
-        private static DataStorage _storage;
+        public List<User> Users { get; set; }
 
-        public List<User> Users;
+        public List<string> Values { get; set; } 
 
-        public List<string> Values; 
-
-        private DataStorage()
+        public DataStorage()
         {
             Users = new List<User>
             {
@@ -23,15 +21,7 @@ namespace CarRental.DAL
                 new User {Email = "email4@mail.ru", Password = "4444", Name = "Nikita", Role = "admin"}
             };
 
-            Values = new List<string>(new[] { "value1", "value2" });
-        }
-
-        public static DataStorage GetDataStorage()
-        {
-            if (_storage == null)
-                _storage = new DataStorage();
-
-            return _storage;
+            Values = new List<string>(new[] { "value1", "value2", "value3", "value4" });
         }
     }
 }

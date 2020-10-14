@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using CarRental.Api.Services;
+using CarRental.Identity;
 using CarRental.Identity.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,11 +12,11 @@ namespace CarRental.Api.Controllers
     [ApiController]
     public class TokenController : ControllerBase
     {
-        private readonly TokenService _tokenService;
+        private readonly ITokenService _tokenService;
 
         private readonly ILogger<TokenController> _logger;
 
-        public TokenController(TokenService tokenService, ILogger<TokenController> logger)
+        public TokenController(ITokenService tokenService, ILogger<TokenController> logger)
         {
             _tokenService = tokenService;
 
@@ -40,9 +40,9 @@ namespace CarRental.Api.Controllers
 
             claims.Add(new Claim("someClaim", "someContent"));
 
-            var accessToken = _tokenService.GenerateToken(claims, _tokenService.JwtOptions.LifeTime);
+            var accessToken = _tokenService.GenerateToken(claims);
 
-            var refreshToken = _tokenService.GenerateToken(claims, _tokenService.JwtOptions.RefreshTokenLifeTime);
+            var refreshToken = _tokenService.GenerateRefreshToken(claims);
 
             return Ok(new
             {
@@ -77,9 +77,9 @@ namespace CarRental.Api.Controllers
 
                 var claims = principal.Claims;
 
-                var accessToken = _tokenService.GenerateToken(claims, _tokenService.JwtOptions.LifeTime);
+                var accessToken = _tokenService.GenerateToken(claims);
 
-                var newRefreshToken = _tokenService.GenerateToken(claims, _tokenService.JwtOptions.RefreshTokenLifeTime);
+                var newRefreshToken = _tokenService.GenerateToken(claims);
 
                 return Ok(new
                 {
