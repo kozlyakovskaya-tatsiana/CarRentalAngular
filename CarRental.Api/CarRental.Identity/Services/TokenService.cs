@@ -10,6 +10,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
+
 namespace CarRental.Identity.Services
 {
     public class TokenService: ITokenService

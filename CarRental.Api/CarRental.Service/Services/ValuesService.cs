@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using CarRental.DAL;
 
-namespace CarRental.BLL.Services
+namespace CarRental.Service.Services
 {
     public class ValuesService : IValuesService
     {

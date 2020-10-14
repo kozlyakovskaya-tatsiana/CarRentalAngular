@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CarRental.DAL.Entities;
+﻿using System.Collections.Generic;
+using CarRental.Data.Entities;
 
 namespace CarRental.DAL
 {

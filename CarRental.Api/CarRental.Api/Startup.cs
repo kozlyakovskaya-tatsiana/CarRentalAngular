@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using CarRental.Api.Options;
-using CarRental.BLL;
-using CarRental.BLL.Services;
 using CarRental.DAL;
 using CarRental.Identity;
+using CarRental.Identity.EFCore;
+using CarRental.Identity.Entities;
 using CarRental.Identity.Options;
 using CarRental.Identity.Services;
+using CarRental.Service;
+using CarRental.Service.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -38,6 +42,12 @@ namespace CarRental.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<ApplicationIdentityContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationIdentityContext>();
 
 
             var swaggerDocumentOptions = new SwaggerDocumentOptions();

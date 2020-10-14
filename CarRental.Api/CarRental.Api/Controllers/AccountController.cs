@@ -1,7 +1,5 @@
-﻿using CarRental.BLL.Services;
-using CarRental.Identity;
+﻿using CarRental.Identity;
 using CarRental.Identity.Models;
-using CarRental.Identity.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

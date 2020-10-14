@@ -10,13 +10,17 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarRental.BLL\CarRental.BLL.csproj" />
+    <ProjectReference Include="..\CarRental.DAL\CarRental.DAL.csproj" />
+    <ProjectReference Include="..\CarRental.Data\CarRental.DAL.csproj" />
     <ProjectReference Include="..\CarRental.Identity\CarRental.Identity.csproj" />
+    <ProjectReference Include="..\CarRental.Service\CarRental.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

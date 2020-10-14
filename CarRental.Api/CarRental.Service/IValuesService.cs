@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CarRental.BLL
+namespace CarRental.Service
 {
     public interface IValuesService
     {
