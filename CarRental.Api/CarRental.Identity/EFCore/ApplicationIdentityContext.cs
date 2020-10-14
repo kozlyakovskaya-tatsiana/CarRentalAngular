@@ -12,7 +12,7 @@ namespace CarRental.Identity.EFCore
         public ApplicationIdentityContext(DbContextOptions<ApplicationIdentityContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
     }
 }

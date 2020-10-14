@@ -2,23 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using CarRental.DAL;
+using CarRental.Identity.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Identity.Services
 {
     public class AuthorizeService : IAuthorizeService
     {
-        private readonly DataStorage _dataStorage;
+        private readonly UserManager<User> _userManager;
 
-        public AuthorizeService(DataStorage dataStorage)
+        public AuthorizeService(UserManager<User> userManager)
         {
-            _dataStorage = dataStorage;
+            _userManager = userManager;
         }
+        
 
         public ClaimsIdentity GetIdentity(LoginModel loginModel)
         {
-            var user = _dataStorage.Users.FirstOrDefault((u => u.Email.Equals(loginModel.Email) && u.Password.Equals(loginModel.Password)));
+            /*var user = _userManager.FindByLoginAsync(loginModel.Email, loginModel.Password);
 
+            
+            
             if (user != null)
             {
                 var claims = new List<Claim>
@@ -31,7 +35,7 @@ namespace CarRental.Identity.Services
                     ClaimsIdentity.DefaultRoleClaimType);
 
                 return claimsIdentity;
-            }
+            }*/
 
             return null;
         }

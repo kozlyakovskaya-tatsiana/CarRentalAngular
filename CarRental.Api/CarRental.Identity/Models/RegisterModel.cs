@@ -7,7 +7,7 @@ namespace CarRental.Identity.Models
 {
     public class RegisterModel
     {
-        [Required]
+       /* [Required]
         public string Name { get; set; }
 
         [Required]
@@ -20,7 +20,7 @@ namespace CarRental.Identity.Models
         public DateTime DateOfBirth { get; set; }
 
         [Required]
-        public string TelephoneNumber { get; set; }
+        public string TelephoneNumber { get; set; }*/
 
         [Required]
         [EmailAddress]
@@ -29,8 +29,8 @@ namespace CarRental.Identity.Models
         [Required]
         public string Password { get; set; }
         
-        [Required]
-        public string PasswordConfirm { get; set; }
+        /*[Required]
+        public string PasswordConfirm { get; set; }*/
 
     }
 }

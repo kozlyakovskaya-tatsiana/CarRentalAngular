@@ -1,5 +1,7 @@
 ﻿using CarRental.Identity;
+using CarRental.Identity.Entities;
 using CarRental.Identity.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -15,7 +17,9 @@ namespace CarRental.Api.Controllers
 
         private readonly IAuthorizeService _authorizeService;
 
-        public AccountController(ILogger<AccountController> logger, ITokenService tokenService, IAuthorizeService authorizeService)
+        private readonly UserManager<User> _userManager;
+
+        public AccountController(ILogger<AccountController> logger, ITokenService tokenService, IAuthorizeService authorizeService, UserManager<User> userManager)
         {
             _logger = logger;
 
@@ -23,6 +27,15 @@ namespace CarRental.Api.Controllers
 
             _authorizeService = authorizeService;
 
+            _userManager = userManager;
+
+        }
+
+
+        [HttpPost]
+        public IActionResult Register(RegisterModel registerModel)
+        {
+            return Ok();
         }
 
         [HttpPost("login")]

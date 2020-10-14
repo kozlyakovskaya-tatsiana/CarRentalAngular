@@ -87,7 +87,7 @@ namespace CarRental.Api.Controllers
             return Ok();
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Update element from the list at index position to value.
         /// </summary>
         /// <param name="index">Index of element to update.</param>
@@ -95,7 +95,7 @@ namespace CarRental.Api.Controllers
         /// <returns></returns>
         /// <response code="200">Nothing to return. Operation is successful.</response>
         /// <response code="400">Incorrect input.</response>
-        /*[HttpPut("{index:int}/{value}")]
+        [HttpPut("{index:int}/{value}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public ActionResult UpdateValue(int index, string value)

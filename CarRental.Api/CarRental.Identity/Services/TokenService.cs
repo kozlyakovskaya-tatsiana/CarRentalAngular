@@ -1,5 +1,4 @@
-﻿using CarRental.DAL;
-using CarRental.Identity.Models;
+﻿using CarRental.Identity.Models;
 using CarRental.Identity.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -17,13 +16,9 @@ namespace CarRental.Identity.Services
     {
         private readonly JwtOptions _jwtOptions;
 
-        private readonly DataStorage _dataStorage;
-
-        public TokenService(IOptions<JwtOptions> options, DataStorage dataStorage)
+        public TokenService(IOptions<JwtOptions> options)
         {
             _jwtOptions = options.Value;
-
-            _dataStorage = dataStorage;
         }
 
         public string GenerateToken(IEnumerable<Claim> claims)
