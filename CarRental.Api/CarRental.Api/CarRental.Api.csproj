@@ -21,8 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarRental.DAL\CarRental.DAL.csproj" />
-    <ProjectReference Include="..\CarRental.Data\CarRental.DAL.csproj" />
     <ProjectReference Include="..\CarRental.Identity\CarRental.Identity.csproj" />
     <ProjectReference Include="..\CarRental.Service\CarRental.Service.csproj" />
   </ItemGroup>

@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CarRental.DAL\CarRental.DAL.csproj" />
-    <ProjectReference Include="..\CarRental.DAL\CarRental.Data.csproj" />
-    <ProjectReference Include="..\CarRental.Data\CarRental.DAL.csproj" />
   </ItemGroup>
 
 </Project>
