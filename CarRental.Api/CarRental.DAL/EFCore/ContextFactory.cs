@@ -1,12 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Text;
+using CarRental.Identity.EFCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace CarRental.Identity.EFCore
+namespace CarRental.DAL.EFCore
 {
     public class SampleContextFactory : IDesignTimeDbContextFactory<ApplicationIdentityContext>
     {

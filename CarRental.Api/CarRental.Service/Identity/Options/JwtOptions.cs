@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CarRental.Identity.Options
+namespace CarRental.Service.Identity.Options
 {
     public class JwtOptions
     {
@@ -11,13 +9,13 @@ namespace CarRental.Identity.Options
 
         public string Issuer { get; set; }
 
-        public string Audience { get; set; }
-
         public int LifeTime { get; set; }
 
         public int RefreshTokenLifeTime { get; set; }
 
         public string Key { get; set; }
+
+        public string RefreshIssuer { get; set; }
 
         public SymmetricSecurityKey SymmetricSecurityKey => new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Key));
 

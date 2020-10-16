@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
-using CarRental.Identity.Models;
 
-namespace CarRental.Identity
+namespace CarRental.Service.Identity
 { 
     public interface ITokenService
     {
@@ -13,5 +10,12 @@ namespace CarRental.Identity
         public string GenerateRefreshToken(IEnumerable<Claim> claims);
 
         ClaimsPrincipal ValidateToken(string token);
+
+        void SaveTokenToDatabase(string token);
+
+        bool IsTokenInDatabase(string token);
+
+        void DeleteTokenFromDataBase(string token);
+
     }
 }

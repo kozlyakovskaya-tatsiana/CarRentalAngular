@@ -28,6 +28,7 @@ namespace CarRental.Api.Controllers
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Return the array of values</response>
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(200)]
         public IActionResult GetValues()
@@ -45,7 +46,7 @@ namespace CarRental.Api.Controllers
         /// <response code="200">Return values</response>
         /// <response code="400">Nothing to return. Incorrect index.</response>
         /// <response code="401">Non-authorized.</response>
-        [Authorize]
+        [Authorize(Roles = "user")]
         [HttpGet("{index:int}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]

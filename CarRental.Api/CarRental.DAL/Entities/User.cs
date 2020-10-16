@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.AspNetCore.Identity;
 
-namespace CarRental.Identity.Entities
+namespace CarRental.DAL.Entities
 {
     public class User : IdentityUser
     {

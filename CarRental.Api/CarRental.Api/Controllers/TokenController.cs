@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using CarRental.Identity;
+using CarRental.Identity.Entities;
+using CarRental.Service;
+using CarRental.Service.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -33,15 +37,18 @@ namespace CarRental.Api.Controllers
         {
             _logger.LogInformation("User send request to get token");
 
-            var claims = new List<Claim>();
+            var claims = new List<Claim>
+            {
+                new Claim("role", "user"),
 
-            claims.Add(new Claim("role", "user"));
-
-            claims.Add(new Claim("someClaim", "someContent"));
+                new Claim("someClaim", "someContent")
+            };
 
             var accessToken = _tokenService.GenerateToken(claims);
 
             var refreshToken = _tokenService.GenerateRefreshToken(claims);
+
+            _tokenService.SaveTokenToDatabase(refreshToken);
 
             return Ok(new
             {
@@ -72,13 +79,22 @@ namespace CarRental.Api.Controllers
                     return BadRequest("Invalid client request");
                 }
 
+                if (!_tokenService.IsTokenInDatabase(refreshToken))
+                {
+                    return BadRequest("This token is invalid.");
+                }
+
+                _tokenService.DeleteTokenFromDataBase(refreshToken);
+
                 var principal = _tokenService.ValidateToken(refreshToken);
 
                 var claims = principal.Claims;
 
                 var accessToken = _tokenService.GenerateToken(claims);
 
-                var newRefreshToken = _tokenService.GenerateToken(claims);
+                var newRefreshToken = _tokenService.GenerateRefreshToken(claims);
+
+               _tokenService.SaveTokenToDatabase(newRefreshToken);
 
                 return Ok(new
                 {

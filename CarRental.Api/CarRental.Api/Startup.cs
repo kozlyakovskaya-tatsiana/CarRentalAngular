@@ -1,16 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
 using CarRental.Api.Options;
+using CarRental.Api.Validators;
 using CarRental.DAL;
-using CarRental.Identity;
+using CarRental.DAL.Entities;
+using CarRental.DAL.Repositories;
 using CarRental.Identity.EFCore;
 using CarRental.Identity.Entities;
-using CarRental.Identity.Options;
-using CarRental.Identity.Services;
 using CarRental.Service;
+using CarRental.Service.Identity;
+using CarRental.Service.Identity.Options;
+using CarRental.Service.Identity.Services;
+using CarRental.Service.Models;
 using CarRental.Service.Services;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,20 +48,66 @@ namespace CarRental.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation(
+                fv => 
+                    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false);
+            
+            services.AddTransient<IValidator<LoginModel>, LoginModelValidator>();
+
+            services.AddTransient<IValidator<RegisterModel>, RegisterModelValidator>();
 
             services.AddDbContext<ApplicationIdentityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+
             services.AddIdentity<User, IdentityRole>(opts =>
+                 {
+                     opts.Password.RequiredLength = 5;
+                     opts.Password.RequireNonAlphanumeric = false;
+                     opts.Password.RequireLowercase = false;
+                     opts.Password.RequireUppercase = false;
+                     opts.Password.RequireDigit = false;
+                 })
+                 .AddEntityFrameworkStores<ApplicationIdentityContext>()
+                 .AddDefaultTokenProviders();
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services.Configure<JwtOptions>(Configuration.GetSection(JwtOptions.SectionName));
+
+            var jwtOptions = new JwtOptions();
+
+            Configuration.GetSection(JwtOptions.SectionName).Bind(jwtOptions);
+
+            services
+                .AddAuthentication(options =>
                 {
-                    opts.Password.RequiredLength = 5;
-                    opts.Password.RequireNonAlphanumeric = false;  
-                    opts.Password.RequireLowercase = false; 
-                    opts.Password.RequireUppercase = false;
-                    opts.Password.RequireDigit = false;
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
                 })
-                .AddEntityFrameworkStores<ApplicationIdentityContext>();
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+
+                        ValidateLifetime = true,
+
+                        ValidateIssuerSigningKey = true,
+
+                        ValidateAudience = false,
+
+                        ValidIssuer = jwtOptions.Issuer,
+
+                        IssuerSigningKey = jwtOptions.SymmetricSecurityKey,
+
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
 
 
             var swaggerDocumentOptions = new SwaggerDocumentOptions();
@@ -116,40 +169,10 @@ namespace CarRental.Api
 
             services.AddScoped<IValuesService, ValuesService>();
 
+            services.AddScoped<IRepository<RefreshToken>, RefreshTokenRepository>();
+
             services.AddSingleton<DataStorage>();
 
-
-            services.Configure<JwtOptions>(Configuration.GetSection(JwtOptions.SectionName));
-
-
-            var jwtOptions = new JwtOptions();
-
-            Configuration.GetSection(JwtOptions.SectionName).Bind(jwtOptions);
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.RequireHttpsMetadata = false;
-
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-
-                        ValidateAudience = true,
-
-                        ValidateLifetime = true,
-
-                        ValidateIssuerSigningKey = true,
-
-                        ValidIssuer = jwtOptions.Issuer,
-
-                        ValidAudience = jwtOptions.Audience,
-
-                        IssuerSigningKey = jwtOptions.SymmetricSecurityKey,
-
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
         }
 
 
