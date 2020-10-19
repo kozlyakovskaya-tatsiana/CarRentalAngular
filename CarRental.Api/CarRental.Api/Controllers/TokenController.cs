@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
-using CarRental.Api.Services;
+using CarRental.Identity;
+using CarRental.Service;
+using CarRental.Service.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,11 +14,11 @@ namespace CarRental.Api.Controllers
     [ApiController]
     public class TokenController : ControllerBase
     {
-        private readonly TokenService _tokenService;
+        private readonly ITokenService _tokenService;
 
         private readonly ILogger<TokenController> _logger;
 
-        public TokenController(TokenService tokenService, ILogger<TokenController> logger)
+        public TokenController(ITokenService tokenService, ILogger<TokenController> logger)
         {
             _tokenService = tokenService;
 
@@ -33,22 +36,16 @@ namespace CarRental.Api.Controllers
         {
             _logger.LogInformation("User send request to get token");
 
-            var claims = new List<Claim>();
-
-            claims.Add(new Claim("role", "user"));
-
-            claims.Add(new Claim("someClaim", "someContent"));
-
-            var accessToken = _tokenService.GenerateToken(claims, _tokenService.JwtOptions.LifeTime);
-
-            var refreshToken = _tokenService.GenerateToken(claims, _tokenService.JwtOptions.RefreshTokenLifeTime);
-
-            return Ok(new
+            var claims = new List<Claim>
             {
-                AccessToken = accessToken,
+                new Claim("role", "user"),
 
-                RefreshToken = refreshToken
-            });
+                new Claim("someClaim", "someContent")
+            };
+
+            var tokens = _tokenService.GenerateTokenPair(claims);
+
+            return Ok(tokens);
         }
 
         /// <summary>
@@ -63,35 +60,16 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(400)]
         public IActionResult RefreshToken(string refreshToken)
         {
-            try
+            _logger.LogInformation("User send request to get refresh token");
+
+            if (String.IsNullOrEmpty(refreshToken))
             {
-                _logger.LogInformation("User send request to get refresh token");
-
-                if (String.IsNullOrEmpty(refreshToken))
-                {
-                    return BadRequest("Invalid client request");
-                }
-
-                var principal = _tokenService.ValidateToken(refreshToken);
-
-                var claims = principal.Claims;
-
-                var accessToken = _tokenService.GenerateToken(claims, _tokenService.JwtOptions.LifeTime);
-
-                var newRefreshToken = _tokenService.GenerateToken(claims, _tokenService.JwtOptions.RefreshTokenLifeTime);
-
-                return Ok(new
-                {
-                    AccessToken = accessToken,
-
-                    RefreshToken = newRefreshToken
-                });
+                return BadRequest("Invalid client request");
             }
 
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var tokens = _tokenService.RefreshToken(refreshToken);
+
+            return Ok(tokens);
         }
     }
 }
