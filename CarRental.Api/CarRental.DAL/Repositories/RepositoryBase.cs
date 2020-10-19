@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.DAL.Repositories
 {
-    public class EFGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity
+    public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
         private readonly ApplicationIdentityContext _context;
 

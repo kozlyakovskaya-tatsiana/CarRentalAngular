@@ -28,7 +28,7 @@ namespace CarRental.Api.Controllers
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Return the array of values</response>
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         [ProducesResponseType(200)]
         public IActionResult GetValues()
@@ -88,54 +88,5 @@ namespace CarRental.Api.Controllers
             return Ok();
         }
 
-        /*/// <summary>
-        /// Update element from the list at index position to value.
-        /// </summary>
-        /// <param name="index">Index of element to update.</param>
-        /// <param name="value">Value to update.</param>
-        /// <returns></returns>
-        /// <response code="200">Nothing to return. Operation is successful.</response>
-        /// <response code="400">Incorrect input.</response>
-        [HttpPut("{index:int}/{value}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public ActionResult UpdateValue(int index, string value)
-        {
-            try
-            {
-                _dataStorage.Values[index] = value;
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-        }
-
-        /// <summary>
-        /// Delete element from list by index;
-        /// </summary>
-        /// <param name="index">Index of element to delete.</param>
-        /// <returns></returns>
-        /// <response code="200">Nothing to return. Operation is successful.</response>
-        /// <response code="400">Input is incorrect.</response>
-        [HttpDelete("{index:int}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public ActionResult RemoveValue(int index)
-        {
-            try
-            {
-                _dataStorage.Values.RemoveAt(index);
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }*/
     }
 }
