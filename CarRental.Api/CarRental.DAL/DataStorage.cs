@@ -1,5 +1,4 @@
-﻿using CarRental.Identity.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CarRental.DAL.Entities;
 
 

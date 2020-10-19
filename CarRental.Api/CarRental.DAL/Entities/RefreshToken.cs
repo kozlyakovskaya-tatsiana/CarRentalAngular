@@ -1,6 +1,6 @@
-﻿namespace CarRental.Identity.Entities
+﻿namespace CarRental.DAL.Entities
 {
-    public class RefreshToken
+    public class RefreshToken : IEntity
     {
         public int Id { get; set; }
 

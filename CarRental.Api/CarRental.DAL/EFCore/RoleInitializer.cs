@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CarRental.DAL.Entities;
-using CarRental.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 
-namespace CarRental.Identity.EFCore
+namespace CarRental.DAL.EFCore
 {
     public class RoleInitializer
     {
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            string adminEmail = "admin@gmail.com";
+            var adminEmail = "admin@gmail.com";
 
-            string password = "qwerty";
+            var password = "qwerty";
 
             if (await roleManager.FindByNameAsync("admin") == null)
             {

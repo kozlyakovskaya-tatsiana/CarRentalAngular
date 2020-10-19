@@ -2,21 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using CarRental.Api.Options;
 using CarRental.Api.Validators;
 using CarRental.DAL;
+using CarRental.DAL.EFCore;
 using CarRental.DAL.Entities;
 using CarRental.DAL.Repositories;
 using CarRental.Identity.EFCore;
-using CarRental.Identity.Entities;
 using CarRental.Service;
 using CarRental.Service.Identity;
 using CarRental.Service.Identity.Options;
 using CarRental.Service.Identity.Services;
-using CarRental.Service.Models;
 using CarRental.Service.Services;
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +25,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -41,6 +41,7 @@ namespace CarRental.Api
                 .AddConfiguration(configuration);
 
             Configuration = builder.Build();
+
         }
 
         public IConfiguration Configuration { get; }
@@ -48,13 +49,14 @@ namespace CarRental.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddFluentValidation(
-                fv => 
-                    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false);
-            
-            services.AddTransient<IValidator<LoginModel>, LoginModelValidator>();
 
-            services.AddTransient<IValidator<RegisterModel>, RegisterModelValidator>();
+            services.AddControllers()
+                .AddFluentValidation(fv =>
+                {
+                    fv.RegisterValidatorsFromAssemblyContaining<LoginModelValidator>();
+
+                    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                });
 
             services.AddDbContext<ApplicationIdentityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -129,6 +131,8 @@ namespace CarRental.Api
                     Version = swaggerDocumentOptions.Version
                 });
 
+                // options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
@@ -169,7 +173,7 @@ namespace CarRental.Api
 
             services.AddScoped<IValuesService, ValuesService>();
 
-            services.AddScoped<IRepository<RefreshToken>, RefreshTokenRepository>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(EFGenericRepository<>));
 
             services.AddSingleton<DataStorage>();
 
@@ -177,12 +181,17 @@ namespace CarRental.Api
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/error-local-development");
             }
+            else
+            {
+                app.UseExceptionHandler("/error");
+            }
+
 
             app.UseSwagger();
 
@@ -202,6 +211,30 @@ namespace CarRental.Api
             {
                 endpoints.MapControllers();
             });
+
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                try
+                {
+                    var db = scope.ServiceProvider.GetRequiredService<ApplicationIdentityContext>();
+
+                    await db.Database.MigrateAsync();
+
+                    var userManager = services.GetRequiredService<UserManager<User>>();
+
+                    var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                    await RoleInitializer.InitializeAsync(userManager, rolesManager);
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+
+                    logger.LogError(ex, "An error occurred while seeding the database.");
+                }
+            }
         }
     }
 }

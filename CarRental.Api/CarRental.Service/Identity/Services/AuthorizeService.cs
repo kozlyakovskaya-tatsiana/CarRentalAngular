@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CarRental.DAL.Entities;
 using CarRental.Service.Models;
-using CarRental.Service.Responses;
 using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Service.Identity.Services
@@ -48,8 +47,7 @@ namespace CarRental.Service.Identity.Services
                 var addToToleResult = await _userManager.AddToRoleAsync(user, "user");
             }
             else
-                throw new Exception(String.Join("/r/n",result.Errors.Select(err => err.Description)));
-            
+                throw new Exception(string.Join("/r/n",result.Errors.Select(err => err.Description)));
         }
 
         public async Task<bool> IsUserCanLogin(LoginModel loginModel)
@@ -68,13 +66,15 @@ namespace CarRental.Service.Identity.Services
         {
             var user = await _userManager.FindByNameAsync(loginModel.Email);
 
-            var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty;
+            var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
             var identity = GetIdentity(user.UserName, role);
 
             var accessToken = _tokenService.GenerateToken(identity.Claims);
 
             var refreshToken = _tokenService.GenerateRefreshToken(identity.Claims);
+
+            _tokenService.SaveTokenToDatabase(refreshToken);
 
             return new LoginResponse
             {

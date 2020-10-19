@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using CarRental.Identity;
-using CarRental.Identity.Entities;
 using CarRental.Service;
 using CarRental.Service.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -44,18 +43,9 @@ namespace CarRental.Api.Controllers
                 new Claim("someClaim", "someContent")
             };
 
-            var accessToken = _tokenService.GenerateToken(claims);
+            var tokens = _tokenService.GenerateTokenPair(claims);
 
-            var refreshToken = _tokenService.GenerateRefreshToken(claims);
-
-            _tokenService.SaveTokenToDatabase(refreshToken);
-
-            return Ok(new
-            {
-                AccessToken = accessToken,
-
-                RefreshToken = refreshToken
-            });
+            return Ok(tokens);
         }
 
         /// <summary>
@@ -70,44 +60,16 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(400)]
         public IActionResult RefreshToken(string refreshToken)
         {
-            try
+            _logger.LogInformation("User send request to get refresh token");
+
+            if (String.IsNullOrEmpty(refreshToken))
             {
-                _logger.LogInformation("User send request to get refresh token");
-
-                if (String.IsNullOrEmpty(refreshToken))
-                {
-                    return BadRequest("Invalid client request");
-                }
-
-                if (!_tokenService.IsTokenInDatabase(refreshToken))
-                {
-                    return BadRequest("This token is invalid.");
-                }
-
-                _tokenService.DeleteTokenFromDataBase(refreshToken);
-
-                var principal = _tokenService.ValidateToken(refreshToken);
-
-                var claims = principal.Claims;
-
-                var accessToken = _tokenService.GenerateToken(claims);
-
-                var newRefreshToken = _tokenService.GenerateRefreshToken(claims);
-
-               _tokenService.SaveTokenToDatabase(newRefreshToken);
-
-                return Ok(new
-                {
-                    AccessToken = accessToken,
-
-                    RefreshToken = newRefreshToken
-                });
+                return BadRequest("Invalid client request");
             }
 
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var tokens = _tokenService.RefreshToken(refreshToken);
+
+            return Ok(tokens);
         }
     }
 }

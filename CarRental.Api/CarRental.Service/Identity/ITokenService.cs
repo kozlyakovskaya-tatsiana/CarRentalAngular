@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CarRental.Service.Models;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace CarRental.Service.Identity
@@ -16,6 +17,10 @@ namespace CarRental.Service.Identity
         bool IsTokenInDatabase(string token);
 
         void DeleteTokenFromDataBase(string token);
+
+        TokenPair GenerateTokenPair(IEnumerable<Claim> claims);
+
+        TokenPair RefreshToken(string refreshToken);
 
     }
 }

@@ -4,8 +4,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using CarRental.DAL;
-using CarRental.Identity.Entities;
+using CarRental.DAL.Entities;
 using CarRental.Service.Identity.Options;
+using CarRental.Service.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,9 +16,9 @@ namespace CarRental.Service.Identity.Services
     {
         private readonly JwtOptions _jwtOptions;
 
-        private readonly IRepository<RefreshToken> _refreshTokenRepository;
+        private readonly IGenericRepository<RefreshToken> _refreshTokenRepository;
 
-        public TokenService(IOptions<JwtOptions> options, IRepository<RefreshToken> refreshTokenRepository)
+        public TokenService(IOptions<JwtOptions> options, IGenericRepository<RefreshToken> refreshTokenRepository)
         {
             _jwtOptions = options.Value;
 
@@ -47,7 +48,7 @@ namespace CarRental.Service.Identity.Services
                 expires: DateTime.UtcNow.AddMinutes(_jwtOptions.RefreshTokenLifeTime),
                 signingCredentials: new SigningCredentials(_jwtOptions.SymmetricSecurityKey,
                     SecurityAlgorithms.HmacSha256));
-            
+
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
             return encodedJwt;
@@ -79,24 +80,53 @@ namespace CarRental.Service.Identity.Services
 
             _refreshTokenRepository.Create(refreshToken);
 
-            _refreshTokenRepository.Save();
+            _refreshTokenRepository.SaveChanges();
         }
 
         public bool IsTokenInDatabase(string token)
         {
-            return _refreshTokenRepository.GetAll().SingleOrDefault(refToken => refToken.RefreshTokenValue == token) != null;
+            return _refreshTokenRepository.Get().SingleOrDefault(refToken => refToken.RefreshTokenValue == token) != null;
         }
 
         public void DeleteTokenFromDataBase(string token)
         {
-            var refreshToken = _refreshTokenRepository.GetAll().SingleOrDefault(refToken => refToken.RefreshTokenValue == token);
+            var refreshToken = _refreshTokenRepository.Get().SingleOrDefault(refToken => refToken.RefreshTokenValue == token);
 
-            if (refreshToken != null)
+            _refreshTokenRepository.Remove(refreshToken.Id);
+
+            _refreshTokenRepository.SaveChanges();
+        }
+
+        public TokenPair GenerateTokenPair(IEnumerable<Claim> claims)
+        {
+            var accessToken = GenerateToken(claims);
+
+            var refreshToken = GenerateRefreshToken(claims);
+
+            SaveTokenToDatabase(refreshToken);
+
+            return new TokenPair
             {
-                _refreshTokenRepository.Delete(refreshToken.Id);
+                AccessToken = accessToken,
 
-                _refreshTokenRepository.Save();
+                RefreshToken = refreshToken
+            };
+        }
+
+        public TokenPair RefreshToken(string refreshToken)
+        {
+            if (!IsTokenInDatabase(refreshToken))
+            {
+                throw new Exception("This token is invalid.");
             }
+
+            DeleteTokenFromDataBase(refreshToken);
+
+            var principal = ValidateToken(refreshToken);
+
+            var tokens = GenerateTokenPair(principal.Claims);
+
+            return tokens;
         }
     }
 }

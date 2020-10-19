@@ -1,15 +1,8 @@
-﻿using CarRental.Identity;
-using CarRental.Identity.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using CarRental.DAL;
-using CarRental.DAL.Entities;
-using CarRental.Service;
 using CarRental.Service.Identity;
 using CarRental.Service.Models;
 
@@ -33,20 +26,12 @@ namespace CarRental.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterModel registerModel)
         {
-            try
-            {
-                await _authorizeService.Register(registerModel);
+            await _authorizeService.Register(registerModel);
 
-                return Ok();
-
-            }
-            catch (Exception e)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
-            }
+            return Ok();
         }
 
-       [HttpPost("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> LogIn([FromBody] LoginModel loginModel)
         {
             var response = await _authorizeService.Login(loginModel);
