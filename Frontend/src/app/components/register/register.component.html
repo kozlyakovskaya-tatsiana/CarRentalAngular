@@ -1,0 +1,90 @@
+<div class="col-md-7 offset-md-3 col-12 col-sm-12 col-lg-5 offset-lg-4 col-xl-4 offset-xl-4">
+  <h4 class="text-center">Registration</h4>
+  <form [formGroup]="registerForm" novalidate (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control " id="name" formControlName="name"  [(ngModel)]="registerModel.name" >
+      <ngb-alert type="danger" class="mt-2"  [dismissible]="false" *ngIf="registerForm.get('name').invalid && registerForm.get('name').touched">
+        <div *ngIf="registerForm.get('name').errors.required">
+          Is a required field.
+        </div>
+        <div *ngIf="registerForm.get('name').errors.maxlength">
+          Maximum length of name equals 20 symbols. Now it is {{registerModel.name.length}}
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="surname">Surname</label>
+      <input type="text" class="form-control" id="surname" formControlName="surname"  [(ngModel)]="registerModel.surname" >
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="registerForm.get('surname').invalid && registerForm.get('surname').touched">
+        <div *ngIf="registerForm.get('surname').errors.required">
+          Is a required field.
+        </div>
+        <div *ngIf="registerForm.get('surname').errors.maxlength">
+          Maximum length of surname equals 20 symbols. Now it is {{registerModel.surname.length}}
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="dateOfBirth">Date of birth</label>
+      <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth"  [(ngModel)]="registerModel.dateOfBirth" >
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="registerForm.get('dateOfBirth').invalid && registerForm.get('dateOfBirth').touched">
+        <div *ngIf="registerForm.get('dateOfBirth').errors.required">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="telephoneNumber">Mobile phone</label>
+      <input type="text" class="form-control" id="telephoneNumber" formControlName="telephoneNumber"  [(ngModel)]="registerModel.telephoneNumber" >
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="registerForm.get('telephoneNumber').invalid && registerForm.get('telephoneNumber').touched">
+        <div *ngIf="registerForm.get('telephoneNumber').errors.required">
+          Is a required field.
+        </div>
+        <div *ngIf="registerForm.get('telephoneNumber').errors.pattern">
+          Incorrect format of telephone number.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" formControlName="email"  [(ngModel)]="registerModel.email">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched">
+        <div *ngIf="registerForm.get('email').errors.required">
+          Is a required field.
+        </div>
+        <div *ngIf="registerForm.get('email').errors.email">
+          Incorrect format of email.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" formControlName="password"  [(ngModel)]="registerModel.password">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="registerForm.get('password').invalid && registerForm.get('password').touched">
+        <div *ngIf="registerForm.get('password').errors.required">
+          Is a required field.
+        </div>
+        <div *ngIf="registerForm.get('password').errors.minlength">
+          Password must contain at least 5 symbols. Now it is {{registerModel.password.length}}
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="passwordConfirm">Password</label>
+      <input type="password" class="form-control" id="passwordConfirm" formControlName="passwordConfirm"  [(ngModel)]="registerModel.passwordConfirm">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="registerForm.get('passwordConfirm').invalid && registerForm.get('passwordConfirm').touched">
+        <div *ngIf="registerForm.get('passwordConfirm').errors.required">
+          Is a required field.
+        </div>
+        <div *ngIf="registerForm.get('passwordConfirm').errors.notCompare">
+          Passwords don't match.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid || registerForm.untouched || isLoading">Sign up</button>
+    </div>
+  </form>
+</div>
+

@@ -173,9 +173,11 @@ namespace CarRental.Api
 
             services.AddScoped<IValuesService, ValuesService>();
 
-            services.AddScoped(typeof(IGenericRepository<>), typeof(EFGenericRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(EFGenericRepository<>));
 
             services.AddSingleton<DataStorage>();
+
+            services.AddCors();
 
         }
 
@@ -202,6 +204,11 @@ namespace CarRental.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
 
             app.UseAuthentication();
 

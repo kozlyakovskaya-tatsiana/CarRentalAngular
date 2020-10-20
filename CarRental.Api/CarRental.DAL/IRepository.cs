@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CarRental.DAL
 {
-    public interface IGenericRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : class
     {
         void Create(TEntity entity);
 

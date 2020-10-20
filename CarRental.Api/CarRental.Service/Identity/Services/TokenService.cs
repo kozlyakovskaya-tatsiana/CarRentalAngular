@@ -16,9 +16,9 @@ namespace CarRental.Service.Identity.Services
     {
         private readonly JwtOptions _jwtOptions;
 
-        private readonly IGenericRepository<RefreshToken> _refreshTokenRepository;
+        private readonly IRepository<RefreshToken> _refreshTokenRepository;
 
-        public TokenService(IOptions<JwtOptions> options, IGenericRepository<RefreshToken> refreshTokenRepository)
+        public TokenService(IOptions<JwtOptions> options, IRepository<RefreshToken> refreshTokenRepository)
         {
             _jwtOptions = options.Value;
 

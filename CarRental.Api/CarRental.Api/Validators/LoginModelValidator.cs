@@ -10,8 +10,8 @@ namespace CarRental.Api.Validators
         public LoginModelValidator(IAuthorizeService authorizeService)
         {
             RuleFor(login => login.Email).EmailAddress().WithMessage("Incorrect format of email")
-                .Must((logModel, login) => authorizeService.IsUserCanLogin(logModel).Result)
-                .WithMessage("There is no such user in the system.");
+           .Must((logModel, login) => authorizeService.IsUserCanLogin(logModel).Result)
+           .WithMessage("Credentials are incorrect.");
         }
     }
 }

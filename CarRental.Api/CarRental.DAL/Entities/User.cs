@@ -9,8 +9,6 @@ namespace CarRental.DAL.Entities
 
         public string Surname { get; set; }
 
-        public string Patronymic { get; set; }
-
         public DateTime DateOfBirth { get; set; }
 
         public string PassportSerialNumber { get; set; }
