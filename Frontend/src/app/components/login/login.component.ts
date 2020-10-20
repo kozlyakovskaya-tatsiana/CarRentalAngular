@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoginModel} from '../../utils/LoginModel';
 import {AuthorizeService} from '../../services/authorize.service';
+import swal from 'sweetalert';
+
 
 @Component({
   selector: 'app-login',
@@ -18,17 +20,36 @@ export class LoginComponent implements OnInit{
 
   loginForm: FormGroup;
 
-  OnSubmit(): void{
+  isLoading: boolean;
+
+  onSubmit(): void{
+    this.isLoading = true;
     this.authorizeService.login(this.loginModel).subscribe(
       data => {
-        console.log(data);
-
         this.authorizeService.userEmail = data.userEmail;
-
         this.authorizeService.userRole = data.userRole;
+        localStorage.setItem('access_token', data.accessToken);
+        localStorage.setItem('refresh_token', data.refreshToken);
       },
       err => {
-        console.log (err.error.errors.Email[0]);
+        console.log(err);
+        let errorMessage: string;
+        if (err.error instanceof ProgressEvent){
+          errorMessage = 'HTTP Failure to get resource';
+        }
+        if (err?.error?.errors?.Email[0]) {
+          errorMessage = err.error.errors.Email[0];
+        }
+        swal(
+          {
+            title: 'Error',
+            icon: 'error',
+            text: errorMessage
+          });
+        this.isLoading = false;
+      },
+      () => {
+       this.isLoading = false;
       }
     );
   }
@@ -41,7 +62,7 @@ export class LoginComponent implements OnInit{
       ]),
       password: new FormControl('', [
         Validators.required,
-        Validators.minLength(6)
+        Validators.minLength(5)
       ])
     });
   }

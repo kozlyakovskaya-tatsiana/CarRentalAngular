@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LoginModel} from '../utils/LoginModel';
 import {Observable} from 'rxjs';
+import {RegisterModel} from '../utils/RegisterModel';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +23,8 @@ export class AuthorizeService {
 
   login(loginModel: LoginModel): Observable<any>{
     return this.http.post(this.url + 'login', loginModel);
+  }
+  register(registerModel: RegisterModel): Observable<any>{
+    return this.http.post(this.url + 'register', registerModel);
   }
 }
