@@ -21,7 +21,7 @@ namespace CarRental.Api.Validators
 
             RuleFor(register => register.DateOfBirth).NotNull();
 
-            RuleFor(register => register.TelephoneNumber).Matches(_phoneNumberPattern);
+            RuleFor(register => register.PhoneNumber).Matches(_phoneNumberPattern);
         }
     }
 }

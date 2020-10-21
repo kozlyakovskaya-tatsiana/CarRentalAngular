@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
+using CarRental.Service.Identity;
+using CarRental.Service.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Api.Controllers
@@ -11,6 +9,51 @@ namespace CarRental.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        
+        private readonly IUserService _userService;
+
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
+        [HttpGet("users")]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _userService.GetUsers();
+
+            return Ok(users);
+        }
+
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetUser(string email)
+        {
+            var user = await _userService.GetUser(email);
+
+            return Ok(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody] UserCreatingModel userCreatingModel)
+        {
+            await _userService.CreateUser(userCreatingModel);
+
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser([FromBody]EditModel user)
+        {
+            await _userService.UpdateUser(user);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete(string id)
+        {
+            await _userService.DeleteUser(id);
+
+            return Ok();
+        }
     }
 }

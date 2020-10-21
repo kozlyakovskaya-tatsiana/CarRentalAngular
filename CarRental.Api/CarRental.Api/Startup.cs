@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
-using System.Linq;
 using System.Reflection;
+using AutoMapper;
 using CarRental.Api.Options;
 using CarRental.Api.Validators;
 using CarRental.DAL;
@@ -12,6 +12,7 @@ using CarRental.DAL.Entities;
 using CarRental.DAL.Repositories;
 using CarRental.Identity.EFCore;
 using CarRental.Service;
+using CarRental.Service.DTO;
 using CarRental.Service.Identity;
 using CarRental.Service.Identity.Options;
 using CarRental.Service.Identity.Services;
@@ -28,6 +29,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace CarRental.Api
 {
@@ -49,14 +51,13 @@ namespace CarRental.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers()
                 .AddFluentValidation(fv =>
                 {
                     fv.RegisterValidatorsFromAssemblyContaining<LoginModelValidator>();
 
                     fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
-                });
+                }).AddNewtonsoftJson( options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddDbContext<ApplicationIdentityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -175,7 +176,11 @@ namespace CarRental.Api
 
             services.AddScoped(typeof(IRepository<>), typeof(EFGenericRepository<>));
 
+            services.AddScoped<IUserService, UserService>();
+
             services.AddSingleton<DataStorage>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddCors();
 

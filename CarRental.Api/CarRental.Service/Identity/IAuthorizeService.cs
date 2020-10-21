@@ -10,8 +10,6 @@ namespace CarRental.Service.Identity
 
         Task Register(RegisterModel registerModel);
 
-        Task<bool> IsUserCanLogin(LoginModel loginModel);
-
         Task<LoginResponse> Login(LoginModel loginModel);
     }
 }
