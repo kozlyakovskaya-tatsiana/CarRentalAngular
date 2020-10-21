@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.Service.Models;
 using Microsoft.AspNetCore.Identity;
@@ -15,11 +16,15 @@ namespace CarRental.Service.Identity.Services
 
         private readonly ITokenService _tokenService;
 
-        public AuthorizeService(UserManager<User> userManager, ITokenService tokenService)
+        private readonly IMapper _mapper;
+
+        public AuthorizeService(UserManager<User> userManager, ITokenService tokenService, IMapper mapper)
         {
             _userManager = userManager;
 
             _tokenService = tokenService;
+
+            _mapper = mapper;
         }
 
         public ClaimsIdentity GetIdentity(string userName, string userRole)
@@ -34,32 +39,6 @@ namespace CarRental.Service.Identity.Services
                 ClaimsIdentity.DefaultRoleClaimType);
 
             return claimsIdentity;
-        }
-
-        public async Task Register(RegisterModel registerModel)
-        {
-            var user = new User {Email = registerModel.Email, UserName = registerModel.Email};
-
-            var result = await _userManager.CreateAsync(user, registerModel.Password);
-
-            if (result.Succeeded)
-            {
-                var addToToleResult = await _userManager.AddToRoleAsync(user, "user");
-            }
-            else
-                throw new Exception(string.Join("/r/n",result.Errors.Select(err => err.Description)));
-        }
-
-        public async Task<bool> IsUserCanLogin(LoginModel loginModel)
-        {
-            var user = await _userManager.FindByNameAsync(loginModel.Email);
-
-            if (user == null)
-                return false;
-
-            var checkPassword = await _userManager.CheckPasswordAsync(user, loginModel.Password);
-
-            return checkPassword;
         }
 
         public async Task<LoginResponse> Login(LoginModel loginModel)

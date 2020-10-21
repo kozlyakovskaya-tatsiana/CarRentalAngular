@@ -23,7 +23,7 @@ namespace CarRental.DAL.EFCore
             }
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
-                var admin = new User { Email = adminEmail, UserName = adminEmail };
+                var admin = new User { Email = adminEmail, UserName = adminEmail, Name = "Tatsiana", Surname = "Kazliakouskaya"};
 
                 var result = await userManager.CreateAsync(admin, password);
 
