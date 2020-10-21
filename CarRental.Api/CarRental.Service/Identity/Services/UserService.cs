@@ -64,19 +64,18 @@ namespace CarRental.Service.Identity.Services
             return await _userManager.CheckPasswordAsync(user, password);
         }
 
-        public async Task CreateUser(RegisterModel registerModel)
+        public async Task CreateUser(UserCreatingModel model)
         {
-            var user = _mapper.Map<User>(registerModel);
+            var user = _mapper.Map<User>(model);
 
-            var result = await _userManager.CreateAsync(user, registerModel.Password);
+            var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (result.Succeeded)
-            {
-                var role = (!string.IsNullOrEmpty(registerModel.Role)) ? registerModel.Role : "user";
+            if (!result.Succeeded)
+                throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
 
-                var addToToleResult = await _userManager.AddToRoleAsync(user, role);
-            }
-            else
+            var addToRoleResult = await _userManager.AddToRoleAsync(user, model.Role);
+
+            if (!addToRoleResult.Succeeded)
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
         }
 

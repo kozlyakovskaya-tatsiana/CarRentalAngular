@@ -33,9 +33,9 @@ namespace CarRental.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] RegisterModel registerModel)
+        public async Task<IActionResult> CreateUser([FromBody] UserCreatingModel userCreatingModel)
         {
-            await _userService.CreateUser(registerModel);
+            await _userService.CreateUser(userCreatingModel);
 
             return Ok();
         }

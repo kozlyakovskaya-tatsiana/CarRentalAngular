@@ -16,7 +16,7 @@ namespace CarRental.Service.Identity
 
         Task<bool> IsUserExists(string email, string password);
 
-        Task CreateUser(RegisterModel registerModel);
+        Task CreateUser(UserCreatingModel model);
 
         Task UpdateUser(EditModel model);
 

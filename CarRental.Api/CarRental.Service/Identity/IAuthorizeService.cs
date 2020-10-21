@@ -8,6 +8,8 @@ namespace CarRental.Service.Identity
     {
         ClaimsIdentity GetIdentity(string userName, string userRole);
 
+        Task Register(RegisterModel registerModel);
+
         Task<LoginResponse> Login(LoginModel loginModel);
     }
 }

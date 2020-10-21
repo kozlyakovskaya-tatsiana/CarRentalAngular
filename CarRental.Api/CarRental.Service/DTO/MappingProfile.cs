@@ -19,6 +19,9 @@ namespace CarRental.Service.DTO
                 .ForMember(u => u.UserName, opt => opt.MapFrom(reg => reg.Email));
 
             CreateMap<EditModel, User>();
+
+            CreateMap<UserCreatingModel, User>()
+                .ForMember(u => u.UserName, opt => opt.MapFrom(model => model.Email)); ;
         }
     }
 }

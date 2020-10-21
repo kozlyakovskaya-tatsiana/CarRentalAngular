@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace CarRental.Service.Models
 {
-    public class RegisterModel
+    public class UserCreatingModel
     {
         public string Name { get; set; }
 
@@ -15,8 +17,11 @@ namespace CarRental.Service.Models
         public string Email { get; set; }
 
         public string Password { get; set; }
-        
-        public string PasswordConfirm { get; set; }
 
+        public string PassportSerialNumber { get; set; }
+
+        public string PassportId { get; set; }
+
+        public string Role { get; set; }
     }
 }

@@ -67,5 +67,20 @@ namespace CarRental.Service.Identity.Services
             };
         }
 
+        public async Task Register(RegisterModel registerModel)
+        {
+            var user = new User { Email = registerModel.Email, UserName = registerModel.Email };
+
+            var result = await _userManager.CreateAsync(user, registerModel.Password);
+
+            if (result.Succeeded)
+            {
+                var addToToleResult = await _userManager.AddToRoleAsync(user, "user");
+            }
+            else
+                throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
+        }
+
+
     }
 }

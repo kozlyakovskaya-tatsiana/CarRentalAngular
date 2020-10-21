@@ -31,5 +31,13 @@ namespace CarRental.Api.Controllers
             return Ok(response);
         }
 
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterModel registerModel)
+        {
+            await _authorizeService.Register(registerModel);
+
+            return Ok();
+        }
+
     }
 }
