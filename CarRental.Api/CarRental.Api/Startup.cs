@@ -180,12 +180,7 @@ namespace CarRental.Api
 
             services.AddSingleton<DataStorage>();
 
-            var mapperConfig = new MapperConfiguration(mc =>
-                mc.AddProfile(new MappingProfile()));
-
-            var mapper = mapperConfig.CreateMapper();
-
-            services.AddSingleton(mapper);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddCors();
 
