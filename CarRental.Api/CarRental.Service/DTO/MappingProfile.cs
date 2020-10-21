@@ -4,6 +4,7 @@ using System.Text;
 using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.Service.Models;
+using CarRental.Service.WebModels;
 
 namespace CarRental.Service.DTO
 {
@@ -11,17 +12,18 @@ namespace CarRental.Service.DTO
     {
         public MappingProfile()
         {
-            CreateMap<User, UserDto>();
+            CreateMap<User, UserShowDto>();
 
-            CreateMap<UserDto, User>();
+            CreateMap<UserShowDto, User>();
 
-            CreateMap<RegisterModel, User>()
-                .ForMember(u => u.UserName, opt => opt.MapFrom(reg => reg.Email));
+            CreateMap<UserCreateDto, User>()
+                .ForMember(u => u.UserName, opt => opt.MapFrom(udto => udto.Email));
 
-            CreateMap<EditModel, User>();
 
-            CreateMap<UserCreatingModel, User>()
-                .ForMember(u => u.UserName, opt => opt.MapFrom(model => model.Email)); ;
+            CreateMap<UserCreatingModel, UserCreateDto>();
+
+            CreateMap<EditModel, UserEditDto>();
+
         }
     }
 }

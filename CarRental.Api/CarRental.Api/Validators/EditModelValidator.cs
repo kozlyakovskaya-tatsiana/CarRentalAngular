@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CarRental.Service.Models;
+using CarRental.Service.WebModels;
 using FluentValidation;
 
 namespace CarRental.Api.Validators

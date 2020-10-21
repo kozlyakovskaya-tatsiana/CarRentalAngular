@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using CarRental.Service.Identity;
 using CarRental.Service.Models;
+using CarRental.Service.WebModels;
 
 namespace CarRental.Api.Controllers
 {

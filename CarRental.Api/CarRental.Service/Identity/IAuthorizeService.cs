@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using CarRental.Service.Models;
+using CarRental.Service.WebModels;
 
 namespace CarRental.Service.Identity
 {

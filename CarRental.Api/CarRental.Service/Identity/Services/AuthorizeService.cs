@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.Service.Models;
+using CarRental.Service.WebModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Service.Identity.Services

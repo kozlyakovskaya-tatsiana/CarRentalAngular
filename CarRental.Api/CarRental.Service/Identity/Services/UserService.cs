@@ -6,6 +6,7 @@ using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.Service.DTO;
 using CarRental.Service.Models;
+using CarRental.Service.WebModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,34 +25,34 @@ namespace CarRental.Service.Identity.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsers()
+        public async Task<IEnumerable<UserShowDto>> GetUsers()
         {
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _userManager.Users.ToArrayAsync();
 
-            var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
+             var usersShowDto = _mapper.Map<IEnumerable<UserShowDto>>(users);
 
-            foreach (var user in usersDto)
+            foreach (var user in usersShowDto)
             {
                 var role = (await _userManager.GetRolesAsync(_mapper.Map<User>(user))).FirstOrDefault();
 
                 user.Role = role;
             }
 
-            return usersDto;
+            return usersShowDto;
         }
 
-        public async Task<UserDto> GetUser(string email)
+        public async Task<UserShowDto> GetUser(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user == null)
                 throw new Exception("There is no user with such email");
 
-            var userDto = _mapper.Map<UserDto>(user);
+            var userShowDto = _mapper.Map<UserShowDto>(user);
 
-            userDto.Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+            userShowDto.Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
-            return userDto;
+            return userShowDto;
         }
 
         public async Task<bool> IsUserExists(string email, string password)
@@ -64,41 +65,41 @@ namespace CarRental.Service.Identity.Services
             return await _userManager.CheckPasswordAsync(user, password);
         }
 
-        public async Task CreateUser(UserCreatingModel model)
+        public async Task CreateUser(UserCreateDto userCreateDto)
         {
-            var user = _mapper.Map<User>(model);
+            var user = _mapper.Map<User>(userCreateDto);
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, userCreateDto.Password);
 
             if (!result.Succeeded)
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
 
-            var addToRoleResult = await _userManager.AddToRoleAsync(user, model.Role);
+            var addToRoleResult = await _userManager.AddToRoleAsync(user, userCreateDto.Role);
 
             if (!addToRoleResult.Succeeded)
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
         }
 
-        public async Task UpdateUser(EditModel model)
+        public async Task UpdateUser(UserEditDto userEditDto)
         {
-            var user = await _userManager.FindByIdAsync(model.Id);
+            var user = await _userManager.FindByIdAsync(userEditDto.Id);
 
             if (user == null)
                 throw new Exception("There is no such user");
 
-            user.Name = model.Name;
+            user.Name = userEditDto.Name;
 
-            user.Surname = model.Surname;
+            user.Surname = userEditDto.Surname;
 
-            user.DateOfBirth = model.DateOfBirth;
+            user.DateOfBirth = userEditDto.DateOfBirth;
 
-            user.PhoneNumber = model.PhoneNumber;
+            user.PhoneNumber = userEditDto.PhoneNumber;
 
-            user.PassportId = model.PassportId;
+            user.PassportId = userEditDto.PassportId;
 
-            user.PassportSerialNumber = model.PassportSerialNumber;
+            user.PassportSerialNumber = userEditDto.PassportSerialNumber;
 
-            user.Email = model.Email;
+            user.Email = userEditDto.Email;
 
             var result = await _userManager.UpdateAsync(user);
 

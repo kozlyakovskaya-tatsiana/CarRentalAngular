@@ -1,4 +1,4 @@
-﻿namespace CarRental.Service.Models
+﻿namespace CarRental.Service.WebModels
 {
     public class LoginResponse
     {
