@@ -1,15 +1,10 @@
-export class RegisterModel{
+export class UserBaseEdiRequest{
+  id: string;
   name: string;
-
   surname: string;
-
   dateOfBirth: any;
-
   telephoneNumber: string;
-
   email: string;
-
-  password: string;
-
-  passwordConfirm: string;
+  passportSerialNumber: string;
+  passportId: string;
 }

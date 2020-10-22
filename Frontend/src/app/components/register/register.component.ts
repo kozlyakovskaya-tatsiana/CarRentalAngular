@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {RegisterModel} from '../../utils/RegisterModel';
+import {RegisterRequest} from '../../utils/RegisterRequest';
 import {FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {AuthorizeService} from '../../services/authorize.service';
 import swal from 'sweetalert';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,11 +12,12 @@ import swal from 'sweetalert';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private authorizeService: AuthorizeService) {
-    this.registerModel = new RegisterModel();
+  constructor(private authorizeService: AuthorizeService,
+              private router: Router) {
+    this.registerModel = new RegisterRequest();
   }
 
-  registerModel: RegisterModel;
+  registerModel: RegisterRequest;
 
   registerForm: FormGroup;
 
@@ -42,7 +44,7 @@ export class RegisterComponent implements OnInit {
     this.authorizeService.register(this.registerModel).subscribe(
       data => {
         swal({
-            title: 'Registration successful',
+            title: 'Registration successful. Now you can sign in.',
             icon: 'success'
           }
         );
@@ -66,6 +68,7 @@ export class RegisterComponent implements OnInit {
       },
       () => {
         this.isLoading = false;
+        this.router.navigate(['login']);
       }
    );
   }

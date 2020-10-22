@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace CarRental.Service.DTO
+namespace CarRental.Service.WebModels
 {
-    public class UserDtoBase
+    public class EditUserBaseRequest
     {
         public string Id { get; set; }
 

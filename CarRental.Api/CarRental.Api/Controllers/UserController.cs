@@ -8,16 +8,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Api.Controllers
 {
-    [Authorize(Policy = "ForAdminOnly")]
+    //[Authorize(Policy = "ForAdminOnly")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IUserManagementService _userService;
 
         private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IMapper mapper)
+        public UserController(IUserManagementService userService, IMapper mapper)
         {
             _userService = userService;
 
@@ -46,7 +46,6 @@ namespace CarRental.Api.Controllers
             var userToCreate = _mapper.Map<UserCreateDto>(userCreatingRequest);
 
             await _userService.CreateUser(userToCreate);
-
 
             return Ok();
         }

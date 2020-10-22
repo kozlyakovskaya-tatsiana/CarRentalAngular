@@ -20,6 +20,8 @@ namespace CarRental.Service.DTO
 
             CreateMap<EditUserRequest, UserReadDto>();
 
+            CreateMap<EditUserBaseRequest, UserDtoBase>();
+
         }
     }
 }

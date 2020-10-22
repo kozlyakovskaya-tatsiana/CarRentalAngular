@@ -70,11 +70,24 @@ namespace CarRental.Service.Identity.Services
             };
         }
 
-        public async Task Register(RegisterRequest registerModel)
+        public async Task Register(RegisterRequest registerRequest)
         {
-            var user = new User { Email = registerModel.Email, UserName = registerModel.Email };
+            var user = new User
+            {
+                Name = registerRequest.Name,
 
-            var result = await _userManager.CreateAsync(user, registerModel.Password);
+                Surname = registerRequest.Surname,
+
+                DateOfBirth = registerRequest.DateOfBirth,
+
+                PhoneNumber = registerRequest.PhoneNumber,
+
+                Email = registerRequest.Email,
+                
+                UserName = registerRequest.Email
+            };
+            
+            var result = await _userManager.CreateAsync(user, registerRequest.Password);
 
             if (result.Succeeded)
             {

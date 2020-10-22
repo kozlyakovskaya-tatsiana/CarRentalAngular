@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {LoginModel} from '../../utils/LoginModel';
+import {LoginRequest} from '../../utils/LoginRequest';
 import {AuthorizeService} from '../../services/authorize.service';
 import swal from 'sweetalert';
-
+import {Router} from '@angular/router';
+import {UserManagementService} from '../../services/user-management.service';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +13,13 @@ import swal from 'sweetalert';
 })
 export class LoginComponent implements OnInit{
 
-  constructor(private authorizeService: AuthorizeService) {
-    this.loginModel = new LoginModel();
+  constructor(private authorizeService: AuthorizeService,
+              private userManagementService: UserManagementService,
+              private router: Router) {
+    this.loginModel = new LoginRequest();
   }
 
-  loginModel: LoginModel;
+  loginModel: LoginRequest;
 
   loginForm: FormGroup;
 
@@ -26,10 +29,9 @@ export class LoginComponent implements OnInit{
     this.isLoading = true;
     this.authorizeService.login(this.loginModel).subscribe(
       data => {
-        this.authorizeService.userEmail = data.userEmail;
-        this.authorizeService.userRole = data.userRole;
         localStorage.setItem('access_token', data.accessToken);
         localStorage.setItem('refresh_token', data.refreshToken);
+        this.authorizeService.userEmail = data.userEmail;
       },
       err => {
         console.log(err);
@@ -50,6 +52,7 @@ export class LoginComponent implements OnInit{
       },
       () => {
        this.isLoading = false;
+       this.router.navigate(['']);
       }
     );
   }

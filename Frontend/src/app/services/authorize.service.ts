@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {LoginModel} from '../utils/LoginModel';
+import {LoginRequest} from '../utils/LoginRequest';
 import {Observable} from 'rxjs';
-import {RegisterModel} from '../utils/RegisterModel';
+import {RegisterRequest} from '../utils/RegisterRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -15,16 +15,20 @@ export class AuthorizeService {
 
   userEmail: string;
 
-  userRole: string;
-
   get isAuthorized(): boolean {
-    return Boolean(this.userEmail);
+    return !!localStorage.getItem('access_token');
   }
 
-  login(loginModel: LoginModel): Observable<any>{
+  login(loginModel: LoginRequest): Observable<any>{
     return this.http.post(this.url + 'login', loginModel);
   }
-  register(registerModel: RegisterModel): Observable<any>{
+
+  register(registerModel: RegisterRequest): Observable<any>{
     return this.http.post(this.url + 'register', registerModel);
+  }
+
+  logout(): void{
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
   }
 }

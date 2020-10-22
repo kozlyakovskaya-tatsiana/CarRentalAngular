@@ -10,6 +10,8 @@ import {HttpClientModule} from '@angular/common/http';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HeaderComponent } from './components/header/header.component';
+import { MainComponent } from './components/main/main.component';
+import { EditUserComponent } from './components/edituser/edit-user.component';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { HeaderComponent } from './components/header/header.component';
     LoginComponent,
     NotFoundComponent,
     RegisterComponent,
-    HeaderComponent
+    HeaderComponent,
+    MainComponent,
+    EditUserComponent
   ],
   imports: [
     BrowserModule,

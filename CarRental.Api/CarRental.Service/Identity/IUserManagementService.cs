@@ -4,7 +4,7 @@ using CarRental.Service.DTO;
 
 namespace CarRental.Service.Identity
 {
-    public interface IUserService
+    public interface IUserManagementService
     {
         Task<IEnumerable<UserReadDto>> GetUsers();
 
@@ -17,5 +17,7 @@ namespace CarRental.Service.Identity
         Task UpdateUser(UserReadDto userReadDto);
 
         Task DeleteUser(string id);
+
+        Task UpdateUserBaseInfo(UserDtoBase userDtoBase);
     }
 }

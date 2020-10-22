@@ -6,7 +6,7 @@ namespace CarRental.Api.Validators
 {
     public class LoginModelValidator : AbstractValidator<LoginRequest>
     {
-        public LoginModelValidator(IUserService userService)
+        public LoginModelValidator(IUserManagementService userService)
         {
             RuleFor(login => login.Email).EmailAddress().WithMessage("Incorrect format of email")
            .Must((logModel, login) => userService.IsUserExists(logModel.Email, logModel.Password).Result)

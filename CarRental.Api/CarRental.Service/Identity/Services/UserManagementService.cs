@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Service.Identity.Services
 {
-    public class UserService : IUserService
+    public class UserManagementService : IUserManagementService
     {
         private readonly UserManager<User> _userManager;
 
@@ -18,7 +18,7 @@ namespace CarRental.Service.Identity.Services
 
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserService(UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
+        public UserManagementService(UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
 
@@ -155,6 +155,35 @@ namespace CarRental.Service.Identity.Services
                 if (!addToRole.Succeeded)
                     throw new Exception(string.Join("/r/n", addToRole.Errors.Select(err => err.Description)));
             }
+        }
+
+        public async Task UpdateUserBaseInfo(UserDtoBase userDtoBase)
+        {
+            var user = await _userManager.FindByIdAsync(userDtoBase.Id);
+
+            if (user == null)
+                throw new Exception("There is no such user");
+
+            user.Name = userDtoBase.Name;
+
+            user.Surname = userDtoBase.Surname;
+
+            user.DateOfBirth = userDtoBase.DateOfBirth;
+
+            user.PhoneNumber = userDtoBase.PhoneNumber;
+
+            user.PassportId = userDtoBase.PassportId;
+
+            user.PassportSerialNumber = userDtoBase.PassportSerialNumber;
+
+            user.Email = userDtoBase.Email;
+
+            user.UserName = user.Email;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+                throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
         }
     }
 }

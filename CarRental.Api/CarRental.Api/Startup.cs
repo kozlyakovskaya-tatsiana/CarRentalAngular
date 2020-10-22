@@ -187,7 +187,7 @@ namespace CarRental.Api
 
             services.AddScoped(typeof(IRepository<>), typeof(EFGenericRepository<>));
 
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
 
             services.AddSingleton<DataStorage>();
 
