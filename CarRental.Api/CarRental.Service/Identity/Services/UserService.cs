@@ -27,34 +27,34 @@ namespace CarRental.Service.Identity.Services
             _roleManager = roleManager;
         }
 
-        public async Task<IEnumerable<UserShowDto>> GetUsers()
+        public async Task<IEnumerable<UserReadDto>> GetUsers()
         {
             var users = await _userManager.Users.ToArrayAsync();
 
-            var usersShowDto = _mapper.Map<IEnumerable<UserShowDto>>(users);
+            var usersReadDto = _mapper.Map<IEnumerable<UserReadDto>>(users);
 
-            foreach (var user in usersShowDto)
+            foreach (var user in usersReadDto)
             {
                 var role = (await _userManager.GetRolesAsync(_mapper.Map<User>(user))).FirstOrDefault();
 
                 user.Role = role;
             }
 
-            return usersShowDto;
+            return usersReadDto;
         }
 
-        public async Task<UserShowDto> GetUser(string email)
+        public async Task<UserReadDto> GetUser(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var users = await _userManager.FindByEmailAsync(email);
 
-            if (user == null)
+            if (users == null)
                 throw new Exception("There is no user with such email");
 
-            var userShowDto = _mapper.Map<UserShowDto>(user);
+            var userReadDto = _mapper.Map<UserReadDto>(users);
 
-            userShowDto.Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+            userReadDto.Role = (await _userManager.GetRolesAsync(users)).FirstOrDefault();
 
-            return userShowDto;
+            return userReadDto;
         }
 
         public async Task<bool> IsUserExists(string email, string password)
@@ -87,33 +87,36 @@ namespace CarRental.Service.Identity.Services
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
         }
 
-        public async Task UpdateUser(UserShowDto userShowDto)
+        public async Task UpdateUser(UserReadDto userReadDto)
         {
-            var user = await _userManager.FindByIdAsync(userShowDto.Id);
+            var user = await _userManager.FindByIdAsync(userReadDto.Id);
 
             if (user == null)
                 throw new Exception("There is no such user");
 
-            user.Name = userShowDto.Name;
+            user.Name = userReadDto.Name;
 
-            user.Surname = userShowDto.Surname;
+            user.Surname = userReadDto.Surname;
 
-            user.DateOfBirth = userShowDto.DateOfBirth;
+            user.DateOfBirth = userReadDto.DateOfBirth;
 
-            user.PhoneNumber = userShowDto.PhoneNumber;
+            user.PhoneNumber = userReadDto.PhoneNumber;
 
-            user.PassportId = userShowDto.PassportId;
+            user.PassportId = userReadDto.PassportId;
 
-            user.PassportSerialNumber = userShowDto.PassportSerialNumber;
+            user.PassportSerialNumber = userReadDto.PassportSerialNumber;
 
-            user.Email = userShowDto.Email;
+            user.Email = userReadDto.Email;
+
+            user.UserName = user.Email;
 
             var result = await _userManager.UpdateAsync(user);
 
-            await UpdateUserRole(user, userShowDto.Role);
-
             if (!result.Succeeded)
-                throw new Exception("Updating is failed.");
+                throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
+
+            await UpdateUserRole(user, userReadDto.Role);
+
         }
 
         public async Task DeleteUser(string id)

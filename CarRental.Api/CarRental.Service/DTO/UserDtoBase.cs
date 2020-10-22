@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CarRental.Service.DTO
 {
-    public class UserDto
+    public abstract class UserDtoBase
     {
         public string Name { get; set; }
 

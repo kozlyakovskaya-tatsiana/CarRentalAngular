@@ -3,10 +3,12 @@ using AutoMapper;
 using CarRental.Service.DTO;
 using CarRental.Service.Identity;
 using CarRental.Service.WebModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Api.Controllers
 {
+    [Authorize(Roles = "admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -39,9 +41,9 @@ namespace CarRental.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserCreatingModel userCreatingModel)
+        public async Task<IActionResult> CreateUser([FromBody] UserCreatingRequest userCreatingRequest)
         {
-            var userToCreate = _mapper.Map<UserCreateDto>(userCreatingModel);
+            var userToCreate = _mapper.Map<UserCreateDto>(userCreatingRequest);
 
             await _userService.CreateUser(userToCreate);
 
@@ -50,9 +52,9 @@ namespace CarRental.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody]EditModel editModel)
+        public async Task<IActionResult> UpdateUser([FromBody]EditUserRequest editUserRequest)
         {
-            var userToUpdate = _mapper.Map<UserShowDto>(editModel);
+            var userToUpdate = _mapper.Map<UserReadDto>(editUserRequest);
 
             await _userService.UpdateUser(userToUpdate);
 

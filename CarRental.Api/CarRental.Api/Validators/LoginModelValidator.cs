@@ -1,11 +1,10 @@
 ﻿using CarRental.Service.Identity;
-using CarRental.Service.Models;
 using CarRental.Service.WebModels;
 using FluentValidation;
 
 namespace CarRental.Api.Validators
 {
-    public class LoginModelValidator : AbstractValidator<LoginModel>
+    public class LoginModelValidator : AbstractValidator<LoginRequest>
     {
         public LoginModelValidator(IUserService userService)
         {

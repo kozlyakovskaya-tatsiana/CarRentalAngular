@@ -1,8 +1,8 @@
 ﻿namespace CarRental.Service.DTO
 {
-    public class UserCreateDto : UserDtoBase
+    public class UserReadDto : UserDtoBase
     {
-        public string Password { get; set; }
+        public string Id { get; set; }
 
         public string Role { get; set; }
     }

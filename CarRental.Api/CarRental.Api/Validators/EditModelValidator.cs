@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CarRental.Service.Models;
-using CarRental.Service.WebModels;
+﻿using CarRental.Service.WebModels;
 using FluentValidation;
-using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Api.Validators
 {
-    public class EditModelValidator : AbstractValidator<EditModel>
+    public class EditModelValidator : AbstractValidator<EditUserRequest>
     {
         private readonly string _phoneNumberPattern = @"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}";
 

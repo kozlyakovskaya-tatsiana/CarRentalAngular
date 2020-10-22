@@ -2,7 +2,7 @@
 
 namespace CarRental.Service.WebModels
 {
-    public class EditModel
+    public class EditUserRequest
     {
         public string Id { get; set; }
 

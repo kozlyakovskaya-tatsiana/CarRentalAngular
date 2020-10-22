@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Net;
 using System.Threading.Tasks;
 using CarRental.Service.Identity;
-using CarRental.Service.Models;
 using CarRental.Service.WebModels;
 
 namespace CarRental.Api.Controllers
@@ -25,7 +22,7 @@ namespace CarRental.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> LogIn([FromBody] LoginModel loginModel)
+        public async Task<IActionResult> LogIn([FromBody] LoginRequest loginModel)
         {
             var response = await _authorizeService.Login(loginModel);
 
@@ -33,7 +30,7 @@ namespace CarRental.Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterModel registerModel)
+        public async Task<IActionResult> Register(RegisterRequest registerModel)
         {
             await _authorizeService.Register(registerModel);
 

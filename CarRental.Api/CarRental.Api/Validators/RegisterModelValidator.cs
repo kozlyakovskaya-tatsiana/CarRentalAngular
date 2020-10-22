@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace CarRental.Api.Validators
 {
-    public class RegisterModelValidator : AbstractValidator<RegisterModel>
+    public class RegisterModelValidator : AbstractValidator<RegisterRequest>
     {
         private readonly string _phoneNumberPattern = @"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}";
         public RegisterModelValidator()

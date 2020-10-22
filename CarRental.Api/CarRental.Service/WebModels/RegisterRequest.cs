@@ -2,7 +2,7 @@
 
 namespace CarRental.Service.WebModels
 {
-    public class RegisterModel
+    public class RegisterRequest
     {
         public string Name { get; set; }
 

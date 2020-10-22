@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using CarRental.Service.Models;
 using CarRental.Service.WebModels;
 
 namespace CarRental.Service.Identity
@@ -9,8 +8,8 @@ namespace CarRental.Service.Identity
     {
         ClaimsIdentity GetIdentity(string userName, string userRole);
 
-        Task Register(RegisterModel registerModel);
+        Task Register(RegisterRequest registerModel);
 
-        Task<LoginResponse> Login(LoginModel loginModel);
+        Task<LoginResponse> Login(LoginRequest loginModel);
     }
 }
