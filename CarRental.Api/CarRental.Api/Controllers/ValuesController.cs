@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 
 namespace CarRental.Api.Controllers
 {
-    
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
@@ -28,7 +27,6 @@ namespace CarRental.Api.Controllers
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Return the array of values</response>
-        //[Authorize]
         [HttpGet]
         [ProducesResponseType(200)]
         public IActionResult GetValues()
@@ -46,7 +44,7 @@ namespace CarRental.Api.Controllers
         /// <response code="200">Return values</response>
         /// <response code="400">Nothing to return. Incorrect index.</response>
         /// <response code="401">Non-authorized.</response>
-        [Authorize(Roles = "user")]
+        [Authorize(Policy = "ForUserOnly")]
         [HttpGet("{index:int}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -72,7 +70,7 @@ namespace CarRental.Api.Controllers
         /// <returns></returns>
         /// <response code="200">Nothing to return. Operation is successful.</response>
         /// <response code="400">Input value is null or empty.</response>
-        [Authorize(Roles = "admin")]
+        [Authorize(Policy = "ForAdminOnly")]
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
+using System.Security.Claims;
 using AutoMapper;
 using CarRental.Api.Options;
 using CarRental.Api.Validators;
@@ -109,6 +110,18 @@ namespace CarRental.Api
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
+            services.AddAuthorization(opts =>
+            {
+                opts.AddPolicy("ForAdminOnly", policy =>
+                {
+                    policy.RequireRole("admin");
+                });
+
+                opts.AddPolicy("ForUserOnly", policy =>
+                    policy.RequireRole("user"));
+            });
+            
 
 
             var swaggerDocumentOptions = new SwaggerDocumentOptions();
