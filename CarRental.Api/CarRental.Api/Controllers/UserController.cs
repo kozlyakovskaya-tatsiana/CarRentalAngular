@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Api.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Policy = "ForAdminOnly")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase

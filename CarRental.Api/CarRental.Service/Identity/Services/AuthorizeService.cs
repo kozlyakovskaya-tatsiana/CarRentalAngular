@@ -45,6 +45,9 @@ namespace CarRental.Service.Identity.Services
         {
             var user = await _userManager.FindByNameAsync(loginModel.Email);
 
+            if (user == null)
+                throw new Exception("There is no such user");
+
             var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
             var identity = GetIdentity(user.UserName, role);

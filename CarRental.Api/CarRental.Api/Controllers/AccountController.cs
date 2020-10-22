@@ -22,17 +22,17 @@ namespace CarRental.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> LogIn([FromBody] LoginRequest loginModel)
+        public async Task<IActionResult> LogIn([FromBody] LoginRequest loginRequest)
         {
-            var response = await _authorizeService.Login(loginModel);
+            var response = await _authorizeService.Login(loginRequest);
 
             return Ok(response);
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterRequest registerModel)
+        public async Task<IActionResult> Register(RegisterRequest registerRequest)
         {
-            await _authorizeService.Register(registerModel);
+            await _authorizeService.Register(registerRequest);
 
             return Ok();
         }
