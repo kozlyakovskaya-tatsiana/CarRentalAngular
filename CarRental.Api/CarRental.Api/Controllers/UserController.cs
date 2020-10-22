@@ -1,19 +1,27 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
+using CarRental.Service.DTO;
 using CarRental.Service.Identity;
-using CarRental.Service.Models;
+using CarRental.Service.WebModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Api.Controllers
 {
+    [Authorize(Roles = "admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
 
-        public UserController(IUserService userService)
+        private readonly IMapper _mapper;
+
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+
+            _mapper = mapper;
         }
 
         [HttpGet("users")]
@@ -33,17 +41,22 @@ namespace CarRental.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserCreatingModel userCreatingModel)
+        public async Task<IActionResult> CreateUser([FromBody] UserCreatingRequest userCreatingRequest)
         {
-            await _userService.CreateUser(userCreatingModel);
+            var userToCreate = _mapper.Map<UserCreateDto>(userCreatingRequest);
+
+            await _userService.CreateUser(userToCreate);
+
 
             return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody]EditModel user)
+        public async Task<IActionResult> UpdateUser([FromBody]EditUserRequest editUserRequest)
         {
-            await _userService.UpdateUser(user);
+            var userToUpdate = _mapper.Map<UserReadDto>(editUserRequest);
+
+            await _userService.UpdateUser(userToUpdate);
 
             return Ok();
         }

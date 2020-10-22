@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CarRental.DAL.Entities;
+﻿using CarRental.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarRental.Identity.EFCore
+namespace CarRental.DAL.EFCore
 {
     public class ApplicationIdentityContext : IdentityDbContext<User, IdentityRole, string>
     {

@@ -1,6 +1,6 @@
-﻿namespace CarRental.Service.Models
+﻿namespace CarRental.Service.WebModels
 {
-    public class LoginModel
+    public class LoginRequest
     {
         public string Email { get; set; }
 

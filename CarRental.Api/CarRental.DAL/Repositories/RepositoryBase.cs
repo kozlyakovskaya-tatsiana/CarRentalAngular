@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using CarRental.Identity.EFCore;
+using CarRental.DAL.EFCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.DAL.Repositories

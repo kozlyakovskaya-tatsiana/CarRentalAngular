@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.Service.DTO;
-using CarRental.Service.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,41 +16,45 @@ namespace CarRental.Service.Identity.Services
 
         private readonly IMapper _mapper;
 
-        public UserService(UserManager<User> userManager, IMapper mapper)
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public UserService(UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
 
             _mapper = mapper;
+
+            _roleManager = roleManager;
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsers()
+        public async Task<IEnumerable<UserReadDto>> GetUsers()
         {
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _userManager.Users.ToArrayAsync();
 
-            var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
+            var usersReadDto = _mapper.Map<IEnumerable<UserReadDto>>(users);
 
-            foreach (var user in usersDto)
+            foreach (var user in usersReadDto)
             {
                 var role = (await _userManager.GetRolesAsync(_mapper.Map<User>(user))).FirstOrDefault();
 
                 user.Role = role;
             }
 
-            return usersDto;
+            return usersReadDto;
         }
 
-        public async Task<UserDto> GetUser(string email)
+        public async Task<UserReadDto> GetUser(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var users = await _userManager.FindByEmailAsync(email);
 
-            if (user == null)
+            if (users == null)
                 throw new Exception("There is no user with such email");
 
-            var userDto = _mapper.Map<UserDto>(user);
+            var userReadDto = _mapper.Map<UserReadDto>(users);
 
-            userDto.Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+            userReadDto.Role = (await _userManager.GetRolesAsync(users)).FirstOrDefault();
 
-            return userDto;
+            return userReadDto;
         }
 
         public async Task<bool> IsUserExists(string email, string password)
@@ -64,46 +67,56 @@ namespace CarRental.Service.Identity.Services
             return await _userManager.CheckPasswordAsync(user, password);
         }
 
-        public async Task CreateUser(UserCreatingModel model)
+        public async Task CreateUser(UserCreateDto userCreateDto)
         {
-            var user = _mapper.Map<User>(model);
+            var roleExists = await _roleManager.RoleExistsAsync(userCreateDto.Role);
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!roleExists)
+                throw new Exception($"Role {userCreateDto.Role} doesn't exist.");
+
+            var user = _mapper.Map<User>(userCreateDto);
+
+            var result = await _userManager.CreateAsync(user, userCreateDto.Password);
 
             if (!result.Succeeded)
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
 
-            var addToRoleResult = await _userManager.AddToRoleAsync(user, model.Role);
+            var addToRoleResult = await _userManager.AddToRoleAsync(user, userCreateDto.Role);
 
             if (!addToRoleResult.Succeeded)
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
         }
 
-        public async Task UpdateUser(EditModel model)
+        public async Task UpdateUser(UserReadDto userReadDto)
         {
-            var user = await _userManager.FindByIdAsync(model.Id);
+            var user = await _userManager.FindByIdAsync(userReadDto.Id);
 
             if (user == null)
                 throw new Exception("There is no such user");
 
-            user.Name = model.Name;
+            user.Name = userReadDto.Name;
 
-            user.Surname = model.Surname;
+            user.Surname = userReadDto.Surname;
 
-            user.DateOfBirth = model.DateOfBirth;
+            user.DateOfBirth = userReadDto.DateOfBirth;
 
-            user.PhoneNumber = model.PhoneNumber;
+            user.PhoneNumber = userReadDto.PhoneNumber;
 
-            user.PassportId = model.PassportId;
+            user.PassportId = userReadDto.PassportId;
 
-            user.PassportSerialNumber = model.PassportSerialNumber;
+            user.PassportSerialNumber = userReadDto.PassportSerialNumber;
 
-            user.Email = model.Email;
+            user.Email = userReadDto.Email;
+
+            user.UserName = user.Email;
 
             var result = await _userManager.UpdateAsync(user);
 
             if (!result.Succeeded)
-                throw new Exception("Updating is failed.");
+                throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
+
+            await UpdateUserRole(user, userReadDto.Role);
+
         }
 
         public async Task DeleteUser(string id)
@@ -117,6 +130,31 @@ namespace CarRental.Service.Identity.Services
 
             if (!result.Succeeded)
                 throw new Exception("Deleting is failed.");
+        }
+
+        public async Task UpdateUserRole(User user, string role)
+        {
+            var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
+            if (userRole == null)
+            {
+                await _userManager.AddToRoleAsync(user, role);
+
+                return;
+            }
+
+            if (userRole != role)
+            {
+                var removeFromRole = await _userManager.RemoveFromRoleAsync(user, userRole);
+
+                if (!removeFromRole.Succeeded)
+                    throw new Exception(string.Join("/r/n", removeFromRole.Errors.Select(err => err.Description)));
+
+                var addToRole = await _userManager.AddToRoleAsync(user, role);
+
+                if (!addToRole.Succeeded)
+                    throw new Exception(string.Join("/r/n", addToRole.Errors.Select(err => err.Description)));
+            }
         }
     }
 }

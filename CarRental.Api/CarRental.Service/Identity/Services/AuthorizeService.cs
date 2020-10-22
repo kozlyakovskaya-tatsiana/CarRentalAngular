@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL.Entities;
-using CarRental.Service.Models;
+using CarRental.Service.WebModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Service.Identity.Services
@@ -41,7 +41,7 @@ namespace CarRental.Service.Identity.Services
             return claimsIdentity;
         }
 
-        public async Task<LoginResponse> Login(LoginModel loginModel)
+        public async Task<LoginResponse> Login(LoginRequest loginModel)
         {
             var user = await _userManager.FindByNameAsync(loginModel.Email);
 
@@ -67,7 +67,7 @@ namespace CarRental.Service.Identity.Services
             };
         }
 
-        public async Task Register(RegisterModel registerModel)
+        public async Task Register(RegisterRequest registerModel)
         {
             var user = new User { Email = registerModel.Email, UserName = registerModel.Email };
 
@@ -80,7 +80,6 @@ namespace CarRental.Service.Identity.Services
             else
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
         }
-
 
     }
 }

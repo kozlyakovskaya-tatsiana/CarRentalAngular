@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CarRental.DAL.Entities;
 using CarRental.Service.DTO;
-using CarRental.Service.Models;
 
 namespace CarRental.Service.Identity
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserDto>> GetUsers();
+        Task<IEnumerable<UserReadDto>> GetUsers();
 
-        Task<UserDto> GetUser(string email);
+        Task<UserReadDto> GetUser(string email);
 
         Task<bool> IsUserExists(string email, string password);
 
-        Task CreateUser(UserCreatingModel model);
+        Task CreateUser(UserCreateDto userCreateDto);
 
-        Task UpdateUser(EditModel model);
+        Task UpdateUser(UserReadDto userReadDto);
 
         Task DeleteUser(string id);
     }

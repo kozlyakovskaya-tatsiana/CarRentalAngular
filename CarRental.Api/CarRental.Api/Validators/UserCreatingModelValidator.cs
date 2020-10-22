@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CarRental.Service.Models;
+﻿using CarRental.Service.WebModels;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Api.Validators
 {
-    public class UserCreatingModelValidator : AbstractValidator<UserCreatingModel>
+    public class UserCreatingModelValidator : AbstractValidator<UserCreatingRequest>
     {
         private readonly string _phoneNumberPattern = @"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}";
 
-        public UserCreatingModelValidator()
+        public UserCreatingModelValidator(RoleManager<IdentityRole> roleManager)
         {
             RuleFor(model => model.Name).NotEmpty().MaximumLength(20);
 
@@ -19,11 +16,11 @@ namespace CarRental.Api.Validators
 
             RuleFor(model => model.DateOfBirth).NotNull();
 
-            RuleFor(model => model.PhoneNumber).Matches(_phoneNumberPattern);
+            RuleFor(model => model.PhoneNumber).NotEmpty().Matches(_phoneNumberPattern);
 
-            RuleFor(model => model.Email).EmailAddress().WithMessage("Incorrect format of email");
+            RuleFor(model => model.Email).NotEmpty().EmailAddress().WithMessage("Incorrect format of email");
 
-            RuleFor(model => model.Password).MinimumLength(5);
+            RuleFor(model => model.Password).NotEmpty().MinimumLength(5);
 
             RuleFor(model => model.Role).NotEmpty();
         }

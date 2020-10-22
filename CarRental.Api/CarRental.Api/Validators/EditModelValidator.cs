@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CarRental.Service.Models;
+﻿using CarRental.Service.WebModels;
 using FluentValidation;
 
 namespace CarRental.Api.Validators
 {
-    public class EditModelValidator : AbstractValidator<EditModel>
+    public class EditModelValidator : AbstractValidator<EditUserRequest>
     {
         private readonly string _phoneNumberPattern = @"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}";
 
@@ -24,6 +20,8 @@ namespace CarRental.Api.Validators
             RuleFor(model => model.PhoneNumber).Matches(_phoneNumberPattern);
 
             RuleFor(model => model.Email).EmailAddress().WithMessage("Incorrect format of email");
+
+            RuleFor(model => model.Role).NotEmpty();
         }
     }
 }
