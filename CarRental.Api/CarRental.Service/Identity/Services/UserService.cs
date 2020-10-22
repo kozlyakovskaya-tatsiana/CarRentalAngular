@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.Service.DTO;
-using CarRental.Service.Models;
-using CarRental.Service.WebModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,18 +16,22 @@ namespace CarRental.Service.Identity.Services
 
         private readonly IMapper _mapper;
 
-        public UserService(UserManager<User> userManager, IMapper mapper)
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public UserService(UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
 
             _mapper = mapper;
+
+            _roleManager = roleManager;
         }
 
         public async Task<IEnumerable<UserShowDto>> GetUsers()
         {
             var users = await _userManager.Users.ToArrayAsync();
 
-             var usersShowDto = _mapper.Map<IEnumerable<UserShowDto>>(users);
+            var usersShowDto = _mapper.Map<IEnumerable<UserShowDto>>(users);
 
             foreach (var user in usersShowDto)
             {
@@ -67,6 +69,11 @@ namespace CarRental.Service.Identity.Services
 
         public async Task CreateUser(UserCreateDto userCreateDto)
         {
+            var roleExists = await _roleManager.RoleExistsAsync(userCreateDto.Role);
+
+            if (!roleExists)
+                throw new Exception($"Role {userCreateDto.Role} doesn't exist.");
+
             var user = _mapper.Map<User>(userCreateDto);
 
             var result = await _userManager.CreateAsync(user, userCreateDto.Password);
@@ -80,28 +87,30 @@ namespace CarRental.Service.Identity.Services
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
         }
 
-        public async Task UpdateUser(UserEditDto userEditDto)
+        public async Task UpdateUser(UserShowDto userShowDto)
         {
-            var user = await _userManager.FindByIdAsync(userEditDto.Id);
+            var user = await _userManager.FindByIdAsync(userShowDto.Id);
 
             if (user == null)
                 throw new Exception("There is no such user");
 
-            user.Name = userEditDto.Name;
+            user.Name = userShowDto.Name;
 
-            user.Surname = userEditDto.Surname;
+            user.Surname = userShowDto.Surname;
 
-            user.DateOfBirth = userEditDto.DateOfBirth;
+            user.DateOfBirth = userShowDto.DateOfBirth;
 
-            user.PhoneNumber = userEditDto.PhoneNumber;
+            user.PhoneNumber = userShowDto.PhoneNumber;
 
-            user.PassportId = userEditDto.PassportId;
+            user.PassportId = userShowDto.PassportId;
 
-            user.PassportSerialNumber = userEditDto.PassportSerialNumber;
+            user.PassportSerialNumber = userShowDto.PassportSerialNumber;
 
-            user.Email = userEditDto.Email;
+            user.Email = userShowDto.Email;
 
             var result = await _userManager.UpdateAsync(user);
+
+            await UpdateUserRole(user, userShowDto.Role);
 
             if (!result.Succeeded)
                 throw new Exception("Updating is failed.");
@@ -118,6 +127,31 @@ namespace CarRental.Service.Identity.Services
 
             if (!result.Succeeded)
                 throw new Exception("Deleting is failed.");
+        }
+
+        public async Task UpdateUserRole(User user, string role)
+        {
+            var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
+            if (userRole == null)
+            {
+                await _userManager.AddToRoleAsync(user, role);
+
+                return;
+            }
+
+            if (userRole != role)
+            {
+                var removeFromRole = await _userManager.RemoveFromRoleAsync(user, userRole);
+
+                if (!removeFromRole.Succeeded)
+                    throw new Exception(string.Join("/r/n", removeFromRole.Errors.Select(err => err.Description)));
+
+                var addToRole = await _userManager.AddToRoleAsync(user, role);
+
+                if (!addToRole.Succeeded)
+                    throw new Exception(string.Join("/r/n", addToRole.Errors.Select(err => err.Description)));
+            }
         }
     }
 }

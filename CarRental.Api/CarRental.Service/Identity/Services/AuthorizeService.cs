@@ -82,6 +82,5 @@ namespace CarRental.Service.Identity.Services
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
         }
 
-
     }
 }

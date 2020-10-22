@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CarRental.Service.Models;
 using CarRental.Service.WebModels;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Api.Validators
 {
@@ -25,6 +26,8 @@ namespace CarRental.Api.Validators
             RuleFor(model => model.PhoneNumber).Matches(_phoneNumberPattern);
 
             RuleFor(model => model.Email).EmailAddress().WithMessage("Incorrect format of email");
+
+            RuleFor(model => model.Role).NotEmpty();
         }
     }
 }

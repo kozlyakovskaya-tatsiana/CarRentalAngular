@@ -20,5 +20,7 @@ namespace CarRental.Service.WebModels
 
         public string PassportId { get; set; }
 
+        public string Role { get; set; }
+
     }
 }

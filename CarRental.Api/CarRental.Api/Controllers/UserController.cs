@@ -45,13 +45,14 @@ namespace CarRental.Api.Controllers
 
             await _userService.CreateUser(userToCreate);
 
+
             return Ok();
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody]EditModel editModel)
         {
-            var userToUpdate = _mapper.Map<UserEditDto>(editModel);
+            var userToUpdate = _mapper.Map<UserShowDto>(editModel);
 
             await _userService.UpdateUser(userToUpdate);
 

@@ -22,7 +22,7 @@ namespace CarRental.Service.DTO
 
             CreateMap<UserCreatingModel, UserCreateDto>();
 
-            CreateMap<EditModel, UserEditDto>();
+            CreateMap<EditModel, UserShowDto>();
 
         }
     }

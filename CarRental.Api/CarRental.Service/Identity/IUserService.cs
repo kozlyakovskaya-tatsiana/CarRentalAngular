@@ -19,7 +19,7 @@ namespace CarRental.Service.Identity
 
         Task CreateUser(UserCreateDto userDto);
 
-        Task UpdateUser(UserEditDto userEditDto);
+        Task UpdateUser(UserShowDto userShowDto);
 
         Task DeleteUser(string id);
     }
