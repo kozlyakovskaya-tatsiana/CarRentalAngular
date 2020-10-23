@@ -176,7 +176,9 @@ namespace CarRental.Service.Identity.Services
             if (user == null)
                 throw new Exception("There is no such user");
 
-            user.Name = userDtoBase.Name;
+            var newus = _mapper.Map(userDtoBase, user);
+
+            /*user.Name = userDtoBase.Name;
 
             user.Surname = userDtoBase.Surname;
 
@@ -186,9 +188,9 @@ namespace CarRental.Service.Identity.Services
 
             user.PassportId = userDtoBase.PassportId;
 
-            user.PassportSerialNumber = userDtoBase.PassportSerialNumber;
+            user.PassportSerialNumber = userDtoBase.PassportSerialNumber;*/
 
-            var result = await _userManager.UpdateAsync(user);
+            var result = await _userManager.UpdateAsync(newus);
 
             if (!result.Succeeded)
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));

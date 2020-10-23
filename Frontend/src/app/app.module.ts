@@ -12,6 +12,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MainComponent } from './components/main/main.component';
 import { EditUserComponent } from './components/edituser/edit-user.component';
+import { AdminScreenComponent } from './components/admin-screen/admin-screen.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { EditUserComponent } from './components/edituser/edit-user.component';
     RegisterComponent,
     HeaderComponent,
     MainComponent,
-    EditUserComponent
+    EditUserComponent,
+    AdminScreenComponent
   ],
   imports: [
     BrowserModule,

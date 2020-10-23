@@ -26,9 +26,16 @@ export class AuthorizeService {
     return localStorage.getItem('user_email');
   }
 
-
   get isAuthorized(): boolean {
     return !!localStorage.getItem('access_token');
+  }
+
+  get isAdmin(): boolean {
+    return localStorage.getItem('user_role') === 'admin';
+  }
+
+  get isUser(): boolean {
+    return localStorage.getItem('user_role') === 'user';
   }
 
   login(loginModel: LoginRequest): Observable<any>{

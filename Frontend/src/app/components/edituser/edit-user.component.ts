@@ -25,6 +25,7 @@ export class EditUserComponent implements OnInit {
   userEditId: string;
 
   onSubmit(): void{
+    console.log(this.userBaseInfo);
     this.isLoading = true;
     this.userManagementService.updateUserBaseInfo(this.userBaseInfo).subscribe(
       data => {
@@ -78,6 +79,7 @@ export class EditUserComponent implements OnInit {
 
     this.userManagementService.getUser(this.userEditId).subscribe(
       data => {
+
         this.userBaseInfo = data;
         this.userBaseInfo.dateOfBirth = new Date(data.dateOfBirth).toISOString().split('T')[0];
         console.log(data);

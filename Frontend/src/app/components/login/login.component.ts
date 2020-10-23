@@ -34,6 +34,12 @@ export class LoginComponent implements OnInit{
         localStorage.setItem('user_id', data.userId);
         localStorage.setItem('user_email', data.userEmail);
         localStorage.setItem('user_role', data.userRole);
+        if (data.userRole === 'user'){
+          this.router.navigate(['']);
+        }
+        else if (data.userRole === 'admin'){
+          this.router.navigate(['adminpage']);
+        }
       },
       err => {
         console.log(err);
@@ -54,7 +60,6 @@ export class LoginComponent implements OnInit{
       },
       () => {
        this.isLoading = false;
-       this.router.navigate(['']);
       }
     );
   }

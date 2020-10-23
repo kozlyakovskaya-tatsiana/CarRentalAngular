@@ -1,8 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="navbar-nav">
     <a class="nav-link" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Car Rental</a>
-    <ng-container *ngIf="authorizeService.isAuthorized">
+    <ng-container *ngIf="authorizeService.isUser">
       <a class="nav-link" [routerLink]="['edit', authorizeService.userId]" routerLinkActive="active">Edit</a>
+    </ng-container>
+    <ng-container *ngIf="authorizeService.isAdmin">
+      <a class="nav-link" routerLink="/edit" routerLinkActive="active">Edit For Admin</a>
     </ng-container>
   </div>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
