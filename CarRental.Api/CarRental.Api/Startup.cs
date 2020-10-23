@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
-using System.Security.Claims;
 using AutoMapper;
 using CarRental.Api.Options;
 using CarRental.Api.Validators;
@@ -53,7 +52,7 @@ namespace CarRental.Api
             services.AddControllers()
                 .AddFluentValidation(fv =>
                 {
-                    fv.RegisterValidatorsFromAssemblyContaining<LoginModelValidator>();
+                    fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>();
 
                     fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                 }).AddNewtonsoftJson( options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -120,6 +119,9 @@ namespace CarRental.Api
 
                 opts.AddPolicy("ForUserOnly", policy =>
                     policy.RequireRole("user"));
+
+                opts.AddPolicy("ForUsersAdmins", policy =>
+                    policy.RequireRole("admin", "user"));
             });
             
 

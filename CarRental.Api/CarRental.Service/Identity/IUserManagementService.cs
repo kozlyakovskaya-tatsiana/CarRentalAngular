@@ -8,13 +8,15 @@ namespace CarRental.Service.Identity
     {
         Task<IEnumerable<UserReadDto>> GetUsers();
 
-        Task<UserReadDto> GetUser(string email);
+        Task<UserReadDto> GetUserByEmail(string email);
+
+        Task<UserReadDto> GetUserById(string id);
 
         Task<bool> IsUserExists(string email, string password);
 
         Task CreateUser(UserCreateDto userCreateDto);
 
-        Task UpdateUser(UserReadDto userReadDto);
+        Task UpdateUser(UserUpdateDto userUpdateDto);
 
         Task DeleteUser(string id);
 

@@ -46,8 +46,7 @@ export class RegisterComponent implements OnInit {
         swal({
             title: 'Registration successful. Now you can sign in.',
             icon: 'success'
-          }
-        );
+          });
       },
       err => {
         let errorMessage: string;

@@ -31,7 +31,9 @@ export class LoginComponent implements OnInit{
       data => {
         localStorage.setItem('access_token', data.accessToken);
         localStorage.setItem('refresh_token', data.refreshToken);
-        this.authorizeService.userEmail = data.userEmail;
+        localStorage.setItem('user_id', data.userId);
+        localStorage.setItem('user_email', data.userEmail);
+        localStorage.setItem('user_role', data.userRole);
       },
       err => {
         console.log(err);

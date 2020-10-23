@@ -16,8 +16,6 @@ namespace CarRental.Service.WebModels
 
         public string PhoneNumber { get; set; }
 
-        public string Email { get; set; }
-
         public string PassportSerialNumber { get; set; }
 
         public string PassportId { get; set; }

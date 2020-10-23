@@ -5,6 +5,7 @@ using AutoMapper;
 using CarRental.Service.DTO;
 using CarRental.Service.Identity;
 using CarRental.Service.WebModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarRental.Api.Controllers
 {
@@ -43,14 +44,5 @@ namespace CarRental.Api.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromServices]IUserManagementService userManagementService, EditUserBaseRequest editUserBaseRequest)
-        {
-            var user = _mapper.Map<UserDtoBase>(editUserBaseRequest);
-
-            await userManagementService.UpdateUserBaseInfo(user);
-
-            return Ok();
-        }
     }
 }

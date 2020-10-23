@@ -43,12 +43,26 @@ namespace CarRental.Service.Identity.Services
             return usersReadDto;
         }
 
-        public async Task<UserReadDto> GetUser(string email)
+        public async Task<UserReadDto> GetUserByEmail(string email)
         {
             var users = await _userManager.FindByEmailAsync(email);
 
             if (users == null)
                 throw new Exception("There is no user with such email");
+
+            var userReadDto = _mapper.Map<UserReadDto>(users);
+
+            userReadDto.Role = (await _userManager.GetRolesAsync(users)).FirstOrDefault();
+
+            return userReadDto;
+        }
+
+        public async Task<UserReadDto> GetUserById(string id)
+        {
+            var users = await _userManager.FindByIdAsync(id);
+
+            if (users == null)
+                throw new Exception("There is no user with such id");
 
             var userReadDto = _mapper.Map<UserReadDto>(users);
 
@@ -76,6 +90,8 @@ namespace CarRental.Service.Identity.Services
 
             var user = _mapper.Map<User>(userCreateDto);
 
+            user.Id = Guid.NewGuid().ToString();
+
             var result = await _userManager.CreateAsync(user, userCreateDto.Password);
 
             if (!result.Succeeded)
@@ -87,35 +103,31 @@ namespace CarRental.Service.Identity.Services
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
         }
 
-        public async Task UpdateUser(UserReadDto userReadDto)
+        public async Task UpdateUser(UserUpdateDto userUpdateDto)
         {
-            var user = await _userManager.FindByIdAsync(userReadDto.Id);
+            var user = await _userManager.FindByIdAsync(userUpdateDto.Id);
 
             if (user == null)
                 throw new Exception("There is no such user");
 
-            user.Name = userReadDto.Name;
+            user.Name = userUpdateDto.Name;
 
-            user.Surname = userReadDto.Surname;
+            user.Surname = userUpdateDto.Surname;
 
-            user.DateOfBirth = userReadDto.DateOfBirth;
+            user.DateOfBirth = userUpdateDto.DateOfBirth;
 
-            user.PhoneNumber = userReadDto.PhoneNumber;
+            user.PhoneNumber = userUpdateDto.PhoneNumber;
 
-            user.PassportId = userReadDto.PassportId;
+            user.PassportId = userUpdateDto.PassportId;
 
-            user.PassportSerialNumber = userReadDto.PassportSerialNumber;
-
-            user.Email = userReadDto.Email;
-
-            user.UserName = user.Email;
+            user.PassportSerialNumber = userUpdateDto.PassportSerialNumber;
 
             var result = await _userManager.UpdateAsync(user);
 
             if (!result.Succeeded)
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
 
-            await UpdateUserRole(user, userReadDto.Role);
+            await UpdateUserRole(user, userUpdateDto.Role);
 
         }
 
@@ -175,10 +187,6 @@ namespace CarRental.Service.Identity.Services
             user.PassportId = userDtoBase.PassportId;
 
             user.PassportSerialNumber = userDtoBase.PassportSerialNumber;
-
-            user.Email = userDtoBase.Email;
-
-            user.UserName = user.Email;
 
             var result = await _userManager.UpdateAsync(user);
 

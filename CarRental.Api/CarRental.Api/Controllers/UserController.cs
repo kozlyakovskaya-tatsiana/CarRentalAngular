@@ -32,12 +32,24 @@ namespace CarRental.Api.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{email}")]
-        public async Task<IActionResult> GetUser(string email)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(string id)
         {
-            var user = await _userService.GetUser(email);
+            var user = await _userService.GetUserById(id);
 
             return Ok(user);
+        }
+
+        [Authorize(Policy = "ForUsersAdmins")]
+        [HttpGet("userinfo")]
+        public async Task<IActionResult> GetUserInfo()
+        {
+            var userName = User.Identity.Name;
+
+            var userInfo = await _userService.GetUserByEmail(userName);
+
+            return Ok(userInfo);
+
         }
 
         [HttpPost]
@@ -53,9 +65,19 @@ namespace CarRental.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody]EditUserRequest editUserRequest)
         {
-            var userToUpdate = _mapper.Map<UserReadDto>(editUserRequest);
+            var userToUpdate = _mapper.Map<UserUpdateDto>(editUserRequest);
 
             await _userService.UpdateUser(userToUpdate);
+
+            return Ok();
+        }
+
+        [HttpPut("updatebaseinfo")]
+        public async Task<IActionResult> UpdateUserBaseInfo([FromBody] EditUserBaseRequest editUserBaseRequest)
+        {
+            var userToUpdate = _mapper.Map<UserDtoBase>(editUserBaseRequest);
+
+            await _userService.UpdateUserBaseInfo(userToUpdate);
 
             return Ok();
         }

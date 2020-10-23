@@ -47,18 +47,6 @@
       </ngb-alert>
     </div>
     <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" class="form-control" id="email" formControlName="email"  [(ngModel)]="userBaseInfo.email">
-      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="editForm.get('email').invalid && editForm.get('email').touched">
-        <div *ngIf="editForm.get('email').errors.required">
-          Is a required field.
-        </div>
-        <div *ngIf="editForm.get('email').errors.email">
-          Incorrect format of email.
-        </div>
-      </ngb-alert>
-    </div>
-    <div class="form-group">
       <label for="passportNumber">Passport serial number</label>
       <input type="text" class="form-control" id="passportNumber" formControlName="passportNumber" [(ngModel)]="userBaseInfo.passportSerialNumber">
     </div>
@@ -67,8 +55,7 @@
       <input type="text" class="form-control" id="passportId" formControlName="passportId" [(ngModel)]="userBaseInfo.passportId">
     </div>
     <div class="text-center">
-      <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid || editForm.untouched || isLoading">Update</button>
+      <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid || isLoading">Update</button>
     </div>
   </form>
-  {{authorizeService.userEmail}}
 </div>

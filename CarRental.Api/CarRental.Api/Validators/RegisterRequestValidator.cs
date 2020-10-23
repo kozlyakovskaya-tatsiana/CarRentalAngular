@@ -3,10 +3,10 @@ using FluentValidation;
 
 namespace CarRental.Api.Validators
 {
-    public class RegisterModelValidator : AbstractValidator<RegisterRequest>
+    public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
     {
         private readonly string _phoneNumberPattern = @"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}";
-        public RegisterModelValidator()
+        public RegisterRequestValidator()
         {
             RuleFor(register => register.Email).NotEmpty().EmailAddress().WithMessage("Incorrect format of email");
 
@@ -21,7 +21,7 @@ namespace CarRental.Api.Validators
 
             RuleFor(register => register.DateOfBirth).NotNull();
 
-            RuleFor(register => register.PhoneNumber).Matches(_phoneNumberPattern);
+            RuleFor(register => register.PhoneNumber).NotEmpty().Matches(_phoneNumberPattern);
         }
     }
 }

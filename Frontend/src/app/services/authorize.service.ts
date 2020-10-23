@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {LoginRequest} from '../utils/LoginRequest';
 import {Observable} from 'rxjs';
 import {RegisterRequest} from '../utils/RegisterRequest';
@@ -9,11 +9,23 @@ import {RegisterRequest} from '../utils/RegisterRequest';
 })
 export class AuthorizeService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   private url = 'https://localhost:44397/api/Account/';
 
-  userEmail: string;
+  get userId(): string{
+    return localStorage.getItem('user_id');
+  }
+
+  get userRole(): string{
+    return localStorage.getItem('user_role');
+  }
+
+  get userEmail(): string{
+    return localStorage.getItem('user_email');
+  }
+
 
   get isAuthorized(): boolean {
     return !!localStorage.getItem('access_token');
@@ -30,5 +42,9 @@ export class AuthorizeService {
   logout(): void{
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('user_role');
+    localStorage.removeItem('user_email');
   }
+
 }

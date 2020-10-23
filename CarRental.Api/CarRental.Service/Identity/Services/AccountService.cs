@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CarRental.Service.Identity.Services
 {
-    class AccountService
+    public class AccountService
     {
     }
 }

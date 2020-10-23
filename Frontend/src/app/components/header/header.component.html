@@ -1,6 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="navbar-nav">
-    <a class="nav-link" routerLink="" routerLinkActive="active">Car Rental</a>
+    <a class="nav-link" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Car Rental</a>
+    <ng-container *ngIf="authorizeService.isAuthorized">
+      <a class="nav-link" [routerLink]="['edit', authorizeService.userId]" routerLinkActive="active">Edit</a>
+    </ng-container>
   </div>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -12,6 +15,7 @@
         <a class="nav-link" routerLink="/register" routerLinkActive="active" >Sign up</a>
       </ng-container>
       <ng-template  #logout>
+        <a class="nav-link" href="#">{{authorizeService.userEmail}}</a>
         <a class="nav-link" href="#" (click)="authorizeService.logout()" >Log out</a>
       </ng-template>
     </div>

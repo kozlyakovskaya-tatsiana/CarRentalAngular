@@ -66,7 +66,9 @@ namespace CarRental.Service.Identity.Services
 
                 UserEmail = user.Email,
 
-                UserRole = role
+                UserRole = role,
+
+                UserId = user.Id
             };
         }
 
