@@ -1,4 +1,4 @@
-export class UserFullInfo{
+export class UserReadInfo{
   id: string;
   name: string;
   surname: string;

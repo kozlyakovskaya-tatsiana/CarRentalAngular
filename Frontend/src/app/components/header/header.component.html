@@ -5,7 +5,7 @@
       <a class="nav-link" [routerLink]="['edit', authorizeService.userId]" routerLinkActive="active">Edit</a>
     </ng-container>
     <ng-container *ngIf="authorizeService.isAdmin">
-      <a class="nav-link" routerLink="/edit" routerLinkActive="active">Edit For Admin</a>
+      <a class="nav-link" routerLink="/adminpage" routerLinkActive="active">Admin page</a>
     </ng-container>
   </div>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,8 +18,8 @@
         <a class="nav-link" routerLink="/register" routerLinkActive="active" >Sign up</a>
       </ng-container>
       <ng-template  #logout>
-        <a class="nav-link" href="#">{{authorizeService.userEmail}}</a>
-        <a class="nav-link" href="#" (click)="authorizeService.logout()" >Log out</a>
+        <span class="nav-link" >{{authorizeService.userEmail}}</span>
+        <span class="nav-link" (click)="onLogOut()" >Log out</span>
       </ng-template>
     </div>
   </div>

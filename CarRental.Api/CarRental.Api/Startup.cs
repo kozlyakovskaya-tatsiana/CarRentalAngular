@@ -60,7 +60,6 @@ namespace CarRental.Api
             services.AddDbContext<ApplicationIdentityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-
             services.AddIdentity<User, IdentityRole>(opts =>
                  {
                      opts.Password.RequiredLength = 5;
@@ -113,9 +112,7 @@ namespace CarRental.Api
             services.AddAuthorization(opts =>
             {
                 opts.AddPolicy("ForAdminOnly", policy =>
-                {
-                    policy.RequireRole("admin");
-                });
+                    policy.RequireRole("admin"));
 
                 opts.AddPolicy("ForUserOnly", policy =>
                     policy.RequireRole("user"));
@@ -124,8 +121,6 @@ namespace CarRental.Api
                     policy.RequireRole("admin", "user"));
             });
             
-
-
             var swaggerDocumentOptions = new SwaggerDocumentOptions();
 
             Configuration.GetSection(SwaggerDocumentOptions.SectionName).Bind(swaggerDocumentOptions);
@@ -133,7 +128,6 @@ namespace CarRental.Api
             var securityDefinitionOptions = new SecurityDefinitionOptions();
 
             Configuration.GetSection(SecurityDefinitionOptions.SectionName).Bind(securityDefinitionOptions);
-
 
             services.AddSwaggerGen(options =>
             {

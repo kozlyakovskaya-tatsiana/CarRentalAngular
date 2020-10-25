@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserManagementService} from '../../services/user-management.service';
-import {AuthorizeService} from '../../services/authorize.service';
-import {UserBaseInfo} from '../../utils/UserBaseInfo';
+import {UserInfoService} from '../../services/user-info.service';
+import {UserBase} from '../../utils/UserBase';
 import swal from 'sweetalert';
 import {ActivatedRoute} from '@angular/router';
+import {UserService} from '../../services/user.service';
+
 
 @Component({
   selector: 'app-edituser',
@@ -13,13 +14,13 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class EditUserComponent implements OnInit {
 
-  constructor(private userManagementService: UserManagementService,
-              public authorizeService: AuthorizeService,
+  constructor(private userInfoService: UserInfoService,
+              private userService: UserService,
               private activateRoute: ActivatedRoute) {
-    this.userBaseInfo = new UserBaseInfo();
+    this.userBaseInfo = new UserBase();
     this.userEditId = activateRoute.snapshot.params.id;
   }
-  userBaseInfo: UserBaseInfo;
+  userBaseInfo: UserBase;
   editForm: FormGroup;
   isLoading: boolean;
   userEditId: string;
@@ -27,7 +28,7 @@ export class EditUserComponent implements OnInit {
   onSubmit(): void{
     console.log(this.userBaseInfo);
     this.isLoading = true;
-    this.userManagementService.updateUserBaseInfo(this.userBaseInfo).subscribe(
+    this.userService.updateUserBaseInfo(this.userBaseInfo).subscribe(
       data => {
         console.log(data);
         swal({
@@ -42,6 +43,9 @@ export class EditUserComponent implements OnInit {
         }
         else if (err.error?.title){
           errorMessage = err.error.title;
+        }
+        else {
+          errorMessage = err.message;
         }
         swal(
           {
@@ -77,12 +81,11 @@ export class EditUserComponent implements OnInit {
       passportId: new FormControl()
     });
 
-    this.userManagementService.getUser(this.userEditId).subscribe(
+    this.userInfoService.getUser(this.userEditId).subscribe(
       data => {
 
         this.userBaseInfo = data;
         this.userBaseInfo.dateOfBirth = new Date(data.dateOfBirth).toISOString().split('T')[0];
-        console.log(data);
       },
       err => {
         console.log(err);

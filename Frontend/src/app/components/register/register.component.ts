@@ -56,6 +56,9 @@ export class RegisterComponent implements OnInit {
         else if (err.error?.title){
           errorMessage = err.error.title;
         }
+        else {
+          errorMessage = err.error;
+        }
         swal(
           {
             title: 'Error',

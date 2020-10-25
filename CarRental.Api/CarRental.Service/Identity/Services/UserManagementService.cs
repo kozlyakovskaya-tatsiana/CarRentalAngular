@@ -45,28 +45,28 @@ namespace CarRental.Service.Identity.Services
 
         public async Task<UserReadDto> GetUserByEmail(string email)
         {
-            var users = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(email);
 
-            if (users == null)
+            if (user == null)
                 throw new Exception("There is no user with such email");
 
-            var userReadDto = _mapper.Map<UserReadDto>(users);
+            var userReadDto = _mapper.Map<UserReadDto>(user);
 
-            userReadDto.Role = (await _userManager.GetRolesAsync(users)).FirstOrDefault();
+            userReadDto.Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
             return userReadDto;
         }
 
         public async Task<UserReadDto> GetUserById(string id)
         {
-            var users = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
 
-            if (users == null)
+            if (user == null)
                 throw new Exception("There is no user with such id");
 
-            var userReadDto = _mapper.Map<UserReadDto>(users);
+            var userReadDto = _mapper.Map<UserReadDto>(user);
 
-            userReadDto.Role = (await _userManager.GetRolesAsync(users)).FirstOrDefault();
+            userReadDto.Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
             return userReadDto;
         }
@@ -110,17 +110,7 @@ namespace CarRental.Service.Identity.Services
             if (user == null)
                 throw new Exception("There is no such user");
 
-            user.Name = userUpdateDto.Name;
-
-            user.Surname = userUpdateDto.Surname;
-
-            user.DateOfBirth = userUpdateDto.DateOfBirth;
-
-            user.PhoneNumber = userUpdateDto.PhoneNumber;
-
-            user.PassportId = userUpdateDto.PassportId;
-
-            user.PassportSerialNumber = userUpdateDto.PassportSerialNumber;
+            _mapper.Map(userUpdateDto, user);
 
             var result = await _userManager.UpdateAsync(user);
 
@@ -176,21 +166,9 @@ namespace CarRental.Service.Identity.Services
             if (user == null)
                 throw new Exception("There is no such user");
 
-            var newus = _mapper.Map(userDtoBase, user);
+            _mapper.Map(userDtoBase, user);
 
-            /*user.Name = userDtoBase.Name;
-
-            user.Surname = userDtoBase.Surname;
-
-            user.DateOfBirth = userDtoBase.DateOfBirth;
-
-            user.PhoneNumber = userDtoBase.PhoneNumber;
-
-            user.PassportId = userDtoBase.PassportId;
-
-            user.PassportSerialNumber = userDtoBase.PassportSerialNumber;*/
-
-            var result = await _userManager.UpdateAsync(newus);
+            var result = await _userManager.UpdateAsync(user);
 
             if (!result.Succeeded)
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));

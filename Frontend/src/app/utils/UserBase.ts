@@ -1,4 +1,4 @@
-export class UserBaseInfo{
+export class UserBase{
   id: string;
   name: string;
   surname: string;

@@ -13,6 +13,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { MainComponent } from './components/main/main.component';
 import { EditUserComponent } from './components/edituser/edit-user.component';
 import { AdminScreenComponent } from './components/admin-screen/admin-screen.component';
+import { UsersTableComponent } from './components/users-table/users-table.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { AdminScreenComponent } from './components/admin-screen/admin-screen.com
     HeaderComponent,
     MainComponent,
     EditUserComponent,
-    AdminScreenComponent
+    AdminScreenComponent,
+    UsersTableComponent
   ],
   imports: [
     BrowserModule,

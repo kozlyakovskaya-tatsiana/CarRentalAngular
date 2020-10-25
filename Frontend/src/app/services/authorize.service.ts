@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {LoginRequest} from '../utils/LoginRequest';
 import {Observable} from 'rxjs';
 import {RegisterRequest} from '../utils/RegisterRequest';
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizeService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router) {
   }
 
   private url = 'https://localhost:44397/api/Account/';
@@ -47,6 +49,7 @@ export class AuthorizeService {
   }
 
   logout(): void{
+    this.router.navigate(['']);
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('user_id');

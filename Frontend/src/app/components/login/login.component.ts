@@ -4,7 +4,7 @@ import {LoginRequest} from '../../utils/LoginRequest';
 import {AuthorizeService} from '../../services/authorize.service';
 import swal from 'sweetalert';
 import {Router} from '@angular/router';
-import {UserManagementService} from '../../services/user-management.service';
+import {UserInfoService} from '../../services/user-info.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,7 @@ import {UserManagementService} from '../../services/user-management.service';
 export class LoginComponent implements OnInit{
 
   constructor(private authorizeService: AuthorizeService,
-              private userManagementService: UserManagementService,
+              private userManagementService: UserInfoService,
               private router: Router) {
     this.loginModel = new LoginRequest();
   }

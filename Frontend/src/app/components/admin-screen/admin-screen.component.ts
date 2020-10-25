@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {UserManagementService} from '../../services/user-management.service';
-import {UserFullInfo} from '../../utils/UserFullInfo';
+import {UserReadInfo} from '../../utils/UserReadInfo';
+import {AdminService} from '../../services/admin.service';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-admin-screen',
@@ -9,19 +10,36 @@ import {UserFullInfo} from '../../utils/UserFullInfo';
 })
 export class AdminScreenComponent implements OnInit {
 
-  constructor(private userService: UserManagementService) {}
+  constructor(private adminService: AdminService) {}
 
-  users: UserFullInfo[];
+  users: UserReadInfo[];
 
   ngOnInit(): void {
-    this.userService.getAllUsers().subscribe(
+    this.adminService.getAllUsers().subscribe(
       data => {
         this.users = data;
+        this.users.forEach( u => u.dateOfBirth = new Date(u.dateOfBirth).toISOString().split('T')[0]);
         console.log(data);
       },
-      error => {
-        console.log(error);
+      err => {
+        console.log(err);
+        let errorMessage: string;
+        if (err.error instanceof ProgressEvent){
+          errorMessage = 'HTTP Failure to get resource';
+        }
+        else if (err.error?.title){
+          errorMessage = err.error.title;
+        }
+        else {
+          errorMessage = err.message;
+        }
+        swal(
+          {
+            title: 'Error',
+            icon: 'error',
+            text: errorMessage
+          });
       }
-      );
+    );
   }
 }
