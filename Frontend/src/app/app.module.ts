@@ -17,6 +17,7 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
 import { EdituserByAdminComponent } from './components/edituser-by-admin/edituser-by-admin.component';
 import { CreateuserComponent } from './components/createuser/createuser.component';
 import { UserinfoComponent } from './components/userinfo/userinfo.component';
+import {AdminAccessGuard} from './guards/admin-access-guard.service';
 
 
 @NgModule({
@@ -42,7 +43,7 @@ import { UserinfoComponent } from './components/userinfo/userinfo.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [AdminAccessGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
