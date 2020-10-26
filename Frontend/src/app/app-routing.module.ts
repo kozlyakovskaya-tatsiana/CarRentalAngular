@@ -6,13 +6,19 @@ import {RegisterComponent} from './components/register/register.component';
 import {MainComponent} from './components/main/main.component';
 import {EditUserComponent} from './components/edituser/edit-user.component';
 import {AdminScreenComponent} from './components/admin-screen/admin-screen.component';
+import {EdituserByAdminComponent} from './components/edituser-by-admin/edituser-by-admin.component';
+import {CreateuserComponent} from './components/createuser/createuser.component';
+import {UserinfoComponent} from './components/userinfo/userinfo.component';
 
 const routes: Routes = [
+  { path: '', component: MainComponent},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
-  { path: '', component: MainComponent},
   { path: 'edit/:id', component: EditUserComponent},
   { path: 'adminpage', component: AdminScreenComponent},
+  { path: 'admin/edituser/:id', component: EdituserByAdminComponent},
+  { path: 'admin/createuser', component: CreateuserComponent},
+  { path: 'userinfo/:id', component: UserinfoComponent},
   { path: '**', component: NotFoundComponent}
 ];
 

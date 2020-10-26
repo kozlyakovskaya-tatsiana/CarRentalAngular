@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {RegisterRequest} from '../../utils/RegisterRequest';
+import {RegisterRequest} from '../../utils/Authorize/RegisterRequest';
 import {FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {AuthorizeService} from '../../services/authorize.service';
 import swal from 'sweetalert';

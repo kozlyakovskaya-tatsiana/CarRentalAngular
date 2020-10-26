@@ -14,6 +14,9 @@ import { MainComponent } from './components/main/main.component';
 import { EditUserComponent } from './components/edituser/edit-user.component';
 import { AdminScreenComponent } from './components/admin-screen/admin-screen.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
+import { EdituserByAdminComponent } from './components/edituser-by-admin/edituser-by-admin.component';
+import { CreateuserComponent } from './components/createuser/createuser.component';
+import { UserinfoComponent } from './components/userinfo/userinfo.component';
 
 
 @NgModule({
@@ -26,7 +29,10 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
     MainComponent,
     EditUserComponent,
     AdminScreenComponent,
-    UsersTableComponent
+    UsersTableComponent,
+    EdituserByAdminComponent,
+    CreateuserComponent,
+    UserinfoComponent
   ],
   imports: [
     BrowserModule,

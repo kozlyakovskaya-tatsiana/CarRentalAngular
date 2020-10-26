@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CarRental.Service.DTO
+namespace CarRental.Service.DTO.UserDtos
 {
     public class UserDtoBase
     {

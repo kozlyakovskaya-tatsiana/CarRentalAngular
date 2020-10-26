@@ -1,7 +1,7 @@
 <div class="container mt-2">
   <h3 class="text-center mt-3 mb-3">Users</h3>
   <div class="row col-md-3 mt-2 mb-2">
-    <button type="button" class="btn btn-success btn-sm">Add new user</button>
+    <button type="button" routerLink="/admin/createuser" class="btn btn-success btn-sm">Add new user</button>
   </div>
   <app-users-table [users]="users"></app-users-table>
 </div>

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {UserReadInfo} from '../../utils/UserReadInfo';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {UserReadInfo} from '../../utils/User/UserReadInfo';
 import {AdminService} from '../../services/admin.service';
 import swal from 'sweetalert';
+import {UsersTableComponent} from '../users-table/users-table.component';
 
 @Component({
   selector: 'app-admin-screen',
@@ -11,6 +12,9 @@ import swal from 'sweetalert';
 export class AdminScreenComponent implements OnInit {
 
   constructor(private adminService: AdminService) {}
+
+  @ViewChild(UsersTableComponent, {static: false})
+  private userTable: UsersTableComponent;
 
   users: UserReadInfo[];
 

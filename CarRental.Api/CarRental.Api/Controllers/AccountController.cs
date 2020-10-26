@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.Identity;
 using CarRental.Service.WebModels;
-using CarRental.Service.DTO;
-using Microsoft.AspNetCore.Authorization;
 
 namespace CarRental.Api.Controllers
 {

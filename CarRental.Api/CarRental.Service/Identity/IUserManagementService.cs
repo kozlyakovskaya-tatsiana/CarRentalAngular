@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRental.Service.DTO;
+using CarRental.Service.DTO.UserDtos;
 
 namespace CarRental.Service.Identity
 {

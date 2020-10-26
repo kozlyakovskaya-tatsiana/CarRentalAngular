@@ -6,14 +6,13 @@ import {Headers} from '../utils/Authorize/Headers';
 @Injectable({
   providedIn: 'root'
 })
-export class UserInfoService {
+export class RoleService {
 
   constructor(private http: HttpClient) { }
 
-  private url = 'https://localhost:44397/api/userinfo/';
+  private url = 'https://localhost:44397/api/role/';
 
-  public getUser(id: string): Observable<any> {
-    return this.http.get(this.url + id, {headers: Headers.authorizeHeader});
+  public getRoles(): Observable<any>{
+    return this.http.get(this.url + 'roles' , { headers: Headers.authorizeHeader} );
   }
-
 }

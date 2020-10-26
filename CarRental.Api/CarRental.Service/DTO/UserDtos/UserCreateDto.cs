@@ -1,4 +1,4 @@
-﻿namespace CarRental.Service.DTO
+﻿namespace CarRental.Service.DTO.UserDtos
 {
     public class UserCreateDto : UserDtoBase
     {

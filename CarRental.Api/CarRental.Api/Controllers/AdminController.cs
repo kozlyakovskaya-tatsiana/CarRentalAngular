@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using CarRental.Service.DTO;
+using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.Identity;
 using CarRental.Service.WebModels;
 using Microsoft.AspNetCore.Authorization;
@@ -24,14 +24,6 @@ namespace CarRental.Api.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("users")]
-        public async Task<IActionResult> GetUsers()
-        {
-            var users = await _userService.GetUsers();
-
-            return Ok(users);
-        }
-
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserCreatingRequest userCreatingRequest)
         {
@@ -40,6 +32,14 @@ namespace CarRental.Api.Controllers
             await _userService.CreateUser(userToCreate);
 
             return Ok();
+        }
+
+        [HttpGet("users")]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _userService.GetUsers();
+
+            return Ok(users);
         }
 
         [HttpPut]
@@ -52,7 +52,7 @@ namespace CarRental.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(string id)
         {
             await _userService.DeleteUser(id);

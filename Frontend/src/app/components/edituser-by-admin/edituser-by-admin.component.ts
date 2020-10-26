@@ -1,34 +1,39 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserInfoService} from '../../services/user-info.service';
-import {UserBase} from '../../utils/User/UserBase';
-import swal from 'sweetalert';
-import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../../services/user.service';
+import {ActivatedRoute} from '@angular/router';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import swal from 'sweetalert';
+import {EditUser} from '../../utils/User/EditUser';
 import {RoleService} from '../../services/role.service';
+import {AdminService} from '../../services/admin.service';
+import {Location} from '@angular/common';
 
 @Component({
-  selector: 'app-edituser',
-  templateUrl: './edit-user.component.html',
-  styleUrls: ['./edit-user.component.css']
+  selector: 'app-edituser-by-admin',
+  templateUrl: './edituser-by-admin.component.html',
+  styleUrls: ['./edituser-by-admin.component.css']
 })
-export class EditUserComponent implements OnInit {
+export class EdituserByAdminComponent implements OnInit {
 
   constructor(private userInfoService: UserInfoService,
-              private userService: UserService,
-              private activateRoute: ActivatedRoute) {
-    this.userBaseInfo = new UserBase();
+              private adminService: AdminService,
+              private roleService: RoleService,
+              private activateRoute: ActivatedRoute,
+              private location: Location) {
+    this.editUser = new EditUser();
     this.userEditId = activateRoute.snapshot.params.id;
   }
-  userBaseInfo: UserBase;
+  editUser: EditUser;
   editForm: FormGroup;
   isLoading: boolean;
   userEditId: string;
+  roles: string[];
 
   onSubmit(): void{
-    console.log(this.userBaseInfo);
+    console.log(this.editUser);
     this.isLoading = true;
-    this.userService.updateUserBaseInfo(this.userBaseInfo).subscribe(
+    this.adminService.updateUser(this.editUser).subscribe(
       data => {
         console.log(data);
         swal({
@@ -58,10 +63,10 @@ export class EditUserComponent implements OnInit {
       },
       () => {
         this.isLoading = false;
+        this.location.back();
       }
     );
   }
-
   ngOnInit(): void {
     this.editForm = new FormGroup({
       name: new FormControl('', [
@@ -78,13 +83,15 @@ export class EditUserComponent implements OnInit {
         Validators.pattern(/\(?\d{3}\)?-? *\d{3}-? *-?\d{4}/)
       ]),
       passportNumber: new FormControl(),
-      passportId: new FormControl()
+      passportId: new FormControl(),
+      role: new FormControl(Validators.required)
     });
 
     this.userInfoService.getUser(this.userEditId).subscribe(
       data => {
-        this.userBaseInfo = data;
-        this.userBaseInfo.dateOfBirth = new Date(data.dateOfBirth).toISOString().split('T')[0];
+        this.editUser = data;
+        this.editUser.dateOfBirth = new Date(data.dateOfBirth).toISOString().split('T')[0];
+        console.log(this.editUser);
       },
       err => {
         console.log(err);
@@ -106,5 +113,28 @@ export class EditUserComponent implements OnInit {
           });
       }
     );
+
+    this.roleService.getRoles().subscribe(data => {
+        this.roles = data;
+      },
+      err => {
+        console.log(err);
+        let errorMessage: string;
+        if (err.error instanceof ProgressEvent){
+          errorMessage = 'HTTP Failure to get resource';
+        }
+        else if (err.error?.title){
+          errorMessage = err.error.title;
+        }
+        else {
+          errorMessage = err.message;
+        }
+        swal(
+          {
+            title: 'Error while loading roles',
+            icon: 'error',
+            text: errorMessage
+          });
+      });
   }
 }

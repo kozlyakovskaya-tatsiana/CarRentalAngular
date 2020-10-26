@@ -1,34 +1,34 @@
 import { Component, OnInit } from '@angular/core';
+import {AdminService} from '../../services/admin.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserInfoService} from '../../services/user-info.service';
-import {UserBase} from '../../utils/User/UserBase';
-import swal from 'sweetalert';
-import {ActivatedRoute} from '@angular/router';
-import {UserService} from '../../services/user.service';
 import {RoleService} from '../../services/role.service';
+import swal from 'sweetalert';
+import {UserCreate} from '../../utils/User/UserCreate';
+import {Location} from '@angular/common';
 
 @Component({
-  selector: 'app-edituser',
-  templateUrl: './edit-user.component.html',
-  styleUrls: ['./edit-user.component.css']
+  selector: 'app-createuser',
+  templateUrl: './createuser.component.html',
+  styleUrls: ['./createuser.component.css']
 })
-export class EditUserComponent implements OnInit {
+export class CreateuserComponent implements OnInit {
 
-  constructor(private userInfoService: UserInfoService,
-              private userService: UserService,
-              private activateRoute: ActivatedRoute) {
-    this.userBaseInfo = new UserBase();
-    this.userEditId = activateRoute.snapshot.params.id;
+  constructor(private adminService: AdminService,
+              private roleService: RoleService,
+              private location: Location) {
+    this.userCreate = new UserCreate();
+    this.userCreate.role = 'user';
   }
-  userBaseInfo: UserBase;
-  editForm: FormGroup;
+
+  createForm: FormGroup;
+  roles: string;
+  userCreate: UserCreate;
   isLoading: boolean;
-  userEditId: string;
 
   onSubmit(): void{
-    console.log(this.userBaseInfo);
+    console.log(this.userCreate);
     this.isLoading = true;
-    this.userService.updateUserBaseInfo(this.userBaseInfo).subscribe(
+    this.adminService.createUser(this.userCreate).subscribe(
       data => {
         console.log(data);
         swal({
@@ -58,12 +58,13 @@ export class EditUserComponent implements OnInit {
       },
       () => {
         this.isLoading = false;
+        this.location.back();
       }
     );
   }
 
   ngOnInit(): void {
-    this.editForm = new FormGroup({
+    this.createForm = new FormGroup({
       name: new FormControl('', [
         Validators.required,
         Validators.maxLength(20)
@@ -78,13 +79,20 @@ export class EditUserComponent implements OnInit {
         Validators.pattern(/\(?\d{3}\)?-? *\d{3}-? *-?\d{4}/)
       ]),
       passportNumber: new FormControl(),
-      passportId: new FormControl()
+      passportId: new FormControl(),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.email
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(5)
+      ]),
+      role: new FormControl('', Validators.required)
     });
 
-    this.userInfoService.getUser(this.userEditId).subscribe(
-      data => {
-        this.userBaseInfo = data;
-        this.userBaseInfo.dateOfBirth = new Date(data.dateOfBirth).toISOString().split('T')[0];
+    this.roleService.getRoles().subscribe(data => {
+        this.roles = data;
       },
       err => {
         console.log(err);
@@ -100,11 +108,11 @@ export class EditUserComponent implements OnInit {
         }
         swal(
           {
-            title: 'Error',
+            title: 'Error while loading roles',
             icon: 'error',
             text: errorMessage
           });
-      }
-    );
+      });
   }
+
 }

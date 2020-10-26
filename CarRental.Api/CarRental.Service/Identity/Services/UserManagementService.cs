@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.Service.DTO;
+using CarRental.Service.DTO.UserDtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

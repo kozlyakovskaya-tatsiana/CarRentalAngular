@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using CarRental.DAL.Entities;
+using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.WebModels;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace CarRental.Service.DTO
 {

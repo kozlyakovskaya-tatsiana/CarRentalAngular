@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {LoginRequest} from '../utils/LoginRequest';
+import {LoginRequest} from '../utils/Authorize/LoginRequest';
 import {Observable} from 'rxjs';
-import {RegisterRequest} from '../utils/RegisterRequest';
+import {RegisterRequest} from '../utils/Authorize/RegisterRequest';
 import {Router} from "@angular/router";
 
 @Injectable({
