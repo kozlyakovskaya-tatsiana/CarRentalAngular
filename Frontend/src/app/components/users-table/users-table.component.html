@@ -21,9 +21,9 @@
         <td>{{user.email}}</td>
         <td>{{user.phoneNumber}}</td>
         <td>{{user.role}}</td>
-        <td><button type="button" class="btn btn-primary btn-sm" [routerLink]="['', 'userinfo', user.id]">Full info</button></td>
-        <td><button type="button" class="btn btn-warning btn-sm" [routerLink]="['','admin', 'edituser', user.id]">Update</button></td>
-        <td><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(user.id, i)">Delete</button></td>
+        <td><button type="button" class="btn btn-primary btn-sm" [routerLink]="['', 'userinfo', user.id]">Full info<i class="far fa-file-alt ml-1"></i></button></td>
+        <td><button type="button" class="btn btn-warning btn-sm" [routerLink]="['','admin', 'edituser', user.id]">Update<i class="fas fa-pencil-alt ml-1"></i></button></td>
+        <td><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(user.id, i)">Delete<i class="fas fa-trash-alt ml-1"></i></button></td>
       </tr>
     </ng-container>
     </tbody>

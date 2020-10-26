@@ -8,7 +8,7 @@ import swal from 'sweetalert';
   templateUrl: './users-table.component.html',
   styleUrls: ['./users-table.component.css']
 })
-export class UsersTableComponent implements OnInit {
+export class UsersTableComponent{
 
   constructor(private adminService: AdminService) { }
 
@@ -52,9 +52,6 @@ export class UsersTableComponent implements OnInit {
           });
       }
     });
-  }
-
-  ngOnInit(): void {
   }
 
 }
