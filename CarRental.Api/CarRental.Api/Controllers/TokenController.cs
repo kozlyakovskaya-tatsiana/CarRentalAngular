@@ -40,7 +40,7 @@ namespace CarRental.Api.Controllers
                 new Claim("someClaim", "someContent")
             };
 
-            var tokens = _tokenService.GenerateTokenPair(claims);
+            var tokens = _tokenService.GenerateTokenPairAsync(claims);
 
             return Ok(tokens);
         }
@@ -64,7 +64,7 @@ namespace CarRental.Api.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            var tokens = _tokenService.RefreshToken(refreshToken);
+            var tokens = _tokenService.RefreshTokenAsync(refreshToken);
 
             return Ok(tokens);
         }

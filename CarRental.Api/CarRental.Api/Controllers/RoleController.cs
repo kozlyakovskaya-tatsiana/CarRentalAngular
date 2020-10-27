@@ -36,5 +36,17 @@ namespace CarRental.Api.Controllers
 
             return Ok(roles);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRole([FromBody] string roleName)
+        {
+            var role = new IdentityRole(roleName);
+
+            await _roleManager.CreateAsync(role);
+
+            return Ok();
+        }
+
+
     }
 }

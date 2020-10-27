@@ -56,7 +56,7 @@ namespace CarRental.Service.Identity.Services
 
             var refreshToken = _tokenService.GenerateRefreshToken(identity.Claims);
 
-            _tokenService.SaveTokenToDatabase(refreshToken);
+            _tokenService.SaveTokenToDatabaseAsync(refreshToken);
 
             return new LoginResponse
             {

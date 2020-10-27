@@ -5,7 +5,7 @@
         <a class="nav-link" [routerLink]="['edit', authorizeService.userId]" routerLinkActive="active">Edit  <i class="fas fa-user-edit"></i></a>
       </ng-container>
       <ng-container *ngIf="authorizeService.isAdmin">
-        <a class="nav-link" routerLink="/adminpage" routerLinkActive="active">Admin page<i class="fas fa-user-shield ml-1"></i></a>
+        <a class="nav-link ml-3" routerLink="/adminpage" routerLinkActive="active">Admin page<i class="fas fa-user-shield ml-1"></i></a>
       </ng-container>
   </div>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">

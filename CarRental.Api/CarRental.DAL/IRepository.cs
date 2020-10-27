@@ -12,14 +12,14 @@ namespace CarRental.DAL
 
         Task<IEnumerable<TEntity>> GetAsync();
 
-        Task<IEnumerable<TEntity>> Get(Func<TEntity, bool> predicate);
+        Task<IEnumerable<TEntity>> GetAsync(Func<TEntity, bool> predicate);
 
-        Task Remove(TEntity entity);
+        Task RemoveAsync(TEntity entity);
 
-        Task Remove(int id);
+        Task RemoveAsync(int id);
 
-        Task Update(TEntity entity);
+        Task UpdateAsync(TEntity entity);
 
-        Task SaveChanges();
+        Task SaveChangesAsync();
     }
 }

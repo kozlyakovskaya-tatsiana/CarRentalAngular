@@ -55,9 +55,10 @@ namespace CarRental.Api
                     fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>();
 
                     fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
-                }).AddNewtonsoftJson( options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                })
+                .AddNewtonsoftJson( options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            services.AddDbContext<ApplicationIdentityContext>(options =>
+            services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>(opts =>
@@ -68,7 +69,7 @@ namespace CarRental.Api
                      opts.Password.RequireUppercase = false;
                      opts.Password.RequireDigit = false;
                  })
-                 .AddEntityFrameworkStores<ApplicationIdentityContext>()
+                 .AddEntityFrameworkStores<ApplicationContext>()
                  .AddDefaultTokenProviders();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -119,6 +120,9 @@ namespace CarRental.Api
 
                 opts.AddPolicy("ForUsersAdmins", policy =>
                     policy.RequireRole("admin", "user"));
+
+                opts.AddPolicy("ForManagerOnly", policy =>
+                    policy.RequireRole("manager"));
             });
             
             var swaggerDocumentOptions = new SwaggerDocumentOptions();
@@ -181,6 +185,8 @@ namespace CarRental.Api
 
             services.AddScoped<IValuesService, ValuesService>();
 
+            services.AddScoped<ICarService, CarService>();
+
             services.AddScoped(typeof(IRepository<>), typeof(EFGenericRepository<>));
 
             services.AddScoped<IUserManagementService, UserManagementService>();
@@ -237,7 +243,7 @@ namespace CarRental.Api
 
                 try
                 {
-                    var db = scope.ServiceProvider.GetRequiredService<ApplicationIdentityContext>();
+                    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
 
                     await db.Database.MigrateAsync();
 

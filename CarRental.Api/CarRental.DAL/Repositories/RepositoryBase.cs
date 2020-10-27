@@ -37,18 +37,18 @@ namespace CarRental.DAL.Repositories
             return await _dbSet.ToArrayAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> Get(Func<TEntity, bool> predicate)
+        public async Task<IEnumerable<TEntity>> GetAsync(Func<TEntity, bool> predicate)
         {
             return await Task.Run( () => _dbSet.Where(predicate).ToArray());
         }
 
-        public async Task Remove(TEntity entity)
+        public async Task RemoveAsync(TEntity entity)
         {
             if (entity != null)
                await Task.Run(() =>  _dbSet.Remove(entity));
         }
 
-        public async Task Remove(int id)
+        public async Task RemoveAsync(int id)
         {
             var entityToDelete = await _dbSet.FirstOrDefaultAsync(el => el.Id == id);
 
@@ -58,12 +58,12 @@ namespace CarRental.DAL.Repositories
             }
         }
 
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(TEntity entity)
+        public async Task UpdateAsync(TEntity entity)
         {
             if (entity != null)
             {
