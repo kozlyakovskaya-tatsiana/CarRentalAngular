@@ -1,0 +1,97 @@
+<div class="col-md-7 offset-md-3 col-12 col-sm-12 col-lg-5 offset-lg-4 col-xl-4 offset-xl-4 mt-2">
+  <h4 class="text-center">Create user</h4>
+  <form [formGroup]="createForm" novalidate (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control " id="name" formControlName="name"  [(ngModel)]="userCreate.name" >
+      <ngb-alert type="danger" class="mt-2"  [dismissible]="false" *ngIf="createForm.get('name').invalid && createForm.get('name').touched">
+        <div *ngIf="createForm.get('name').errors.required">
+          Is a required field.
+        </div>
+        <div *ngIf="createForm.get('name').errors.maxlength">
+          Maximum length of name equals 20 symbols. Now it is {{userCreate.name.length}}
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="surname">Surname</label>
+      <input type="text" class="form-control" id="surname" formControlName="surname"  [(ngModel)]="userCreate.surname" >
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createForm.get('surname').invalid && createForm.get('surname').touched">
+        <div *ngIf="createForm.get('surname').errors.required">
+          Is a required field.
+        </div>
+        <div *ngIf="createForm.get('surname').errors.maxlength">
+          Maximum length of surname equals 20 symbols. Now it is {{userCreate.surname.length}}
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" formControlName="email"  [(ngModel)]="userCreate.email">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createForm.get('email').invalid && createForm.get('email').touched">
+        <div *ngIf="createForm.get('email').errors.required">
+          Is a required field.
+        </div>
+        <div *ngIf="createForm.get('email').errors.email">
+          Incorrect format of email.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="dateOfBirth">Date of birth</label>
+      <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth"  [(ngModel)]="userCreate.dateOfBirth" >
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createForm.get('dateOfBirth').invalid && createForm.get('dateOfBirth').touched">
+        <div *ngIf="createForm.get('dateOfBirth').errors.required">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="telephoneNumber">Mobile phone</label>
+      <input type="text" class="form-control" id="telephoneNumber" formControlName="telephoneNumber"  [(ngModel)]="userCreate.phoneNumber" >
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createForm.get('telephoneNumber').invalid && createForm.get('telephoneNumber').touched">
+        <div *ngIf="createForm.get('telephoneNumber').errors.required">
+          Is a required field.
+        </div>
+        <div *ngIf="createForm.get('telephoneNumber').errors.pattern">
+          Incorrect format of telephone number.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="passportNumber">Passport serial number</label>
+      <input type="text" class="form-control" id="passportNumber" formControlName="passportNumber" [(ngModel)]="userCreate.passportSerialNumber">
+    </div>
+    <div class="form-group">
+      <label for="passportId">Passport Id</label>
+      <input type="text" class="form-control" id="passportId" formControlName="passportId" [(ngModel)]="userCreate.passportId">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" formControlName="password"  [(ngModel)]="userCreate.password">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createForm.get('password').invalid && createForm.get('password').touched">
+        <div *ngIf="createForm.get('password').errors.required">
+          Is a required field.
+        </div>
+        <div *ngIf="createForm.get('password').errors.minlength">
+          Password must contain at least 5 symbols. Now it is {{userCreate.password.length}}
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="role">Role</label>
+      <select class="form-control" id="role" formControlName="role" [(ngModel)]="userCreate.role">
+        <option *ngFor="let role of roles">{{role}}</option>
+      </select>
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createForm.get('role').invalid && createForm.get('role').touched">
+        <div *ngIf="createForm.get('role').errors.required">
+          Role is a required.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-success" [disabled]="createForm.invalid || isLoading">Create</button>
+    </div>
+  </form>
+</div>
+

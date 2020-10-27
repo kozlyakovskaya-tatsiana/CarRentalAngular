@@ -1,9 +1,11 @@
 ﻿using System;
 
-namespace CarRental.Service.DTO
+namespace CarRental.Service.WebModels
 {
-    public abstract class UserDtoBase
+    public class EditUserBaseRequest
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public string Surname { get; set; }
@@ -11,8 +13,6 @@ namespace CarRental.Service.DTO
         public DateTime DateOfBirth { get; set; }
 
         public string PhoneNumber { get; set; }
-
-        public string Email { get; set; }
 
         public string PassportSerialNumber { get; set; }
 

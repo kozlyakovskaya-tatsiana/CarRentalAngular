@@ -1,0 +1,30 @@
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">№</th>
+        <th scope="col">Name</th>
+        <th scope="col">Surname</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone number</th>
+        <th scope="col">Role</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let user of users; let i = index;">
+      <tr>
+        <th scope="row">{{i+1}}</th>
+        <td>{{user.name}}</td>
+        <td>{{user.surname}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.phoneNumber}}</td>
+        <td>{{user.role}}</td>
+        <td><button type="button" class="btn btn-primary btn-sm" [routerLink]="['', 'userinfo', user.id]">Full info<i class="far fa-file-alt ml-1"></i></button></td>
+        <td><button type="button" class="btn btn-warning btn-sm" [routerLink]="['','admin', 'edituser', user.id]">Update<i class="fas fa-pencil-alt ml-1"></i></button></td>
+        <td><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(user.id, i)">Delete<i class="fas fa-trash-alt ml-1"></i></button></td>
+      </tr>
+    </ng-container>
+    </tbody>
+</table>

@@ -10,6 +10,14 @@ import {HttpClientModule} from '@angular/common/http';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HeaderComponent } from './components/header/header.component';
+import { MainComponent } from './components/main/main.component';
+import { EditUserComponent } from './components/edituser/edit-user.component';
+import { AdminScreenComponent } from './components/admin-screen/admin-screen.component';
+import { UsersTableComponent } from './components/users-table/users-table.component';
+import { EdituserByAdminComponent } from './components/edituser-by-admin/edituser-by-admin.component';
+import { CreateuserComponent } from './components/createuser/createuser.component';
+import { UserinfoComponent } from './components/userinfo/userinfo.component';
+import {AdminAccessGuard} from './guards/admin-access-guard.service';
 
 
 @NgModule({
@@ -18,7 +26,14 @@ import { HeaderComponent } from './components/header/header.component';
     LoginComponent,
     NotFoundComponent,
     RegisterComponent,
-    HeaderComponent
+    HeaderComponent,
+    MainComponent,
+    EditUserComponent,
+    AdminScreenComponent,
+    UsersTableComponent,
+    EdituserByAdminComponent,
+    CreateuserComponent,
+    UserinfoComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +43,7 @@ import { HeaderComponent } from './components/header/header.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [AdminAccessGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

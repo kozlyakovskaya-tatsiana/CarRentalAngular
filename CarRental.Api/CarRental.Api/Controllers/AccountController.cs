@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using AutoMapper;
 using CarRental.Service.Identity;
 using CarRental.Service.WebModels;
 
@@ -14,11 +15,15 @@ namespace CarRental.Api.Controllers
 
         private readonly IAuthorizeService _authorizeService;
 
-        public AccountController(ILogger<AccountController> logger, IAuthorizeService authorizeService)
+        private readonly IMapper _mapper;
+
+        public AccountController(ILogger<AccountController> logger, IAuthorizeService authorizeService, IMapper mapper)
         {
             _logger = logger;
 
             _authorizeService = authorizeService;
+
+            _mapper = mapper;
         }
 
         [HttpPost("login")]

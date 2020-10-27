@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {AuthorizeService} from '../../services/authorize.service';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(public authorizeService: AuthorizeService) { }
+
+  onLogOut(): void{
+    swal({
+      text: 'Do you really want to log out?',
+      icon: 'info',
+      buttons: ['No', 'Yes'],
+      dangerMode: true
+    }).then(logout => {
+        if (logout) {
+          this.authorizeService.logout();
+        }
+    });
+  }
 
   ngOnInit(): void {
   }

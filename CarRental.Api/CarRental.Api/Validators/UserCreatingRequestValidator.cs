@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Api.Validators
 {
-    public class UserCreatingModelValidator : AbstractValidator<UserCreatingRequest>
+    public class UserCreatingRequestValidator : AbstractValidator<UserCreatingRequest>
     {
         private readonly string _phoneNumberPattern = @"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}";
 
-        public UserCreatingModelValidator(RoleManager<IdentityRole> roleManager)
+        public UserCreatingRequestValidator(RoleManager<IdentityRole> roleManager)
         {
             RuleFor(model => model.Name).NotEmpty().MaximumLength(20);
 

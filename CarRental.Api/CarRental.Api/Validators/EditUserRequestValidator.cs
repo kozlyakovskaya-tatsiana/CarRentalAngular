@@ -3,11 +3,11 @@ using FluentValidation;
 
 namespace CarRental.Api.Validators
 {
-    public class EditModelValidator : AbstractValidator<EditUserRequest>
+    public class EditUserRequestValidator : AbstractValidator<EditUserRequest>
     {
         private readonly string _phoneNumberPattern = @"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}";
 
-        public EditModelValidator()
+        public EditUserRequestValidator()
         {
             RuleFor(model => model.Id).NotEmpty();
 
@@ -17,9 +17,7 @@ namespace CarRental.Api.Validators
 
             RuleFor(model => model.DateOfBirth).NotNull();
 
-            RuleFor(model => model.PhoneNumber).Matches(_phoneNumberPattern);
-
-            RuleFor(model => model.Email).EmailAddress().WithMessage("Incorrect format of email");
+            RuleFor(model => model.PhoneNumber).NotEmpty().Matches(_phoneNumberPattern);
 
             RuleFor(model => model.Role).NotEmpty();
         }

@@ -1,11 +1,11 @@
-export class RegisterModel{
+export class RegisterRequest{
   name: string;
 
   surname: string;
 
-  dateOfBirth: any;
+  dateOfBirth: string;
 
-  telephoneNumber: string;
+  phoneNumber: string;
 
   email: string;
 

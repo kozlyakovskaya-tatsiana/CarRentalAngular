@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {LoginModel} from '../../utils/LoginModel';
+import {LoginRequest} from '../../utils/Authorize/LoginRequest';
 import {AuthorizeService} from '../../services/authorize.service';
 import swal from 'sweetalert';
-
+import {Router} from '@angular/router';
+import {UserInfoService} from '../../services/user-info.service';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +13,13 @@ import swal from 'sweetalert';
 })
 export class LoginComponent implements OnInit{
 
-  constructor(private authorizeService: AuthorizeService) {
-    this.loginModel = new LoginModel();
+  constructor(private authorizeService: AuthorizeService,
+              private userManagementService: UserInfoService,
+              private router: Router) {
+    this.loginModel = new LoginRequest();
   }
 
-  loginModel: LoginModel;
+  loginModel: LoginRequest;
 
   loginForm: FormGroup;
 
@@ -26,10 +29,17 @@ export class LoginComponent implements OnInit{
     this.isLoading = true;
     this.authorizeService.login(this.loginModel).subscribe(
       data => {
-        this.authorizeService.userEmail = data.userEmail;
-        this.authorizeService.userRole = data.userRole;
         localStorage.setItem('access_token', data.accessToken);
         localStorage.setItem('refresh_token', data.refreshToken);
+        localStorage.setItem('user_id', data.userId);
+        localStorage.setItem('user_email', data.userEmail);
+        localStorage.setItem('user_role', data.userRole);
+        if (data.userRole === 'user'){
+          this.router.navigate(['']);
+        }
+        else if (data.userRole === 'admin'){
+          this.router.navigate(['adminpage']);
+        }
       },
       err => {
         console.log(err);

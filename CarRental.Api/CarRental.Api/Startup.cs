@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
-using System.Security.Claims;
 using AutoMapper;
 using CarRental.Api.Options;
 using CarRental.Api.Validators;
@@ -53,14 +52,13 @@ namespace CarRental.Api
             services.AddControllers()
                 .AddFluentValidation(fv =>
                 {
-                    fv.RegisterValidatorsFromAssemblyContaining<LoginModelValidator>();
+                    fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>();
 
                     fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                 }).AddNewtonsoftJson( options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddDbContext<ApplicationIdentityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
 
             services.AddIdentity<User, IdentityRole>(opts =>
                  {
@@ -114,16 +112,15 @@ namespace CarRental.Api
             services.AddAuthorization(opts =>
             {
                 opts.AddPolicy("ForAdminOnly", policy =>
-                {
-                    policy.RequireRole("admin");
-                });
+                    policy.RequireRole("admin"));
 
                 opts.AddPolicy("ForUserOnly", policy =>
                     policy.RequireRole("user"));
+
+                opts.AddPolicy("ForUsersAdmins", policy =>
+                    policy.RequireRole("admin", "user"));
             });
             
-
-
             var swaggerDocumentOptions = new SwaggerDocumentOptions();
 
             Configuration.GetSection(SwaggerDocumentOptions.SectionName).Bind(swaggerDocumentOptions);
@@ -131,7 +128,6 @@ namespace CarRental.Api
             var securityDefinitionOptions = new SecurityDefinitionOptions();
 
             Configuration.GetSection(SecurityDefinitionOptions.SectionName).Bind(securityDefinitionOptions);
-
 
             services.AddSwaggerGen(options =>
             {
@@ -187,7 +183,7 @@ namespace CarRental.Api
 
             services.AddScoped(typeof(IRepository<>), typeof(EFGenericRepository<>));
 
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
 
             services.AddSingleton<DataStorage>();
 

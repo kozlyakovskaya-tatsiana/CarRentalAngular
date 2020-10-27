@@ -1,70 +1,40 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.DTO;
+using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.Identity;
 using CarRental.Service.WebModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CarRental.Api.Controllers
 {
-    [Authorize(Policy = "ForAdminOnly")]
+    [Authorize(Policy = "ForUserOnly")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly ILogger<AccountController> _logger;
 
         private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IMapper mapper)
+        public UserController(ILogger<AccountController> logger, IAuthorizeService authorizeService, IMapper mapper)
         {
-            _userService = userService;
+            _logger = logger;
 
             _mapper = mapper;
         }
 
-        [HttpGet("users")]
-        public async Task<IActionResult> GetUsers()
-        {
-            var users = await _userService.GetUsers();
-
-            return Ok(users);
-        }
-
-        [HttpGet("{email}")]
-        public async Task<IActionResult> GetUser(string email)
-        {
-            var user = await _userService.GetUser(email);
-
-            return Ok(user);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserCreatingRequest userCreatingRequest)
-        {
-            var userToCreate = _mapper.Map<UserCreateDto>(userCreatingRequest);
-
-            await _userService.CreateUser(userToCreate);
-
-
-            return Ok();
-        }
-
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody]EditUserRequest editUserRequest)
+        public async Task<IActionResult> UpdateUserBaseInfo(
+            [FromServices] IUserManagementService userService,
+            [FromBody] EditUserBaseRequest editUserBaseRequest
+            )
         {
-            var userToUpdate = _mapper.Map<UserReadDto>(editUserRequest);
+            var userToUpdate = _mapper.Map<UserDtoBase>(editUserBaseRequest);
 
-            await _userService.UpdateUser(userToUpdate);
-
-            return Ok();
-        }
-
-        [HttpDelete]
-        public async Task<ActionResult> Delete(string id)
-        {
-            await _userService.DeleteUser(id);
+            await userService.UpdateUserBaseInfo(userToUpdate);
 
             return Ok();
         }

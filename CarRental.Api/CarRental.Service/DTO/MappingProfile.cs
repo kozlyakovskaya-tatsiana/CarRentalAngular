@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using CarRental.DAL.Entities;
+using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.WebModels;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace CarRental.Service.DTO
 {
@@ -15,11 +18,15 @@ namespace CarRental.Service.DTO
             CreateMap<UserCreateDto, User>()
                 .ForMember(u => u.UserName, opt => opt.MapFrom(udto => udto.Email));
 
+            CreateMap<UserUpdateDto, User>();
 
             CreateMap<UserCreatingRequest, UserCreateDto>();
 
-            CreateMap<EditUserRequest, UserReadDto>();
+            CreateMap<EditUserRequest, UserUpdateDto>();
 
+            CreateMap<EditUserBaseRequest, UserDtoBase>();
+
+            CreateMap<UserDtoBase, User>();
         }
     }
 }

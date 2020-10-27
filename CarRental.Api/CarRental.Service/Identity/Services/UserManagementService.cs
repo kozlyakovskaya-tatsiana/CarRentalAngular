@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.Service.DTO;
+using CarRental.Service.DTO.UserDtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Service.Identity.Services
 {
-    public class UserService : IUserService
+    public class UserManagementService : IUserManagementService
     {
         private readonly UserManager<User> _userManager;
 
@@ -18,7 +19,7 @@ namespace CarRental.Service.Identity.Services
 
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserService(UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
+        public UserManagementService(UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
 
@@ -43,16 +44,30 @@ namespace CarRental.Service.Identity.Services
             return usersReadDto;
         }
 
-        public async Task<UserReadDto> GetUser(string email)
+        public async Task<UserReadDto> GetUserByEmail(string email)
         {
-            var users = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(email);
 
-            if (users == null)
+            if (user == null)
                 throw new Exception("There is no user with such email");
 
-            var userReadDto = _mapper.Map<UserReadDto>(users);
+            var userReadDto = _mapper.Map<UserReadDto>(user);
 
-            userReadDto.Role = (await _userManager.GetRolesAsync(users)).FirstOrDefault();
+            userReadDto.Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
+            return userReadDto;
+        }
+
+        public async Task<UserReadDto> GetUserById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+                throw new Exception("There is no user with such id");
+
+            var userReadDto = _mapper.Map<UserReadDto>(user);
+
+            userReadDto.Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
             return userReadDto;
         }
@@ -76,6 +91,8 @@ namespace CarRental.Service.Identity.Services
 
             var user = _mapper.Map<User>(userCreateDto);
 
+            user.Id = Guid.NewGuid().ToString();
+
             var result = await _userManager.CreateAsync(user, userCreateDto.Password);
 
             if (!result.Succeeded)
@@ -87,35 +104,21 @@ namespace CarRental.Service.Identity.Services
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
         }
 
-        public async Task UpdateUser(UserReadDto userReadDto)
+        public async Task UpdateUser(UserUpdateDto userUpdateDto)
         {
-            var user = await _userManager.FindByIdAsync(userReadDto.Id);
+            var user = await _userManager.FindByIdAsync(userUpdateDto.Id);
 
             if (user == null)
                 throw new Exception("There is no such user");
 
-            user.Name = userReadDto.Name;
-
-            user.Surname = userReadDto.Surname;
-
-            user.DateOfBirth = userReadDto.DateOfBirth;
-
-            user.PhoneNumber = userReadDto.PhoneNumber;
-
-            user.PassportId = userReadDto.PassportId;
-
-            user.PassportSerialNumber = userReadDto.PassportSerialNumber;
-
-            user.Email = userReadDto.Email;
-
-            user.UserName = user.Email;
+            _mapper.Map(userUpdateDto, user);
 
             var result = await _userManager.UpdateAsync(user);
 
             if (!result.Succeeded)
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
 
-            await UpdateUserRole(user, userReadDto.Role);
+            await UpdateUserRole(user, userUpdateDto.Role);
 
         }
 
@@ -155,6 +158,21 @@ namespace CarRental.Service.Identity.Services
                 if (!addToRole.Succeeded)
                     throw new Exception(string.Join("/r/n", addToRole.Errors.Select(err => err.Description)));
             }
+        }
+
+        public async Task UpdateUserBaseInfo(UserDtoBase userDtoBase)
+        {
+            var user = await _userManager.FindByIdAsync(userDtoBase.Id);
+
+            if (user == null)
+                throw new Exception("There is no such user");
+
+            _mapper.Map(userDtoBase, user);
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+                throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
         }
     }
 }
