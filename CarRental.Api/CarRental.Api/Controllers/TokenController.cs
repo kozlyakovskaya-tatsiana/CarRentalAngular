@@ -55,7 +55,7 @@ namespace CarRental.Api.Controllers
         [HttpPost("refresh")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult RefreshToken(string refreshToken)
+        public IActionResult RefreshToken([FromBody]string refreshToken)
         {
             _logger.LogInformation("User send request to get refresh token");
 

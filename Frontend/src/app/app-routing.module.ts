@@ -10,6 +10,7 @@ import {EdituserByAdminComponent} from './components/edituser-by-admin/edituser-
 import {CreateuserComponent} from './components/createuser/createuser.component';
 import {UserinfoComponent} from './components/userinfo/userinfo.component';
 import {AdminAccessGuard} from './guards/admin-access-guard.service';
+import {AboutComponent} from './components/about/about.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent},
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'admin/edituser/:id', component: EdituserByAdminComponent, canActivate: [AdminAccessGuard]},
   { path: 'admin/createuser', component: CreateuserComponent, canActivate: [AdminAccessGuard]},
   { path: 'userinfo/:id', component: UserinfoComponent, canActivate: [AdminAccessGuard]},
+  { path: 'about', component: AboutComponent},
   { path: '**', component: NotFoundComponent}
 ];
 

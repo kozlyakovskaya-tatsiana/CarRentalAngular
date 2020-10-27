@@ -3,7 +3,9 @@ import {HttpClient} from '@angular/common/http';
 import {LoginRequest} from '../utils/Authorize/LoginRequest';
 import {Observable} from 'rxjs';
 import {RegisterRequest} from '../utils/Authorize/RegisterRequest';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
+import {tap} from 'rxjs/operators';
+import {Headers} from '../utils/Authorize/Headers';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +18,8 @@ export class AuthorizeService {
 
   private url = 'https://localhost:44397/api/Account/';
 
+  private tokenUrl = 'https://localhost:44397/api/Token/';
+
   get userId(): string{
     return localStorage.getItem('user_id');
   }
@@ -26,6 +30,14 @@ export class AuthorizeService {
 
   get userEmail(): string{
     return localStorage.getItem('user_email');
+  }
+
+  get accessToken(): string{
+    return localStorage.getItem('access_token');
+  }
+
+  get refreshToken(): string{
+    return localStorage.getItem('refresh_token');
   }
 
   get isAuthorized(): boolean {
@@ -57,4 +69,12 @@ export class AuthorizeService {
     localStorage.removeItem('user_email');
   }
 
+  doRefreshToken(): Observable<any>{
+    return this.http.post(this.tokenUrl + 'refresh', JSON.stringify(this.refreshToken), { headers: Headers.jsonHeader}).pipe(
+      tap((tokens) => {
+      localStorage.setItem('access_token', tokens['accessToken']);
+      localStorage.setItem('refresh_token', tokens['refreshToken']);
+      console.log(`Refresh token\n ${tokens} `);
+    }));
+  }
 }

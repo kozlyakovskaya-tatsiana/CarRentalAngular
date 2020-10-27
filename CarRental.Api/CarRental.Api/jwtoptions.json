@@ -3,7 +3,7 @@
     "Issuer": "MyAuthServer",
     "LifeTime": 5,
     "Key": "MySuperSecretKey17",
-    "RefreshTokenLifeTime": 120,
+    "RefreshTokenLifeTime": 1200,
     "RefreshIssuer": "MyAuthServerRefresh"
   }
 }

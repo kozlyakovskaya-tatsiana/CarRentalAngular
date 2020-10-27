@@ -1,4 +1,4 @@
-﻿namespace CarRental.Service.Models
+﻿namespace CarRental.Service.ServiceModels
 {
     public class TokenPair
     {

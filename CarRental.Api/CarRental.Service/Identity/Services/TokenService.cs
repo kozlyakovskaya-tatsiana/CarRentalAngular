@@ -6,7 +6,7 @@ using System.Security.Claims;
 using CarRental.DAL;
 using CarRental.DAL.Entities;
 using CarRental.Service.Identity.Options;
-using CarRental.Service.Models;
+using CarRental.Service.ServiceModels;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 

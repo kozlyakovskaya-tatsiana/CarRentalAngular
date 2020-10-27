@@ -1,6 +1,6 @@
-﻿using CarRental.Service.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
+using CarRental.Service.ServiceModels;
 
 namespace CarRental.Service.Identity
 { 
