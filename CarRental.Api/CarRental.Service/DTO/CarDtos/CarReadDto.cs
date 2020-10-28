@@ -5,7 +5,7 @@ using CarRental.DAL.Enums;
 
 namespace CarRental.Service.DTO.CarDtos
 {
-    public class CarReadDto : CarDtoBase
+    public class CarReadDto
     {
         public int Id { get; set; }
 
