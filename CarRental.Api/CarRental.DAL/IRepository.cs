@@ -14,7 +14,7 @@ namespace CarRental.DAL
 
         Task<IEnumerable<TEntity>> GetAsync(Func<TEntity, bool> predicate);
 
-        Task RemoveAsync(TEntity entity);
+        void Remove (TEntity entity);
 
         Task RemoveAsync(int id);
 

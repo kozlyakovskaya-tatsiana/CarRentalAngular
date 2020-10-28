@@ -1,13 +1,6 @@
 ﻿using CarRental.DAL.Entities;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
 using CarRental.DAL.EntityConfigurations;
-using CarRental.DAL.Enums;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarRental.DAL.EFCore
 {

@@ -13,11 +13,5 @@ namespace CarRental.Service.Services
 
         Task<IEnumerable<CarReadDto>> GetCars();
 
-        IEnumerable<string> GetCarcasesTypes();
-
-        IEnumerable<string> GetFuelTypes();
-
-        IEnumerable<string> GetTransmissionTypes();
-
     }
 }

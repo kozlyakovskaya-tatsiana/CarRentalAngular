@@ -39,13 +39,13 @@ namespace CarRental.DAL.Repositories
 
         public async Task<IEnumerable<TEntity>> GetAsync(Func<TEntity, bool> predicate)
         {
-            return await Task.Run( () => _dbSet.Where(predicate).ToArray());
+            return await _dbSet.Where(predicate).AsQueryable().ToArrayAsync();
         }
 
-        public async Task RemoveAsync(TEntity entity)
+        public void Remove(TEntity entity)
         {
             if (entity != null)
-               await Task.Run(() =>  _dbSet.Remove(entity));
+                _dbSet.Remove(entity);
         }
 
         public async Task RemoveAsync(int id)

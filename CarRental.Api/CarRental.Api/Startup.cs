@@ -5,13 +5,13 @@ using System.IO;
 using System.Reflection;
 using AutoMapper;
 using CarRental.Api.Options;
-using CarRental.Api.Validators;
 using CarRental.Api.Validators.Authorize;
 using CarRental.DAL;
 using CarRental.DAL.EFCore;
 using CarRental.DAL.Entities;
 using CarRental.DAL.Repositories;
 using CarRental.Service;
+using CarRental.Service.Helpers;
 using CarRental.Service.Identity;
 using CarRental.Service.Identity.Options;
 using CarRental.Service.Identity.Services;
@@ -191,6 +191,8 @@ namespace CarRental.Api
             services.AddScoped(typeof(IRepository<>), typeof(EFGenericRepository<>));
 
             services.AddScoped<IUserManagementService, UserManagementService>();
+
+            services.AddScoped<ICarHelper, CarHelper>();
 
             services.AddSingleton<DataStorage>();
 

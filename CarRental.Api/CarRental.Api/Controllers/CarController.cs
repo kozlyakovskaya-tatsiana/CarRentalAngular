@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.DTO.CarDtos;
+using CarRental.Service.Helpers;
 using CarRental.Service.Services;
 using CarRental.Service.WebModels.Car;
 using Microsoft.AspNetCore.Mvc;
@@ -18,19 +19,23 @@ namespace CarRental.Api.Controllers
 
         private readonly ICarService _carService;
 
-        public CarController(ILogger<CarController> logger, IMapper mapper, ICarService carService)
+        private readonly ICarHelper _carHelper;
+
+        public CarController(ILogger<CarController> logger, IMapper mapper, ICarService carService, ICarHelper carHelper)
         {
             _logger = logger;
 
             _mapper = mapper;
 
             _carService = carService;
+
+            _carHelper = carHelper;
         }
 
         [HttpGet("carcases")]
         public async Task<IActionResult> GetCarcases()
         {
-            var carcases = _carService.GetCarcasesTypes();
+            var carcases = _carHelper.GetCarcasesTypes();
 
             return Ok(carcases);
         }
@@ -38,7 +43,7 @@ namespace CarRental.Api.Controllers
         [HttpGet("fueltypes")]
         public async Task<IActionResult> GetFuelTypes()
         {
-            var fuelTypes = _carService.GetFuelTypes();
+            var fuelTypes = _carHelper.GetFuelTypes();
 
             return Ok(fuelTypes);
         }
@@ -46,7 +51,7 @@ namespace CarRental.Api.Controllers
         [HttpGet("transmissionstypes")]
         public async Task<IActionResult> GetTransmissionTypes()
         {
-            var transmissionTypes = _carService.GetTransmissionTypes();
+            var transmissionTypes = _carHelper.GetTransmissionTypes();
 
             return Ok(transmissionTypes);
         }
