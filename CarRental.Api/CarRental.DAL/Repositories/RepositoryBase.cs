@@ -54,7 +54,7 @@ namespace CarRental.DAL.Repositories
 
             if (entityToDelete != null)
             {
-                await Task.Run( () => _dbSet.Remove(entityToDelete));
+               _dbSet.Remove(entityToDelete);
             }
         }
 
