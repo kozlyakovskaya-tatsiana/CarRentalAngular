@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
-using CarRental.DAL;
-using CarRental.DAL.Entities;
-using CarRental.DAL.Enums;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.Services;
-using Microsoft.AspNetCore.Http;
+using CarRental.Service.WebModels.Car;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -33,24 +27,44 @@ namespace CarRental.Api.Controllers
             _carService = carService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> CreateCar()
+        [HttpGet("carcases")]
+        public async Task<IActionResult> GetCarcases()
         {
-            var car = new CarDtoBase
-            {
-                Mark = "Audi",
-                Carcase = Carcase.Sedan,
-                EnginePower = 4.5,
-                FuelConsumption = 20,
-                FuelType = FuelType.Diesel,
-                Model = "A315",
-                ReleaseYear = 2017,
-                TankVolume = 40,
-                Transmission = Transmission.Mechanical,
-                TrunkVolume = 60
-            };
+            var carcases = _carService.GetCarcasesTypes();
 
-            await _carService.CreateCar(car);
+            return Ok(carcases);
+        }
+
+        [HttpGet("fueltypes")]
+        public async Task<IActionResult> GetFuelTypes()
+        {
+            var fuelTypes = _carService.GetFuelTypes();
+
+            return Ok(fuelTypes);
+        }
+
+        [HttpGet("transmissionstypes")]
+        public async Task<IActionResult> GetTransmissionTypes()
+        {
+            var transmissionTypes = _carService.GetTransmissionTypes();
+
+            return Ok(transmissionTypes);
+        }
+
+        [HttpGet("cars")]
+        public async Task<IActionResult> GetCars()
+        {
+            var cars = await _carService.GetCars();
+
+            return Ok(cars);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCar(CarCreatingRequest carCreatingRequest)
+        {
+            var carDtoBase = _mapper.Map<CarDtoBase>(carCreatingRequest);
+
+            await _carService.CreateCar(carDtoBase);
 
             return Ok();
         }

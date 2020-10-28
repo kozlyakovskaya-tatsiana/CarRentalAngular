@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CarRental.DAL.Enums
 {
-    public enum Transmission
+    public enum TransmissionType
     {
         Mechanical,
         Automatic,

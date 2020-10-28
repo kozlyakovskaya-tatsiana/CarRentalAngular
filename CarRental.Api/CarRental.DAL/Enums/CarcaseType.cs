@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CarRental.DAL.Enums
 {
-    public enum Carcase
+    public enum CarcaseType
     {
         Sedan,
         StationWagon,

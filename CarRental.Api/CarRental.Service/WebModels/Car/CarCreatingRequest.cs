@@ -1,17 +1,15 @@
 ﻿using CarRental.DAL.Enums;
 
-namespace CarRental.Service.DTO.CarDtos
+namespace CarRental.Service.WebModels.Car
 {
-    public class CarDtoBase
+    public class CarCreatingRequest
     {
-        public int Id { get; set; }
-
         public string Mark { get; set; }
 
         public string Model { get; set; }
 
         public CarcaseType Carcase { get; set; }
-        
+
         public int ReleaseYear { get; set; }
 
         public TransmissionType Transmission { get; set; }
@@ -25,6 +23,5 @@ namespace CarRental.Service.DTO.CarDtos
         public FuelType FuelType { get; set; }
 
         public double TrunkVolume { get; set; }
-
     }
 }

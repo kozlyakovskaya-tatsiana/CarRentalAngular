@@ -1,9 +1,11 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using CarRental.DAL.Entities;
+using CarRental.DAL.Enums;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.WebModels;
-using Microsoft.AspNetCore.Identity;
+using CarRental.Service.WebModels.Car;
 
 
 namespace CarRental.Service.DTO
@@ -30,6 +32,12 @@ namespace CarRental.Service.DTO
             CreateMap<UserDtoBase, User>();
 
             CreateMap<CarDtoBase, Car>();
+
+            CreateMap<Car, CarDtoBase>();
+
+            CreateMap<CarCreatingRequest, CarDtoBase>();
+
+            CreateMap<Car, CarReadDto>();
         }
     }
 }

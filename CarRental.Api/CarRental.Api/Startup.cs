@@ -6,6 +6,7 @@ using System.Reflection;
 using AutoMapper;
 using CarRental.Api.Options;
 using CarRental.Api.Validators;
+using CarRental.Api.Validators.Authorize;
 using CarRental.DAL;
 using CarRental.DAL.EFCore;
 using CarRental.DAL.Entities;

@@ -1,7 +1,7 @@
 ﻿using CarRental.Service.WebModels;
 using FluentValidation;
 
-namespace CarRental.Api.Validators
+namespace CarRental.Api.Validators.User
 {
     public class EditUserBaseRequestValidator : AbstractValidator<EditUserBaseRequest>
     {

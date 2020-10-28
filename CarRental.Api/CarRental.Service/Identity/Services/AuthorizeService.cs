@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.Service.WebModels;
+using CarRental.Service.WebModels.Authorize;
 using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Service.Identity.Services
@@ -56,7 +57,7 @@ namespace CarRental.Service.Identity.Services
 
             var refreshToken = _tokenService.GenerateRefreshToken(identity.Claims);
 
-            _tokenService.SaveTokenToDatabaseAsync(refreshToken);
+            await _tokenService.SaveTokenToDatabaseAsync(refreshToken);
 
             return new LoginResponse
             {

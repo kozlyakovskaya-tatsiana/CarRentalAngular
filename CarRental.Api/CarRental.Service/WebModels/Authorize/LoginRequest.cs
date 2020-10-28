@@ -1,4 +1,4 @@
-﻿namespace CarRental.Service.WebModels
+﻿namespace CarRental.Service.WebModels.Authorize
 {
     public class LoginRequest
     {

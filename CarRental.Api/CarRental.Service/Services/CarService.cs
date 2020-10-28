@@ -1,7 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL;
 using CarRental.DAL.Entities;
+using CarRental.DAL.Enums;
 using CarRental.Service.DTO.CarDtos;
 using Microsoft.Extensions.Logging;
 
@@ -32,5 +36,36 @@ namespace CarRental.Service.Services
 
             await _carRepository.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<CarReadDto>> GetCars()
+        {
+            var cars = await _carRepository.GetAsync();
+
+            var carReadDtos = _mapper.Map<IEnumerable<CarReadDto>>(cars);
+
+            return carReadDtos;
+        }
+
+        public IEnumerable<string> GetCarcasesTypes()
+        {
+            var carcases = Enum.GetValues(typeof(CarcaseType)).Cast<CarcaseType>().Select(type => type.ToString());
+
+            return carcases;
+        }
+
+        public IEnumerable<string> GetFuelTypes()
+        {
+            var fuelTypes = Enum.GetValues(typeof(FuelType)).Cast<FuelType>().Select(type => type.ToString());
+
+            return fuelTypes;
+        }
+
+        public IEnumerable<string> GetTransmissionTypes()
+        {
+            var transmissionTypes = Enum.GetValues(typeof(TransmissionType)).Cast<TransmissionType>().Select(type => type.ToString());
+
+            return transmissionTypes;
+        }
+
     }
 }
