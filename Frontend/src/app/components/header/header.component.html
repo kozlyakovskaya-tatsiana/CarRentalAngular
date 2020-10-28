@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-dark">
   <div class="navbar-nav">
-    <a class="navbar-brand" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><h3>CAR RENTAL <em>WEBSITE</em></h3></a>
+    <a class="navbar-brand" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><h3>CAR RENTAL <span>WEBSITE</span></h3></a>
       <ng-container *ngIf="authorizeService.isUser">
         <a class="nav-link" [routerLink]="['edit', authorizeService.userId]" routerLinkActive="active">Edit  <i class="fas fa-user-edit"></i></a>
       </ng-container>

@@ -21,6 +21,7 @@ import {AdminAccessGuard} from './guards/admin-access-guard.service';
 import {TokenInterceptor} from './services/TokenInterceptor';
 import { AboutComponent } from './components/about/about.component';
 import { MainCarouselComponent } from './components/main-carousel/main-carousel.component';
+import { CreateCarComponent } from './components/create-car/create-car.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { MainCarouselComponent } from './components/main-carousel/main-carousel.
     CreateuserComponent,
     UserinfoComponent,
     AboutComponent,
-    MainCarouselComponent
+    MainCarouselComponent,
+    CreateCarComponent
   ],
   imports: [
     BrowserModule,

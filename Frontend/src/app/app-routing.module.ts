@@ -11,6 +11,7 @@ import {CreateuserComponent} from './components/createuser/createuser.component'
 import {UserinfoComponent} from './components/userinfo/userinfo.component';
 import {AdminAccessGuard} from './guards/admin-access-guard.service';
 import {AboutComponent} from './components/about/about.component';
+import {CreateCarComponent} from './components/create-car/create-car.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent},
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'admin/createuser', component: CreateuserComponent, canActivate: [AdminAccessGuard]},
   { path: 'userinfo/:id', component: UserinfoComponent, canActivate: [AdminAccessGuard]},
   { path: 'about', component: AboutComponent},
+  { path: 'createcar', component: CreateCarComponent},
   { path: '**', component: NotFoundComponent}
 ];
 
