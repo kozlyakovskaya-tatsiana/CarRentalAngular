@@ -18,7 +18,7 @@ namespace CarRental.DAL
 
         Task RemoveAsync(int id);
 
-        Task UpdateAsync(TEntity entity);
+        ValueTask<TEntity> UpdateOneAsync(TEntity entity);
 
         Task SaveChangesAsync();
     }

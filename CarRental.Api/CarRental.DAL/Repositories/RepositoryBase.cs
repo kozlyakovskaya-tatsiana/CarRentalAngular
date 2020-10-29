@@ -63,12 +63,9 @@ namespace CarRental.DAL.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(TEntity entity)
+        public virtual ValueTask<TEntity> UpdateOneAsync(TEntity entity)
         {
-            if (entity != null)
-            {
-                await Task.Run( () => _dbSet.Update(entity));
-            }
+            return new ValueTask<TEntity>(_dbSet.Update(entity).Entity);
         }
     }
 }
