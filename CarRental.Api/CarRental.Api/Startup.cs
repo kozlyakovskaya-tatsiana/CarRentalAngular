@@ -242,7 +242,7 @@ namespace CarRental.Api
 
             using (var scope = app.ApplicationServices.CreateScope())
             {
-                var services = scope.ServiceProvider;
+                var serviceProvider = scope.ServiceProvider;
 
                 try
                 {
@@ -250,15 +250,15 @@ namespace CarRental.Api
 
                     await db.Database.MigrateAsync();
 
-                    var userManager = services.GetRequiredService<UserManager<User>>();
+                    var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
 
-                    var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    var rolesManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
                     await RoleInitializer.InitializeAsync(userManager, rolesManager);
                 }
                 catch (Exception ex)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
 
                     logger.LogError(ex, "An error occurred while seeding the database.");
                 }

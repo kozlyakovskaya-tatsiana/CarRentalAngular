@@ -4,11 +4,13 @@ using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.Helpers;
 using CarRental.Service.Services;
 using CarRental.Service.WebModels.Car;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace CarRental.Api.Controllers
 {
+    [Authorize(Policy = "ForManagerOnly")]
     [Route("api/[controller]")]
     [ApiController]
     public class CarController : ControllerBase
