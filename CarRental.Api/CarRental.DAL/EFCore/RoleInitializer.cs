@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CarRental.DAL.Entities;
+using CarRental.DAL.Enums;
 using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.DAL.EFCore
@@ -12,15 +13,22 @@ namespace CarRental.DAL.EFCore
 
             var password = "qwerty";
 
-            if (await roleManager.FindByNameAsync("admin") == null)
+            var adminRoleName = Roles.Admin.ToString().ToLower();
+
+            var userRoleName = Roles.User.ToString().ToLower();
+
+            var managerRoleName = Roles.Manager.ToString().ToLower();
+
+            var roles = new[] {adminRoleName, userRoleName, managerRoleName};
+
+            foreach (var role in roles)
             {
-                await roleManager.CreateAsync(new IdentityRole("admin"));
+                if (await roleManager.FindByNameAsync(role) == null)
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
             }
 
-            if (await roleManager.FindByNameAsync("user") == null)
-            {
-                await roleManager.CreateAsync(new IdentityRole("user"));
-            }
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
                 var admin = new User { Email = adminEmail, UserName = adminEmail, Name = "Tatsiana", Surname = "Kazliakouskaya"};

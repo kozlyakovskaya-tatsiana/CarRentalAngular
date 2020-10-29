@@ -5,12 +5,13 @@ using System.IO;
 using System.Reflection;
 using AutoMapper;
 using CarRental.Api.Options;
-using CarRental.Api.Validators;
+using CarRental.Api.Validators.Authorize;
 using CarRental.DAL;
 using CarRental.DAL.EFCore;
 using CarRental.DAL.Entities;
 using CarRental.DAL.Repositories;
 using CarRental.Service;
+using CarRental.Service.Helpers;
 using CarRental.Service.Identity;
 using CarRental.Service.Identity.Options;
 using CarRental.Service.Identity.Services;
@@ -55,9 +56,10 @@ namespace CarRental.Api
                     fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>();
 
                     fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
-                }).AddNewtonsoftJson( options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                })
+                .AddNewtonsoftJson( options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            services.AddDbContext<ApplicationIdentityContext>(options =>
+            services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>(opts =>
@@ -68,7 +70,7 @@ namespace CarRental.Api
                      opts.Password.RequireUppercase = false;
                      opts.Password.RequireDigit = false;
                  })
-                 .AddEntityFrameworkStores<ApplicationIdentityContext>()
+                 .AddEntityFrameworkStores<ApplicationContext>()
                  .AddDefaultTokenProviders();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -119,6 +121,12 @@ namespace CarRental.Api
 
                 opts.AddPolicy("ForUsersAdmins", policy =>
                     policy.RequireRole("admin", "user"));
+
+                opts.AddPolicy("ForManagerOnly", policy =>
+                    policy.RequireRole("manager"));
+
+                opts.AddPolicy("ForManagersAdmins", policy => 
+                    policy.RequireRole("manager", "admin"));
             });
             
             var swaggerDocumentOptions = new SwaggerDocumentOptions();
@@ -181,9 +189,13 @@ namespace CarRental.Api
 
             services.AddScoped<IValuesService, ValuesService>();
 
+            services.AddScoped<ICarService, CarService>();
+
             services.AddScoped(typeof(IRepository<>), typeof(EFGenericRepository<>));
 
             services.AddScoped<IUserManagementService, UserManagementService>();
+
+            services.AddScoped<ICarHelper, CarHelper>();
 
             services.AddSingleton<DataStorage>();
 
@@ -206,7 +218,7 @@ namespace CarRental.Api
                 app.UseExceptionHandler("/error");
             }
 
-
+            
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
@@ -233,23 +245,23 @@ namespace CarRental.Api
 
             using (var scope = app.ApplicationServices.CreateScope())
             {
-                var services = scope.ServiceProvider;
+                var serviceProvider = scope.ServiceProvider;
 
                 try
                 {
-                    var db = scope.ServiceProvider.GetRequiredService<ApplicationIdentityContext>();
+                    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
 
                     await db.Database.MigrateAsync();
 
-                    var userManager = services.GetRequiredService<UserManager<User>>();
+                    var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
 
-                    var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    var rolesManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
                     await RoleInitializer.InitializeAsync(userManager, rolesManager);
                 }
                 catch (Exception ex)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
 
                     logger.LogError(ex, "An error occurred while seeding the database.");
                 }

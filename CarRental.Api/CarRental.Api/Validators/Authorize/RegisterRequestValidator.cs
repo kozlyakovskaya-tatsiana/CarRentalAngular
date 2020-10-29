@@ -1,7 +1,7 @@
-﻿using CarRental.Service.WebModels;
+﻿using CarRental.Service.WebModels.Authorize;
 using FluentValidation;
 
-namespace CarRental.Api.Validators
+namespace CarRental.Api.Validators.Authorize
 {
     public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
     {

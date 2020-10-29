@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarRental.DAL
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        void Create(TEntity entity);
+        Task CreateAsync(TEntity entity);
 
-        TEntity FindById(int id);
+        Task<TEntity> FindByIdAsync(int id);
 
-        IEnumerable<TEntity> Get();
+        Task<IEnumerable<TEntity>> GetAsync();
 
-        IEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
+        Task<IEnumerable<TEntity>> GetAsync(Func<TEntity, bool> predicate);
 
-        void Remove(TEntity entity);
+        void Remove (TEntity entity);
 
-        void Remove(int id);
+        Task RemoveAsync(int id);
 
-        void Update(TEntity entity);
+        ValueTask<TEntity> UpdateOneAsync(TEntity entity);
 
-        void SaveChanges();
+        Task SaveChangesAsync();
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace CarRental.DAL.EFCore
 {
-    public class SampleContextFactory : IDesignTimeDbContextFactory<ApplicationIdentityContext>
+    public class IdentityContextFactory : IDesignTimeDbContextFactory<ApplicationIdentityContext>
     {
         public ApplicationIdentityContext CreateDbContext(string[] args)
         {

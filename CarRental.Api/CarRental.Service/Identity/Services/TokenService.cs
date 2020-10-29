@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using CarRental.DAL;
 using CarRental.DAL.Entities;
 using CarRental.Service.Identity.Options;
-using CarRental.Service.Models;
+using CarRental.Service.ServiceModels;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -74,36 +75,36 @@ namespace CarRental.Service.Identity.Services
             return principal;
         }
 
-        public void SaveTokenToDatabase(string token)
+        public async Task SaveTokenToDatabaseAsync(string token)
         {
             var refreshToken = new RefreshToken { RefreshTokenValue = token };
 
-            _refreshTokenRepository.Create(refreshToken);
+            await _refreshTokenRepository.CreateAsync(refreshToken);
 
-            _refreshTokenRepository.SaveChanges();
+            await _refreshTokenRepository.SaveChangesAsync();
         }
 
-        public bool IsTokenInDatabase(string token)
+        public async Task<bool> IsTokenInDatabaseAsync(string token)
         {
-            return _refreshTokenRepository.Get().SingleOrDefault(refToken => refToken.RefreshTokenValue == token) != null;
+            return (await _refreshTokenRepository.GetAsync()).SingleOrDefault(refToken => refToken.RefreshTokenValue == token) != null;
         }
 
-        public void DeleteTokenFromDataBase(string token)
+        public async Task DeleteTokenFromDataBaseAsync(string token)
         {
-            var refreshToken = _refreshTokenRepository.Get().SingleOrDefault(refToken => refToken.RefreshTokenValue == token);
+            var refreshToken = (await _refreshTokenRepository.GetAsync()).SingleOrDefault(refToken => refToken.RefreshTokenValue == token);
 
-            _refreshTokenRepository.Remove(refreshToken.Id);
+            await _refreshTokenRepository.RemoveAsync(refreshToken.Id);
 
-            _refreshTokenRepository.SaveChanges();
+            await _refreshTokenRepository.SaveChangesAsync();
         }
 
-        public TokenPair GenerateTokenPair(IEnumerable<Claim> claims)
+        public async Task<TokenPair> GenerateTokenPairAsync(IEnumerable<Claim> claims)
         {
             var accessToken = GenerateToken(claims);
 
             var refreshToken = GenerateRefreshToken(claims);
 
-            SaveTokenToDatabase(refreshToken);
+            await SaveTokenToDatabaseAsync(refreshToken);
 
             return new TokenPair
             {
@@ -113,18 +114,18 @@ namespace CarRental.Service.Identity.Services
             };
         }
 
-        public TokenPair RefreshToken(string refreshToken)
+        public async Task<TokenPair> RefreshTokenAsync(string refreshToken)
         {
-            if (!IsTokenInDatabase(refreshToken))
+            if (!( await IsTokenInDatabaseAsync(refreshToken)))
             {
                 throw new Exception("This token is invalid.");
             }
 
-            DeleteTokenFromDataBase(refreshToken);
+            await DeleteTokenFromDataBaseAsync(refreshToken);
 
             var principal = ValidateToken(refreshToken);
 
-            var tokens = GenerateTokenPair(principal.Claims);
+            var tokens = await  GenerateTokenPairAsync(principal.Claims); 
 
             return tokens;
         }

@@ -1,0 +1,21 @@
+.page-heading {
+  position:relative;
+  padding: 210px 0px 130px 0px;
+  text-align: center;
+  background-size: cover;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../../../assets/head/heading-1-1920x500.jpg) no-repeat center center;
+}
+.page-heading .text-content h4 {
+  color: #f33f3f;
+  font-size: 22px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+.page-heading .text-content h2 {
+  color: #fff;
+  font-size: 62px;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.Identity;
 using CarRental.Service.WebModels;
+using CarRental.Service.WebModels.Authorize;
 
 namespace CarRental.Api.Controllers
 {

@@ -1,3 +1,17 @@
 .nav-link{
+  color: #fff;
   cursor: pointer;
+  font-size: 18px;
 }
+.nav-link:hover {
+  background-color: #878489;
+}
+.navbar .navbar-brand h3 span {
+  font-style: normal;
+  color: #f33f3f;
+}
+
+.tabs{
+  margin-left: 16em;
+}
+

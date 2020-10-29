@@ -12,6 +12,11 @@ namespace CarRental.DAL.EFCore
         {
         }
 
+        protected ApplicationIdentityContext(DbContextOptions options)
+            : base(options)
+        {
+        }
+
         public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

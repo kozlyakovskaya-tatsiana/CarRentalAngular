@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using CarRental.Service.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -29,7 +30,7 @@ namespace CarRental.Api.Controllers
         /// <response code="200">Return JWT tokens.</response>
         [HttpGet("token")]
         [ProducesResponseType(200)]
-        public IActionResult GetToken()
+        public async Task<IActionResult> GetToken()
         {
             _logger.LogInformation("User send request to get token");
 
@@ -40,7 +41,7 @@ namespace CarRental.Api.Controllers
                 new Claim("someClaim", "someContent")
             };
 
-            var tokens = _tokenService.GenerateTokenPair(claims);
+            var tokens = await _tokenService.GenerateTokenPairAsync(claims);
 
             return Ok(tokens);
         }
@@ -55,7 +56,7 @@ namespace CarRental.Api.Controllers
         [HttpPost("refresh")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult RefreshToken(string refreshToken)
+        public async Task<IActionResult> RefreshToken([FromBody]string refreshToken)
         {
             _logger.LogInformation("User send request to get refresh token");
 
@@ -64,7 +65,7 @@ namespace CarRental.Api.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            var tokens = _tokenService.RefreshToken(refreshToken);
+            var tokens = await _tokenService.RefreshTokenAsync(refreshToken);
 
             return Ok(tokens);
         }

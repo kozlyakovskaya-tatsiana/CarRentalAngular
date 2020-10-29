@@ -1,6 +1,7 @@
-﻿using CarRental.Service.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using CarRental.Service.ServiceModels;
 
 namespace CarRental.Service.Identity
 { 
@@ -12,15 +13,15 @@ namespace CarRental.Service.Identity
 
         ClaimsPrincipal ValidateToken(string token);
 
-        void SaveTokenToDatabase(string token);
+        Task SaveTokenToDatabaseAsync(string token);
 
-        bool IsTokenInDatabase(string token);
+        Task<bool> IsTokenInDatabaseAsync(string token);
 
-        void DeleteTokenFromDataBase(string token);
+        Task DeleteTokenFromDataBaseAsync(string token);
 
-        TokenPair GenerateTokenPair(IEnumerable<Claim> claims);
+        Task<TokenPair> GenerateTokenPairAsync(IEnumerable<Claim> claims);
 
-        TokenPair RefreshToken(string refreshToken);
+        Task<TokenPair> RefreshTokenAsync(string refreshToken);
 
     }
 }
