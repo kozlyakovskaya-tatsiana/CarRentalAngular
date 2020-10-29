@@ -34,6 +34,8 @@ export class CreateuserComponent implements OnInit {
         swal({
           title: 'Updating is successful.',
           icon: 'success'
+        }).then(val => {
+          this.location.back();
         });
       },
       err => {
@@ -58,7 +60,6 @@ export class CreateuserComponent implements OnInit {
       },
       () => {
         this.isLoading = false;
-        this.location.back();
       }
     );
   }

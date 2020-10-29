@@ -22,6 +22,7 @@ import {TokenInterceptor} from './services/TokenInterceptor';
 import { AboutComponent } from './components/about/about.component';
 import { MainCarouselComponent } from './components/main-carousel/main-carousel.component';
 import { CreateCarComponent } from './components/create-car/create-car.component';
+import { MangerScreenComponent } from './components/manager-screen/manger-screen.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { CreateCarComponent } from './components/create-car/create-car.component
     UserinfoComponent,
     AboutComponent,
     MainCarouselComponent,
-    CreateCarComponent
+    CreateCarComponent,
+    MangerScreenComponent
   ],
   imports: [
     BrowserModule,

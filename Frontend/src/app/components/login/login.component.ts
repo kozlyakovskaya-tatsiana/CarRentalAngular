@@ -40,6 +40,9 @@ export class LoginComponent implements OnInit{
         else if (data.userRole === 'admin'){
           this.router.navigate(['adminpage']);
         }
+        else{
+          this.router.navigate(['managerpage']);
+        }
       },
       err => {
         console.log(err);
