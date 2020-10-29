@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CarRental.Api.Controllers
 {
-    [Authorize(Policy = "ForManagerOnly")]
+    [Authorize(Policy = "ForManagersAdmins")]
     [Route("api/[controller]")]
     [ApiController]
     public class CarController : ControllerBase

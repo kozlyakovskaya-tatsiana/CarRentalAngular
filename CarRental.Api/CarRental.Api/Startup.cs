@@ -124,6 +124,9 @@ namespace CarRental.Api
 
                 opts.AddPolicy("ForManagerOnly", policy =>
                     policy.RequireRole("manager"));
+
+                opts.AddPolicy("ForManagersAdmins", policy => 
+                    policy.RequireRole("manager", "admin"));
             });
             
             var swaggerDocumentOptions = new SwaggerDocumentOptions();
@@ -215,7 +218,7 @@ namespace CarRental.Api
                 app.UseExceptionHandler("/error");
             }
 
-
+            
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>

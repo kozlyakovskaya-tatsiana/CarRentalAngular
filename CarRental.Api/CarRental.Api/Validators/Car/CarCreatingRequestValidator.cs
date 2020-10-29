@@ -15,21 +15,21 @@ namespace CarRental.Api.Validators.Car
 
             RuleFor(req => req.Model).NotEmpty();
 
-            RuleFor(req => req.Carcase).NotEmpty().IsInEnum().WithMessage(req => "There is no such carcase");
+            RuleFor(req => req.Carcase).NotNull().IsInEnum().WithMessage(req => "There is no such carcase");
 
-            RuleFor(req => req.ReleaseYear).NotEmpty();
+            RuleFor(req => req.ReleaseYear).NotNull();
 
-            RuleFor(req => req.Transmission).NotEmpty().IsInEnum().WithMessage(req => "There is no such type of transmission");
+            RuleFor(req => req.Transmission).NotNull().IsInEnum().WithMessage(req => "There is no such type of transmission");
 
-            RuleFor(req => req.EnginePower).NotEmpty();
+            RuleFor(req => req.EnginePower).NotNull();
 
-            RuleFor(req => req.FuelConsumption).NotEmpty();
+            RuleFor(req => req.FuelConsumption).NotNull();
 
-            RuleFor(req => req.TankVolume).NotEmpty();
+            RuleFor(req => req.TankVolume).NotNull();
 
-            RuleFor(req => req.FuelType).NotEmpty().IsInEnum().WithMessage(req => "There is no such type of fuel");
+            RuleFor(req => req.FuelType).NotNull().IsInEnum().WithMessage(req => "There is no such type of fuel");
 
-            RuleFor(req => req.TrunkVolume).NotEmpty();
+            RuleFor(req => req.TrunkVolume).NotNull();
         }
     }
 }
