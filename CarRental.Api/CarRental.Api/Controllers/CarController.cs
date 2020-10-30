@@ -61,9 +61,17 @@ namespace CarRental.Api.Controllers
         [HttpGet("cars")]
         public async Task<IActionResult> GetCars()
         {
-            var cars = await _carService.GetCars();
+            var cars = await _carService.GetCarsAsync();
 
             return Ok(cars);
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetCar(int id)
+        {
+            var car = await _carService.GetCarAsync(id);
+
+            return Ok(car);
         }
 
         [HttpPost]
@@ -71,7 +79,15 @@ namespace CarRental.Api.Controllers
         {
             var carDtoBase = _mapper.Map<CarDtoBase>(carCreatingRequest);
 
-            await _carService.CreateCar(carDtoBase);
+            await _carService.CreateCarAsync(carDtoBase);
+
+            return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> RemoveCar(int id)
+        {
+            await _carService.RemoveCarAsync(id);
 
             return Ok();
         }

@@ -25,11 +25,18 @@ namespace CarRental.DAL.Repositories
             {
                 await _dbSet.AddAsync(entity);
             }
+            else 
+                throw new Exception("Object is null. It can not be created.");
         }
 
         public async Task<TEntity> FindByIdAsync(int id)
         {
-            return await _dbSet.FindAsync(id);
+            var entity =  await _dbSet.FindAsync(id);
+
+            if(entity == null)
+                throw new Exception("There is no such object.");
+
+            return entity;
         }
 
         public async Task<IEnumerable<TEntity>> GetAsync()
@@ -46,6 +53,8 @@ namespace CarRental.DAL.Repositories
         {
             if (entity != null)
                 _dbSet.Remove(entity);
+            else
+                throw new Exception("Object is null. It can not be deleted.");
         }
 
         public async Task RemoveAsync(int id)
@@ -56,6 +65,8 @@ namespace CarRental.DAL.Repositories
             {
                _dbSet.Remove(entityToDelete);
             }
+            else
+                throw new Exception("Object is null. It can not be deleted.");
         }
 
         public async Task SaveChangesAsync()
@@ -65,6 +76,9 @@ namespace CarRental.DAL.Repositories
 
         public virtual ValueTask<TEntity> UpdateOneAsync(TEntity entity)
         {
+            if (entity == null)
+                throw new Exception("Object is null. It can not be updated.");
+
             return new ValueTask<TEntity>(_dbSet.Update(entity).Entity);
         }
     }

@@ -6,9 +6,13 @@ namespace CarRental.Service.Services
 {
     public interface ICarService
     {
-        Task CreateCar(CarDtoBase carDtoBase);
+        Task CreateCarAsync(CarDtoBase carDtoBase);
 
-        Task<IEnumerable<CarReadDto>> GetCars();
+        Task<IEnumerable<CarReadDto>> GetCarsAsync();
+
+        Task RemoveCarAsync(int id);
+
+        Task<CarReadDto> GetCarAsync(int id);
 
     }
 }
