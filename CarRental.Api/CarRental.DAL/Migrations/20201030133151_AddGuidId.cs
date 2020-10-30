@@ -3,23 +3,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CarRental.DAL.Migrations
 {
-    public partial class Initial : Migration
+    public partial class AddGuidId : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AspNetRoles",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
+                 name: "AspNetRoles",
+                 columns: table => new
+                 {
+                     Id = table.Column<string>(nullable: false),
+                     Name = table.Column<string>(maxLength: 256, nullable: true),
+                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                     ConcurrencyStamp = table.Column<string>(nullable: true)
+                 },
+                 constraints: table =>
+                 {
+                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                 });
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
@@ -42,7 +42,6 @@ namespace CarRental.DAL.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Surname = table.Column<string>(nullable: true),
-                    Patronymic = table.Column<string>(nullable: true),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
                     PassportSerialNumber = table.Column<string>(nullable: true),
                     PassportId = table.Column<string>(nullable: true)
@@ -53,11 +52,31 @@ namespace CarRental.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cars",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Mark = table.Column<string>(nullable: true),
+                    Model = table.Column<string>(nullable: true),
+                    Carcase = table.Column<string>(nullable: false),
+                    ReleaseYear = table.Column<int>(nullable: false),
+                    Transmission = table.Column<string>(nullable: false),
+                    EnginePower = table.Column<double>(nullable: false),
+                    FuelConsumption = table.Column<double>(nullable: false),
+                    TankVolume = table.Column<double>(nullable: false),
+                    FuelType = table.Column<string>(nullable: false),
+                    TrunkVolume = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cars", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RefreshTokens",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     RefreshTokenValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -227,6 +246,9 @@ namespace CarRental.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Cars");
 
             migrationBuilder.DropTable(
                 name: "RefreshTokens");

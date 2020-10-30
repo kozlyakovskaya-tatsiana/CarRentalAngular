@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.Helpers;
@@ -66,8 +67,8 @@ namespace CarRental.Api.Controllers
             return Ok(cars);
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetCar(int id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCar(Guid id)
         {
             var car = await _carService.GetCarAsync(id);
 
@@ -84,8 +85,8 @@ namespace CarRental.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> RemoveCar(int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveCar(Guid id)
         {
             await _carService.RemoveCarAsync(id);
 

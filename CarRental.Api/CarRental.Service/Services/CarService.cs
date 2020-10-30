@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL;
@@ -43,7 +44,7 @@ namespace CarRental.Service.Services
             return carReadDtos;
         }
 
-        public async Task<CarReadDto> GetCarAsync(int id)
+        public async Task<CarReadDto> GetCarAsync(Guid id)
         {
             var car = await _carRepository.FindByIdAsync(id);
 
@@ -52,7 +53,7 @@ namespace CarRental.Service.Services
             return carReadDto;
         }
 
-        public async Task RemoveCarAsync(int id)
+        public async Task RemoveCarAsync(Guid id)
         {
             await _carRepository.RemoveAsync(id);
 

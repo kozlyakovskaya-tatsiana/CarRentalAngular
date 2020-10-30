@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.Identity;
@@ -53,7 +54,7 @@ namespace CarRental.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             await _userService.DeleteUser(id);
 

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -23,7 +24,7 @@ namespace CarRental.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(string id)
+        public async Task<IActionResult> GetUserById(Guid id)
         {
             var user = await _userService.GetUserById(id);
 

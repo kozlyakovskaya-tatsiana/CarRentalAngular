@@ -57,9 +57,9 @@ namespace CarRental.Service.Identity.Services
             return userReadDto;
         }
 
-        public async Task<UserReadDto> GetUserById(string id)
+        public async Task<UserReadDto> GetUserById(Guid id)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id.ToString());
 
             if (user == null)
                 throw new Exception("There is no user with such id");
@@ -105,7 +105,7 @@ namespace CarRental.Service.Identity.Services
 
         public async Task UpdateUser(UserUpdateDto userUpdateDto)
         {
-            var user = await _userManager.FindByIdAsync(userUpdateDto.Id);
+            var user = await _userManager.FindByIdAsync(userUpdateDto.Id.ToString());
 
             if (user == null)
                 throw new Exception("There is no such user");
@@ -121,9 +121,9 @@ namespace CarRental.Service.Identity.Services
 
         }
 
-        public async Task DeleteUser(string id)
+        public async Task DeleteUser(Guid id)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id.ToString());
 
             if (user == null)
                 throw new Exception("There is no such user");
@@ -161,7 +161,7 @@ namespace CarRental.Service.Identity.Services
 
         public async Task UpdateUserBaseInfo(UserDtoBase userDtoBase)
         {
-            var user = await _userManager.FindByIdAsync(userDtoBase.Id);
+            var user = await _userManager.FindByIdAsync(userDtoBase.Id.ToString());
 
             if (user == null)
                 throw new Exception("There is no such user");

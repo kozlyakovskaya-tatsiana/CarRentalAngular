@@ -1,8 +1,10 @@
-﻿namespace CarRental.Service.DTO.CarDtos
+﻿using System;
+
+namespace CarRental.Service.DTO.CarDtos
 {
     public class CarReadDto
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Mark { get; set; }
 

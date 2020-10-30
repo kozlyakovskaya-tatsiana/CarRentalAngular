@@ -1,10 +1,11 @@
-﻿using CarRental.DAL.Enums;
+﻿using System;
+using CarRental.DAL.Enums;
 
 namespace CarRental.Service.DTO.CarDtos
 {
     public class CarDtoBase
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Mark { get; set; }
 

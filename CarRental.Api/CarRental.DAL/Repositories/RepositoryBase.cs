@@ -29,7 +29,7 @@ namespace CarRental.DAL.Repositories
                 throw new Exception("Object is null. It can not be created.");
         }
 
-        public async Task<TEntity> FindByIdAsync(int id)
+        public async Task<TEntity> FindByIdAsync(Guid id)
         {
             var entity =  await _dbSet.FindAsync(id);
 
@@ -57,7 +57,7 @@ namespace CarRental.DAL.Repositories
                 throw new Exception("Object is null. It can not be deleted.");
         }
 
-        public async Task RemoveAsync(int id)
+        public async Task RemoveAsync(Guid id)
         {
             var entityToDelete = await _dbSet.FirstOrDefaultAsync(el => el.Id == id);
 

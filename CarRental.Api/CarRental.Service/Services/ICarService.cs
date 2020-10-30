@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRental.Service.DTO.CarDtos;
 
@@ -10,9 +11,9 @@ namespace CarRental.Service.Services
 
         Task<IEnumerable<CarReadDto>> GetCarsAsync();
 
-        Task RemoveCarAsync(int id);
+        Task RemoveCarAsync(Guid id);
 
-        Task<CarReadDto> GetCarAsync(int id);
+        Task<CarReadDto> GetCarAsync(Guid id);
 
     }
 }
