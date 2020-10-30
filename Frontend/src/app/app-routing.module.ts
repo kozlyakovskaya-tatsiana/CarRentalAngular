@@ -13,7 +13,8 @@ import {AdminAccessGuard} from './guards/admin-access-guard.service';
 import {AboutComponent} from './components/about/about.component';
 import {CreateCarComponent} from './components/create-car/create-car.component';
 import {CarManagementAccessGuard} from './guards/car-management-access.guard';
-import {MangerScreenComponent} from './components/manager-screen/manger-screen.component';
+import {CarManagementScreenComponent} from './components/car-management-screen/car-management-screen.component';
+import {CarInfoComponent} from './components/car-info/car-info.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent},
@@ -26,7 +27,8 @@ const routes: Routes = [
   { path: 'userinfo/:id', component: UserinfoComponent, canActivate: [AdminAccessGuard]},
   { path: 'about', component: AboutComponent},
   { path: 'createcar', component: CreateCarComponent, canActivate: [CarManagementAccessGuard]},
-  { path: 'managerpage', component: MangerScreenComponent, canActivate: [CarManagementAccessGuard]},
+  { path: 'carmanagement', component: CarManagementScreenComponent, canActivate: [CarManagementAccessGuard]},
+  { path: 'carinfo/:id', component: CarInfoComponent},
   { path: '**', component: NotFoundComponent}
 ];
 

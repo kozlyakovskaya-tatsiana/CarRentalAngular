@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MangerScreenComponent } from './manger-screen.component';
+import { CarTableComponent } from './car-table.component';
 
-describe('MangerScreenComponent', () => {
-  let component: MangerScreenComponent;
-  let fixture: ComponentFixture<MangerScreenComponent>;
+describe('CarTableComponent', () => {
+  let component: CarTableComponent;
+  let fixture: ComponentFixture<CarTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MangerScreenComponent ]
+      declarations: [ CarTableComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MangerScreenComponent);
+    fixture = TestBed.createComponent(CarTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

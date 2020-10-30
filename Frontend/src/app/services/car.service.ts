@@ -16,6 +16,10 @@ export class CarService {
     return this.http.get(this.url + 'cars');
   }
 
+  public getCar(id: string): Observable<any>{
+    return this.http.get(this.url + id);
+  }
+
   public getCarcases(): Observable<any>{
     return this.http.get(this.url + 'carcases');
   }
@@ -30,6 +34,10 @@ export class CarService {
 
   public createCar(carToCreate: CarToCreate): Observable<any>{
     return this.http.post(this.url, carToCreate);
+  }
+
+  public removeCar(id: number): Observable<any>{
+    return this.http.delete(this.url + id);
   }
 
 }

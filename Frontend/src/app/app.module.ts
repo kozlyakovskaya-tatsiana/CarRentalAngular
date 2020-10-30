@@ -22,7 +22,11 @@ import {TokenInterceptor} from './services/TokenInterceptor';
 import { AboutComponent } from './components/about/about.component';
 import { MainCarouselComponent } from './components/main-carousel/main-carousel.component';
 import { CreateCarComponent } from './components/create-car/create-car.component';
-import { MangerScreenComponent } from './components/manager-screen/manger-screen.component';
+import { CarManagementComponent } from './car-management/car-management.component';
+import { CarTableComponent } from './components/car-table/car-table.component';
+import { CarManagementScreenComponent } from './components/car-management-screen/car-management-screen.component';
+import { CarCardComponent } from './components/car-card/car-card.component';
+import { CarInfoComponent } from './components/car-info/car-info.component';
 
 
 @NgModule({
@@ -42,7 +46,11 @@ import { MangerScreenComponent } from './components/manager-screen/manger-screen
     AboutComponent,
     MainCarouselComponent,
     CreateCarComponent,
-    MangerScreenComponent
+    CarManagementComponent,
+    CarTableComponent,
+    CarManagementScreenComponent,
+    CarCardComponent,
+    CarInfoComponent
   ],
   imports: [
     BrowserModule,

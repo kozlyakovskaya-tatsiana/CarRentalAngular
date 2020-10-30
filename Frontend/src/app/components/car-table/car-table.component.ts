@@ -1,28 +1,28 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
-import {UserReadInfo} from '../../utils/User/UserReadInfo';
-import {AdminService} from '../../services/admin.service';
+import {Component, Input, OnInit} from '@angular/core';
+import {CarToRead} from '../../utils/Car/CarToRead';
+import {CarService} from '../../services/car.service';
 import swal from 'sweetalert';
 
 @Component({
-  selector: 'app-users-table',
-  templateUrl: './users-table.component.html',
-  styleUrls: ['./users-table.component.css']
+  selector: 'app-car-table',
+  templateUrl: './car-table.component.html',
+  styleUrls: ['./car-table.component.css']
 })
-export class UsersTableComponent{
+export class CarTableComponent {
 
-  constructor(private adminService: AdminService) { }
+  constructor(private carService: CarService) { }
 
-  @Input() users: UserReadInfo[];
+  @Input() cars: CarToRead[];
 
-  onDelete(id: string): void{
+  onDelete(id: number): void{
     swal({
-      text: 'Do you really want to delete this user?',
+      text: 'Do you really want to delete this car?',
       icon: 'info',
       buttons: ['No', 'Yes'],
       dangerMode: true
     }).then(yes => {
       if (yes) {
-        this.adminService.deleteUser(id).subscribe(
+        this.carService.removeCar(id).subscribe(
           data => {
             console.log(data);
             swal({
@@ -54,5 +54,4 @@ export class UsersTableComponent{
       }
     });
   }
-
 }

@@ -1,0 +1,29 @@
+<div class="card mt-3 mb-2">
+    <div class="row">
+      <div class="col-lg-4">
+        <h2 class="card-title text-center mt-2">{{car.mark}} {{car.model}}</h2>
+        <img src="assets/product-5-370x270.jpg" class="card-img" alt="Car">
+      </div>
+        <div class="col-lg-8 align-self-center">
+          <h3 class="text-center">Place for rental's cost</h3>
+        </div>
+    </div>
+  <div class="row col-lg-5 ml-3">
+      <button type="button" class="btn btn-warning mr-2">Tech. description</button>
+      <button type="button" class="btn btn-warning mr-2">Photo</button>
+      <button type="button" class="btn btn-warning mr-2">Rental conditions</button>
+  </div>
+      <div class="card-body" style="width: 70%">
+        <div class="mt-1 mb-1">
+          <strong><span class="card-text">Year: </span></strong>{{car.releaseYear}}<br>
+          <hr>
+        </div>
+        <div class="mt-1 mb-1">
+          <strong><span class="card-text">Transmission: </span></strong>{{car.transmission}}<br>
+          <hr>
+        </div>
+        <div class="mt-1 mb-1">
+          <strong><span class="card-text">Carcase: </span></strong>{{car.carcase}}<br>
+        </div>
+      </div>
+</div>
