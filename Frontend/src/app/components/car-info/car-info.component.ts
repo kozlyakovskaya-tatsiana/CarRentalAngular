@@ -20,7 +20,7 @@ export class CarInfoComponent implements OnInit {
   id: string;
 
   ngOnInit(): void {
-    this.carService.getCar(this.id).subscribe( data => {
+    this.carService.getCar(this.id).subscribe(data => {
       this.car = data;
       },
       err => {

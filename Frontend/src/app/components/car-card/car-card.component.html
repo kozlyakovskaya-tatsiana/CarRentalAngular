@@ -14,16 +14,6 @@
       <button type="button" class="btn btn-warning mr-2">Rental conditions</button>
   </div>
       <div class="card-body" style="width: 70%">
-        <div class="mt-1 mb-1">
-          <strong><span class="card-text">Year: </span></strong>{{car.releaseYear}}<br>
-          <hr>
-        </div>
-        <div class="mt-1 mb-1">
-          <strong><span class="card-text">Transmission: </span></strong>{{car.transmission}}<br>
-          <hr>
-        </div>
-        <div class="mt-1 mb-1">
-          <strong><span class="card-text">Carcase: </span></strong>{{car.carcase}}<br>
-        </div>
+        <app-tech-description [car]="car"></app-tech-description>
       </div>
 </div>

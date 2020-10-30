@@ -8,7 +8,7 @@ import {CarToRead} from '../../utils/Car/CarToRead';
 })
 export class CarCardComponent implements OnInit {
 
-  constructor() { }
+  constructor() {}
 
   @Input() car: CarToRead;
 
