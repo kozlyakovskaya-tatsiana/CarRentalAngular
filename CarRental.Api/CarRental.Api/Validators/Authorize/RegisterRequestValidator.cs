@@ -6,6 +6,7 @@ namespace CarRental.Api.Validators.Authorize
     public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
     {
         private readonly string _phoneNumberPattern = @"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}";
+
         public RegisterRequestValidator()
         {
             RuleFor(register => register.Email).NotEmpty().EmailAddress().WithMessage("Incorrect format of email");

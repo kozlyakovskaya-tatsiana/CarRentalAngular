@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CarRental.Service.Identity;
@@ -60,7 +59,7 @@ namespace CarRental.Api.Controllers
         {
             _logger.LogInformation("User send request to get refresh token");
 
-            if (String.IsNullOrEmpty(refreshToken))
+            if (string.IsNullOrEmpty(refreshToken))
             {
                 return BadRequest("Invalid client request");
             }

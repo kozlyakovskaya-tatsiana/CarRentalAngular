@@ -30,7 +30,6 @@ namespace CarRental.Api.Controllers
             return Ok(user);
         }
 
-        
         [HttpGet]
         public async Task<IActionResult> GetUserInfo()
         {
@@ -39,8 +38,6 @@ namespace CarRental.Api.Controllers
             var userInfo = await _userService.GetUserByEmail(userName);
 
             return Ok(userInfo);
-
         }
-
     }
 }

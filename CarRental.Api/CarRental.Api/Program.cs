@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
@@ -13,7 +13,7 @@ namespace CarRental.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-            .UseSerilog((hostBuilderContext, loggerConfiguration) => 
+            .UseSerilog((hostBuilderContext, loggerConfiguration) =>
                 loggerConfiguration.ReadFrom.Configuration(hostBuilderContext.Configuration))
             .ConfigureWebHostDefaults(webBuilder =>
             {

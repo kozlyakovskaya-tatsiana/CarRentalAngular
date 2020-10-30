@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using CarRental.Service.DTO;
 using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.Identity;
 using CarRental.Service.WebModels;
@@ -29,8 +28,7 @@ namespace CarRental.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUserBaseInfo(
             [FromServices] IUserManagementService userService,
-            [FromBody] EditUserBaseRequest editUserBaseRequest
-            )
+            [FromBody] EditUserBaseRequest editUserBaseRequest)
         {
             var userToUpdate = _mapper.Map<UserDtoBase>(editUserBaseRequest);
 

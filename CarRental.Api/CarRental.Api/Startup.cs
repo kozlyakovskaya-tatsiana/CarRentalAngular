@@ -183,8 +183,6 @@ namespace CarRental.Api
 
             services.AddScoped<IAuthorizeService, AuthorizeService>();
 
-            services.AddScoped<IValuesService, ValuesService>();
-
             services.AddScoped<ICarService, CarService>();
 
             services.AddScoped(typeof(IRepository<>), typeof(EFGenericRepository<>));
@@ -192,8 +190,6 @@ namespace CarRental.Api
             services.AddScoped<IUserManagementService, UserManagementService>();
 
             services.AddScoped<ICarHelper, CarHelper>();
-
-            services.AddSingleton<DataStorage>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

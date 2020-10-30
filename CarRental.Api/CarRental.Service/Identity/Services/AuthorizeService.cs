@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL.Entities;
-using CarRental.Service.WebModels;
 using CarRental.Service.WebModels.Authorize;
 using Microsoft.AspNetCore.Identity;
 
