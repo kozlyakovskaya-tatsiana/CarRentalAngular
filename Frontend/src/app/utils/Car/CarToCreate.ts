@@ -1,12 +1,12 @@
 export class CarToCreate{
   mark: string;
   model: string;
-  carcase: number;
+  carcase: string;
   releaseYear: number;
-  transmission: number;
+  transmission: string;
   enginePower: number;
   fuelConsumption: number;
   tankVolume: number;
-  fuelType: number;
+  fuelType: string;
   trunkVolume: number;
 }

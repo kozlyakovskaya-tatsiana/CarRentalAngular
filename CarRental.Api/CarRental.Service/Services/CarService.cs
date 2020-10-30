@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL;
 using CarRental.DAL.Entities;
-using CarRental.DAL.Enums;
 using CarRental.Service.DTO.CarDtos;
 using Microsoft.Extensions.Logging;
 

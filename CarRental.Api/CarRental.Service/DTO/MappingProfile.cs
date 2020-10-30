@@ -1,7 +1,5 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using CarRental.DAL.Entities;
-using CarRental.DAL.Enums;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.WebModels;

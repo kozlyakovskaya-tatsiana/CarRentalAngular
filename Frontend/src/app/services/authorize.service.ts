@@ -52,6 +52,10 @@ export class AuthorizeService {
     return localStorage.getItem('user_role') === 'user';
   }
 
+  get isManager(): boolean {
+    return localStorage.getItem('user_role') === 'manager';
+  }
+
   login(loginModel: LoginRequest): Observable<any>{
     return this.http.post(this.url + 'login', loginModel);
   }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using CarRental.DAL.Enums;
-using CarRental.Service.Services;
 
 namespace CarRental.Service.Helpers
 {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
@@ -42,7 +42,6 @@ namespace CarRental.Api
                 .AddConfiguration(configuration);
 
             Configuration = builder.Build();
-
         }
 
         public IConfiguration Configuration { get; }
@@ -57,7 +56,7 @@ namespace CarRental.Api
 
                     fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                 })
-                .AddNewtonsoftJson( options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -87,7 +86,6 @@ namespace CarRental.Api
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
                 })
                 .AddJwtBearer(options =>
                 {
@@ -125,10 +123,10 @@ namespace CarRental.Api
                 opts.AddPolicy("ForManagerOnly", policy =>
                     policy.RequireRole("manager"));
 
-                opts.AddPolicy("ForManagersAdmins", policy => 
+                opts.AddPolicy("ForManagersAdmins", policy =>
                     policy.RequireRole("manager", "admin"));
             });
-            
+
             var swaggerDocumentOptions = new SwaggerDocumentOptions();
 
             Configuration.GetSection(SwaggerDocumentOptions.SectionName).Bind(swaggerDocumentOptions);
@@ -139,8 +137,9 @@ namespace CarRental.Api
 
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc(swaggerDocumentOptions.DocumentName,
-                new OpenApiInfo
+                options.SwaggerDoc(
+                    swaggerDocumentOptions.DocumentName,
+                    new OpenApiInfo
                 {
                     Title = swaggerDocumentOptions.Title,
                     Description = swaggerDocumentOptions.Description,
@@ -148,7 +147,6 @@ namespace CarRental.Api
                 });
 
                 // options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
@@ -175,19 +173,15 @@ namespace CarRental.Api
                             Scheme = "oauth2",
                             Name = "Bearer",
                             In = ParameterLocation.Header,
-
                         },
                         new List<string>()
                     }
                 });
-
             });
 
             services.AddScoped<ITokenService, TokenService>();
 
             services.AddScoped<IAuthorizeService, AuthorizeService>();
-
-            services.AddScoped<IValuesService, ValuesService>();
 
             services.AddScoped<ICarService, CarService>();
 
@@ -197,14 +191,10 @@ namespace CarRental.Api
 
             services.AddScoped<ICarHelper, CarHelper>();
 
-            services.AddSingleton<DataStorage>();
-
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddCors();
-
         }
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -218,12 +208,10 @@ namespace CarRental.Api
                 app.UseExceptionHandler("/error");
             }
 
-            
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1")
-            );
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
 
             app.UseHttpsRedirection();
 
@@ -269,4 +257,3 @@ namespace CarRental.Api
         }
     }
 }
-

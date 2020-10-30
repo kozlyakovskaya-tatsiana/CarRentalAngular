@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.Identity;
-using CarRental.Service.WebModels;
 using CarRental.Service.WebModels.Authorize;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CarRental.Api.Controllers
 {
@@ -42,6 +41,5 @@ namespace CarRental.Api.Controllers
 
             return Ok();
         }
-
     }
 }

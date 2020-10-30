@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {CarToCreate} from '../utils/Car/CarToCreate';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,10 @@ export class CarService {
 
   public getTransmissionsTypes(): Observable<any>{
     return this.http.get(this.url + 'transmissionstypes');
+  }
+
+  public createCar(carToCreate: CarToCreate): Observable<any>{
+    return this.http.post(this.url, carToCreate);
   }
 
 }

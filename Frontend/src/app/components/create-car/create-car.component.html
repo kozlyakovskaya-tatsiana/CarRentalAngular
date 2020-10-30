@@ -1,1 +1,110 @@
-<p>create-car works!</p>
+<div class="col-md-7 offset-md-3 col-12 col-sm-12 col-lg-5 offset-lg-4 col-xl-4 offset-xl-4 mt-3 mb-3">
+  <h3 class="text-center">Creating a car</h3>
+  <div class="text-center">
+    <i class="fas fa-car fa-10x"></i>
+  </div>
+  <form [formGroup]="createCarForm" novalidate (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="mark">Mark</label>
+      <input type="text" class="form-control" id="mark" formControlName="mark" [(ngModel)]="carToCreate.mark">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createCarForm.get('mark').invalid && createCarForm.get('mark').touched">
+        <div *ngIf="createCarForm.get('mark').errors">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="model">Model</label>
+      <input type="text" class="form-control " id="model" formControlName="model" [(ngModel)]="carToCreate.model" >
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createCarForm.get('model').invalid && createCarForm.get('model').touched">
+        <div *ngIf="createCarForm.get('model').errors.required">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="carcase">Carcase</label>
+      <select id="carcase" class="form-control" [(ngModel)]="carToCreate.carcase" formControlName="carcase">
+        <option disabled selected>Choose a carcase</option>
+        <option *ngFor="let carcase of carcases">{{carcase}}</option>
+      </select>
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createCarForm.get('carcase').invalid && createCarForm.get('carcase').touched">
+        <div *ngIf="createCarForm.get('carcase').errors">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="year">Year</label>
+      <input type="number" value="2020" class="form-control " id="year" [(ngModel)]="carToCreate.releaseYear" formControlName="releaseYear">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createCarForm.get('releaseYear').invalid && createCarForm.get('releaseYear').touched">
+        <div *ngIf="createCarForm.get('releaseYear').errors">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="transmissionType">Transmission's type</label>
+      <select id="transmissionType" class="form-control" [(ngModel)]="carToCreate.transmission" formControlName="transmission">
+        <option disabled selected>Choose a transmission type</option>
+        <option *ngFor="let type of transmissionTypes">{{type}}</option>
+      </select>
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createCarForm.get('transmission').invalid && createCarForm.get('transmission').touched">
+        <div *ngIf="createCarForm.get('transmission').errors">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="enginePower">Engine power</label>
+      <input type="number" class="form-control " id="enginePower" [(ngModel)]="carToCreate.enginePower" formControlName="enginePower">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createCarForm.get('enginePower').invalid && createCarForm.get('enginePower').touched">
+        <div *ngIf="createCarForm.get('enginePower').errors">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="fuelConsumption">Fuel consumption</label>
+      <input type="number" class="form-control " id="fuelConsumption" [(ngModel)]="carToCreate.fuelConsumption" formControlName="fuelConsumption">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createCarForm.get('fuelConsumption').invalid && createCarForm.get('fuelConsumption').touched">
+        <div *ngIf="createCarForm.get('fuelConsumption').errors">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="tankVolume">Tank's volume</label>
+      <input type="number" class="form-control " id="tankVolume" [(ngModel)]="carToCreate.tankVolume" formControlName="tankVolume">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createCarForm.get('tankVolume').invalid && createCarForm.get('tankVolume').touched">
+        <div *ngIf="createCarForm.get('tankVolume').errors">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="fuelType">Fuel's type</label>
+      <select id="fuelType" class="form-control" [(ngModel)]="carToCreate.fuelType" formControlName="fuelType">
+        <option disabled selected>Choose a fuel's type</option>
+        <option *ngFor="let type of fuelTypes">{{type}}</option>
+      </select>
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createCarForm.get('fuelType').invalid && createCarForm.get('fuelType').touched">
+        <div *ngIf="createCarForm.get('fuelType').errors">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="trunkVolume">Trunk's volume</label>
+      <input type="number" class="form-control " id="trunkVolume" [(ngModel)]="carToCreate.trunkVolume" formControlName="trunkVolume">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="createCarForm.get('trunkVolume').invalid && createCarForm.get('trunkVolume').touched">
+        <div *ngIf="createCarForm.get('trunkVolume').errors">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-success" [disabled]="createCarForm.invalid || isLoading">Create</button>
+    </div>
+  </form>
+</div>
