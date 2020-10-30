@@ -27,6 +27,8 @@ import { CarManagementScreenComponent } from './components/car-management-screen
 import { CarCardComponent } from './components/car-card/car-card.component';
 import { CarInfoComponent } from './components/car-info/car-info.component';
 import { CarTechDescriptionComponent } from './components/car-tech-description/car-tech-description.component';
+import { PhotoAutoComponent } from './components/photo-auto/photo-auto.component';
+import { RentalConditionsComponent } from './rental-conditions/rental-conditions.component';
 
 
 @NgModule({
@@ -50,7 +52,9 @@ import { CarTechDescriptionComponent } from './components/car-tech-description/c
     CarManagementScreenComponent,
     CarCardComponent,
     CarInfoComponent,
-    CarTechDescriptionComponent
+    CarTechDescriptionComponent,
+    PhotoAutoComponent,
+    RentalConditionsComponent
   ],
   imports: [
     BrowserModule,

@@ -9,11 +9,21 @@
         </div>
     </div>
   <div class="row col-lg-5 ml-3">
-      <button type="button" class="btn btn-warning mr-2">Tech. description</button>
-      <button type="button" class="btn btn-warning mr-2">Photo</button>
-      <button type="button" class="btn btn-warning mr-2">Rental conditions</button>
+      <button type="button" class="btn btn-warning mr-2" (click)="section = SectionEnum.Description">Tech. description</button>
+      <button type="button" class="btn btn-warning mr-2" (click)="section = SectionEnum.Photo">Photo</button>
+      <button type="button" class="btn btn-warning mr-2" (click)="section = SectionEnum.RentalConditions">Rental conditions</button>
   </div>
       <div class="card-body" style="width: 70%">
-        <app-tech-description [car]="car"></app-tech-description>
+        <ng-container [ngSwitch]="section">
+          <ng-template [ngSwitchCase]="SectionEnum.Description">
+            <app-tech-description [car]="car"></app-tech-description>
+          </ng-template>
+          <ng-template [ngSwitchCase]="SectionEnum.Photo">
+            <app-photo-auto></app-photo-auto>
+          </ng-template>
+          <ng-template [ngSwitchCase]="SectionEnum.RentalConditions">
+            <app-rental-conditions></app-rental-conditions>
+          </ng-template>
+        </ng-container>
       </div>
 </div>
