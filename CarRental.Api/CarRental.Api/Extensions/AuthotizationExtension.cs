@@ -1,0 +1,32 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace CarRental.Api.Extensions
+{
+    public static class AuthotizationExtension
+    {
+        public static void AddAuthorizationService(this IServiceCollection services)
+        {
+            services.AddAuthorization(opts =>
+            {
+                opts.AddPolicy("ForAdminOnly", policy =>
+                    policy.RequireRole("admin"));
+
+                opts.AddPolicy("ForUserOnly", policy =>
+                    policy.RequireRole("user"));
+
+                opts.AddPolicy("ForUsersAdmins", policy =>
+                    policy.RequireRole("admin", "user"));
+
+                opts.AddPolicy("ForManagerOnly", policy =>
+                    policy.RequireRole("manager"));
+
+                opts.AddPolicy("ForManagersAdmins", policy =>
+                    policy.RequireRole("manager", "admin"));
+            });
+        }
+    }
+}
