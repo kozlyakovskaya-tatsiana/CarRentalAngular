@@ -5,10 +5,6 @@ using CarRental.Service.Identity;
 using CarRental.Service.Identity.Services;
 using CarRental.Service.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CarRental.Api.Extensions
 {
@@ -22,7 +18,7 @@ namespace CarRental.Api.Extensions
 
             services.AddScoped<ICarService, CarService>();
 
-            services.AddScoped(typeof(IRepository<>), typeof(EFGenericRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(EfGenericRepository<>));
 
             services.AddScoped<IUserManagementService, UserManagementService>();
 
