@@ -16,19 +16,20 @@ namespace CarRental.Api.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        private readonly IMapper _mapper;
-
         private readonly ILogger<RoleController> _logger;
 
-        public RoleController(RoleManager<IdentityRole> roleManager, IMapper mapper, ILogger<RoleController> logger)
+        public RoleController(RoleManager<IdentityRole> roleManager, ILogger<RoleController> logger)
         {
             _roleManager = roleManager;
-
-            _mapper = mapper;
 
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get array of roles/
+        /// </summary>
+        /// <returns>Array of roles.</returns>
+        /// <response code="200">Returns the array of roles.</response>
         [HttpGet("roles")]
         public async Task<ActionResult> GetRoles()
         {
