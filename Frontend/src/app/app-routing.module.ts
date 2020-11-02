@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {LoginComponent} from './components/login/login.component';
-import {NotFoundComponent} from './components/not-found/not-found.component';
-import {RegisterComponent} from './components/register/register.component';
-import {MainComponent} from './components/main/main.component';
-import {EditUserComponent} from './components/edituser/edit-user.component';
-import {AdminScreenComponent} from './components/admin-screen/admin-screen.component';
-import {EdituserByAdminComponent} from './components/edituser-by-admin/edituser-by-admin.component';
-import {CreateuserComponent} from './components/createuser/createuser.component';
-import {UserinfoComponent} from './components/userinfo/userinfo.component';
-import {AdminAccessGuard} from './guards/admin-access-guard.service';
-import {AboutComponent} from './components/about/about.component';
-import {CreateCarComponent} from './components/create-car/create-car.component';
-import {CarManagementAccessGuard} from './guards/car-management-access.guard';
-import {CarManagementScreenComponent} from './components/car-management-screen/car-management-screen.component';
-import {CarInfoComponent} from './components/car-info/car-info.component';
+import {LoginComponent} from './modules/Auth/login/login.component';
+import {NotFoundComponent} from './ui/not-found/not-found.component';
+import {RegisterComponent} from './modules/Auth/register/register.component';
+import {MainComponent} from './shared/components/main/main.component';
+import {EditUserComponent} from './modules/user/edituser/edit-user.component';
+import {AdminScreenComponent} from './modules/admin/components/admin-screen/admin-screen.component';
+import {EdituserByAdminComponent} from './modules/admin/components/edituser-by-admin/edituser-by-admin.component';
+import {CreateuserComponent} from './modules/admin/components/createuser/createuser.component';
+import {UserinfoComponent} from './modules/admin/components/userinfo/userinfo.component';
+import {AdminAccessGuard} from './shared/guards/admin-access-guard.service';
+import {AboutComponent} from './ui/about/about.component';
+import {CreateCarComponent} from './modules/cars/create-car/create-car.component';
+import {CarManagementAccessGuard} from './shared/guards/car-management-access.guard';
+import {CarManagementScreenComponent} from './modules/cars/car-management-screen/car-management-screen.component';
+import {CarInfoComponent} from './modules/cars/car-info/car-info.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent},
