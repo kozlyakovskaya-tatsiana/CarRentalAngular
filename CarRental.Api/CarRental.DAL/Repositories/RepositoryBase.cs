@@ -4,16 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CarRental.DAL.Exceptions;
 
 namespace CarRental.DAL.Repositories
 {
-    public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
+    public class EfGenericRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
         private readonly ApplicationContext _context;
 
         private readonly DbSet<TEntity> _dbSet;
 
-        public EFGenericRepository(ApplicationContext context)
+        public EfGenericRepository(ApplicationContext context)
         {
             _context = context;
 
@@ -34,7 +35,7 @@ namespace CarRental.DAL.Repositories
             var entity =  await _dbSet.FindAsync(id);
 
             if(entity == null)
-                throw new Exception("There is no such object.");
+                throw new NotFoundException("There is no such object.");
 
             return entity;
         }
@@ -66,7 +67,7 @@ namespace CarRental.DAL.Repositories
                _dbSet.Remove(entityToDelete);
             }
             else
-                throw new Exception("Object is null. It can not be deleted.");
+                throw new NotFoundException("There is no object with such id.");
         }
 
         public async Task SaveChangesAsync()

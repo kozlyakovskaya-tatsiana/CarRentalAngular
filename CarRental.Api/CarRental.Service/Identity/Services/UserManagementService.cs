@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL.Entities;
+using CarRental.DAL.Exceptions;
 using CarRental.Service.DTO.UserDtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -48,7 +49,7 @@ namespace CarRental.Service.Identity.Services
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user == null)
-                throw new Exception("There is no user with such email");
+                throw new NotFoundException("There is no user with such email");
 
             var userReadDto = _mapper.Map<UserReadDto>(user);
 
@@ -62,7 +63,7 @@ namespace CarRental.Service.Identity.Services
             var user = await _userManager.FindByIdAsync(id.ToString());
 
             if (user == null)
-                throw new Exception("There is no user with such id");
+                throw new NotFoundException("There is no user with such id");
 
             var userReadDto = _mapper.Map<UserReadDto>(user);
 
@@ -86,7 +87,7 @@ namespace CarRental.Service.Identity.Services
             var roleExists = await _roleManager.RoleExistsAsync(userCreateDto.Role);
 
             if (!roleExists)
-                throw new Exception($"Role {userCreateDto.Role} doesn't exist.");
+                throw new NotFoundException($"Role {userCreateDto.Role} doesn't exist.");
 
             var user = _mapper.Map<User>(userCreateDto);
 
@@ -105,10 +106,10 @@ namespace CarRental.Service.Identity.Services
 
         public async Task UpdateUser(UserUpdateDto userUpdateDto)
         {
-            var user = await _userManager.FindByIdAsync(userUpdateDto.Id.ToString());
+            var user = await _userManager.FindByIdAsync(userUpdateDto.Id);
 
             if (user == null)
-                throw new Exception("There is no such user");
+                throw new NotFoundException("There is no such user");
 
             _mapper.Map(userUpdateDto, user);
 
@@ -126,7 +127,7 @@ namespace CarRental.Service.Identity.Services
             var user = await _userManager.FindByIdAsync(id.ToString());
 
             if (user == null)
-                throw new Exception("There is no such user");
+                throw new NotFoundException("There is no such user");
 
             var result = await _userManager.DeleteAsync(user);
 
@@ -161,10 +162,10 @@ namespace CarRental.Service.Identity.Services
 
         public async Task UpdateUserBaseInfo(UserDtoBase userDtoBase)
         {
-            var user = await _userManager.FindByIdAsync(userDtoBase.Id.ToString());
+            var user = await _userManager.FindByIdAsync(userDtoBase.Id);
 
             if (user == null)
-                throw new Exception("There is no such user");
+                throw new NotFoundException("There is no such user");
 
             _mapper.Map(userDtoBase, user);
 

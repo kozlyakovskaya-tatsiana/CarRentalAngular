@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.Service.WebModels.Authorize;
 using Microsoft.AspNetCore.Identity;
@@ -16,15 +15,11 @@ namespace CarRental.Service.Identity.Services
 
         private readonly ITokenService _tokenService;
 
-        private readonly IMapper _mapper;
-
-        public AuthorizeService(UserManager<User> userManager, ITokenService tokenService, IMapper mapper)
+        public AuthorizeService(UserManager<User> userManager, ITokenService tokenService)
         {
             _userManager = userManager;
 
             _tokenService = tokenService;
-
-            _mapper = mapper;
         }
 
         public ClaimsIdentity GetIdentity(string userName, string userRole)
@@ -44,9 +39,6 @@ namespace CarRental.Service.Identity.Services
         public async Task<LoginResponse> Login(LoginRequest loginModel)
         {
             var user = await _userManager.FindByNameAsync(loginModel.Email);
-
-            if (user == null)
-                throw new Exception("There is no such user");
 
             var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
@@ -98,6 +90,5 @@ namespace CarRental.Service.Identity.Services
             else
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
         }
-
     }
 }
