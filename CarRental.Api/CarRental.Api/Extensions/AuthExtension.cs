@@ -1,15 +1,19 @@
-﻿using CarRental.Service.Identity.Options;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using CarRental.DAL.EFCore;
+using CarRental.DAL.Entities;
+using CarRental.Service.Identity.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System;
 
 namespace CarRental.Api.Extensions
 {
-    public static class JwtExtension
+    public static class AuthExtension
     {
-        public static void AddJwtService(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
 
@@ -45,6 +49,19 @@ namespace CarRental.Api.Extensions
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
+            services.AddIdentity<User, IdentityRole>(opts =>
+                {
+                    opts.Password.RequiredLength = 5;
+                    opts.Password.RequireNonAlphanumeric = false;
+                    opts.Password.RequireLowercase = false;
+                    opts.Password.RequireUppercase = false;
+                    opts.Password.RequireDigit = false;
+                })
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddDefaultTokenProviders();
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
     }
 }

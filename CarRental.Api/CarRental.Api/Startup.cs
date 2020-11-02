@@ -36,9 +36,7 @@ namespace CarRental.Api
 
             services.AddDataAccessServices(Configuration.GetConnectionString("DefaultConnection"));
 
-            services.AddIdentityService();
-
-            services.AddJwtService(Configuration);
+            services.ConfigureAuthentication(Configuration);
 
             services.AddAuthorizationService();
 
