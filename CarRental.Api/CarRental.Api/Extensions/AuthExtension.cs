@@ -15,6 +15,19 @@ namespace CarRental.Api.Extensions
     {
         public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddIdentity<User, IdentityRole>(opts =>
+                {
+                    opts.Password.RequiredLength = 5;
+                    opts.Password.RequireNonAlphanumeric = false;
+                    opts.Password.RequireLowercase = false;
+                    opts.Password.RequireUppercase = false;
+                    opts.Password.RequireDigit = false;
+                })
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddDefaultTokenProviders();
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
             services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
 
             var jwtOptions = new JwtOptions();
@@ -49,19 +62,6 @@ namespace CarRental.Api.Extensions
                         ClockSkew = TimeSpan.Zero
                     };
                 });
-
-            services.AddIdentity<User, IdentityRole>(opts =>
-                {
-                    opts.Password.RequiredLength = 5;
-                    opts.Password.RequireNonAlphanumeric = false;
-                    opts.Password.RequireLowercase = false;
-                    opts.Password.RequireUppercase = false;
-                    opts.Password.RequireDigit = false;
-                })
-                .AddEntityFrameworkStores<ApplicationContext>()
-                .AddDefaultTokenProviders();
-
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
     }
 }
