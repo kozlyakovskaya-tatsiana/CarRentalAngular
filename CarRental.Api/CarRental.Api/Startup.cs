@@ -68,7 +68,7 @@ namespace CarRental.Api
             app.UseRouting();
 
             app.UseCors(builder =>
-                builder.WithOrigins(Configuration.GetSection("AngularOriginDomen").Value)
+                builder.WithOrigins(Configuration.GetSection("AngularOriginDomain").Value)
                     .AllowAnyMethod()
                     .AllowAnyHeader());
 
