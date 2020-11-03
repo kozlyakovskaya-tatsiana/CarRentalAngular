@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL;
@@ -25,7 +26,7 @@ namespace CarRental.Service.Services
             _carRepository = carRepository;
         }
 
-        public async Task CreateCar(CarDtoBase carDtoBase)
+        public async Task CreateCarAsync(CarDtoBase carDtoBase)
         {
             var carToCreate = _mapper.Map<Car>(carDtoBase);
 
@@ -34,13 +35,29 @@ namespace CarRental.Service.Services
             await _carRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<CarReadDto>> GetCars()
+        public async Task<IEnumerable<CarReadDto>> GetCarsAsync()
         {
             var cars = await _carRepository.GetAsync();
 
             var carReadDtos = _mapper.Map<IEnumerable<CarReadDto>>(cars);
 
             return carReadDtos;
+        }
+
+        public async Task<CarReadDto> GetCarAsync(Guid id)
+        {
+            var car = await _carRepository.FindByIdAsync(id);
+
+            var carReadDto = _mapper.Map<CarReadDto>(car);
+
+            return carReadDto;
+        }
+
+        public async Task RemoveCarAsync(Guid id)
+        {
+            await _carRepository.RemoveAsync(id);
+
+            await _carRepository.SaveChangesAsync();
         }
 
     }

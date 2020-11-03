@@ -8,7 +8,7 @@ namespace CarRental.DAL
     {
         Task CreateAsync(TEntity entity);
 
-        Task<TEntity> FindByIdAsync(int id);
+        Task<TEntity> FindByIdAsync(Guid id);
 
         Task<IEnumerable<TEntity>> GetAsync();
 
@@ -16,7 +16,7 @@ namespace CarRental.DAL
 
         void Remove (TEntity entity);
 
-        Task RemoveAsync(int id);
+        Task RemoveAsync(Guid id);
 
         ValueTask<TEntity> UpdateOneAsync(TEntity entity);
 

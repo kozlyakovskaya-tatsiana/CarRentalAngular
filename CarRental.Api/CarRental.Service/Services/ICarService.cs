@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRental.Service.DTO.CarDtos;
 
@@ -6,9 +7,13 @@ namespace CarRental.Service.Services
 {
     public interface ICarService
     {
-        Task CreateCar(CarDtoBase carDtoBase);
+        Task CreateCarAsync(CarDtoBase carDtoBase);
 
-        Task<IEnumerable<CarReadDto>> GetCars();
+        Task<IEnumerable<CarReadDto>> GetCarsAsync();
+
+        Task RemoveCarAsync(Guid id);
+
+        Task<CarReadDto> GetCarAsync(Guid id);
 
     }
 }

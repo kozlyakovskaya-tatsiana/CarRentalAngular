@@ -1,4 +1,5 @@
 ﻿using System;
+using CarRental.DAL.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +22,14 @@ namespace CarRental.Api.Controllers
 
             var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
 
+            var errorType = context.Error.GetType();
+
+            var statusCode = errorType == typeof(NotFoundException) ? 404 : 500;
+
             return Problem(
                 detail: context.Error.StackTrace,
-                title: context.Error.Message);
+                title: context.Error.Message,
+                statusCode: statusCode);
         }
 
         [Route("/error")]

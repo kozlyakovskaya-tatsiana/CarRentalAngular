@@ -1,7 +1,9 @@
-﻿namespace CarRental.DAL
+﻿using System;
+
+namespace CarRental.DAL
 {
     public interface IEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 }
