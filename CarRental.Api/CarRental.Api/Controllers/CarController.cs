@@ -1,11 +1,16 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
+using CarRental.DAL.Entities;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.Helpers;
 using CarRental.Service.Services;
 using CarRental.Service.WebModels.Car;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -24,7 +29,9 @@ namespace CarRental.Api.Controllers
 
         private readonly ICarHelper _carHelper;
 
-        public CarController(ILogger<CarController> logger, IMapper mapper, ICarService carService, ICarHelper carHelper)
+        private readonly IWebHostEnvironment _appEnvironment;
+
+        public CarController(ILogger<CarController> logger, IMapper mapper, ICarService carService, ICarHelper carHelper, IWebHostEnvironment appEnvironment)
         {
             _logger = logger;
 
@@ -33,6 +40,8 @@ namespace CarRental.Api.Controllers
             _carService = carService;
 
             _carHelper = carHelper;
+
+            _appEnvironment = appEnvironment;
         }
 
         /// <summary>
@@ -155,6 +164,30 @@ namespace CarRental.Api.Controllers
         {
             await _carService.RemoveCarAsync(id);
 
+            return Ok();
+        }
+
+        [HttpPost("file")]
+        public async Task<IActionResult> AddFile([FromForm]IFormFile uploadedFile)
+        {
+            if (uploadedFile != null)
+            {
+                var path = "/Files/" + uploadedFile.FileName;
+
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                {
+                    await uploadedFile.CopyToAsync(fileStream);
+                }
+
+                var file = new FileModel { Name = uploadedFile.FileName, Path = path };
+            }
+
+            return Ok();
+        }
+
+        [HttpPost("carfiles")]
+        public async Task<IActionResult> AddCar([FromForm] CarCreatingFormData carCreatingFormData)
+        {
             return Ok();
         }
     }

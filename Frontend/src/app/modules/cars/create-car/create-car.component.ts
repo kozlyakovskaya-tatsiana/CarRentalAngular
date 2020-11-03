@@ -4,6 +4,7 @@ import swal from 'sweetalert';
 import {CarToCreate} from '../../../shared/utils/Car/CarToCreate';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Location} from '@angular/common';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-create-car',
@@ -13,8 +14,11 @@ import {Location} from '@angular/common';
 export class CreateCarComponent implements OnInit {
 
   constructor(private carService: CarService,
-              private location: Location) {
+              private location: Location,
+              private http: HttpClient) {
     this.carToCreate = new CarToCreate();
+    this.additionalImgFiles = [];
+    this.additionalImgSrcs = [];
   }
 
   carToCreate: CarToCreate;
@@ -24,10 +28,65 @@ export class CreateCarComponent implements OnInit {
   createCarForm: FormGroup;
   isLoading: boolean;
 
+  mainImgFile: File;
+  mainImgSrc: string | ArrayBuffer;
+  additionalImgFiles: File[];
+  additionalImgSrcs: any;
+
+  onChangeMainImg(event): void{
+   const reader = new FileReader();
+
+   if (event.target.files && event.target.files.length) {
+      const file = event.target.files[0];
+      this.mainImgFile = file;
+      reader.readAsDataURL(file);
+
+      reader.onload = e => {
+        this.mainImgSrc = e.target.result;
+      };
+   }
+  }
+
+  onChangeAdditionalImgs(event): void{
+    if (event.target.files && event.target.files.length) {
+      this.additionalImgFiles = event.target.files;
+      [...this.additionalImgFiles].forEach(file => {
+        const fileReader = new FileReader();
+        fileReader.onload = e => {
+          this.additionalImgSrcs.push(e.target.result);
+        };
+        fileReader.readAsDataURL(file);
+      });
+    }
+  }
+
+  deleteMainImg(): void{
+    alert('crrooos in parent');
+    this.mainImgSrc = '';
+    this.mainImgFile = null;
+    this.createCarForm.patchValue({mainImgFile: null});
+  }
+
+  deleteAdditionalImage(index: number): void {
+    alert('in parent');
+    this.additionalImgSrcs.splice(index, 1);
+    Array.from(this.additionalImgFiles).splice(index, 1);
+    console.log(this.additionalImgFiles);
+    console.log(this.additionalImgSrcs);
+  }
+
   onSubmit(): void{
-    console.log(this.carToCreate);
-    console.log(this.createCarForm);
-    this.carService.createCar(this.carToCreate).subscribe(data => {
+    const form = document.forms[0];
+    const formData = new FormData(form);
+    formData.append('MainImgFile', this.mainImgFile);
+    console.log(formData.get('MainImgFile'));
+    this.http.post('https://localhost:44397/api/Car/carfiles', formData).subscribe(data => {
+        console.log(data);
+      },
+      err => {
+        console.log(err);
+      });
+    /*this.carService.createCar(this.carToCreate).subscribe(data => {
       this.isLoading = true;
       console.log(data);
       swal({
@@ -60,7 +119,7 @@ export class CreateCarComponent implements OnInit {
       () => {
         this.isLoading = false;
       }
-    );
+    );*/
   }
 
   ngOnInit(): void {
@@ -149,7 +208,8 @@ export class CreateCarComponent implements OnInit {
       fuelConsumption: new FormControl('', Validators.required),
       tankVolume: new FormControl('', Validators.required),
       fuelType: new FormControl(this.carToCreate.fuelType, Validators.required),
-      trunkVolume: new FormControl('', Validators.required)
+      trunkVolume: new FormControl('', Validators.required),
+      mainImgFile: new FormControl(null, Validators.required)
     });
   }
 }

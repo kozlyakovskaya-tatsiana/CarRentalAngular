@@ -1,9 +1,12 @@
-﻿using CarRental.DAL.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using CarRental.DAL.Enums;
 using Microsoft.AspNetCore.Http;
 
 namespace CarRental.Service.WebModels.Car
 {
-    public class CarCreatingRequest
+    public class CarCreatingFormData
     {
         public string Mark { get; set; }
 
@@ -25,5 +28,6 @@ namespace CarRental.Service.WebModels.Car
 
         public double TrunkVolume { get; set; }
 
+        public IFormFile MainImgFile { get; set; }
     }
 }
