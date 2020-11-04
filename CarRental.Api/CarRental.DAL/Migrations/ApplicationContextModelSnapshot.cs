@@ -4,6 +4,7 @@ using CarRental.DAL.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarRental.DAL.Migrations
 {
@@ -38,6 +39,9 @@ namespace CarRental.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("MainImageFileId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Mark")
                         .HasColumnType("nvarchar(max)");
 
@@ -59,7 +63,26 @@ namespace CarRental.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MainImageFileId");
+
                     b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("CarRental.DAL.Entities.ImageFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ImageFiles");
                 });
 
             modelBuilder.Entity("CarRental.DAL.Entities.RefreshToken", b =>
@@ -285,6 +308,15 @@ namespace CarRental.DAL.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CarRental.DAL.Entities.Car", b =>
+                {
+                    b.HasOne("CarRental.DAL.Entities.ImageFile", "MainImageFile")
+                        .WithMany()
+                        .HasForeignKey("MainImageFileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

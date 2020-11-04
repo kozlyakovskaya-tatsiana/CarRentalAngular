@@ -11,6 +11,8 @@ namespace CarRental.DAL.EFCore
 
         public DbSet<Car> Cars { get; set; }
 
+        public DbSet<ImageFile> ImageFiles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
