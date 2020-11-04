@@ -105,7 +105,7 @@
     </div>
     <div class="form-group">
       <button type="button" class="btn btn-info btn-sm" (click)="uploadFileBtn.click()">Upload main car's image</button>
-      <input type="file" hidden (change)="onChangeMainImg($event)" formControlName="mainImgFile" accept="image/*" #uploadFileBtn/>
+      <input type="file" hidden (change)="onChangeMainImg($event)" formControlName="mainImgFile" name="mainImgFile" accept="image/*" #uploadFileBtn/>
       <div *ngIf="createCarForm.get('mainImgFile').errors" class="error">
         Image is required.
       </div>
@@ -121,8 +121,7 @@
       </div>
     </div>
     <div class="text-center">
-      <button type="submit" class="btn btn-success" >Create</button>
+      <button type="submit" class="btn btn-success" [disabled]="createCarForm.invalid || isLoading" >Create</button>
     </div>
   </form>
 </div>
-<!--[disabled]="createCarForm.invalid || isLoading"-->

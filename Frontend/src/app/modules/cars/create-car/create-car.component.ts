@@ -34,9 +34,9 @@ export class CreateCarComponent implements OnInit {
   additionalImgSrcs: any;
 
   onChangeMainImg(event): void{
-   const reader = new FileReader();
+    const reader = new FileReader();
 
-   if (event.target.files && event.target.files.length) {
+    if (event.target.files && event.target.files.length) {
       const file = event.target.files[0];
       this.mainImgFile = file;
       reader.readAsDataURL(file);
@@ -44,7 +44,7 @@ export class CreateCarComponent implements OnInit {
       reader.onload = e => {
         this.mainImgSrc = e.target.result;
       };
-   }
+    }
   }
 
   onChangeAdditionalImgs(event): void{
@@ -61,14 +61,12 @@ export class CreateCarComponent implements OnInit {
   }
 
   deleteMainImg(): void{
-    alert('crrooos in parent');
     this.mainImgSrc = '';
     this.mainImgFile = null;
     this.createCarForm.patchValue({mainImgFile: null});
   }
 
   deleteAdditionalImage(index: number): void {
-    alert('in parent');
     this.additionalImgSrcs.splice(index, 1);
     Array.from(this.additionalImgFiles).splice(index, 1);
     console.log(this.additionalImgFiles);
@@ -78,15 +76,8 @@ export class CreateCarComponent implements OnInit {
   onSubmit(): void{
     const form = document.forms[0];
     const formData = new FormData(form);
-    formData.append('MainImgFile', this.mainImgFile);
-    console.log(formData.get('MainImgFile'));
-    this.http.post('https://localhost:44397/api/Car/carfiles', formData).subscribe(data => {
-        console.log(data);
-      },
-      err => {
-        console.log(err);
-      });
-    /*this.carService.createCar(this.carToCreate).subscribe(data => {
+    formData.set('MainImageFile', this.mainImgFile);
+    this.carService.createCar(formData).subscribe(data => {
       this.isLoading = true;
       console.log(data);
       swal({
@@ -119,15 +110,15 @@ export class CreateCarComponent implements OnInit {
       () => {
         this.isLoading = false;
       }
-    );*/
+    );
   }
 
   ngOnInit(): void {
     this.carService.getCarcases().subscribe(data => {
-      console.log(data);
-      this.carcases = data;
-      this.carToCreate.carcase = this.carcases[0];
-    },
+        console.log(data);
+        this.carcases = data;
+        this.carToCreate.carcase = this.carcases[0];
+      },
       err => {
         console.log(err);
         let errorMessage: string;

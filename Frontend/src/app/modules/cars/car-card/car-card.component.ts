@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {CarToRead} from '../../../shared/utils/Car/CarToRead';
+import {Component, Input} from '@angular/core';
+import {CarToReadWithImage} from '../../../shared/utils/Car/CarToReadWithImage';
 
 export enum Section{
   Description,
@@ -11,18 +11,14 @@ export enum Section{
   templateUrl: './car-card.component.html',
   styleUrls: ['./car-card.component.css']
 })
-export class CarCardComponent implements OnInit {
+export class CarCardComponent{
 
   constructor() {
     this.section = Section.Description;
   }
   SectionEnum = Section;
 
-  @Input() car: CarToRead;
+  @Input() car: CarToReadWithImage;
 
   section: Section;
-
-  ngOnInit(): void {
-  }
-
 }

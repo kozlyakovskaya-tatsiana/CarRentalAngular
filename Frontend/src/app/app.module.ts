@@ -31,7 +31,6 @@ import { PhotoAutoComponent } from './modules/cars/photo-auto/photo-auto.compone
 import { RentalConditionsComponent } from './ui/rental-conditions/rental-conditions.component';
 import { CarPhotoComponent } from './modules/cars/car-photo/car-photo.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {CarToRead} from '../../../shared/utils/Car/CarToRead';
 import {CarService} from '../../../shared/services/car.service';
 import {ActivatedRoute} from '@angular/router';
 import swal from 'sweetalert';
+import {CarToReadWithImage} from '../../../shared/utils/Car/CarToReadWithImage';
 
 @Component({
   selector: 'app-car-info',
@@ -16,12 +16,13 @@ export class CarInfoComponent implements OnInit {
     this.id = activatedRoute.snapshot.params.id;
   }
 
-  car: CarToRead;
+  car: CarToReadWithImage;
   id: string;
 
   ngOnInit(): void {
     this.carService.getCar(this.id).subscribe(data => {
       this.car = data;
+      console.log(data);
       },
       err => {
         console.log(err);

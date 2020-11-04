@@ -32,8 +32,8 @@ export class CarService {
     return this.http.get(this.url + 'transmissionstypes');
   }
 
-  public createCar(carToCreate: CarToCreate): Observable<any>{
-    return this.http.post(this.url, carToCreate);
+  public createCar(formData: FormData): Observable<any>{
+    return this.http.post(this.url, formData);
   }
 
   public removeCar(id: number): Observable<any>{
