@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CarRental.DAL
@@ -21,5 +22,7 @@ namespace CarRental.DAL
         ValueTask<TEntity> UpdateOneAsync(TEntity entity);
 
         Task SaveChangesAsync();
+
+        IEnumerable<TEntity> Include(params Expression<Func<TEntity, object>>[] includes);
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CarRental.DAL.Exceptions;
 
@@ -68,6 +69,20 @@ namespace CarRental.DAL.Repositories
             }
             else
                 throw new NotFoundException("There is no object with such id.");
+        }
+
+        public IEnumerable<TEntity> Include(params Expression<Func<TEntity, object>>[] includes)
+        {
+            var dbSet = _context.Set<TEntity>();
+
+            IEnumerable<TEntity> query = null;
+
+            foreach (var include in includes)
+            {
+                query = dbSet.Include(include);
+            }
+
+            return query ?? dbSet;
         }
 
         public async Task SaveChangesAsync()

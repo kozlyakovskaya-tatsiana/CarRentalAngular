@@ -1,12 +1,10 @@
-﻿using System;
-using CarRental.DAL.Enums;
+﻿using CarRental.DAL.Enums;
+using Microsoft.AspNetCore.Http;
 
-namespace CarRental.DAL.Entities
+namespace CarRental.Service.WebModels.Car
 {
-    public class Car : IEntity
+    public class CarCreatingFormDataRequest
     {
-        public Guid Id { get; set; }
-
         public string Mark { get; set; }
 
         public string Model { get; set; }
@@ -27,12 +25,6 @@ namespace CarRental.DAL.Entities
 
         public double TrunkVolume { get; set; }
 
-        public ImageFile MainImageFile { get; set; }
-
-        public Guid MainImageFileId { get; set; }
-
-        public Image MainImage { get; set; }
-
-        public Guid MainImageId { get; set; }
+        public IFormFile MainImageFile { get; set; }
     }
 }
