@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CarRental.DAL.Migrations
 {
-    public partial class AddImageDbSet : Migration
+    public partial class OneToManyDocsCars : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            /*migrationBuilder.CreateTable(
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -52,42 +52,37 @@ namespace CarRental.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ImageFiles",
+                name: "Cars",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Path = table.Column<string>(nullable: true)
+                    Mark = table.Column<string>(nullable: true),
+                    Model = table.Column<string>(nullable: true),
+                    Carcase = table.Column<string>(nullable: false),
+                    ReleaseYear = table.Column<int>(nullable: false),
+                    Transmission = table.Column<string>(nullable: false),
+                    EnginePower = table.Column<double>(nullable: false),
+                    FuelConsumption = table.Column<double>(nullable: false),
+                    TankVolume = table.Column<double>(nullable: false),
+                    FuelType = table.Column<string>(nullable: false),
+                    TrunkVolume = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ImageFiles", x => x.Id);
-                });*/
+                    table.PrimaryKey("PK_Cars", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
-                name: "Images",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    ImageDataUrl = table.Column<byte[]>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Images", x => x.Id);
-                });
-
-           /* migrationBuilder.CreateTable(
-                name: "RefreshTokens",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    RefreshTokenValue = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
-                });
+                 name: "RefreshTokens",
+                 columns: table => new
+                 {
+                     Id = table.Column<Guid>(nullable: false),
+                     RefreshTokenValue = table.Column<string>(nullable: true)
+                 },
+                 constraints: table =>
+                 {
+                     table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                 });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -193,44 +188,30 @@ namespace CarRental.DAL.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });*/
+                });
 
             migrationBuilder.CreateTable(
-                name: "Cars",
+                name: "Documents",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Mark = table.Column<string>(nullable: true),
-                    Model = table.Column<string>(nullable: true),
-                    Carcase = table.Column<string>(nullable: false),
-                    ReleaseYear = table.Column<int>(nullable: false),
-                    Transmission = table.Column<string>(nullable: false),
-                    EnginePower = table.Column<double>(nullable: false),
-                    FuelConsumption = table.Column<double>(nullable: false),
-                    TankVolume = table.Column<double>(nullable: false),
-                    FuelType = table.Column<string>(nullable: false),
-                    TrunkVolume = table.Column<double>(nullable: false),
-                    MainImageFileId = table.Column<Guid>(nullable: false),
-                    MainImageId = table.Column<Guid>(nullable: false)
+                    Name = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: true),
+                    Path = table.Column<string>(nullable: true),
+                    CarId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cars", x => x.Id);
+                    table.PrimaryKey("PK_Documents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cars_ImageFiles_MainImageFileId",
-                        column: x => x.MainImageFileId,
-                        principalTable: "ImageFiles",
+                        name: "FK_Documents_Cars_CarId",
+                        column: x => x.CarId,
+                        principalTable: "Cars",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Cars_Images_MainImageId",
-                        column: x => x.MainImageId,
-                        principalTable: "Images",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
-            /*migrationBuilder.CreateIndex(
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -267,18 +248,12 @@ namespace CarRental.DAL.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");*/
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cars_MainImageFileId",
-                table: "Cars",
-                column: "MainImageFileId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cars_MainImageId",
-                table: "Cars",
-                column: "MainImageId",
-                unique: true);
+                name: "IX_Documents_CarId",
+                table: "Documents",
+                column: "CarId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -299,7 +274,7 @@ namespace CarRental.DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Cars");
+                name: "Documents");
 
             migrationBuilder.DropTable(
                 name: "RefreshTokens");
@@ -311,10 +286,7 @@ namespace CarRental.DAL.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "ImageFiles");
-
-            migrationBuilder.DropTable(
-                name: "Images");
+                name: "Cars");
         }
     }
 }
