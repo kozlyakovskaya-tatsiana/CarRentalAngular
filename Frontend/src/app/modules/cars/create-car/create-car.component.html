@@ -104,20 +104,13 @@
       </ngb-alert>
     </div>
     <div class="form-group">
-      <button type="button" class="btn btn-info btn-sm" (click)="uploadFileBtn.click()">Upload main car's image</button>
-      <input type="file" hidden (change)="onChangeMainImg($event)" formControlName="mainImgFile" name="mainImgFile" accept="image/*" #uploadFileBtn/>
-      <div *ngIf="createCarForm.get('mainImgFile').errors" class="error">
-        Image is required.
+      <button type="button" class="btn btn-info btn-sm" (click)="uploadFileBtn.click()">Upload car's images</button>
+      <input type="file" hidden (change)="onChangeImages($event)" formControlName="images" accept="image/*" multiple #uploadFileBtn/>
+      <div *ngIf="createCarForm.get('images').errors" class="error">
+        At least one image must to be.
       </div>
-      <div style="width: 100%" class="mt-3">
-          <app-car-photo [imgSrc]="mainImgSrc" (crossClicked)="deleteMainImg()"></app-car-photo>
-      </div>
-    </div>
-    <div class="form-group">
-      <button type="button" class="btn btn-info btn-sm" (click)="uploadFileBtn2.click()">Upload additional car's images</button>
-      <input type="file" hidden (change)="onChangeAdditionalImgs($event)" accept="image/*" multiple #uploadFileBtn2/>
-      <div *ngFor="let imgSrc of additionalImgSrcs; let i = index;">
-        <app-car-photo [imgSrc]="imgSrc" [imgIndex]="i" (crossClicked)="deleteAdditionalImage($event)"></app-car-photo>
+      <div *ngFor="let imgSrc of imageSrcs; let i = index;">
+        <app-car-photo [imgSrc]="imgSrc" [imgIndex]="i" (crossClicked)="deleteImage($event)"></app-car-photo>
       </div>
     </div>
     <div class="text-center">

@@ -10,6 +10,5 @@ export class CarToReadWithImage{
   tankVolume: number;
   fuelType: number;
   trunkVolume: number;
-  pathToMainImage: string;
-  imageDataUrl: any;
+  imageDataUrls: string[];
 }

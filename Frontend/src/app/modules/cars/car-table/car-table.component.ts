@@ -14,7 +14,7 @@ export class CarTableComponent {
 
   @Input() cars: CarToRead[];
 
-  onDelete(id: number): void{
+  onDelete(id: string): void{
     swal({
       text: 'Do you really want to delete this cars?',
       icon: 'info',

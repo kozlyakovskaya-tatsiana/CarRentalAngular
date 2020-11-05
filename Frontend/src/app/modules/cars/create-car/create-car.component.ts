@@ -17,8 +17,8 @@ export class CreateCarComponent implements OnInit {
               private location: Location,
               private http: HttpClient) {
     this.carToCreate = new CarToCreate();
-    this.additionalImgFiles = [];
-    this.additionalImgSrcs = [];
+    this.imageSrcs = [];
+    this.imageFilesArray = new Array<File>();
   }
 
   carToCreate: CarToCreate;
@@ -28,55 +28,41 @@ export class CreateCarComponent implements OnInit {
   createCarForm: FormGroup;
   isLoading: boolean;
 
-  mainImgFile: File;
-  mainImgSrc: string | ArrayBuffer;
-  additionalImgFiles: File[];
-  additionalImgSrcs: any;
+  imageSrcs: any;
 
-  onChangeMainImg(event): void{
-    const reader = new FileReader();
+  imageFilesArray: Array<File>;
 
+  onChangeImages(event): void{
     if (event.target.files && event.target.files.length) {
-      const file = event.target.files[0];
-      this.mainImgFile = file;
-      reader.readAsDataURL(file);
-
-      reader.onload = e => {
-        this.mainImgSrc = e.target.result;
-      };
-    }
-  }
-
-  onChangeAdditionalImgs(event): void{
-    if (event.target.files && event.target.files.length) {
-      this.additionalImgFiles = event.target.files;
-      [...this.additionalImgFiles].forEach(file => {
+      this.imageFilesArray = this.imageFilesArray.concat(Array.from(event.target.files));
+      this.imageFilesArray.forEach(file => {
         const fileReader = new FileReader();
         fileReader.onload = e => {
-          this.additionalImgSrcs.push(e.target.result);
+          this.imageSrcs.push(e.target.result);
         };
         fileReader.readAsDataURL(file);
       });
+      console.log(this.imageFilesArray);
     }
   }
 
-  deleteMainImg(): void{
-    this.mainImgSrc = '';
-    this.mainImgFile = null;
-    this.createCarForm.patchValue({mainImgFile: null});
-  }
-
-  deleteAdditionalImage(index: number): void {
-    this.additionalImgSrcs.splice(index, 1);
-    Array.from(this.additionalImgFiles).splice(index, 1);
-    console.log(this.additionalImgFiles);
-    console.log(this.additionalImgSrcs);
+  deleteImage(index: number): void {
+    this.imageSrcs.splice(index, 1);
+    this.imageFilesArray.splice(index, 1);
+    console.log(this.imageFilesArray);
+    if (!this.imageFilesArray.length)
+    {
+      this.createCarForm.patchValue({images: null});
+    }
   }
 
   onSubmit(): void{
     const form = document.forms[0];
     const formData = new FormData(form);
-    formData.set('MainImageFile', this.mainImgFile);
+    this.imageFilesArray.forEach(imgFile => {
+      formData.append('images', imgFile);
+    });
+    console.log(this.imageFilesArray);
     this.carService.createCar(formData).subscribe(data => {
       this.isLoading = true;
       console.log(data);
@@ -200,7 +186,7 @@ export class CreateCarComponent implements OnInit {
       tankVolume: new FormControl('', Validators.required),
       fuelType: new FormControl(this.carToCreate.fuelType, Validators.required),
       trunkVolume: new FormControl('', Validators.required),
-      mainImgFile: new FormControl(null, Validators.required)
+      images: new FormControl(null, Validators.required)
     });
   }
 }

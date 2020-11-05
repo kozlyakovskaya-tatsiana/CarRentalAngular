@@ -26,7 +26,7 @@
       <td>{{car.fuelType}}</td>
       <td>Free</td>
       <td><button type="button" class="btn btn-primary btn-sm" [routerLink]="['', 'carinfo', car.id]">Full info<i class="far fa-file-alt ml-1"></i></button></td>
-      <td><button type="button" class="btn btn-warning btn-sm">Update<i class="fas fa-pencil-alt ml-1"></i></button></td>
+      <td><button type="button" class="btn btn-warning btn-sm" [routerLink]="['', 'caredit', car.id]">Update<i class="fas fa-pencil-alt ml-1"></i></button></td>
       <td><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(car.id)">Delete<i class="fas fa-trash-alt ml-1"></i></button></td>
     </tr>
   </ng-container>

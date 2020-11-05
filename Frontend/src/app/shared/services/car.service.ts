@@ -36,7 +36,7 @@ export class CarService {
     return this.http.post(this.url, formData);
   }
 
-  public removeCar(id: number): Observable<any>{
+  public removeCar(id: string): Observable<any>{
     return this.http.delete(this.url + id);
   }
 
