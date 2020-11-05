@@ -29,13 +29,12 @@ export class CreateCarComponent implements OnInit {
   isLoading: boolean;
 
   imageSrcs: any;
-
   imageFilesArray: Array<File>;
 
-  onChangeImages(event): void{
+  onChangeImages(event): void {
     if (event.target.files && event.target.files.length) {
       this.imageFilesArray = this.imageFilesArray.concat(Array.from(event.target.files));
-      this.imageFilesArray.forEach(file => {
+      [...event.target.files].forEach(file => {
         const fileReader = new FileReader();
         fileReader.onload = e => {
           this.imageSrcs.push(e.target.result);
@@ -43,63 +42,62 @@ export class CreateCarComponent implements OnInit {
         fileReader.readAsDataURL(file);
       });
       console.log(this.imageFilesArray);
-    }
-  }
-
-  deleteImage(index: number): void {
-    this.imageSrcs.splice(index, 1);
-    this.imageFilesArray.splice(index, 1);
-    console.log(this.imageFilesArray);
-    if (!this.imageFilesArray.length)
-    {
-      this.createCarForm.patchValue({images: null});
-    }
-  }
-
-  onSubmit(): void{
-    const form = document.forms[0];
-    const formData = new FormData(form);
-    this.imageFilesArray.forEach(imgFile => {
-      formData.append('images', imgFile);
-    });
-    console.log(this.imageFilesArray);
-    this.carService.createCar(formData).subscribe(data => {
-      this.isLoading = true;
-      console.log(data);
-      swal({
-          title: 'Creating cars is successful',
-          icon: 'success'
-        })
-        .then(val => {
-          this.location.back();
-        });
-      },
-      err => {
-        let errorMessage: string;
-        if (err.error instanceof ProgressEvent){
-          errorMessage = 'HTTP Failure to get resource';
-        }
-        else if (err.error?.title){
-          errorMessage = err.error.title;
-        }
-        else {
-          errorMessage = err.message;
-        }
-        swal(
-          {
-            title: 'Error',
-            icon: 'error',
-            text: errorMessage
-          });
-        this.isLoading = false;
-      },
-      () => {
-        this.isLoading = false;
       }
-    );
-  }
+    }
 
-  ngOnInit(): void {
+    deleteImage(index: number): void {
+        this.imageSrcs.splice(index, 1);
+        this.imageFilesArray.splice(index, 1);
+        console.log(this.imageFilesArray);
+        if (!this.imageFilesArray.length)
+        {
+          this.createCarForm.patchValue({images: null});
+        }
+      }
+
+      onSubmit(): void{
+        const form = document.forms[0];
+        const formData = new FormData(form);
+        this.imageFilesArray.forEach(imgFile => {
+          formData.append('images', imgFile);
+        });
+        console.log(this.imageFilesArray);
+        this.isLoading = true;
+        this.carService.createCar(formData).subscribe(data => {
+            swal({
+              title: 'Creating is successful.',
+              icon: 'success'
+            }).then(val => {
+              this.location.back();
+            });
+          },
+            err => {
+              let errorMessage: string;
+              if (err.error instanceof ProgressEvent){
+                errorMessage = 'HTTP Failure to get resource';
+              }
+              else if (err.error?.title){
+                errorMessage = err.error.title;
+              }
+              else {
+                errorMessage = err.message;
+              }
+              swal(
+                {
+                  title: 'Error',
+                  icon: 'error',
+                  text: errorMessage
+                });
+
+              this.isLoading = false;
+            },
+            () => {
+              this.isLoading = false;
+            }
+        );
+      }
+
+    ngOnInit(): void {
     this.carService.getCarcases().subscribe(data => {
         console.log(data);
         this.carcases = data;

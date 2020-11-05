@@ -34,7 +34,7 @@ namespace CarRental.Service.Services
         {
             var carToCreate = _mapper.Map<Car>(carCreateDto);
 
-            for (int i = 0; i < carCreateDto.Images.Length; i++)
+            for (var i = 0; i < carCreateDto.Images.Length; i++)
             {
                 var imagePath = carCreateDto.PathToStoreImages + carToCreate.Id + carCreateDto.Images[i].FileName;
 

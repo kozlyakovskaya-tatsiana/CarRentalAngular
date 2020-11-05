@@ -7,7 +7,7 @@ namespace CarRental.DAL.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            /*migrationBuilder.CreateTable(
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -62,7 +62,7 @@ namespace CarRental.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ImageFiles", x => x.Id);
-                });*/
+                });
 
             migrationBuilder.CreateTable(
                 name: "Images",
@@ -77,7 +77,7 @@ namespace CarRental.DAL.Migrations
                     table.PrimaryKey("PK_Images", x => x.Id);
                 });
 
-           /* migrationBuilder.CreateTable(
+            migrationBuilder.CreateTable(
                 name: "RefreshTokens",
                 columns: table => new
                 {
@@ -193,7 +193,7 @@ namespace CarRental.DAL.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });*/
+                });
 
             migrationBuilder.CreateTable(
                 name: "Cars",
@@ -230,7 +230,7 @@ namespace CarRental.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            /*migrationBuilder.CreateIndex(
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -267,7 +267,7 @@ namespace CarRental.DAL.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");*/
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_MainImageFileId",
