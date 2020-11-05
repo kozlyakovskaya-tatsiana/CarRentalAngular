@@ -38,6 +38,12 @@ namespace CarRental.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("MainImageFileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MainImageId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Mark")
                         .HasColumnType("nvarchar(max)");
 
@@ -59,16 +65,35 @@ namespace CarRental.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MainImageFileId");
+
+                    b.HasIndex("MainImageId")
+                        .IsUnique();
+
                     b.ToTable("Cars");
                 });
 
-            modelBuilder.Entity("CarRental.DAL.Entities.Document", b =>
+            modelBuilder.Entity("CarRental.DAL.Entities.Image", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CarId")
+                    b.Property<byte[]>("ImageDataUrl")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("CarRental.DAL.Entities.ImageFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -77,14 +102,9 @@ namespace CarRental.DAL.Migrations
                     b.Property<string>("Path")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CarId");
-
-                    b.ToTable("Documents");
+                    b.ToTable("ImageFiles");
                 });
 
             modelBuilder.Entity("CarRental.DAL.Entities.RefreshToken", b =>
@@ -312,11 +332,19 @@ namespace CarRental.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CarRental.DAL.Entities.Document", b =>
+            modelBuilder.Entity("CarRental.DAL.Entities.Car", b =>
                 {
-                    b.HasOne("CarRental.DAL.Entities.Car", "Car")
-                        .WithMany("Documents")
-                        .HasForeignKey("CarId");
+                    b.HasOne("CarRental.DAL.Entities.ImageFile", "MainImageFile")
+                        .WithMany()
+                        .HasForeignKey("MainImageFileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarRental.DAL.Entities.Image", "MainImage")
+                        .WithOne("Car")
+                        .HasForeignKey("CarRental.DAL.Entities.Car", "MainImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

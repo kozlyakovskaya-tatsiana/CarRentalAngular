@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using CarRental.DAL.Enums;
 
 namespace CarRental.DAL.Entities
@@ -27,7 +26,13 @@ namespace CarRental.DAL.Entities
         public FuelType FuelType { get; set; }
 
         public double TrunkVolume { get; set; }
-        
-        public List<Document> Documents { get; set; }
+
+        public ImageFile MainImageFile { get; set; }
+
+        public Guid MainImageFileId { get; set; }
+
+        public Image MainImage { get; set; }
+
+        public Guid MainImageId { get; set; }
     }
 }

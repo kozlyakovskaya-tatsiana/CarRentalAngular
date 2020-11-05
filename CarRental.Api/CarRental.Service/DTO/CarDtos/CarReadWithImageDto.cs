@@ -2,8 +2,6 @@
 {
     public class CarReadWithImageDto: CarDtoBase
     {
-        public string PathToMainImage { get; set; }
-
-        public string ImageDataUrl { get; set; }
+        public string[] ImageDataUrls { get; set; }
     }
 }

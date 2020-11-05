@@ -6,6 +6,7 @@ using CarRental.Service.Helpers;
 using CarRental.Service.Services;
 using CarRental.Service.WebModels.Car;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -33,6 +34,30 @@ namespace CarRental.Api.Controllers
             _carService = carService;
 
             _carHelper = carHelper;
+        }
+
+        /// <summary>
+        /// Create a car.
+        /// </summary>
+        /// <param name="carCreatingFormDataRequest">Data for creating car.</param>
+        /// <param name="environment">IWebHost environment.</param>
+        /// <returns>Result of creating.</returns>
+        /// <response code="200">Creating is successful.</response>
+        /// <response code="400">Validation is failed.</response>
+        /// <response code="401">Access denied. Authorization failed.</response>
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        public async Task<IActionResult> CreateCar([FromForm] CarCreatingFormDataRequest carCreatingFormDataRequest, [FromServices] IWebHostEnvironment environment)
+        {
+            var carCreatingDto = _mapper.Map<CarCreateDto>(carCreatingFormDataRequest);
+
+            carCreatingDto.PathToStoreImages = environment.WebRootPath + "\\images\\";
+
+            await _carService.CreateCarAsync(carCreatingDto);
+
+            return Ok();
         }
 
         /// <summary>
@@ -111,32 +136,11 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetCar(Guid id)
+        public async Task<IActionResult> GetCarWithImages(Guid id)
         {
-            var car = await _carService.GetCarWithImgsAsync(id);
+            var car = await _carService.GetCarWithImagesAsync(id);
 
             return Ok(car);
-        }
-
-        /// <summary>
-        /// Create a car.
-        /// </summary>
-        /// <param name="carCreatingFormData">Data for creating car.</param>
-        /// <returns>Result of creating.</returns>
-        /// <response code="200">Creating is successful.</response>
-        /// <response code="400">Validation is failed.</response>
-        /// <response code="401">Access denied. Authorization failed.</response>
-        [HttpPost]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(401)]
-        public async Task<IActionResult> CreateCar([FromForm] CarCreatingFormDataRequest carCreatingFormData)
-        {
-            var carCreatingDto = _mapper.Map<CarCreateDto>(carCreatingFormData);
-
-            await _carService.CreateCarAsync(carCreatingDto);
-
-            return Ok();
         }
 
         /// <summary>

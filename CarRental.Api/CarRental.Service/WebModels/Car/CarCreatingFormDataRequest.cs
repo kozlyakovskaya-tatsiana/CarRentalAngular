@@ -25,6 +25,6 @@ namespace CarRental.Service.WebModels.Car
 
         public double TrunkVolume { get; set; }
 
-        public IFormFile MainImageFile { get; set; }
+        public IFormFile[] Images { get; set; }
     }
 }

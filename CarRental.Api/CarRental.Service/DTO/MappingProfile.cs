@@ -36,21 +36,17 @@ namespace CarRental.Service.DTO
 
             CreateMap<Car, CarReadDto>();
 
-            CreateMap<IFormFile, ImageFile>()
-                .ForMember(img => img.Name, opt => opt.MapFrom(file => file.FileName));
-
-            CreateMap<IFormFile, Image>()
-                .ForMember(img => img.Name, opt => opt.MapFrom(file => file.FileName));
-
-            CreateMap<CarCreatingFormDataRequest, CarCreateDto>();
+            CreateMap<IFormFile, Document>()
+                .ForMember(doc => doc.Name, opt => opt.MapFrom(file => file.FileName))
+                .ForMember(doc => doc.Type, opt => opt.MapFrom(file => file.ContentType));
 
             CreateMap<CarCreateDto, Car>()
-                .ForMember(car => car.MainImageFile, opt => opt.MapFrom(dto => dto.MainImageFile))
-                .ForMember(car => car.MainImage, opt => opt.MapFrom(dto => dto.MainImageFile));
+                .ForMember(car => car.Documents, opt => opt.MapFrom(dto => dto.Images))
+                .ForMember(car => car.Id, opt => opt.MapFrom(dto => Guid.NewGuid()));
 
-            CreateMap<Car, CarReadWithImageDto>()
-                .ForMember(carDto => carDto.PathToMainImage, opt => opt.MapFrom(car => car.MainImageFile.Path))
-                .ForMember(carDto => carDto.ImageDataUrl, opt => opt.MapFrom(car =>  $"data:image/jpg;base64,{Convert.ToBase64String(car.MainImage.ImageDataUrl)}"));
+            CreateMap<Car, CarReadWithImageDto>();
+
+            CreateMap<CarCreatingFormDataRequest, CarCreateDto>();
         }
     }
 }

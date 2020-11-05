@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using AutoMapper;
 using CarRental.Api.Extensions;
 using CarRental.DAL.EFCore;
@@ -11,7 +10,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;

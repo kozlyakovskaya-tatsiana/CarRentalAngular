@@ -11,7 +11,7 @@ namespace CarRental.Service.Services
 
         Task<IEnumerable<CarReadDto>> GetCarsAsync();
 
-        Task<CarReadWithImageDto> GetCarWithImgsAsync(Guid id);
+        Task<CarReadWithImageDto> GetCarWithImagesAsync(Guid id);
 
         Task RemoveCarAsync(Guid id);
 

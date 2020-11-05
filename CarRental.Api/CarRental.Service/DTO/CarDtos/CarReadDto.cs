@@ -17,6 +17,5 @@ namespace CarRental.Service.DTO.CarDtos
         public string Transmission { get; set; }
 
         public string FuelType { get; set; }
-
     }
 }
