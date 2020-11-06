@@ -1,29 +1,34 @@
 <div class="card mt-3 mb-2">
   <div class="row">
-      <div class="col-lg-4">
-        <h2 class="card-title text-center mt-2">{{car?.mark}} {{car?.model}}</h2>
-        <div class="card-img ml-5 mt-2 mb-3" style="width: 90%">
-          <img [src]="car?.imageDataUrls[0]" class="card-img" alt="Car">
+    <div class="container">
+        <div class="col-lg-4 offset-lg-4">
+          <h2 class="card-title text-center mt-2">{{car?.mark}} {{car?.model}}</h2>
         </div>
+    </div>
+  </div>
+  <div class="row mt-3 mb-4">
+    <div class="container">
+      <div class="col-lg-6 offset-lg-3">
+        <app-photo-auto [imageDataUrls]="car?.imageNames"></app-photo-auto>
       </div>
-          <div class="col-lg-8 align-self-center">
-            <h3 class="text-center">Place for rental's cost</h3>
-          </div>
+    </div>
   </div>
-  <div class="row col-lg-5 ml-3">
-      <button type="button" class="btn btn-warning mr-2" (click)="section = SectionEnum.Description">Tech. description</button>
-      <button type="button" class="btn btn-warning mr-2" (click)="section = SectionEnum.Photo">Photo</button>
-      <button type="button" class="btn btn-warning mr-2" (click)="section = SectionEnum.RentalConditions">Rental conditions</button>
+  <div class="row col-lg-7 ml-3">
+      <button type="button" class="btn btn-warning mr-2" (click)="section = CarSectionEnum.Description">Tech. description</button>
+      <button type="button" class="btn btn-warning mr-2" (click)="section = CarSectionEnum.Price">Rental's cost</button>
+      <button type="button" class="btn btn-warning mr-2" (click)="section = CarSectionEnum.RentalConditions">Rental conditions</button>
   </div>
-      <div class="card-body" style="width: 70%">
+      <div class="card-body">
         <ng-container [ngSwitch]="section">
-          <ng-template [ngSwitchCase]="SectionEnum.Description">
-            <app-tech-description [car]="car"></app-tech-description>
+          <ng-template [ngSwitchCase]="CarSectionEnum.Description">
+            <div style="width: 65%" >
+              <app-tech-description [car]="car" ></app-tech-description>
+            </div>
           </ng-template>
-          <ng-template [ngSwitchCase]="SectionEnum.Photo">
-            <app-photo-auto></app-photo-auto>
+          <ng-template [ngSwitchCase]="CarSectionEnum.Price">
+              <app-car-prices></app-car-prices>
           </ng-template>
-          <ng-template [ngSwitchCase]="SectionEnum.RentalConditions">
+          <ng-template [ngSwitchCase]="CarSectionEnum.RentalConditions">
             <app-rental-conditions></app-rental-conditions>
           </ng-template>
         </ng-container>

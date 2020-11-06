@@ -3,6 +3,7 @@ import {CarService} from '../../../shared/services/car.service';
 import {ActivatedRoute} from '@angular/router';
 import swal from 'sweetalert';
 import {CarToReadWithImage} from '../../../shared/utils/Car/CarToReadWithImage';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-car-info',
@@ -20,9 +21,15 @@ export class CarInfoComponent implements OnInit {
   id: string;
 
   ngOnInit(): void {
-    this.carService.getCar(this.id).subscribe(data => {
+    this.carService.getCar(this.id).pipe(
+      map(c => {
+        const car = c as CarToReadWithImage;
+        car.imageNames = car.imageNames.map(name => this.carService.backendUrlForImages + name);
+        console.log(car.imageNames);
+        return car;
+      })).subscribe(data => {
       this.car = data;
-      console.log(data);
+      console.log(data.imageNames);
       },
       err => {
         console.log(err);

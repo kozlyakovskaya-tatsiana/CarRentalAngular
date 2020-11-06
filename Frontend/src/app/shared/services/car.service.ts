@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {CarToCreate} from '../utils/Car/CarToCreate';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +8,8 @@ import {CarToCreate} from '../utils/Car/CarToCreate';
 export class CarService {
 
   constructor(private http: HttpClient) { }
+
+  public backendUrlForImages = 'https://localhost:44397/images/';
 
   private url = 'https://localhost:44397/api/Car/';
 

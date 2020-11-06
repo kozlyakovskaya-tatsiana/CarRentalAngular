@@ -30,6 +30,7 @@ import { CarTechDescriptionComponent } from './modules/cars/car-tech-description
 import { PhotoAutoComponent } from './modules/cars/photo-auto/photo-auto.component';
 import { RentalConditionsComponent } from './ui/rental-conditions/rental-conditions.component';
 import { CarPhotoComponent } from './modules/cars/car-photo/car-photo.component';
+import { CarPricesComponent } from './modules/cars/car-prices/car-prices.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { CarPhotoComponent } from './modules/cars/car-photo/car-photo.component'
     CarTechDescriptionComponent,
     PhotoAutoComponent,
     RentalConditionsComponent,
-    CarPhotoComponent
+    CarPhotoComponent,
+    CarPricesComponent
   ],
   imports: [
     BrowserModule,

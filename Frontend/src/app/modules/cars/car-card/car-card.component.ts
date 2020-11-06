@@ -1,11 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {CarToReadWithImage} from '../../../shared/utils/Car/CarToReadWithImage';
+import {CarSection} from '../../../shared/utils/Car/CarSection';
 
-export enum Section{
-  Description,
-  Photo,
-  RentalConditions
-}
 @Component({
   selector: 'app-car-card',
   templateUrl: './car-card.component.html',
@@ -14,11 +10,12 @@ export enum Section{
 export class CarCardComponent{
 
   constructor() {
-    this.section = Section.Description;
+    this.section = CarSection.Description;
   }
-  SectionEnum = Section;
+
+  CarSectionEnum = CarSection;
 
   @Input() car: CarToReadWithImage;
 
-  section: Section;
+  section: CarSection;
 }
