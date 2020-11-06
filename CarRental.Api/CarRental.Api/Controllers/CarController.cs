@@ -136,7 +136,7 @@ namespace CarRental.Api.Controllers
         {
             var carCreatingDto = _mapper.Map<CarCreateDto>(carCreatingFormData);
 
-            carCreatingDto.PathToStoreImages = environment.WebRootPath + "\\images\\";
+            /* carCreatingDto.PathToStoreImages = environment.WebRootPath;*/
 
             await _carService.CreateCarAsync(carCreatingDto);
 

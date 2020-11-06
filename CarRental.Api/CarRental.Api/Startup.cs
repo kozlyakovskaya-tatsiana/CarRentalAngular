@@ -62,6 +62,8 @@ namespace CarRental.Api
                 app.UseExceptionHandler("/error");
             }
 
+            Configuration.GetSection("ImagesStoreFolder").Value = env.WebRootPath + Configuration.GetSection("ImagesStoreFolder").Value;
+
             const string cacheMaxAge = "604800";
             app.UseStaticFiles(new StaticFileOptions
             {

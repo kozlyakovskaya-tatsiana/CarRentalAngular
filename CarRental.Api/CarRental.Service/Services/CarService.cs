@@ -10,6 +10,8 @@ using CarRental.DAL.Exceptions;
 using CarRental.Service.DTO.CarDtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace CarRental.Service.Services
 {
@@ -21,26 +23,36 @@ namespace CarRental.Service.Services
 
         private readonly IRepository<Car> _carRepository;
 
-        public CarService(ILogger<CarService> logger, IMapper mapper, IRepository<Car> carRepository, IRepository<Document> fileRepository)
+        private readonly IConfiguration _configuration;
+
+        public CarService(ILogger<CarService> logger, IMapper mapper, IRepository<Car> carRepository, IRepository<Document> fileRepository, IConfiguration configuration)
         {
             _logger = logger;
 
             _mapper = mapper;
 
             _carRepository = carRepository;
+
+            _configuration = configuration;
         }
 
-        public async Task CreateCarAsync(CarCreateDto carCreateDto)
+        public async Task CreateCarAsync(CarCreateDto carCreateDto )
         {
             var carToCreate = _mapper.Map<Car>(carCreateDto);
 
+            carCreateDto.PathToStoreImages = _configuration["ImagesStoreFolder"];
+
             for (var i = 0; i < carCreateDto.Images.Length; i++)
             {
-                var imagePath = carCreateDto.PathToStoreImages + carToCreate.Id + carCreateDto.Images[i].FileName;
+                var imageName = Guid.NewGuid() + carCreateDto.Images[i].FileName;
+
+                var imagePath = carCreateDto.PathToStoreImages + imageName;
 
                 await SaveFileInFileSystemAsync(carCreateDto.Images[i], imagePath);
 
                 carToCreate.Documents[i].Path = imagePath;
+
+                carToCreate.Documents[i].Name = imageName;
             }
 
             await _carRepository.CreateAsync(carToCreate);
@@ -83,20 +95,25 @@ namespace CarRental.Service.Services
 
             var carReadWithImgDto = _mapper.Map<CarReadWithImageDto>(car);
 
-            carReadWithImgDto.ImageDataUrls = new string[car.Documents.Count];
-
-            for (int i = 0; i < car.Documents.Count; i++)
-            {
-                var imgDataBytes = await File.ReadAllBytesAsync(car.Documents[i].Path);
-
-                carReadWithImgDto.ImageDataUrls[i] = $"data:{car.Documents[i].Type};base64,{Convert.ToBase64String(imgDataBytes)}";
-            }
+            carReadWithImgDto.ImageNames = car.Documents.Select(doc => doc.Name).ToArray();
 
             return carReadWithImgDto;
         }
 
         public async Task RemoveCarAsync(Guid id)
         {
+            var car = _carRepository.Include(c => c.Documents).FirstOrDefault(c => c.Id == id);
+
+            if (car == null)
+                throw new NotFoundException("There is no car with such Id");
+
+            var images = car.Documents.Select(doc => doc.Path);
+
+            foreach (var image in images)
+            {
+                File.Delete(image);
+            }
+
             await _carRepository.RemoveAsync(id);
 
             await _carRepository.SaveChangesAsync();

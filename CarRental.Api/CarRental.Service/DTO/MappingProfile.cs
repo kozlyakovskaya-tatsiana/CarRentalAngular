@@ -37,7 +37,6 @@ namespace CarRental.Service.DTO
             CreateMap<Car, CarReadDto>();
 
             CreateMap<IFormFile, Document>()
-                .ForMember(doc => doc.Name, opt => opt.MapFrom(file => file.FileName))
                 .ForMember(doc => doc.Type, opt => opt.MapFrom(file => file.ContentType));
 
             CreateMap<CarCreateDto, Car>()
