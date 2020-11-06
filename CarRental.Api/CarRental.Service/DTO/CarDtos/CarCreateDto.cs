@@ -25,6 +25,8 @@ namespace CarRental.Service.DTO.CarDtos
 
         public double TrunkVolume { get; set; }
 
+        public Status Status { get; set; }
+
         public IFormFile[] Images { get; set; }
 
         public string PathToStoreImages { get; set; }

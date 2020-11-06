@@ -23,6 +23,10 @@ namespace CarRental.DAL.EntityConfigurations
                 .HasConversion(new EnumToStringConverter<TransmissionType>());
 
             builder
+                .Property(car => car.Status)
+                .HasConversion(new EnumToStringConverter<Status>());
+
+            builder
                 .HasMany(car => car.Documents)
                 .WithOne(doc => doc.Car)
                 .HasForeignKey(doc => doc.CarId)

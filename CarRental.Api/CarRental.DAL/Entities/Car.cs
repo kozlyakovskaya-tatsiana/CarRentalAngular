@@ -28,6 +28,8 @@ namespace CarRental.DAL.Entities
 
         public double TrunkVolume { get; set; }
 
+        public Status Status { get; set; }
+
         public List<Document> Documents { get; set; }
     }
 }

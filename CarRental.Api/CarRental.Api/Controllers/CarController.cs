@@ -7,6 +7,7 @@ using CarRental.Service.Services;
 using CarRental.Service.WebModels.Car;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -85,6 +86,22 @@ namespace CarRental.Api.Controllers
         }
 
         /// <summary>
+        /// Get types of status.
+        /// </summary>
+        /// <returns>Array of status types.</returns>
+        /// <response code="200">Returns types of status.</response>
+        /// <response code="401">Access denied. Authorization failed.</response>
+        [HttpGet("statustypes")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        public async Task<IActionResult> GetStatusTypes()
+        {
+            var statusTypes = _carHelper.GetStatusTypes();
+
+            return Ok(statusTypes);
+        }
+
+        /// <summary>
         /// Get an array of cars.
         /// </summary>
         /// <returns>An array of cars.</returns>
@@ -119,11 +136,21 @@ namespace CarRental.Api.Controllers
             return Ok(car);
         }
 
+        [HttpGet("editcar/{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GetCarForUpdate(Guid id)
+        {
+            var car = await _carService.GetCarForUpdateAsync(id);
+
+            return Ok(car);
+        }
+
         /// <summary>
         /// Create a car.
         /// </summary>
         /// <param name="carCreatingFormData">Data for creating car.</param>
-        /// <param name="environment">IWebHost environment.</param>
         /// <returns>Result of creating.</returns>
         /// <response code="200">Creating is successful.</response>
         /// <response code="400">Validation is failed.</response>
@@ -132,11 +159,9 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public async Task<IActionResult> CreateCar([FromForm] CarCreatingFormDataRequest carCreatingFormData, [FromServices] IWebHostEnvironment environment)
+        public async Task<IActionResult> CreateCar([FromForm] CarCreatingFormDataRequest carCreatingFormData)
         {
             var carCreatingDto = _mapper.Map<CarCreateDto>(carCreatingFormData);
-
-            /* carCreatingDto.PathToStoreImages = environment.WebRootPath;*/
 
             await _carService.CreateCarAsync(carCreatingDto);
 

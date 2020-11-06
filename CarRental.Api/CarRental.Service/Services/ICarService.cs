@@ -16,5 +16,7 @@ namespace CarRental.Service.Services
         Task RemoveCarAsync(Guid id);
 
         Task<CarReadDto> GetCarAsync(Guid id);
+
+        Task<CarForUpdateViewModel> GetCarForUpdateAsync(Guid id);
     }
 }

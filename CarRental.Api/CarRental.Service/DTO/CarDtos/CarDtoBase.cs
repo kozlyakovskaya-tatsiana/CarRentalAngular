@@ -1,4 +1,5 @@
 ﻿using System;
+using CarRental.DAL.Enums;
 
 namespace CarRental.Service.DTO.CarDtos
 {
@@ -23,6 +24,8 @@ namespace CarRental.Service.DTO.CarDtos
         public double TankVolume { get; set; }
 
         public string FuelType { get; set; }
+
+        public string Status { get; set; }
 
         public double TrunkVolume { get; set; }
     }

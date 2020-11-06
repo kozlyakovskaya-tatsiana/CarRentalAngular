@@ -36,7 +36,7 @@ namespace CarRental.Service.Services
             _configuration = configuration;
         }
 
-        public async Task CreateCarAsync(CarCreateDto carCreateDto )
+        public async Task CreateCarAsync(CarCreateDto carCreateDto)
         {
             var carToCreate = _mapper.Map<Car>(carCreateDto);
 
@@ -117,6 +117,36 @@ namespace CarRental.Service.Services
             await _carRepository.RemoveAsync(id);
 
             await _carRepository.SaveChangesAsync();
+        }
+
+        public async Task<CarForUpdateViewModel> GetCarForUpdateAsync(Guid id)
+        {
+            var car = _carRepository.Include(c => c.Documents).FirstOrDefault(c => c.Id == id);
+
+            if (car == null)
+                throw new NotFoundException("There is no car with such Id");
+
+            var carForUpdate = _mapper.Map<CarForUpdateViewModel>(car);
+
+            var documentsAmount = car.Documents.Count;
+
+           carForUpdate.Images = new IFormFile[documentsAmount];
+
+            for (var i = 0; i < car.Documents.Count; i++)
+            {
+                using (var stream = File.OpenRead(car.Documents[i].Path))
+                {
+                    var file = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name))
+                    {
+                        Headers = new HeaderDictionary(),
+
+                        ContentType = car.Documents[i].Type
+                    };
+
+                    carForUpdate.Images[i] = file;
+                }
+            }
+            return carForUpdate;
         }
     }
 }
