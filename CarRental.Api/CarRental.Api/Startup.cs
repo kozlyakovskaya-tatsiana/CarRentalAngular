@@ -18,7 +18,9 @@ namespace CarRental.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _environment;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("jwtoptions.json")
@@ -26,6 +28,8 @@ namespace CarRental.Api
                 .AddConfiguration(configuration);
 
             Configuration = builder.Build();
+
+            _environment = environment;
         }
 
         public IConfiguration Configuration { get; }
@@ -48,6 +52,8 @@ namespace CarRental.Api
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddCors();
+
+            services.ConfigureImagesStore(Configuration, _environment);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

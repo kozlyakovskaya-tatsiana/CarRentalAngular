@@ -8,10 +8,12 @@ using CarRental.DAL;
 using CarRental.DAL.Entities;
 using CarRental.DAL.Exceptions;
 using CarRental.Service.DTO.CarDtos;
+using CarRental.Service.Identity.Options;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
+using Microsoft.Extensions.Options;
 
 namespace CarRental.Service.Services
 {
@@ -23,9 +25,9 @@ namespace CarRental.Service.Services
 
         private readonly IRepository<Car> _carRepository;
 
-        private readonly IConfiguration _configuration;
+        private readonly StaticFilesOptions _staticFilesOptions;
 
-        public CarService(ILogger<CarService> logger, IMapper mapper, IRepository<Car> carRepository, IRepository<Document> fileRepository, IConfiguration configuration)
+        public CarService(ILogger<CarService> logger, IMapper mapper, IRepository<Car> carRepository, IRepository<Document> fileRepository, IOptions<StaticFilesOptions> options)
         {
             _logger = logger;
 
@@ -33,14 +35,14 @@ namespace CarRental.Service.Services
 
             _carRepository = carRepository;
 
-            _configuration = configuration;
+            _staticFilesOptions = options.Value;
         }
 
         public async Task CreateCarAsync(CarCreateDto carCreateDto)
         {
-            var carToCreate = _mapper.Map<Car>(carCreateDto);
+            var carToCreate = _mapper.Map<Car>(carCreateDto); ;
 
-            carCreateDto.PathToStoreImages = _configuration["ImagesStoreFolder"];
+            carCreateDto.PathToStoreImages = _staticFilesOptions.ImagesStore;
 
             for (var i = 0; i < carCreateDto.Images.Length; i++)
             {
