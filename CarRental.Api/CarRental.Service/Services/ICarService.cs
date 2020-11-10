@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRental.Service.DTO.CarDtos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Service.Services
 {
@@ -15,8 +16,7 @@ namespace CarRental.Service.Services
 
         Task RemoveCarAsync(Guid id);
 
-        Task<CarReadDto> GetCarAsync(Guid id);
+        Task<CarReadDto> GetCarReadDtoAsync(Guid id);
 
-        Task<CarForUpdateViewModel> GetCarForUpdateAsync(Guid id);
     }
 }

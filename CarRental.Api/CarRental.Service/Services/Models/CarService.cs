@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CarRental.Service.Services.Models
 {
@@ -80,7 +81,7 @@ namespace CarRental.Service.Services.Models
             return carReadDtos;
         }
 
-        public async Task<CarReadDto> GetCarAsync(Guid id)
+        public async Task<CarReadDto> GetCarReadDtoAsync(Guid id)
         {
             var car = await _carRepository.FindByIdAsync(id);
 
@@ -91,7 +92,7 @@ namespace CarRental.Service.Services.Models
 
         public async Task<CarReadWithImageDto> GetCarWithImagesAsync(Guid id)
         {
-            var car = (await _carRepository.GetAllAsync(includes: quey => quey.Include(car => car.Documents))).FirstOrDefault(car => car.Id == id);
+            var car = (await _carRepository.GetAllAsync(includes: query => query.Include(c => c.Documents))).FirstOrDefault(c => c.Id == id);
 
             if (car == null)
                 throw new NotFoundException("There is no car with such Id");

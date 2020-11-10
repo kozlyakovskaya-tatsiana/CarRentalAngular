@@ -6,14 +6,17 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CarRental.DAL.Exceptions;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace CarRental.DAL.Repositories
 {
-    public class EfGenericRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
+    public class EfGenericRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
         private readonly ApplicationContext _context;
 
-        private readonly DbSet<TEntity> _dbSet;
+        protected readonly DbSet<TEntity> _dbSet;
+
+        protected Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> _includesFunc;
 
         public EfGenericRepository(ApplicationContext context)
         {
@@ -21,21 +24,24 @@ namespace CarRental.DAL.Repositories
 
             _dbSet = context.Set<TEntity>();
         }
+
         public async Task CreateAsync(TEntity entity)
         {
             if (entity != null)
             {
                 await _dbSet.AddAsync(entity);
+
+                await _context.SaveChangesAsync();
             }
-            else 
+            else
                 throw new Exception("Object is null. It can not be created.");
         }
 
         public async Task<TEntity> FindByIdAsync(Guid id)
         {
-            var entity =  await _dbSet.FindAsync(id);
+            var entity = await _dbSet.FindAsync(id);
 
-            if(entity == null)
+            if (entity == null)
                 throw new NotFoundException("There is no such object.");
 
             return entity;
@@ -51,10 +57,15 @@ namespace CarRental.DAL.Repositories
             return await _dbSet.Where(predicate).AsQueryable().ToArrayAsync();
         }
 
-        public void Remove(TEntity entity)
+        public async Task RemoveAsync(TEntity entity)
         {
             if (entity != null)
+            {
                 _dbSet.Remove(entity);
+
+                await _context.SaveChangesAsync();
+            }
+               
             else
                 throw new Exception("Object is null. It can not be deleted.");
         }
@@ -65,37 +76,38 @@ namespace CarRental.DAL.Repositories
 
             if (entityToDelete != null)
             {
-               _dbSet.Remove(entityToDelete);
+                _dbSet.Remove(entityToDelete);
+
+                await _context.SaveChangesAsync();
             }
             else
-                throw new NotFoundException("There is no object with such id.");
+                throw new NotFoundException($"id: {id}");
         }
 
-        public IEnumerable<TEntity> Include(params Expression<Func<TEntity, object>>[] includes)
-        {
-            var dbSet = _context.Set<TEntity>();
-
-            IEnumerable<TEntity> query = null;
-
-            foreach (var include in includes)
-            {
-                query = dbSet.Include(include);
-            }
-
-            return query ?? dbSet;
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
-
-        public virtual ValueTask<TEntity> UpdateOneAsync(TEntity entity)
+        public virtual async  ValueTask<TEntity> UpdateOneAsync(TEntity entity)
         {
             if (entity == null)
-                throw new Exception("Object is null. It can not be updated.");
+                throw new ArgumentOutOfRangeException(nameof(entity));
 
-            return new ValueTask<TEntity>(_dbSet.Update(entity).Entity);
+            var valTask = new ValueTask<TEntity>(_dbSet.Update(entity).Entity);
+
+            await _context.SaveChangesAsync();
+
+            return valTask.Result;
+        }
+
+        public async Task<IQueryable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null)
+        {
+            return await Task.Run(() =>
+            {
+                var result = _dbSet.AsQueryable();
+
+                if (includes != null)
+                    result = includes(result);
+
+                return result;
+            });
         }
     }
 }

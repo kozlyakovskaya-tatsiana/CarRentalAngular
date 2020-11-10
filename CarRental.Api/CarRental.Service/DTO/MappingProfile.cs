@@ -2,6 +2,7 @@
 using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.Service.DTO.CarDtos;
+using CarRental.Service.DTO.DocumentsDto;
 using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.WebModels;
 using CarRental.Service.WebModels.Car;
@@ -30,10 +31,6 @@ namespace CarRental.Service.DTO
 
             CreateMap<UserDtoBase, User>();
 
-            CreateMap<CarDtoBase, Car>();
-
-            CreateMap<Car, CarDtoBase>();
-
             CreateMap<Car, CarReadDto>();
 
             CreateMap<IFormFile, Document>()
@@ -46,6 +43,8 @@ namespace CarRental.Service.DTO
             CreateMap<Car, CarReadWithImageDto>();
 
             CreateMap<CarCreatingFormDataRequest, CarCreateDto>();
+
+            CreateMap<Document, DocumentDto>();
         }
     }
 }

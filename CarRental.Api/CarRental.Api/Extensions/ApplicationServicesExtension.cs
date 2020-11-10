@@ -4,6 +4,7 @@ using CarRental.Service.Helpers;
 using CarRental.Service.Identity;
 using CarRental.Service.Identity.Services;
 using CarRental.Service.Services;
+using CarRental.Service.Services.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CarRental.Api.Extensions
@@ -23,6 +24,12 @@ namespace CarRental.Api.Extensions
             services.AddScoped<IUserManagementService, UserManagementService>();
 
             services.AddScoped<ICarHelper, CarHelper>();
+
+            services.AddScoped<IDocumentService, DocumentService>();
+
+            services.AddScoped<ITokenRepository, TokenRepository>();
+
+            services.AddScoped<ICarRepository, CarRepository>();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using CarRental.DAL.Enums;
 
 namespace CarRental.Service.DTO.CarDtos
 {
@@ -20,6 +19,5 @@ namespace CarRental.Service.DTO.CarDtos
         public string FuelType { get; set; }
 
         public string Status { get; set; }
-
     }
 }

@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CarRental.DAL;
 using CarRental.DAL.Entities;
+using CarRental.DAL.Repositories;
 using CarRental.Service.Identity.Options;
 using CarRental.Service.ServiceModels;
 using Microsoft.Extensions.Options;
@@ -17,14 +18,13 @@ namespace CarRental.Service.Identity.Services
     {
         private readonly JwtOptions _jwtOptions;
 
-        private readonly IRepository<RefreshToken> _refreshTokenRepository;
+        private readonly ITokenRepository _refreshTokenRepository;
 
-        public TokenService(IOptions<JwtOptions> options, IRepository<RefreshToken> refreshTokenRepository)
+        public TokenService(IOptions<JwtOptions> options, ITokenRepository refreshTokenRepository)
         {
             _jwtOptions = options.Value;
 
             _refreshTokenRepository = refreshTokenRepository;
-
         }
 
         public string GenerateToken(IEnumerable<Claim> claims)
@@ -80,22 +80,18 @@ namespace CarRental.Service.Identity.Services
             var refreshToken = new RefreshToken { RefreshTokenValue = token };
 
             await _refreshTokenRepository.CreateAsync(refreshToken);
-
-            await _refreshTokenRepository.SaveChangesAsync();
         }
 
         public async Task<bool> IsTokenInDatabaseAsync(string token)
         {
-            return (await _refreshTokenRepository.GetAsync()).SingleOrDefault(refToken => refToken.RefreshTokenValue == token) != null;
+            return (await _refreshTokenRepository.FindTokenAsync(token)) != null;
         }
 
         public async Task DeleteTokenFromDataBaseAsync(string token)
         {
-            var refreshToken = (await _refreshTokenRepository.GetAsync()).SingleOrDefault(refToken => refToken.RefreshTokenValue == token);
+            var refreshToken = await _refreshTokenRepository.FindTokenAsync(token);
 
             await _refreshTokenRepository.RemoveAsync(refreshToken.Id);
-
-            await _refreshTokenRepository.SaveChangesAsync();
         }
 
         public async Task<TokenPair> GenerateTokenPairAsync(IEnumerable<Claim> claims)
@@ -116,14 +112,14 @@ namespace CarRental.Service.Identity.Services
 
         public async Task<TokenPair> RefreshTokenAsync(string refreshToken)
         {
+            var principal = ValidateToken(refreshToken);
+
             if (!( await IsTokenInDatabaseAsync(refreshToken)))
             {
                 throw new Exception("This token is invalid.");
             }
 
             await DeleteTokenFromDataBaseAsync(refreshToken);
-
-            var principal = ValidateToken(refreshToken);
 
             var tokens = await  GenerateTokenPairAsync(principal.Claims); 
 

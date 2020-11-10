@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.DTO.CarDtos;
@@ -6,7 +8,6 @@ using CarRental.Service.Helpers;
 using CarRental.Service.Services;
 using CarRental.Service.WebModels.Car;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -132,17 +133,6 @@ namespace CarRental.Api.Controllers
         public async Task<IActionResult> GetCar(Guid id)
         {
             var car = await _carService.GetCarWithImagesAsync(id);
-
-            return Ok(car);
-        }
-
-        [HttpGet("editcar/{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(401)]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> GetCarForUpdate(Guid id)
-        {
-            var car = await _carService.GetCarForUpdateAsync(id);
 
             return Ok(car);
         }
