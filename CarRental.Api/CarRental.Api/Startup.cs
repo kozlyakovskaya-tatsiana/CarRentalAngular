@@ -20,7 +20,7 @@ namespace CarRental.Api
     {
         private readonly IWebHostEnvironment _environment;
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        public Startup(IConfiguration configuration)
         {
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("jwtoptions.json")
@@ -28,8 +28,6 @@ namespace CarRental.Api
                 .AddConfiguration(configuration);
 
             Configuration = builder.Build();
-
-            _environment = environment;
         }
 
         public IConfiguration Configuration { get; }
@@ -53,7 +51,7 @@ namespace CarRental.Api
 
             services.AddCors();
 
-            services.ConfigureImagesStore(Configuration, _environment);
+            services.ConfigureImagesStore(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,8 +65,6 @@ namespace CarRental.Api
             {
                 app.UseExceptionHandler("/error");
             }
-
-            Configuration.GetSection("ImagesStoreFolder").Value = env.WebRootPath + Configuration.GetSection("ImagesStoreFolder").Value;
 
             const string cacheMaxAge = "604800";
             app.UseStaticFiles(new StaticFileOptions

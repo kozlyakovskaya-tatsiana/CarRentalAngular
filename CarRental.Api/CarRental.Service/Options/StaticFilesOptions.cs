@@ -1,4 +1,4 @@
-﻿namespace CarRental.Service.Identity.Options
+﻿namespace CarRental.Service.Options
 {
     public class StaticFilesOptions
     {

@@ -2,7 +2,7 @@
 
 namespace CarRental.DAL.Entities
 {
-    public class Document : IEntity
+    public class Document : BaseEntity
     {
         public Guid Id { get; set; }
 

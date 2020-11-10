@@ -4,7 +4,7 @@ using CarRental.DAL.Enums;
 
 namespace CarRental.DAL.Entities
 {
-    public class Car : IEntity
+    public class Car : BaseEntity
     {
         public Guid Id { get; set; }
 
