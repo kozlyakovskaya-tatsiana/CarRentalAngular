@@ -9,6 +9,7 @@ using CarRental.DAL.Entities;
 using CarRental.DAL.Exceptions;
 using CarRental.DAL.Repositories;
 using CarRental.Service.DTO.CarDtos;
+using CarRental.Service.DTO.DocumentsDto;
 using CarRental.Service.Identity.Options;
 using CarRental.Service.Options;
 using Microsoft.AspNetCore.Hosting;
@@ -72,32 +73,23 @@ namespace CarRental.Service.Services.Models
             await _carRepository.CreateAsync(carToCreate);
         }
 
-        public async Task<IEnumerable<CarReadDto>> GetCarsAsync()
+        public async Task<IEnumerable<CarReadTableInfoDto>> GetCarsForTableAsync()
         {
             var cars = await _carRepository.GetAsync();
 
-            var carReadDtos = _mapper.Map<IEnumerable<CarReadDto>>(cars);
+            var carReadDtos = _mapper.Map<IEnumerable<CarReadTableInfoDto>>(cars);
 
             return carReadDtos;
         }
 
-        public async Task<CarReadDto> GetCarReadDtoAsync(Guid id)
-        {
-            var car = await _carRepository.FindByIdAsync(id);
-
-            var carReadDto = _mapper.Map<CarReadDto>(car);
-
-            return carReadDto;
-        }
-
-        public async Task<CarReadWithImageDto> GetCarWithImagesAsync(Guid id)
+        public async Task<CarReadWithImagesDto> GetCarWithImagesAsync(Guid id)
         {
             var car = (await _carRepository.GetAllAsync(includes: query => query.Include(c => c.Documents))).FirstOrDefault(c => c.Id == id);
 
             if (car == null)
                 throw new NotFoundException("There is no car with such Id");
 
-            var carReadWithImgDto = _mapper.Map<CarReadWithImageDto>(car);
+            var carReadWithImgDto = _mapper.Map<CarReadWithImagesDto>(car);
 
             carReadWithImgDto.ImageNames = car.Documents.Select(doc => doc.Name).ToArray();
 
@@ -121,5 +113,25 @@ namespace CarRental.Service.Services.Models
             await _carRepository.RemoveAsync(id);
         }
 
+        public async ValueTask UpdateCarTechInfoAsync(CarTechInfoDto carTechInfo)
+        {
+            var car = _mapper.Map<Car>(carTechInfo);
+
+            await _carRepository.UpdateOneAsync(car);
+        }
+
+        public async Task<IEnumerable<DocumentDto>> GetCarsImages(Guid id)
+        {
+            var car = (await _carRepository.GetCarsWithDocuments()).FirstOrDefault(c => c.Id == id);
+
+            if (car == null)
+                throw new NotFoundException("There is no car with such Id");
+
+            var carImages = car.Documents;
+
+            var images = _mapper.Map<IEnumerable<DocumentDto>>(carImages);
+
+            return images;
+        }
     }
 }

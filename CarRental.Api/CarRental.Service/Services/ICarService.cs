@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRental.Service.DTO.CarDtos;
+using CarRental.Service.DTO.DocumentsDto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Service.Services
@@ -10,13 +11,15 @@ namespace CarRental.Service.Services
     {
         Task CreateCarAsync(CarCreateDto carCreateDto);
 
-        Task<IEnumerable<CarReadDto>> GetCarsAsync();
+        Task<IEnumerable<CarReadTableInfoDto>> GetCarsForTableAsync();
 
-        Task<CarReadWithImageDto> GetCarWithImagesAsync(Guid id);
+        Task<CarReadWithImagesDto> GetCarWithImagesAsync(Guid id);
 
         Task RemoveCarAsync(Guid id);
 
-        Task<CarReadDto> GetCarReadDtoAsync(Guid id);
+        ValueTask UpdateCarTechInfoAsync(CarTechInfoDto carTechInfo);
+
+        Task<IEnumerable<DocumentDto>> GetCarsImages(Guid id);
 
     }
 }

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {CarToReadWithImage} from '../../../shared/utils/Car/CarToReadWithImage';
+import {CarReadWithImage} from '../../../shared/utils/Car/CarReadWithImage';
 import {CarSection} from '../../../shared/utils/Car/CarSection';
 
 @Component({
@@ -15,7 +15,7 @@ export class CarCardComponent{
 
   CarSectionEnum = CarSection;
 
-  @Input() car: CarToReadWithImage;
+  @Input() car: CarReadWithImage;
 
   section: CarSection;
 }

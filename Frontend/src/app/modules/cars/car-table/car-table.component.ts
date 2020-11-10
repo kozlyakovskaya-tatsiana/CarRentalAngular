@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CarToRead} from '../../../shared/utils/Car/CarToRead';
+import {CarReadTableInfo} from '../../../shared/utils/Car/CarReadTableInfo';
 import {CarService} from '../../../shared/services/car.service';
 import swal from 'sweetalert';
 
@@ -12,7 +12,7 @@ export class CarTableComponent {
 
   constructor(private carService: CarService) { }
 
-  @Input() cars: CarToRead[];
+  @Input() cars: CarReadTableInfo[];
 
   onDelete(id: string): void{
     swal({

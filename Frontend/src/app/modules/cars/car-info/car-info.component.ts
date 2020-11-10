@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CarService} from '../../../shared/services/car.service';
 import {ActivatedRoute} from '@angular/router';
 import swal from 'sweetalert';
-import {CarToReadWithImage} from '../../../shared/utils/Car/CarToReadWithImage';
+import {CarReadWithImage} from '../../../shared/utils/Car/CarReadWithImage';
 import {map} from 'rxjs/operators';
 
 @Component({
@@ -17,13 +17,13 @@ export class CarInfoComponent implements OnInit {
     this.id = activatedRoute.snapshot.params.id;
   }
 
-  car: CarToReadWithImage;
+  car: CarReadWithImage;
   id: string;
 
   ngOnInit(): void {
     this.carService.getCar(this.id).pipe(
       map(c => {
-        const car = c as CarToReadWithImage;
+        const car = c as CarReadWithImage;
         car.imageNames = car.imageNames.map(name => this.carService.backendUrlForImages + name);
         console.log(car.imageNames);
         return car;

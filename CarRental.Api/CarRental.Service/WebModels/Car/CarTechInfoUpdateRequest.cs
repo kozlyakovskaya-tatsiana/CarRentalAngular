@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using CarRental.DAL.Enums;
 
-namespace CarRental.DAL.Entities
+namespace CarRental.Service.WebModels.Car
 {
-    public class Car : BaseEntity
+    public class CarTechInfoUpdateRequest
     {
+        public Guid Id { get; set; }
+
         public string Mark { get; set; }
 
         public string Model { get; set; }
@@ -27,7 +30,5 @@ namespace CarRental.DAL.Entities
         public double TrunkVolume { get; set; }
 
         public Status Status { get; set; }
-
-        public List<Document> Documents { get; set; }
     }
 }

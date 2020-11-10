@@ -13,8 +13,7 @@ namespace CarRental.Api.Extensions
     {
         public static void ConfigureImagesStore(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<StaticFilesOptions>(opt =>
-                opt.ImagesStore = configuration.GetSection("ImagesStore").Value);
+            services.Configure<StaticFileOptions>(configuration.GetSection(nameof(StaticFilesOptions)));
         }
     }
 }

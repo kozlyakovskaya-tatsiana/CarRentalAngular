@@ -18,8 +18,6 @@ namespace CarRental.Api
 {
     public class Startup
     {
-        private readonly IWebHostEnvironment _environment;
-
         public Startup(IConfiguration configuration)
         {
             var builder = new ConfigurationBuilder()

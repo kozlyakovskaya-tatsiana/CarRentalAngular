@@ -111,9 +111,9 @@ namespace CarRental.Api.Controllers
         [HttpGet("cars")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<IActionResult> GetCars()
+        public async Task<IActionResult> GetCarsForTable()
         {
-            var cars = await _carService.GetCarsAsync();
+            var cars = await _carService.GetCarsForTableAsync();
 
             return Ok(cars);
         }
@@ -130,11 +130,19 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetCar(Guid id)
+        public async Task<IActionResult> GetCarWithImages(Guid id)
         {
             var car = await _carService.GetCarWithImagesAsync(id);
 
             return Ok(car);
+        }
+
+        [HttpGet("images/{id}")]
+        public async Task<IActionResult> GetCarImages(Guid id)
+        {
+            var images = await _carService.GetCarsImages(id);
+
+            return Ok(images);
         }
 
         /// <summary>
@@ -156,6 +164,16 @@ namespace CarRental.Api.Controllers
             await _carService.CreateCarAsync(carCreatingDto);
 
             return Ok();
+        }
+
+        [HttpPut("techinfo")]
+        public async Task<IActionResult> UpdateCarTechInfo([FromBody] CarTechInfoUpdateRequest request)
+        {
+            var carDto = _mapper.Map<CarTechInfoDto>(request);
+
+            await _carService.UpdateCarTechInfoAsync(carDto);
+
+            return NoContent();
         }
 
         /// <summary>

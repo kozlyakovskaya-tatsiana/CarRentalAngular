@@ -15,6 +15,8 @@ import {CreateCarComponent} from './modules/cars/create-car/create-car.component
 import {CarManagementAccessGuard} from './shared/guards/car-management-access.guard';
 import {CarManagementScreenComponent} from './modules/cars/car-management-screen/car-management-screen.component';
 import {CarInfoComponent} from './modules/cars/car-info/car-info.component';
+import {CarEditComponent} from './modules/cars/car-edit/car-edit.component';
+import {CarImagesManagementComponent} from './modules/cars/car-images-management/car-images-management.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent},
@@ -29,6 +31,8 @@ const routes: Routes = [
   { path: 'createcar', component: CreateCarComponent, canActivate: [CarManagementAccessGuard]},
   { path: 'carmanagement', component: CarManagementScreenComponent, canActivate: [CarManagementAccessGuard]},
   { path: 'carinfo/:id', component: CarInfoComponent},
+  { path: 'caredit/:id', component: CarEditComponent, canActivate: [CarManagementAccessGuard]},
+  { path: 'careditimages/:id', component: CarImagesManagementComponent, canActivate: [CarManagementAccessGuard]},
   { path: '**', component: NotFoundComponent}
 ];
 

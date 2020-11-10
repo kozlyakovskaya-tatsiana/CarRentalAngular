@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CarToReadWithImage} from '../../../shared/utils/Car/CarToReadWithImage';
+import {CarReadWithImage} from '../../../shared/utils/Car/CarReadWithImage';
 
 @Component({
   selector: 'app-tech-description',
@@ -10,6 +10,6 @@ export class CarTechDescriptionComponent{
 
   constructor() { }
 
-  @Input() car: CarToReadWithImage;
+  @Input() car: CarReadWithImage;
 
 }

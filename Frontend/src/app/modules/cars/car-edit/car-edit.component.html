@@ -1,12 +1,15 @@
 <div class="col-md-7 offset-md-3 col-12 col-sm-12 col-lg-5 offset-lg-4 col-xl-4 offset-xl-4 mt-3 mb-3">
-  <h3 class="text-center">Creating a car</h3>
+  <h3 class="text-center">Editing a car</h3>
+  <div class="row justify-content-end">
+    <button type="button" class="btn btn-warning btn-sm m-1" [routerLink]="['','careditimages', car.id]">Manage images<i class="fas fa-images ml-1"></i></button>
+  </div>
   <div class="text-center">
-    <i class="fas fa-car fa-10x"></i>
+    <img [src]="carImgSrc" width="60%">
   </div>
   <form [formGroup]="CarForm" novalidate (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="mark">Mark</label>
-      <input type="text" class="form-control" id="mark" formControlName="mark" name="mark" [(ngModel)]="carToCreate.mark">
+      <input type="text" class="form-control" id="mark" formControlName="mark" name="mark" [(ngModel)]="car.mark">
       <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="CarForm.get('mark').invalid && CarForm.get('mark').touched">
         <div *ngIf="CarForm.get('mark').errors">
           Is a required field.
@@ -15,7 +18,7 @@
     </div>
     <div class="form-group">
       <label for="model">Model</label>
-      <input type="text" class="form-control " id="model" formControlName="model" name="model"  [(ngModel)]="carToCreate.model" >
+      <input type="text" class="form-control " id="model" formControlName="model" name="model"  [(ngModel)]="car.model" >
       <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="CarForm.get('model').invalid && CarForm.get('model').touched">
         <div *ngIf="CarForm.get('model').errors.required">
           Is a required field.
@@ -24,7 +27,7 @@
     </div>
     <div class="form-group">
       <label for="carcase">Carcase</label>
-      <select id="carcase" class="form-control" [(ngModel)]="carToCreate.carcase" name="carcase" formControlName="carcase">
+      <select id="carcase" class="form-control" [(ngModel)]="car.carcase" name="carcase" formControlName="carcase">
         <option disabled selected>Choose a carcase</option>
         <option *ngFor="let carcase of carcases">{{carcase}}</option>
       </select>
@@ -36,7 +39,7 @@
     </div>
     <div class="form-group">
       <label for="year">Year</label>
-      <input type="number" value="2020" class="form-control " id="year" [(ngModel)]="carToCreate.releaseYear" name="releaseYear" formControlName="releaseYear">
+      <input type="number" value="2020" class="form-control " id="year" [(ngModel)]="car.releaseYear" name="releaseYear" formControlName="releaseYear">
       <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="CarForm.get('releaseYear').invalid && CarForm.get('releaseYear').touched">
         <div *ngIf="CarForm.get('releaseYear').errors">
           Is a required field.
@@ -45,7 +48,7 @@
     </div>
     <div class="form-group">
       <label for="transmissionType">Transmission's type</label>
-      <select id="transmissionType" class="form-control" [(ngModel)]="carToCreate.transmission" name="transmission" formControlName="transmission">
+      <select id="transmissionType" class="form-control" [(ngModel)]="car.transmission" name="transmission" formControlName="transmission">
         <option disabled selected>Choose a transmission type</option>
         <option *ngFor="let type of transmissionTypes">{{type}}</option>
       </select>
@@ -57,7 +60,7 @@
     </div>
     <div class="form-group">
       <label for="enginePower">Engine power</label>
-      <input type="number" class="form-control " id="enginePower" [(ngModel)]="carToCreate.enginePower" name = "enginePower" formControlName="enginePower">
+      <input type="number" class="form-control " id="enginePower" [(ngModel)]="car.enginePower" name = "enginePower" formControlName="enginePower">
       <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="CarForm.get('enginePower').invalid && CarForm.get('enginePower').touched">
         <div *ngIf="CarForm.get('enginePower').errors">
           Is a required field.
@@ -66,7 +69,7 @@
     </div>
     <div class="form-group">
       <label for="fuelConsumption">Fuel consumption</label>
-      <input type="number" class="form-control " id="fuelConsumption" [(ngModel)]="carToCreate.fuelConsumption" name="fuelConsumption" formControlName="fuelConsumption">
+      <input type="number" class="form-control " id="fuelConsumption" [(ngModel)]="car.fuelConsumption" name="fuelConsumption" formControlName="fuelConsumption">
       <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="CarForm.get('fuelConsumption').invalid && CarForm.get('fuelConsumption').touched">
         <div *ngIf="CarForm.get('fuelConsumption').errors">
           Is a required field.
@@ -75,7 +78,7 @@
     </div>
     <div class="form-group">
       <label for="tankVolume">Tank's volume</label>
-      <input type="number" class="form-control " id="tankVolume" [(ngModel)]="carToCreate.tankVolume" name="tankVolume" formControlName="tankVolume">
+      <input type="number" class="form-control " id="tankVolume" [(ngModel)]="car.tankVolume" name="tankVolume" formControlName="tankVolume">
       <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="CarForm.get('tankVolume').invalid && CarForm.get('tankVolume').touched">
         <div *ngIf="CarForm.get('tankVolume').errors">
           Is a required field.
@@ -84,7 +87,7 @@
     </div>
     <div class="form-group">
       <label for="fuelType">Fuel's type</label>
-      <select id="fuelType" class="form-control" [(ngModel)]="carToCreate.fuelType" name="fuelType" formControlName="fuelType">
+      <select id="fuelType" class="form-control" [(ngModel)]="car.fuelType" name="fuelType" formControlName="fuelType">
         <option disabled selected>Choose a fuel's type</option>
         <option *ngFor="let type of fuelTypes">{{type}}</option>
       </select>
@@ -96,7 +99,7 @@
     </div>
     <div class="form-group">
       <label for="trunkVolume">Trunk's volume</label>
-      <input type="number" class="form-control " id="trunkVolume" [(ngModel)]="carToCreate.trunkVolume" name="trunkVolume" formControlName="trunkVolume">
+      <input type="number" class="form-control " id="trunkVolume" [(ngModel)]="car.trunkVolume" name="trunkVolume" formControlName="trunkVolume">
       <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="CarForm.get('trunkVolume').invalid && CarForm.get('trunkVolume').touched">
         <div *ngIf="CarForm.get('trunkVolume').errors">
           Is a required field.
@@ -105,7 +108,7 @@
     </div>
     <div class="form-group">
       <label for="status">Status</label>
-      <select id="status" class="form-control" [(ngModel)]="carToCreate.status" name="status" formControlName="status">
+      <select id="status" class="form-control" [(ngModel)]="car.status" name="status" formControlName="status">
         <option disabled selected>Status</option>
         <option *ngFor="let status of statusTypes">{{status}}</option>
       </select>
@@ -115,18 +118,9 @@
         </div>
       </ngb-alert>
     </div>
-    <div class="form-group">
-        <button type="button" class="btn btn-info btn-sm" (click)="uploadFileBtn.click()">Upload car's images</button>
-        <input type="file" hidden (change)="onChangeImages($event)" formControlName="images" accept="image/*" multiple #uploadFileBtn/>
-        <div *ngIf="CarForm.get('images').errors" class="error">
-          At least one image must to be.
-        </div>
-        <div *ngFor="let imgSrc of imageSrcs; let i = index;">
-          <app-car-photo [imgSrc]="imgSrc" [imgIndex]="i" (crossClicked)="deleteImage($event)"></app-car-photo>
-      </div>
       <div class="text-center">
-        <button type="submit" class="btn btn-success" [disabled]="CarForm.invalid || isLoading" >Create</button>
+        <button type="submit" class="btn btn-success" [disabled]="CarForm.invalid || isLoading" >Update</button>
       </div>
-    </div>
   </form>
 </div>
+

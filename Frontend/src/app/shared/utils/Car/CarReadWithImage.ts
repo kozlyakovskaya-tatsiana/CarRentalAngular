@@ -1,4 +1,4 @@
-export class CarToReadWithImage{
+export class CarReadWithImage{
   id: number;
   mark: string;
   model: string;
@@ -10,5 +10,6 @@ export class CarToReadWithImage{
   tankVolume: number;
   fuelType: number;
   trunkVolume: number;
+  status: string;
   imageNames: string[];
 }

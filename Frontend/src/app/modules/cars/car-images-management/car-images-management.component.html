@@ -1,0 +1,12 @@
+<div class="container mt-3 mb-3">
+  <h3 class="text-center">Images</h3>
+  <div class="row">
+    <div class="col-lg-4" *ngFor="let img of images; let i = index;" >
+        <app-car-photo  [imgSrc]="img.name" [imgIndex]="i" (crossClicked)="deleteImage($event)"></app-car-photo>
+    </div>
+    <div class="col-lg-4 align-self-center text-center">
+      <i class="fas fa-plus fa-2x btn" style="color: tomato" (click)="loadFilesBtn.click()"></i>
+      <input type="file" hidden accept="image/*" multiple #loadFilesBtn >
+    </div>
+    </div>
+</div>

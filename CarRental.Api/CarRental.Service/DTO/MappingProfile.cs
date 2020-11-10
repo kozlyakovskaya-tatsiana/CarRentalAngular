@@ -31,7 +31,7 @@ namespace CarRental.Service.DTO
 
             CreateMap<UserDtoBase, User>();
 
-            CreateMap<Car, CarReadDto>();
+            CreateMap<Car, CarReadTableInfoDto>();
 
             CreateMap<IFormFile, Document>()
                 .ForMember(doc => doc.Type, opt => opt.MapFrom(file => file.ContentType));
@@ -40,9 +40,13 @@ namespace CarRental.Service.DTO
                 .ForMember(car => car.Documents, opt => opt.MapFrom(dto => dto.Images))
                 .ForMember(car => car.Id, opt => opt.MapFrom(dto => Guid.NewGuid()));
 
-            CreateMap<Car, CarReadWithImageDto>();
+            CreateMap<Car, CarReadWithImagesDto>();
 
             CreateMap<CarCreatingFormDataRequest, CarCreateDto>();
+
+            CreateMap<CarTechInfoUpdateRequest, CarTechInfoDto>();
+
+            CreateMap<CarTechInfoDto, Car>();
 
             CreateMap<Document, DocumentDto>();
         }

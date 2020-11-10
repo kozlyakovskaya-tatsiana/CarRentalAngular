@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {CarTechInfo} from '../utils/Car/CarTechInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +30,24 @@ export class CarService {
     return this.http.get(this.url + 'fueltypes');
   }
 
+  public getStatusTypes(): Observable<any>{
+    return this.http.get(this.url + 'statustypes');
+  }
+
   public getTransmissionsTypes(): Observable<any>{
     return this.http.get(this.url + 'transmissionstypes');
   }
 
+  public getCarsImages(id: string): Observable<any>{
+    return this.http.get(this.url + 'images/' + id);
+  }
+
   public createCar(formData: FormData): Observable<any>{
     return this.http.post(this.url, formData);
+  }
+
+  public updateCarTechInfo(car: CarTechInfo): Observable<any>{
+    return this.http.put(this.url + 'techinfo/', car);
   }
 
   public removeCar(id: string): Observable<any>{

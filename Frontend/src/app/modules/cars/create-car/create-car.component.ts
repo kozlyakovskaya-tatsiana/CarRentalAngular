@@ -25,7 +25,8 @@ export class CreateCarComponent implements OnInit {
   carcases: string[];
   transmissionTypes: string[];
   fuelTypes: string[];
-  createCarForm: FormGroup;
+  statusTypes: string[];
+  CarForm: FormGroup;
   isLoading: boolean;
 
   imageSrcs: any;
@@ -43,19 +44,17 @@ export class CreateCarComponent implements OnInit {
       });
       console.log(this.imageFilesArray);
       }
-    }
-
-    deleteImage(index: number): void {
+  }
+  deleteImage(index: number): void {
         this.imageSrcs.splice(index, 1);
         this.imageFilesArray.splice(index, 1);
         console.log(this.imageFilesArray);
         if (!this.imageFilesArray.length)
         {
-          this.createCarForm.patchValue({images: null});
+          this.CarForm.patchValue({images: null});
         }
-      }
-
-      onSubmit(): void{
+  }
+  onSubmit(): void{
         const form = document.forms[0];
         const formData = new FormData(form);
         this.imageFilesArray.forEach(imgFile => {
@@ -95,9 +94,9 @@ export class CreateCarComponent implements OnInit {
               this.isLoading = false;
             }
         );
-      }
+  }
 
-    ngOnInit(): void {
+  ngOnInit(): void {
     this.carService.getCarcases().subscribe(data => {
         console.log(data);
         this.carcases = data;
@@ -121,7 +120,7 @@ export class CreateCarComponent implements OnInit {
             icon: 'error',
             text: errorMessage
           });
-      });
+    });
 
     this.carService.getTransmissionsTypes().subscribe(data => {
         console.log(data);
@@ -173,7 +172,32 @@ export class CreateCarComponent implements OnInit {
           });
       });
 
-    this.createCarForm = new FormGroup({
+    this.carService.getStatusTypes().subscribe(data => {
+          console.log(data);
+          this.statusTypes = data;
+          this.carToCreate.status = this.statusTypes[0];
+        },
+        err => {
+          console.log(err);
+          let errorMessage: string;
+          if (err.error instanceof ProgressEvent){
+            errorMessage = 'HTTP Failure to get resource';
+          }
+          else if (err.error?.title){
+            errorMessage = err.error.title;
+          }
+          else {
+            errorMessage = err.message;
+          }
+          swal(
+            {
+              title: 'Error while loading status types',
+              icon: 'error',
+              text: errorMessage
+            });
+        });
+
+    this.CarForm = new FormGroup({
       mark: new FormControl('', Validators.required),
       model: new FormControl('', Validators.required),
       carcase: new FormControl(this.carToCreate.carcase, Validators.required),
@@ -184,6 +208,7 @@ export class CreateCarComponent implements OnInit {
       tankVolume: new FormControl('', Validators.required),
       fuelType: new FormControl(this.carToCreate.fuelType, Validators.required),
       trunkVolume: new FormControl('', Validators.required),
+      status: new FormControl('', Validators.required),
       images: new FormControl(null, Validators.required)
     });
   }

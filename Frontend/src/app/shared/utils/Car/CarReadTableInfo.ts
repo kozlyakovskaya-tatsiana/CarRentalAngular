@@ -1,4 +1,4 @@
-export class CarToRead{
+export class CarReadTableInfo{
   id: string;
   mark: string;
   model: string;
@@ -6,4 +6,5 @@ export class CarToRead{
   releaseYear: number;
   transmission: string;
   fuelType: number;
+  status: string;
 }

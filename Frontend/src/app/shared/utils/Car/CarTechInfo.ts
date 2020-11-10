@@ -1,4 +1,5 @@
-export class CarToCreate{
+export class CarTechInfo{
+  id: string;
   mark: string;
   model: string;
   carcase: string;
