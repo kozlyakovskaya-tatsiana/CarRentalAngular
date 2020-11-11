@@ -116,6 +116,15 @@
       </ngb-alert>
     </div>
     <div class="form-group">
+      <label for="carCost">Car's cost per day</label>
+      <input type="number" id="carCost" class="form-control" [(ngModel)]="carToCreate.costPerDay" name="costPerDay" formControlName="costPerDay">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="CarForm.get('costPerDay').invalid && CarForm.get('costPerDay').touched">
+        <div *ngIf="CarForm.get('costPerDay').errors">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
         <button type="button" class="btn btn-info btn-sm" (click)="uploadFileBtn.click()">Upload car's images</button>
         <input type="file" hidden (change)="onChangeImages($event)" formControlName="images" accept="image/*" multiple #uploadFileBtn/>
         <div *ngIf="CarForm.get('images').errors" class="error">

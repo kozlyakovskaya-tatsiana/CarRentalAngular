@@ -7,7 +7,7 @@ using FluentValidation;
 
 namespace CarRental.Api.Validators.Car
 {
-    public class CarTechInfoUpdateRequestValidator : AbstractValidator<CarTechInfoUpdateRequest>
+    public class CarTechInfoUpdateRequestValidator : AbstractValidator<CarInfoUpdateRequest>
     {
         public CarTechInfoUpdateRequestValidator()
         {
@@ -34,6 +34,8 @@ namespace CarRental.Api.Validators.Car
             RuleFor(req => req.TrunkVolume).NotNull();
 
             RuleFor(req => req.Status).NotNull();
+
+            RuleFor(req => req.CostPerDay).NotNull();
         }
     }
 }

@@ -4,7 +4,7 @@ import {CarService} from '../../../shared/services/car.service';
 import {Location} from '@angular/common';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import swal from 'sweetalert';
-import {CarTechInfo} from '../../../shared/utils/Car/CarTechInfo';
+import {CarInfo} from '../../../shared/utils/Car/CarInfo';
 import {CarReadWithImage} from '../../../shared/utils/Car/CarReadWithImage';
 
 @Component({
@@ -19,12 +19,12 @@ export class CarEditComponent implements OnInit {
               private location: Location) {
     this.id = activatedRoute.snapshot.params.id;
     this.car = new CarReadWithImage();
-    this.carToUpdate = new CarTechInfo();
+    this.carToUpdate = new CarInfo();
   }
 
   id: string;
   car: CarReadWithImage;
-  carToUpdate: CarTechInfo;
+  carToUpdate: CarInfo;
   carcases: string[];
   transmissionTypes: string[];
   fuelTypes: string[];
@@ -79,6 +79,7 @@ export class CarEditComponent implements OnInit {
         this.carImgSrc = this.car.imageNames.length ?
           this.carService.backendUrlForImages + data.imageNames[0] :
           undefined;
+        console.log(this.carImgSrc);
         },
       err => {
         console.log(err);
@@ -208,7 +209,8 @@ export class CarEditComponent implements OnInit {
       tankVolume: new FormControl('', Validators.required),
       fuelType: new FormControl(this.car.fuelType, Validators.required),
       trunkVolume: new FormControl('', Validators.required),
-      status: new FormControl('', Validators.required)
+      status: new FormControl('', Validators.required),
+      costPerDay: new FormControl('', Validators.required)
     });
   }
 }

@@ -210,7 +210,8 @@ export class CreateCarComponent implements OnInit {
       fuelType: new FormControl(this.carToCreate.fuelType, Validators.required),
       trunkVolume: new FormControl('', Validators.required),
       status: new FormControl('', Validators.required),
-      images: new FormControl(null, Validators.required)
+      images: new FormControl(null, Validators.required),
+      costPerDay: new FormControl('', Validators.required)
     });
   }
 }

@@ -1,4 +1,4 @@
-export class CarTechInfo{
+export class CarInfo{
   id: string;
   mark: string;
   model: string;
@@ -11,4 +11,5 @@ export class CarTechInfo{
   fuelType: string;
   trunkVolume: number;
   status: string;
+  costPerDay: number;
 }

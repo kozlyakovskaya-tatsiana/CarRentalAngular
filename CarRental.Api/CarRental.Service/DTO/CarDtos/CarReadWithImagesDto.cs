@@ -28,6 +28,8 @@ namespace CarRental.Service.DTO.CarDtos
 
         public double TrunkVolume { get; set; }
 
+        public decimal CostPerDay { get; set; }
+
         public string[] ImageNames { get; set; }
     }
 }

@@ -30,6 +30,8 @@ namespace CarRental.Api.Validators.Car
             RuleFor(req => req.Images).NotNull();
 
             RuleFor(req => req.Status).NotNull();
+
+            RuleFor(req => req.CostPerDay).NotNull();
         }
     }
 }

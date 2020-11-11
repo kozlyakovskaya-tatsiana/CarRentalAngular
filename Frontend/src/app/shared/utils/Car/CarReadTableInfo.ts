@@ -7,4 +7,5 @@ export class CarReadTableInfo{
   transmission: string;
   fuelType: number;
   status: string;
+  costPerDay: number;
 }

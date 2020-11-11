@@ -88,21 +88,7 @@ namespace CarRental.Service.Services.Models
             return carReadWithImgDto;
         }
 
-        public async Task<IEnumerable<DocumentDto>> GetCarsImages(Guid id)
-        {
-            var car = (await _carRepository.GetCarsWithDocuments()).FirstOrDefault(c => c.Id == id);
-
-            if (car == null)
-                throw new NotFoundException("There is no car with such Id");
-
-            var carImages = car.Documents;
-
-            var images = _mapper.Map<IEnumerable<DocumentDto>>(carImages);
-
-            return images;
-        }
-
-        public async ValueTask UpdateCarTechInfoAsync(CarTechInfoDto carTechInfo)
+        public async ValueTask UpdateCarTechInfoAsync(CarInfoDto carTechInfo)
         {
             var car = _mapper.Map<Car>(carTechInfo);
 

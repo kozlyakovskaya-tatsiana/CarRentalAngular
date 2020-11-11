@@ -19,5 +19,7 @@ namespace CarRental.Service.DTO.CarDtos
         public string FuelType { get; set; }
 
         public string Status { get; set; }
+
+        public decimal CostPerDay { get; set; }
     }
 }

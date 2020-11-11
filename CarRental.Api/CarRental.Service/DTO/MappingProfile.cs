@@ -45,9 +45,9 @@ namespace CarRental.Service.DTO
 
             CreateMap<CarCreatingFormDataRequest, CarCreateDto>();
 
-            CreateMap<CarTechInfoUpdateRequest, CarTechInfoDto>();
+            CreateMap<CarInfoUpdateRequest, CarInfoDto>();
 
-            CreateMap<CarTechInfoDto, Car>();
+            CreateMap<CarInfoDto, Car>();
 
             CreateMap<Car, CarEditImagesForReadDto>()
                 .ForMember(dto => dto.CarId, opt => opt.MapFrom(car => car.Id))

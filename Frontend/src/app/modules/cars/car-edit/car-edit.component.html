@@ -120,6 +120,15 @@
           Is a required field.
         </div>
       </ngb-alert>
+      <div class="form-group">
+        <label for="carCost">Car's cost per day</label>
+        <input type="number" id="carCost" class="form-control" [(ngModel)]="car.costPerDay" name="costPerDay" formControlName="costPerDay">
+        <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="CarForm.get('costPerDay').invalid && CarForm.get('costPerDay').touched">
+          <div *ngIf="CarForm.get('costPerDay').errors">
+            Is a required field.
+          </div>
+        </ngb-alert>
+      </div>
     </div>
       <div class="text-center">
         <button type="submit" class="btn btn-success" [disabled]="CarForm.invalid || isLoading" >Update</button>

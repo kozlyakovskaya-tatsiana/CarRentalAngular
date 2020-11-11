@@ -137,14 +137,6 @@ namespace CarRental.Api.Controllers
             return Ok(car);
         }
 
-        [HttpGet("images/{id}")]
-        public async Task<IActionResult> GetCarImages(Guid id)
-        {
-            var images = await _carService.GetCarsImages(id);
-
-            return Ok(images);
-        }
-
         [HttpGet("edit/{id}")]
         public async Task<IActionResult> GetCarForEditImages(Guid id)
         {
@@ -184,10 +176,10 @@ namespace CarRental.Api.Controllers
             return NoContent();
         }
 
-        [HttpPut("techinfo")]
-        public async Task<IActionResult> UpdateCarTechInfo([FromBody] CarTechInfoUpdateRequest request)
+        [HttpPut("info")]
+        public async Task<IActionResult> UpdateCarTechInfo([FromBody] CarInfoUpdateRequest request)
         {
-            var carDto = _mapper.Map<CarTechInfoDto>(request);
+            var carDto = _mapper.Map<CarInfoDto>(request);
 
             await _carService.UpdateCarTechInfoAsync(carDto);
 

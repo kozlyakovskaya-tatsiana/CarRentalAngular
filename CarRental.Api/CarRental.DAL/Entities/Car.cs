@@ -28,6 +28,8 @@ namespace CarRental.DAL.Entities
 
         public Status Status { get; set; }
 
+        public decimal CostPerDay { get; set; }
+
         public List<Document> Documents { get; set; }
     }
 }

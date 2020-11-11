@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using CarRental.DAL.Enums;
 
-namespace CarRental.Service.WebModels.Car
+namespace CarRental.Service.DTO.CarDtos
 {
-    public class CarTechInfoUpdateRequest
+    public class CarInfoDto
     {
         public Guid Id { get; set; }
 
@@ -30,5 +30,8 @@ namespace CarRental.Service.WebModels.Car
         public double TrunkVolume { get; set; }
 
         public Status Status { get; set; }
+
+        public decimal CostPerDay { get; set; }
+
     }
 }

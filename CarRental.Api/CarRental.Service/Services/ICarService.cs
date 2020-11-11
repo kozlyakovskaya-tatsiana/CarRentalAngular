@@ -17,9 +17,7 @@ namespace CarRental.Service.Services
 
         Task RemoveCarAsync(Guid id);
 
-        ValueTask UpdateCarTechInfoAsync(CarTechInfoDto carTechInfo);
-
-        Task<IEnumerable<DocumentDto>> GetCarsImages(Guid id);
+        ValueTask UpdateCarTechInfoAsync(CarInfoDto carTechInfo);
 
         Task<CarEditImagesForReadDto> GetCarForEditImagesAsync(Guid id);
 

@@ -11,5 +11,6 @@ export class CarReadWithImage{
   fuelType: number;
   trunkVolume: number;
   status: string;
+  costPerDay: number;
   imageNames: string[];
 }
