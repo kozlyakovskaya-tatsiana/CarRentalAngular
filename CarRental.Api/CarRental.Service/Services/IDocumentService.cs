@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using CarRental.DAL.Entities;
 
 namespace CarRental.Service.Services
 {
@@ -11,5 +12,7 @@ namespace CarRental.Service.Services
         Task SaveFileInFileSystemAsync(IFormFile file, string path);
 
         Task RemoveDocumentAsync(Guid id);
+
+        void SetUniqueNameAndPath(Document document, string fileName, string filePath);
     }
 }

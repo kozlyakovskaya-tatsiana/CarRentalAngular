@@ -45,6 +45,7 @@ export class CreateCarComponent implements OnInit {
       console.log(this.imageFilesArray);
       }
   }
+
   deleteImage(index: number): void {
         this.imageSrcs.splice(index, 1);
         this.imageFilesArray.splice(index, 1);

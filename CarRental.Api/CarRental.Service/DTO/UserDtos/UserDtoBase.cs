@@ -17,6 +17,5 @@ namespace CarRental.Service.DTO.UserDtos
         public string PassportSerialNumber { get; set; }
 
         public string PassportId { get; set; }
-
     }
 }

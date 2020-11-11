@@ -38,5 +38,12 @@ namespace CarRental.Service.Services.Models
 
             await _documentRepository.RemoveAsync(id);
         }
+
+        public void SetUniqueNameAndPath(Document document, string fileName, string filePath)
+        {
+            document.Name = Guid.NewGuid() + fileName;
+
+            document.Path = Path.Combine(filePath, document.Name);
+        }
     }
 }

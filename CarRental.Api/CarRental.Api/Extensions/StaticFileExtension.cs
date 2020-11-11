@@ -9,11 +9,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CarRental.Api.Extensions
 {
-    public static class StaticFilesExtension
+    public static class StaticFileExtension
     {
         public static void ConfigureImagesStore(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<StaticFileOptions>(configuration.GetSection(nameof(StaticFilesOptions)));
+            services.Configure<StaticFilesOptions>(configuration.GetSection(nameof(StaticFilesOptions)));
         }
     }
 }

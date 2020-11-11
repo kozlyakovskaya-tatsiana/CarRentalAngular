@@ -145,6 +145,14 @@ namespace CarRental.Api.Controllers
             return Ok(images);
         }
 
+        [HttpGet("edit/{id}")]
+        public async Task<IActionResult> GetCarForEditImages(Guid id)
+        {
+            var carForEdit = await _carService.GetCarForEditImagesAsync(id);
+
+            return Ok(carForEdit);
+        }
+
         /// <summary>
         /// Create a car.
         /// </summary>
@@ -164,6 +172,16 @@ namespace CarRental.Api.Controllers
             await _carService.CreateCarAsync(carCreatingDto);
 
             return Ok();
+        }
+
+        [HttpPost("addimages")]
+        public async Task<IActionResult> AddImagesToCar([FromForm] CarAddImagesFormDataRequest carAddImagesFormData)
+        {
+            var carAddImagesDto = _mapper.Map<CarAddImagesDto>(carAddImagesFormData);
+
+            await _carService.AddImagesToCarAsync(carAddImagesDto);
+
+            return NoContent();
         }
 
         [HttpPut("techinfo")]

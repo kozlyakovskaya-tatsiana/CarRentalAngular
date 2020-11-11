@@ -8,8 +8,11 @@
   </div>
   <div class="row mt-3 mb-4">
     <div class="container">
-      <div class="col-lg-6 offset-lg-3">
-        <app-photo-auto [imageDataUrls]="car?.imageNames"></app-photo-auto>
+      <div class="col-lg-6 offset-lg-3 text-center">
+        <app-photo-auto [imageDataUrls]="car?.imageNames" *ngIf="car?.imageNames?.length; else noimage;"></app-photo-auto>
+        <ng-template #noimage>
+          <img src="assets/no-image%20(1).png" width="60%">
+        </ng-template>
       </div>
     </div>
   </div>

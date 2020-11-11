@@ -34,7 +34,8 @@ namespace CarRental.Service.DTO
             CreateMap<Car, CarReadTableInfoDto>();
 
             CreateMap<IFormFile, Document>()
-                .ForMember(doc => doc.Type, opt => opt.MapFrom(file => file.ContentType));
+                .ForMember(doc => doc.Type, opt => opt.MapFrom(file => file.ContentType))
+                .ForMember(doc => doc.Name, opt => opt.MapFrom(file => file.FileName));
 
             CreateMap<CarCreateDto, Car>()
                 .ForMember(car => car.Documents, opt => opt.MapFrom(dto => dto.Images))
@@ -47,6 +48,13 @@ namespace CarRental.Service.DTO
             CreateMap<CarTechInfoUpdateRequest, CarTechInfoDto>();
 
             CreateMap<CarTechInfoDto, Car>();
+
+            CreateMap<Car, CarEditImagesForReadDto>()
+                .ForMember(dto => dto.CarId, opt => opt.MapFrom(car => car.Id))
+                .ForMember(dto => dto.CarName, opt => opt.MapFrom(car => car.Mark  + " " + car.Model))
+                .ForMember(dto => dto.Images, opt => opt.MapFrom(car => car.Documents));
+
+            CreateMap<CarAddImagesFormDataRequest, CarAddImagesDto>();
 
             CreateMap<Document, DocumentDto>();
         }

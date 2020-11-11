@@ -21,7 +21,7 @@ export class CarInfoComponent implements OnInit {
   id: string;
 
   ngOnInit(): void {
-    this.carService.getCar(this.id).pipe(
+    this.carService.getCarWithImages(this.id).pipe(
       map(c => {
         const car = c as CarReadWithImage;
         car.imageNames = car.imageNames.map(name => this.carService.backendUrlForImages + name);

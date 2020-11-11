@@ -73,10 +73,12 @@ export class CarEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.carService.getCar(this.id).subscribe(data => {
+    this.carService.getCarWithImages(this.id).subscribe(data => {
         console.log(data);
         this.car = data;
-        this.carImgSrc = this.carService.backendUrlForImages + data.imageNames[0];
+        this.carImgSrc = this.car.imageNames.length ?
+          this.carService.backendUrlForImages + data.imageNames[0] :
+          undefined;
         },
       err => {
         console.log(err);

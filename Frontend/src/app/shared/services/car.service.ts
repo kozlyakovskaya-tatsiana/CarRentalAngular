@@ -18,7 +18,7 @@ export class CarService {
     return this.http.get(this.url + 'cars');
   }
 
-  public getCar(id: string): Observable<any>{
+  public getCarWithImages(id: string): Observable<any>{
     return this.http.get(this.url + id);
   }
 
@@ -38,8 +38,8 @@ export class CarService {
     return this.http.get(this.url + 'transmissionstypes');
   }
 
-  public getCarsImages(id: string): Observable<any>{
-    return this.http.get(this.url + 'images/' + id);
+  public getCarsForEditImages(id: string): Observable<any>{
+    return this.http.get(this.url + 'edit/' + id);
   }
 
   public createCar(formData: FormData): Observable<any>{
@@ -48,6 +48,10 @@ export class CarService {
 
   public updateCarTechInfo(car: CarTechInfo): Observable<any>{
     return this.http.put(this.url + 'techinfo/', car);
+  }
+
+  public addCarImages(formData: FormData): Observable<any>{
+    return this.http.post(this.url + 'addimages', formData);
   }
 
   public removeCar(id: string): Observable<any>{

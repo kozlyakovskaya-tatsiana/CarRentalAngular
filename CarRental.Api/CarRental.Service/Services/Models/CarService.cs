@@ -10,13 +10,11 @@ using CarRental.DAL.Exceptions;
 using CarRental.DAL.Repositories;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.DocumentsDto;
-using CarRental.Service.Identity.Options;
 using CarRental.Service.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CarRental.Service.Services.Models
 {
@@ -53,21 +51,15 @@ namespace CarRental.Service.Services.Models
 
         public async Task CreateCarAsync(CarCreateDto carCreateDto)
         {
-            var carToCreate = _mapper.Map<Car>(carCreateDto); ;
+            var carToCreate = _mapper.Map<Car>(carCreateDto);
 
             carCreateDto.PathToStoreImages = Path.Combine(_environment.WebRootPath, _staticFilesOptions.ImagesStore);
 
             for (var i = 0; i < carCreateDto.Images.Length; i++)
             {
-                var imageName = Guid.NewGuid() + carCreateDto.Images[i].FileName;
+                _documentService.SetUniqueNameAndPath(carToCreate.Documents[i], carCreateDto.Images[i].FileName, carCreateDto.PathToStoreImages);
 
-                var imagePath = Path.Combine(carCreateDto.PathToStoreImages,imageName);
-
-                await _documentService. SaveFileInFileSystemAsync(carCreateDto.Images[i], imagePath);
-
-                carToCreate.Documents[i].Path = imagePath;
-
-                carToCreate.Documents[i].Name = imageName;
+                await _documentService.SaveFileInFileSystemAsync(carCreateDto.Images[i], carToCreate.Documents[i].Path);
             }
 
             await _carRepository.CreateAsync(carToCreate);
@@ -96,6 +88,64 @@ namespace CarRental.Service.Services.Models
             return carReadWithImgDto;
         }
 
+        public async Task<IEnumerable<DocumentDto>> GetCarsImages(Guid id)
+        {
+            var car = (await _carRepository.GetCarsWithDocuments()).FirstOrDefault(c => c.Id == id);
+
+            if (car == null)
+                throw new NotFoundException("There is no car with such Id");
+
+            var carImages = car.Documents;
+
+            var images = _mapper.Map<IEnumerable<DocumentDto>>(carImages);
+
+            return images;
+        }
+
+        public async ValueTask UpdateCarTechInfoAsync(CarTechInfoDto carTechInfo)
+        {
+            var car = _mapper.Map<Car>(carTechInfo);
+
+            await _carRepository.UpdateOneAsync(car);
+        }
+
+        public async Task AddImagesToCarAsync(CarAddImagesDto carAddImagesDto)
+        {
+            var car = (await _carRepository.GetCarsWithDocuments()).FirstOrDefault(c => c.Id == carAddImagesDto.CarId);
+
+            if (car == null)
+                throw new NotFoundException("There is no car with such Id");
+
+            var pathToStoreImages = Path.Combine(_environment.WebRootPath, _staticFilesOptions.ImagesStore);
+
+            var documentsToAdd = _mapper.Map<Document[]>(carAddImagesDto.Images);
+
+            for (var i = 0; i < carAddImagesDto.Images.Length; i++)
+            {
+                var document = documentsToAdd[i];
+
+                _documentService.SetUniqueNameAndPath(document, carAddImagesDto.Images[i].FileName, pathToStoreImages);
+
+                car.Documents.Add(document);
+
+                await _documentService.SaveFileInFileSystemAsync(carAddImagesDto.Images[i], document.Path);
+            }
+
+            await _carRepository.UpdateOneAsync(car);
+        }
+
+        public async Task<CarEditImagesForReadDto> GetCarForEditImagesAsync(Guid id)
+        {
+            var car = (await _carRepository.GetCarsWithDocuments()).FirstOrDefault(c => c.Id == id);
+
+            if (car == null)
+                throw new NotFoundException("There is no car with such Id");
+
+            var carForEdt = _mapper.Map<CarEditImagesForReadDto>(car);
+
+            return carForEdt;
+        }
+
         public async Task RemoveCarAsync(Guid id)
         {
             var car = (await _carRepository.GetCarsWithDocuments()).FirstOrDefault(c => c.Id == id);
@@ -111,27 +161,6 @@ namespace CarRental.Service.Services.Models
             }
 
             await _carRepository.RemoveAsync(id);
-        }
-
-        public async ValueTask UpdateCarTechInfoAsync(CarTechInfoDto carTechInfo)
-        {
-            var car = _mapper.Map<Car>(carTechInfo);
-
-            await _carRepository.UpdateOneAsync(car);
-        }
-
-        public async Task<IEnumerable<DocumentDto>> GetCarsImages(Guid id)
-        {
-            var car = (await _carRepository.GetCarsWithDocuments()).FirstOrDefault(c => c.Id == id);
-
-            if (car == null)
-                throw new NotFoundException("There is no car with such Id");
-
-            var carImages = car.Documents;
-
-            var images = _mapper.Map<IEnumerable<DocumentDto>>(carImages);
-
-            return images;
         }
     }
 }
