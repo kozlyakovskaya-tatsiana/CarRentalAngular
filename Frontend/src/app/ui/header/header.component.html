@@ -1,15 +1,11 @@
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
   <div class="navbar-nav">
     <a class="navbar-brand" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><h3>CAR RENTAL <span>WEBSITE</span></h3></a>
-
   </div>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <ng-container *ngIf="authorizeService.isUser">
-        <a class="nav-link ml-3" [routerLink]="['edit', authorizeService.userId]" routerLinkActive="active">Edit  <i class="fas fa-user-edit"></i></a>
-      </ng-container>
+    <div class="collapse navbar-collapse navbar-nav" id="navbarNavAltMarkup">
       <ng-container *ngIf="authorizeService.isAdmin">
         <a class="nav-link ml-3" routerLink="/adminpage" routerLinkActive="active">Admin page <i class="fas fa-user-shield ml-1"></i></a>
         <a class="nav-link ml-3" routerLink="/carmanagement" routerLinkActive="active">Car's management <i class="fas fa-tasks ml-1"></i></a>
@@ -17,6 +13,7 @@
       <ng-container *ngIf="authorizeService.isManager">
         <a class="nav-link ml-3" routerLink="/carmanagement" routerLinkActive="active">Car's management <i class="fas fa-user-shield ml-1"></i></a>
       </ng-container>
+        <a class="nav-link ml-3" routerLink="/autopark" routerLinkActive="active">Autopark</a>
         <a class="nav-link ml-3" routerLink="/about" routerLinkActive="active">About us</a>
       <div class="navbar-nav ml-auto" >
         <ng-container *ngIf="!authorizeService.isAuthorized; else logout">
@@ -24,6 +21,7 @@
           <a class="nav-link" routerLink="/register" routerLinkActive="active">Sign up<i class="fas fa-user-tie ml-1"></i></a>
         </ng-container>
         <ng-template  #logout>
+          <a class="nav-link" [routerLink]="['edit', authorizeService.userId]" *ngIf="authorizeService.isUser" routerLinkActive="active">Edit <i class="fas fa-user-edit"></i></a>
           <span class="nav-link" >{{authorizeService.userEmail}}</span>
           <span class="nav-link" (click)="onLogOut()" >Log out<i class="fas fa-sign-out-alt ml-1"></i></span>
         </ng-template>

@@ -9,7 +9,6 @@ using CarRental.DAL.Entities;
 using CarRental.DAL.Exceptions;
 using CarRental.DAL.Repositories;
 using CarRental.Service.DTO.CarDtos;
-using CarRental.Service.DTO.DocumentsDto;
 using CarRental.Service.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

@@ -35,6 +35,7 @@ import { CarEditComponent } from './modules/cars/car-edit/car-edit.component';
 import { AutoparkComponent } from './modules/cars/autopark/autopark.component';
 import { CarCardSmallComponent } from './modules/cars/car-card-small/car-card-small.component';
 import { CarImagesManagementComponent } from './modules/cars/car-images-management/car-images-management.component';
+import { HeadImageComponent } from './ui/head-image/head-image.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { CarImagesManagementComponent } from './modules/cars/car-images-manageme
     CarEditComponent,
     AutoparkComponent,
     CarCardSmallComponent,
-    CarImagesManagementComponent
+    CarImagesManagementComponent,
+    HeadImageComponent
   ],
   imports: [
     BrowserModule,
