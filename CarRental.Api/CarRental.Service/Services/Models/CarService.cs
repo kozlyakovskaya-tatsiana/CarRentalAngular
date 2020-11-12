@@ -87,6 +87,15 @@ namespace CarRental.Service.Services.Models
             return carReadWithImgDto;
         }
 
+        public async Task<IEnumerable<CarForSmallCardDto>> GetCarsForSmallCardsAsync()
+        {
+            var cars = await _carRepository.GetCarsWithDocuments();
+
+            var carsForSmallCards = _mapper.Map<IEnumerable<CarForSmallCardDto>>(cars);
+
+            return carsForSmallCards;
+        }
+
         public async ValueTask UpdateCarTechInfoAsync(CarInfoDto carTechInfo)
         {
             var car = _mapper.Map<Car>(carTechInfo);

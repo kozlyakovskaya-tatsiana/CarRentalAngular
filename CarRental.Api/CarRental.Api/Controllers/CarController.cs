@@ -145,6 +145,14 @@ namespace CarRental.Api.Controllers
             return Ok(carForEdit);
         }
 
+        [HttpGet("carsforsmallcards")]
+        public async Task<IActionResult> GetCarsForSmallCards()
+        {
+            var cars = await _carService.GetCarsForSmallCardsAsync();
+
+            return Ok(cars);
+        }
+
         /// <summary>
         /// Create a car.
         /// </summary>

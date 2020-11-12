@@ -211,7 +211,9 @@ export class CreateCarComponent implements OnInit {
       trunkVolume: new FormControl('', Validators.required),
       status: new FormControl('', Validators.required),
       images: new FormControl(null, Validators.required),
-      costPerDay: new FormControl('', Validators.required)
+      costPerDay: new FormControl('', Validators.required),
+      passengersAmount: new FormControl('', Validators.required),
+      doorsAmount: new FormControl('', Validators.required),
     });
   }
 }

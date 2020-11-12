@@ -42,6 +42,10 @@ export class CarService {
     return this.http.get(this.url + 'edit/' + id);
   }
 
+  public getCarsForSmallCards(): Observable<any>{
+    return this.http.get(this.url + 'carsforsmallcards');
+  }
+
   public createCar(formData: FormData): Observable<any>{
     return this.http.post(this.url, formData);
   }

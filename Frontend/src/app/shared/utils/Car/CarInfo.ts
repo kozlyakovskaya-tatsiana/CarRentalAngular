@@ -12,4 +12,6 @@ export class CarInfo{
   trunkVolume: number;
   status: string;
   costPerDay: number;
+  passengersAmount: string;
+  doorsAmount: string;
 }

@@ -12,5 +12,7 @@ export class CarReadWithImage{
   trunkVolume: number;
   status: string;
   costPerDay: number;
+  passengersAmount: string;
+  doorsAmount: string;
   imageNames: string[];
 }

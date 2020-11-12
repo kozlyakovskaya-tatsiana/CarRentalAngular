@@ -2,8 +2,8 @@
 <div class="products mt-4 mb-3">
   <div class="container">
     <div class="row">
-      <div class="col-lg-4" *ngFor="let i of [0,1,2,3,4,5,6]">
-        <app-car-card-small name="Audi S315" status="Free" transmission="automatic" year="2015" cost="21" btnName="More info"></app-car-card-small>
+      <div class="col-lg-4" *ngFor="let car of cars">
+        <app-car-card-small [car]="car" btnName="More info" [btnLink]="['', 'carinfo', car?.id]"></app-car-card-small>
       </div>
     </div>
   </div>

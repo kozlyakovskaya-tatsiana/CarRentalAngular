@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {CarForSmallCard} from '../../../shared/utils/Car/CarForSmallCard';
 
 @Component({
   selector: 'app-car-card-small',
@@ -8,15 +9,11 @@ import {Component, Input, OnInit} from '@angular/core';
 export class CarCardSmallComponent implements OnInit {
 
   constructor() { }
-  @Input() name: string;
-  @Input() cost: number;
-  @Input() year: number;
-  @Input() transmission: string;
-  @Input() status: number;
+
+  @Input() car: CarForSmallCard;
   @Input() btnName: string;
-  @Input() imgSrc: string;
-  @Input() passengersAmount: string;
-  @Input() doorsAmount: number;
+  @Input() btnLink: string;
+
   ngOnInit(): void {
   }
 

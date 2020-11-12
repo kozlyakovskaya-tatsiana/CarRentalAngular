@@ -210,7 +210,9 @@ export class CarEditComponent implements OnInit {
       fuelType: new FormControl(this.car.fuelType, Validators.required),
       trunkVolume: new FormControl('', Validators.required),
       status: new FormControl('', Validators.required),
-      costPerDay: new FormControl('', Validators.required)
+      costPerDay: new FormControl('', Validators.required),
+      passengersAmount: new FormControl('', Validators.required),
+      doorsAmount: new FormControl('', Validators.required)
     });
   }
 }

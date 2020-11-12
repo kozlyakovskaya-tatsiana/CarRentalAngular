@@ -11,4 +11,6 @@ export class CarToCreate{
   trunkVolume: number;
   costPerDay: number;
   status: string;
+  passengersAmount: string;
+  doorsAmount: string;
 }
