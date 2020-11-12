@@ -27,6 +27,10 @@ namespace CarRental.Service.DTO.CarDtos
 
         public Status Status { get; set; }
 
+        public int PassengersAmount { get; set; }
+
+        public int DoorsAmount { get; set; }
+
         public decimal CostPerDay { get; set; }
 
         public IFormFile[] Images { get; set; }

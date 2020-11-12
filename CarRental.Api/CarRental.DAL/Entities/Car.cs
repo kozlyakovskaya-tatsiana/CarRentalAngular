@@ -26,6 +26,10 @@ namespace CarRental.DAL.Entities
 
         public double TrunkVolume { get; set; }
 
+        public int PassengersAmount { get; set; }
+
+        public int DoorsAmount { get; set; }
+
         public Status Status { get; set; }
 
         public decimal CostPerDay { get; set; }
