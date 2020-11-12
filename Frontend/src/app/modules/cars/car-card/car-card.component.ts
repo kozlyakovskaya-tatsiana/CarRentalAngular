@@ -1,28 +1,22 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {CarToRead} from '../../../shared/utils/Car/CarToRead';
+import {Component, Input} from '@angular/core';
+import {CarReadWithImage} from '../../../shared/utils/Car/CarReadWithImage';
+import {CarSection} from '../../../shared/utils/Car/CarSection';
+import {AuthorizeService} from '../../../shared/services/authorize.service';
 
-export enum Section{
-  Description,
-  Photo,
-  RentalConditions
-}
 @Component({
   selector: 'app-car-card',
   templateUrl: './car-card.component.html',
   styleUrls: ['./car-card.component.css']
 })
-export class CarCardComponent implements OnInit {
+export class CarCardComponent{
 
-  constructor() {
-    this.section = Section.Description;
-  }
-  SectionEnum = Section;
-
-  @Input() car: CarToRead;
-
-  section: Section;
-
-  ngOnInit(): void {
+  constructor(public authService: AuthorizeService) {
+    this.section = CarSection.Description;
   }
 
+  CarSectionEnum = CarSection;
+
+  @Input() car: CarReadWithImage;
+
+  section: CarSection;
 }

@@ -32,7 +32,7 @@ export class CreateuserComponent implements OnInit {
       data => {
         console.log(data);
         swal({
-          title: 'Updating is successful.',
+          title: 'Creating is successful.',
           icon: 'success'
         }).then(val => {
           this.location.back();

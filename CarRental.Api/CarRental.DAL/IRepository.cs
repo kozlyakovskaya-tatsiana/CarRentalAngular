@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace CarRental.DAL
 {
@@ -14,12 +17,13 @@ namespace CarRental.DAL
 
         Task<IEnumerable<TEntity>> GetAsync(Func<TEntity, bool> predicate);
 
-        void Remove (TEntity entity);
+        Task RemoveAsync (TEntity entity);
 
         Task RemoveAsync(Guid id);
 
         ValueTask<TEntity> UpdateOneAsync(TEntity entity);
 
-        Task SaveChangesAsync();
+        Task<IQueryable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null);
     }
 }

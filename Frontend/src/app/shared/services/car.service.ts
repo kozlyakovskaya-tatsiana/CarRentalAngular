@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {CarToCreate} from '../utils/Car/CarToCreate';
+import {CarInfo} from '../utils/Car/CarInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +10,15 @@ export class CarService {
 
   constructor(private http: HttpClient) { }
 
+  public backendUrlForImages = 'https://localhost:44397/images/';
+
   private url = 'https://localhost:44397/api/Car/';
 
   public getCars(): Observable<any>{
     return this.http.get(this.url + 'cars');
   }
 
-  public getCar(id: string): Observable<any>{
+  public getCarWithImages(id: string): Observable<any>{
     return this.http.get(this.url + id);
   }
 
@@ -28,15 +30,31 @@ export class CarService {
     return this.http.get(this.url + 'fueltypes');
   }
 
+  public getStatusTypes(): Observable<any>{
+    return this.http.get(this.url + 'statustypes');
+  }
+
   public getTransmissionsTypes(): Observable<any>{
     return this.http.get(this.url + 'transmissionstypes');
   }
 
-  public createCar(carToCreate: CarToCreate): Observable<any>{
-    return this.http.post(this.url, carToCreate);
+  public getCarsForEditImages(id: string): Observable<any>{
+    return this.http.get(this.url + 'edit/' + id);
   }
 
-  public removeCar(id: number): Observable<any>{
+  public createCar(formData: FormData): Observable<any>{
+    return this.http.post(this.url, formData);
+  }
+
+  public updateCarTechInfo(car: CarInfo): Observable<any>{
+    return this.http.put(this.url + 'info/', car);
+  }
+
+  public addCarImages(formData: FormData): Observable<any>{
+    return this.http.post(this.url + 'addimages', formData);
+  }
+
+  public removeCar(id: string): Observable<any>{
     return this.http.delete(this.url + id);
   }
 

@@ -21,6 +21,16 @@ namespace CarRental.DAL.EntityConfigurations
             builder
                 .Property(car => car.Transmission)
                 .HasConversion(new EnumToStringConverter<TransmissionType>());
+
+            builder
+                .Property(car => car.Status)
+                .HasConversion(new EnumToStringConverter<Status>());
+
+            builder
+                .HasMany(car => car.Documents)
+                .WithOne(doc => doc.Car)
+                .HasForeignKey(doc => doc.CarId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

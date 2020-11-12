@@ -9,6 +9,7 @@
     <th scope="col">Transmission</th>
     <th scope="col">Fuel type</th>
     <th scope="col">Status</th>
+    <th scope="col">Cost</th>
     <th scope="col"></th>
     <th scope="col"></th>
     <th scope="col"></th>
@@ -18,16 +19,17 @@
   <ng-container *ngFor="let car of cars; let i = index;">
     <tr>
       <th scope="row">{{i+1}}</th>
-      <td>{{car.mark}}</td>
-      <td>{{car.model}}</td>
-      <td>{{car.carcase}}</td>
-      <td>{{car.releaseYear}}</td>
-      <td>{{car.transmission}}</td>
-      <td>{{car.fuelType}}</td>
-      <td>Free</td>
-      <td><button type="button" class="btn btn-primary btn-sm" [routerLink]="['', 'carinfo', car.id]">Full info<i class="far fa-file-alt ml-1"></i></button></td>
-      <td><button type="button" class="btn btn-warning btn-sm">Update<i class="fas fa-pencil-alt ml-1"></i></button></td>
-      <td><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(car.id)">Delete<i class="fas fa-trash-alt ml-1"></i></button></td>
+      <td>{{car?.mark}}</td>
+      <td>{{car?.model}}</td>
+      <td>{{car?.carcase}}</td>
+      <td>{{car?.releaseYear}}</td>
+      <td>{{car?.transmission}}</td>
+      <td>{{car?.fuelType}}</td>
+      <td>{{car?.status}}</td>
+      <td>{{car?.costPerDay | currency}}</td>
+      <td><button type="button" class="btn btn-primary btn-sm" [routerLink]="['', 'carinfo', car.id]">Full info <i class="far fa-file-alt ml-1"></i></button></td>
+      <td><button type="button" class="btn btn-warning btn-sm" [routerLink]="['', 'caredit', car.id]">Edit<i class="fas fa-pencil-alt ml-1"></i></button></td>
+      <td><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(car.id)">Delete <i class="fas fa-trash-alt ml-1"></i></button></td>
     </tr>
   </ng-container>
   </tbody>

@@ -1,9 +1,14 @@
-﻿using CarRental.DAL.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using CarRental.DAL.Enums;
 
 namespace CarRental.Service.WebModels.Car
 {
-    public class CarCreatingRequest
+    public class CarInfoUpdateRequest
     {
+        public Guid Id { get; set; }
+
         public string Mark { get; set; }
 
         public string Model { get; set; }
@@ -23,5 +28,9 @@ namespace CarRental.Service.WebModels.Car
         public FuelType FuelType { get; set; }
 
         public double TrunkVolume { get; set; }
+
+        public Status Status { get; set; }
+
+        public decimal CostPerDay { get; set; }
     }
 }

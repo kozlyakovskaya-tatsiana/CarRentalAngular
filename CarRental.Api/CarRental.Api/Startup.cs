@@ -5,6 +5,7 @@ using CarRental.DAL.EFCore;
 using CarRental.DAL.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -47,6 +48,8 @@ namespace CarRental.Api
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddCors();
+
+            services.ConfigureImagesStore(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +63,16 @@ namespace CarRental.Api
             {
                 app.UseExceptionHandler("/error");
             }
+
+            const string cacheMaxAge = "604800";
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append(
+                        "Cache-Control", $"public, max-age={cacheMaxAge}");
+                }
+            });
 
             app.UseCustomSwagger();
 

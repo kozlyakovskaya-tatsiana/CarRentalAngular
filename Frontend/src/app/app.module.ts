@@ -29,7 +29,12 @@ import { CarInfoComponent } from './modules/cars/car-info/car-info.component';
 import { CarTechDescriptionComponent } from './modules/cars/car-tech-description/car-tech-description.component';
 import { PhotoAutoComponent } from './modules/cars/photo-auto/photo-auto.component';
 import { RentalConditionsComponent } from './ui/rental-conditions/rental-conditions.component';
-
+import { CarPhotoComponent } from './modules/cars/car-photo/car-photo.component';
+import { CarPricesComponent } from './modules/cars/car-prices/car-prices.component';
+import { CarEditComponent } from './modules/cars/car-edit/car-edit.component';
+import { AutoparkComponent } from './modules/cars/autopark/autopark.component';
+import { CarCardSmallComponent } from './modules/cars/car-card-small/car-card-small.component';
+import { CarImagesManagementComponent } from './modules/cars/car-images-management/car-images-management.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +59,13 @@ import { RentalConditionsComponent } from './ui/rental-conditions/rental-conditi
     CarInfoComponent,
     CarTechDescriptionComponent,
     PhotoAutoComponent,
-    RentalConditionsComponent
+    RentalConditionsComponent,
+    CarPhotoComponent,
+    CarPricesComponent,
+    CarEditComponent,
+    AutoparkComponent,
+    CarCardSmallComponent,
+    CarImagesManagementComponent
   ],
   imports: [
     BrowserModule,

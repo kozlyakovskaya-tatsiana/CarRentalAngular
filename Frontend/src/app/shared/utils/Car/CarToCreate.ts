@@ -9,4 +9,6 @@ export class CarToCreate{
   tankVolume: number;
   fuelType: string;
   trunkVolume: number;
+  costPerDay: number;
+  status: string;
 }

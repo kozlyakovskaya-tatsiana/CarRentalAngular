@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert';
-import {CarToRead} from '../../../shared/utils/Car/CarToRead';
+import {CarReadTableInfo} from '../../../shared/utils/Car/CarReadTableInfo';
 import {CarService} from '../../../shared/services/car.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class CarManagementScreenComponent implements OnInit {
 
   constructor(private carService: CarService) { }
 
-  cars: CarToRead[];
+  cars: CarReadTableInfo[];
 
   ngOnInit(): void {
     this.carService.getCars().subscribe(data => {

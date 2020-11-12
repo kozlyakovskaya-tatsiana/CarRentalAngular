@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.DTO.CarDtos;
@@ -6,6 +8,7 @@ using CarRental.Service.Helpers;
 using CarRental.Service.Services;
 using CarRental.Service.WebModels.Car;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -84,6 +87,22 @@ namespace CarRental.Api.Controllers
         }
 
         /// <summary>
+        /// Get types of status.
+        /// </summary>
+        /// <returns>Array of status types.</returns>
+        /// <response code="200">Returns types of status.</response>
+        /// <response code="401">Access denied. Authorization failed.</response>
+        [HttpGet("statustypes")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        public async Task<IActionResult> GetStatusTypes()
+        {
+            var statusTypes = _carHelper.GetStatusTypes();
+
+            return Ok(statusTypes);
+        }
+
+        /// <summary>
         /// Get an array of cars.
         /// </summary>
         /// <returns>An array of cars.</returns>
@@ -92,9 +111,9 @@ namespace CarRental.Api.Controllers
         [HttpGet("cars")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<IActionResult> GetCars()
+        public async Task<IActionResult> GetCarsForTable()
         {
-            var cars = await _carService.GetCarsAsync();
+            var cars = await _carService.GetCarsForTableAsync();
 
             return Ok(cars);
         }
@@ -111,17 +130,25 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetCar(Guid id)
+        public async Task<IActionResult> GetCarWithImages(Guid id)
         {
-            var car = await _carService.GetCarAsync(id);
+            var car = await _carService.GetCarWithImagesAsync(id);
 
             return Ok(car);
+        }
+
+        [HttpGet("edit/{id}")]
+        public async Task<IActionResult> GetCarForEditImages(Guid id)
+        {
+            var carForEdit = await _carService.GetCarForEditImagesAsync(id);
+
+            return Ok(carForEdit);
         }
 
         /// <summary>
         /// Create a car.
         /// </summary>
-        /// <param name="carCreatingRequest">Data for creating car.</param>
+        /// <param name="carCreatingFormData">Data for creating car.</param>
         /// <returns>Result of creating.</returns>
         /// <response code="200">Creating is successful.</response>
         /// <response code="400">Validation is failed.</response>
@@ -130,13 +157,33 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public async Task<IActionResult> CreateCar(CarCreatingRequest carCreatingRequest)
+        public async Task<IActionResult> CreateCar([FromForm] CarCreatingFormDataRequest carCreatingFormData)
         {
-            var carDtoBase = _mapper.Map<CarDtoBase>(carCreatingRequest);
+            var carCreatingDto = _mapper.Map<CarCreateDto>(carCreatingFormData);
 
-            await _carService.CreateCarAsync(carDtoBase);
+            await _carService.CreateCarAsync(carCreatingDto);
 
             return Ok();
+        }
+
+        [HttpPost("addimages")]
+        public async Task<IActionResult> AddImagesToCar([FromForm] CarAddImagesFormDataRequest carAddImagesFormData)
+        {
+            var carAddImagesDto = _mapper.Map<CarAddImagesDto>(carAddImagesFormData);
+
+            await _carService.AddImagesToCarAsync(carAddImagesDto);
+
+            return NoContent();
+        }
+
+        [HttpPut("info")]
+        public async Task<IActionResult> UpdateCarTechInfo([FromBody] CarInfoUpdateRequest request)
+        {
+            var carDto = _mapper.Map<CarInfoDto>(request);
+
+            await _carService.UpdateCarTechInfoAsync(carDto);
+
+            return NoContent();
         }
 
         /// <summary>

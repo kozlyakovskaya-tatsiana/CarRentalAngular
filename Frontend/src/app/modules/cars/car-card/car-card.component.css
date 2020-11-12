@@ -1,0 +1,7 @@
+#editBtn{
+  cursor: pointer;
+}
+#editBtn:active {
+  border: none;
+  outline: none;
+}

@@ -1,0 +1,34 @@
+<div class="container mt-3 mb-3">
+  <div *ngIf="carForEditImages?.images?.length; else noimages;">
+    <h3 class="text-center">Current images for {{carForEditImages?.carName}}</h3>
+    <div class="row">
+      <div class="col-lg-4" *ngFor="let img of carForEditImages?.images; let i = index;" >
+        <app-car-photo  [imgSrc]="img.name" [imgIndex]="i" (crossClicked)="deleteCarImage($event)"></app-car-photo>
+      </div>
+      <div class="col-lg-4 align-self-center text-center mt-2 mb-5">
+        <i class="fas fa-plus fa-2x plusIcon" style="color: tomato" (click)="loadFilesBtn.click()"></i>
+        <input type="file" hidden accept="image/*" multiple #loadFilesBtn (change)="onChangeImages($event)">
+      </div>
+    </div>
+  </div>
+  <ng-template #noimages>
+    <h3 class="text-center">There are no any photos for  {{carForEditImages?.carName}}</h3>
+    <div class="row">
+      <div class="col-lg-12 text-center mt-2 mb-5">
+        <button class="btn btn-sm btn-info" (click)="loadFilesBtn.click()">Add images <i class="fas fa-plus"></i></button>
+        <input type="file" hidden accept="image/*" multiple #loadFilesBtn (change)="onChangeImages($event)">
+      </div>
+    </div>
+  </ng-template>
+  <div *ngIf="imagesToAddSrcs.length">
+    <div class="row" >
+      <h3 class="col-lg-12 text-center">Images to add</h3>
+      <div class="col-lg-5" *ngFor="let src of imagesToAddSrcs; let i = index;">
+        <app-car-photo [imgSrc]="src" [imgIndex]="i" (crossClicked)="deleteTempImage($event)"></app-car-photo>
+      </div>
+    </div>
+    <div class="row text-center">
+      <button class="col-lg-3 btn btn-warning offset-lg-4" (click)="uploadImages()">Upload images</button>
+    </div>
+  </div>
+</div>

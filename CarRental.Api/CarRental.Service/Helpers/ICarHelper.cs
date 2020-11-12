@@ -9,5 +9,7 @@ namespace CarRental.Service.Helpers
         IEnumerable<string> GetFuelTypes();
 
         IEnumerable<string> GetTransmissionTypes();
+
+        IEnumerable<string> GetStatusTypes();
     }
 }

@@ -1,13 +1,15 @@
-export class CarToRead{
-  id: number;
+export class CarInfo{
+  id: string;
   mark: string;
   model: string;
   carcase: string;
   releaseYear: number;
   transmission: string;
   enginePower: number;
-  fuelConsumption: string;
+  fuelConsumption: number;
   tankVolume: number;
-  fuelType: number;
+  fuelType: string;
   trunkVolume: number;
+  status: string;
+  costPerDay: number;
 }

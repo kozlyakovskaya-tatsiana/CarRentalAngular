@@ -1,10 +1,12 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.Service.DTO.CarDtos;
+using CarRental.Service.DTO.DocumentsDto;
 using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.WebModels;
 using CarRental.Service.WebModels.Car;
-
+using Microsoft.AspNetCore.Http;
 
 namespace CarRental.Service.DTO
 {
@@ -29,13 +31,32 @@ namespace CarRental.Service.DTO
 
             CreateMap<UserDtoBase, User>();
 
-            CreateMap<CarDtoBase, Car>();
+            CreateMap<Car, CarReadTableInfoDto>();
 
-            CreateMap<Car, CarDtoBase>();
+            CreateMap<IFormFile, Document>()
+                .ForMember(doc => doc.Type, opt => opt.MapFrom(file => file.ContentType))
+                .ForMember(doc => doc.Name, opt => opt.MapFrom(file => file.FileName));
 
-            CreateMap<CarCreatingRequest, CarDtoBase>();
+            CreateMap<CarCreateDto, Car>()
+                .ForMember(car => car.Documents, opt => opt.MapFrom(dto => dto.Images))
+                .ForMember(car => car.Id, opt => opt.MapFrom(dto => Guid.NewGuid()));
 
-            CreateMap<Car, CarReadDto>();
+            CreateMap<Car, CarReadWithImagesDto>();
+
+            CreateMap<CarCreatingFormDataRequest, CarCreateDto>();
+
+            CreateMap<CarInfoUpdateRequest, CarInfoDto>();
+
+            CreateMap<CarInfoDto, Car>();
+
+            CreateMap<Car, CarEditImagesForReadDto>()
+                .ForMember(dto => dto.CarId, opt => opt.MapFrom(car => car.Id))
+                .ForMember(dto => dto.CarName, opt => opt.MapFrom(car => car.Mark  + " " + car.Model))
+                .ForMember(dto => dto.Images, opt => opt.MapFrom(car => car.Documents));
+
+            CreateMap<CarAddImagesFormDataRequest, CarAddImagesDto>();
+
+            CreateMap<Document, DocumentDto>();
         }
     }
 }

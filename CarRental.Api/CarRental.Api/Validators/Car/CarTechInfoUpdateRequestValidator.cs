@@ -1,12 +1,18 @@
-﻿using CarRental.Service.WebModels.Car;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CarRental.Service.WebModels.Car;
 using FluentValidation;
 
 namespace CarRental.Api.Validators.Car
 {
-    public class CarCreatingRequestValidator : AbstractValidator<CarCreatingRequest>
+    public class CarTechInfoUpdateRequestValidator : AbstractValidator<CarInfoUpdateRequest>
     {
-        public CarCreatingRequestValidator()
+        public CarTechInfoUpdateRequestValidator()
         {
+            RuleFor(req => req.Id).NotEmpty();
+
             RuleFor(req => req.Mark).NotEmpty();
 
             RuleFor(req => req.Model).NotEmpty();
@@ -26,6 +32,10 @@ namespace CarRental.Api.Validators.Car
             RuleFor(req => req.FuelType).NotNull().IsInEnum().WithMessage(req => "There is no such type of fuel");
 
             RuleFor(req => req.TrunkVolume).NotNull();
+
+            RuleFor(req => req.Status).NotNull();
+
+            RuleFor(req => req.CostPerDay).NotNull();
         }
     }
 }

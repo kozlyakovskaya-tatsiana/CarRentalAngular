@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using CarRental.DAL.Enums;
 
 namespace CarRental.DAL.Entities
 {
-    public class Car : IEntity
+    public class Car : BaseEntity
     {
-        public Guid Id { get; set; }
-
         public string Mark { get; set; }
 
         public string Model { get; set; }
@@ -26,5 +25,11 @@ namespace CarRental.DAL.Entities
         public FuelType FuelType { get; set; }
 
         public double TrunkVolume { get; set; }
+
+        public Status Status { get; set; }
+
+        public decimal CostPerDay { get; set; }
+
+        public List<Document> Documents { get; set; }
     }
 }
