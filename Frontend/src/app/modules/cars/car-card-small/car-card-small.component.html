@@ -1,5 +1,6 @@
 <div class="product-item">
-  <img [src]="car?.imageName">
+  <h6 class="ml-2 mt-2 not-available" *ngIf="car.status!=='Free'">Not available now</h6>
+  <img [src]="car?.imageName" [class.transperent-item]="car.status!=='Free'">
   <div class="down-content">
     <h4 class="text-center">{{car?.name}}</h4>
     <h6 class="text-center"><small>from</small> {{car?.costPerDay | currency}} <small>per day</small></h6>

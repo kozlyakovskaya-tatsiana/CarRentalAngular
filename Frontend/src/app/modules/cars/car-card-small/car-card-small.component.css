@@ -65,5 +65,12 @@
   font-size: 16px;
 }
 .product-item{
-  max-height: 500px;
+  max-height: 530px;
+  background-color: transparent;
+}
+.not-available{
+  color: red;
+}
+.transperent-item{
+  opacity: 0.3;
 }
