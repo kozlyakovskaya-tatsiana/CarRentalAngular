@@ -9,7 +9,6 @@ using CarRental.DAL.Entities;
 using CarRental.DAL.Exceptions;
 using CarRental.DAL.Repositories;
 using CarRental.Service.DTO.CarDtos;
-using CarRental.Service.DTO.DocumentsDto;
 using CarRental.Service.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -86,6 +85,15 @@ namespace CarRental.Service.Services.Models
             carReadWithImgDto.ImageNames = car.Documents.Select(doc => doc.Name).ToArray();
 
             return carReadWithImgDto;
+        }
+
+        public async Task<IEnumerable<CarForSmallCardDto>> GetCarsForSmallCardsAsync()
+        {
+            var cars = await _carRepository.GetCarsWithDocuments();
+
+            var carsForSmallCards = _mapper.Map<IEnumerable<CarForSmallCardDto>>(cars);
+
+            return carsForSmallCards;
         }
 
         public async ValueTask UpdateCarTechInfoAsync(CarInfoDto carTechInfo)

@@ -35,6 +35,14 @@
   <hr>
 </div>
 <div class="mt-1 mb-1">
-  <strong><span class="card-text">Car's cost per day: </span></strong>{{car?.costPerDay}}<br>
+  <strong><span class="card-text">Cost per day: </span></strong>{{car?.costPerDay | currency}}<br>
+  <hr>
+</div>
+<div class="mt-1 mb-1">
+  <strong><span class="card-text">Passengers: </span></strong>{{car?.passengersAmount}}<br>
+  <hr>
+</div>
+<div class="mt-1 mb-1">
+  <strong><span class="card-text">Doors amount: </span></strong>{{car?.doorsAmount}}<br>
   <hr>
 </div>

@@ -104,6 +104,24 @@
       </ngb-alert>
     </div>
     <div class="form-group">
+      <label for="passengersAmount">Passengers</label>
+      <input type="number" class="form-control " id="passengersAmount" [(ngModel)]="carToCreate.passengersAmount" name="passengersAmount" formControlName="passengersAmount">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="CarForm.get('passengersAmount').invalid && CarForm.get('passengersAmount').touched">
+        <div *ngIf="CarForm.get('passengersAmount').errors">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
+      <label for="doorsAmount">Doors</label>
+      <input type="number" class="form-control " id="doorsAmount" [(ngModel)]="carToCreate.doorsAmount" name="doorsAmount" formControlName="doorsAmount">
+      <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="CarForm.get('doorsAmount').invalid && CarForm.get('doorsAmount').touched">
+        <div *ngIf="CarForm.get('doorsAmount').errors">
+          Is a required field.
+        </div>
+      </ngb-alert>
+    </div>
+    <div class="form-group">
       <label for="status">Status</label>
       <select id="status" class="form-control" [(ngModel)]="carToCreate.status" name="status" formControlName="status">
         <option disabled selected>Status</option>

@@ -27,6 +27,10 @@ namespace CarRental.Api.Validators.Car
 
             RuleFor(req => req.TrunkVolume).NotNull();
 
+            RuleFor(req => req.PassengersAmount).NotNull();
+
+            RuleFor(req => req.DoorsAmount).NotNull();
+
             RuleFor(req => req.Images).NotNull();
 
             RuleFor(req => req.Status).NotNull();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.Service.DTO.CarDtos;
@@ -57,6 +58,10 @@ namespace CarRental.Service.DTO
             CreateMap<CarAddImagesFormDataRequest, CarAddImagesDto>();
 
             CreateMap<Document, DocumentDto>();
+
+            CreateMap<Car, CarForSmallCardDto>()
+                .ForMember(dto => dto.ImageName, opt => opt.MapFrom(car => car.Documents.FirstOrDefault().Name))
+                .ForMember(dto => dto.Name, opt => opt.MapFrom(car => car.Mark + " " + car.Model));
         }
     }
 }

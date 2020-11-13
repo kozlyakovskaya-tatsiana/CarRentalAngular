@@ -1,1 +1,10 @@
-<p>autopark works!</p>
+<app-head-image mainTitle="Our cars" additionalTitle="Autopark"></app-head-image>
+<div class="products mt-4 mb-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4" *ngFor="let car of cars">
+        <app-car-card-small [car]="car" btnName="More info" [btnLink]="['', 'carinfo', car?.id]"></app-car-card-small>
+      </div>
+    </div>
+  </div>
+</div>
