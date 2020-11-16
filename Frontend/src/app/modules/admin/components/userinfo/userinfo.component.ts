@@ -1,8 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {UserReadInfo} from '../../../../shared/utils/User/UserReadInfo';
 import {ActivatedRoute} from '@angular/router';
-import {UserService} from '../../../../shared/services/user.service';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 import {UserInfoService} from '../../../../shared/services/user-info.service';
 
 @Component({
@@ -37,7 +36,7 @@ export class UserinfoComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error',
             icon: 'error',

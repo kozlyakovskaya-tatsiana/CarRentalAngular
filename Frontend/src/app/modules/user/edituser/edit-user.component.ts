@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserInfoService} from '../../../shared/services/user-info.service';
 import {UserBase} from '../../../shared/utils/User/UserBase';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../../../shared/services/user.service';
-import {RoleService} from '../../admin/services/role.service';
 
 @Component({
   selector: 'app-edituser',
@@ -31,7 +30,7 @@ export class EditUserComponent implements OnInit {
     this.userService.updateUserBaseInfo(this.userBaseInfo).subscribe(
       data => {
         console.log(data);
-        swal({
+        swal.fire({
           title: 'Updating is successful.',
           icon: 'success'
         });
@@ -47,7 +46,7 @@ export class EditUserComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error',
             icon: 'error',
@@ -98,7 +97,7 @@ export class EditUserComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error',
             icon: 'error',

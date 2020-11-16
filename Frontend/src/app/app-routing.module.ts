@@ -18,6 +18,8 @@ import {CarInfoComponent} from './modules/cars/car-info/car-info.component';
 import {CarEditComponent} from './modules/cars/car-edit/car-edit.component';
 import {CarImagesManagementComponent} from './modules/cars/car-images-management/car-images-management.component';
 import {AutoparkComponent} from './modules/cars/autopark/autopark.component';
+import {RentalPointsManagementComponent} from './modules/renatlPoints/rental-points-management/rental-points-management.component';
+import {RentalPointCreateComponent} from './modules/renatlPoints/rental-point-create/rental-point-create.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent},
@@ -35,6 +37,8 @@ const routes: Routes = [
   { path: 'caredit/:id', component: CarEditComponent, canActivate: [CarManagementAccessGuard]},
   { path: 'careditimages/:id', component: CarImagesManagementComponent, canActivate: [CarManagementAccessGuard]},
   { path: 'autopark', component: AutoparkComponent},
+  { path: 'rentalpoints', component: RentalPointsManagementComponent, canActivate: [AdminAccessGuard]},
+  { path: 'createrentalpoint', component: RentalPointCreateComponent, canActivate: [AdminAccessGuard]},
   { path: '**', component: NotFoundComponent}
 ];
 

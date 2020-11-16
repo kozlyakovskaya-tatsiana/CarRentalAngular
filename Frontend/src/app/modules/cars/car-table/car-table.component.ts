@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CarReadTableInfo} from '../../../shared/utils/Car/CarReadTableInfo';
 import {CarService} from '../../../shared/services/car.service';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-car-table',
@@ -15,17 +15,18 @@ export class CarTableComponent {
   @Input() cars: CarReadTableInfo[];
 
   onDelete(id: string): void{
-    swal({
+    swal.fire({
       text: 'Do you really want to delete this cars?',
       icon: 'info',
-      buttons: ['No', 'Yes'],
-      dangerMode: true
-    }).then(yes => {
-      if (yes) {
+      cancelButtonText: 'No',
+      confirmButtonText: 'Yes',
+      showCancelButton: true
+    }).then(res => {
+      if (res.isConfirmed) {
         this.carService.removeCar(id).subscribe(
           data => {
             console.log(data);
-            swal({
+            swal.fire({
               text: 'Deleting is successful',
               icon: 'success'
             }).then(result => {
@@ -44,7 +45,7 @@ export class CarTableComponent {
             else {
               errorMessage = err.message;
             }
-            swal(
+            swal.fire(
               {
                 title: 'Error',
                 icon: 'error',

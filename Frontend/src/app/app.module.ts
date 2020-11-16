@@ -36,6 +36,8 @@ import { AutoparkComponent } from './modules/cars/autopark/autopark.component';
 import { CarCardSmallComponent } from './modules/cars/car-card-small/car-card-small.component';
 import { CarImagesManagementComponent } from './modules/cars/car-images-management/car-images-management.component';
 import { HeadImageComponent } from './ui/head-image/head-image.component';
+import { RentalPointsManagementComponent } from './modules/renatlPoints/rental-points-management/rental-points-management.component';
+import { RentalPointCreateComponent } from './modules/renatlPoints/rental-point-create/rental-point-create.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import { HeadImageComponent } from './ui/head-image/head-image.component';
     AutoparkComponent,
     CarCardSmallComponent,
     CarImagesManagementComponent,
-    HeadImageComponent
+    HeadImageComponent,
+    RentalPointsManagementComponent,
+    RentalPointCreateComponent
   ],
   imports: [
     BrowserModule,

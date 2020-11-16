@@ -3,7 +3,7 @@ import {UserInfoService} from '../../../../shared/services/user-info.service';
 import {UserService} from '../../../../shared/services/user.service';
 import {ActivatedRoute} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 import {EditUser} from '../../../../shared/utils/User/EditUser';
 import {RoleService} from '../../services/role.service';
 import {AdminService} from '../../services/admin.service';
@@ -36,7 +36,7 @@ export class EdituserByAdminComponent implements OnInit {
     this.adminService.updateUser(this.editUser).subscribe(
       data => {
         console.log(data);
-        swal({
+        swal.fire({
           title: 'Updating is successful.',
           icon: 'success'
         });
@@ -52,7 +52,7 @@ export class EdituserByAdminComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error',
             icon: 'error',
@@ -105,7 +105,7 @@ export class EdituserByAdminComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error',
             icon: 'error',
@@ -129,7 +129,7 @@ export class EdituserByAdminComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error while loading roles',
             icon: 'error',

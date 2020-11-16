@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CarForSmallCard} from '../../../shared/utils/Car/CarForSmallCard';
 import {CarService} from '../../../shared/services/car.service';
 import {map} from 'rxjs/operators';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-autopark',
@@ -15,10 +16,20 @@ export class AutoparkComponent implements OnInit {
 
   cars: CarForSmallCard[];
 
+  showModalForBooking(): void{
+    swal.fire({
+      title: 'Form to rent a car'
+    });
+  }
+
   ngOnInit(): void {
     this.carService.getCarsForSmallCards().pipe(
       map(cars => {
-        cars.forEach(car => car.imageName = this.carService.backendUrlForImages + car.imageName);
+        cars?.forEach(car => {
+          if (car.imageName) {
+            car.imageName = this.carService.backendUrlForImages + car.imageName;
+          }
+        });
         return cars;
       })
     )

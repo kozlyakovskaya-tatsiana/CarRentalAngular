@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {UserReadInfo} from '../../../../shared/utils/User/UserReadInfo';
 import {AdminService} from '../../services/admin.service';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-users-table',
@@ -15,17 +15,18 @@ export class UsersTableComponent{
   @Input() users: UserReadInfo[];
 
   onDelete(id: string): void{
-    swal({
+    swal.fire({
       text: 'Do you really want to delete this user?',
       icon: 'info',
-      buttons: ['No', 'Yes'],
-      dangerMode: true
-    }).then(yes => {
-      if (yes) {
+      cancelButtonText: 'No',
+      confirmButtonText: 'Yes',
+      showCancelButton: true
+    }).then(res => {
+      if (res.isConfirmed) {
         this.adminService.deleteUser(id).subscribe(
           data => {
             console.log(data);
-            swal({
+            swal.fire({
               text: 'Deleting is successful',
               icon: 'success'
             }).then(result => {
@@ -44,7 +45,7 @@ export class UsersTableComponent{
             else {
               errorMessage = err.message;
             }
-            swal(
+            swal.fire(
               {
                 title: 'Error',
                 icon: 'error',

@@ -1,6 +1,11 @@
 <div class="product-item">
   <h6 class="ml-2 mt-2 not-available" *ngIf="car.status!=='Free'">Not available now</h6>
-  <img [src]="car?.imageName" [class.transperent-item]="car.status!=='Free'">
+  <img [src]="car?.imageName" [class.transperent-item]="car.status!=='Free'" *ngIf="car?.imageName; else noimage;">
+  <ng-template #noimage>
+    <div class="text-center">
+    <img src="assets/no-image%20(1).png" style="width: 60%;" [class.transperent-item]="car.status!=='Free'">
+    </div>
+  </ng-template>
   <div class="down-content">
     <h4 class="text-center">{{car?.name}}</h4>
     <h6 class="text-center"><small>from</small> {{car?.costPerDay | currency}} <small>per day</small></h6>
@@ -11,9 +16,10 @@
       <strong title="passengers" class="iconivalue"><i class="fa fa-user"></i>{{car?.passengersAmount}}</strong>
       <strong title="doors" class="iconivalue"><i class="fa fa-sign-out"></i>{{car?.doorsAmount}}</strong>
     </small>
-    <span>
-      <a href="#" [routerLink]="btnLink">{{btnName}}</a>
-    </span>
+    <div class="row mt-2">
+      <a class="col-lg-4 offset-lg-1 btn btn-info btn-sm" [routerLink]="btnInfoLink">{{btnInfoName}}</a>
+      <a class="col-lg-3 offset-lg-3 float-right btn btn-success btn-sm" (click)="clickSimpleBtn()">{{btnSimpleName}}</a>
+    </div>
   </div>
 </div>
 

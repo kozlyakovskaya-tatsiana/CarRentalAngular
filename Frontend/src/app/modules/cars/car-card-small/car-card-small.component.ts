@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CarForSmallCard} from '../../../shared/utils/Car/CarForSmallCard';
 
 @Component({
@@ -11,8 +11,15 @@ export class CarCardSmallComponent implements OnInit {
   constructor() { }
 
   @Input() car: CarForSmallCard;
-  @Input() btnName: string;
-  @Input() btnLink: string;
+  @Input() btnInfoName: string;
+  @Input() btnInfoLink: string;
+  @Input() btnSimpleName: string;
+
+  @Output() onClickedSimpleBtn: EventEmitter<void> = new EventEmitter<void>();
+
+  clickSimpleBtn(): void{
+    this.onClickedSimpleBtn.emit();
+  }
 
   ngOnInit(): void {
   }

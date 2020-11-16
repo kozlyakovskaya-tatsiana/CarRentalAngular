@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 import {CarReadTableInfo} from '../../../shared/utils/Car/CarReadTableInfo';
 import {CarService} from '../../../shared/services/car.service';
 
@@ -30,7 +30,7 @@ export class CarManagementScreenComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error',
             icon: 'error',

@@ -3,9 +3,9 @@ import {ActivatedRoute} from '@angular/router';
 import {CarService} from '../../../shared/services/car.service';
 import {Location} from '@angular/common';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import swal from 'sweetalert';
 import {CarInfo} from '../../../shared/utils/Car/CarInfo';
 import {CarReadWithImage} from '../../../shared/utils/Car/CarReadWithImage';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-car-edit',
@@ -39,7 +39,7 @@ export class CarEditComponent implements OnInit {
    console.log(this.carToUpdate);
    this.isLoading = true;
    this.carService.updateCarTechInfo(this.carToUpdate).subscribe(data => {
-        swal({
+        swal.fire({
           title: 'Updating is successful.',
           icon: 'success'
         }).then(val => {
@@ -57,7 +57,7 @@ export class CarEditComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error',
             icon: 'error',
@@ -93,7 +93,7 @@ export class CarEditComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error',
             icon: 'error',
@@ -118,7 +118,7 @@ export class CarEditComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error while loading carcases',
             icon: 'error',
@@ -142,7 +142,7 @@ export class CarEditComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error while loading transmission types',
             icon: 'error',
@@ -166,7 +166,7 @@ export class CarEditComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error while loading fuel types',
             icon: 'error',
@@ -190,7 +190,7 @@ export class CarEditComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error while loading status types',
             icon: 'error',

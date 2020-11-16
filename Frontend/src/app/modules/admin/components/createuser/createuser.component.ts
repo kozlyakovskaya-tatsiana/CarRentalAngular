@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AdminService} from '../../services/admin.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {RoleService} from '../../services/role.service';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 import {UserCreate} from '../../../../shared/utils/User/UserCreate';
 import {Location} from '@angular/common';
 
@@ -31,7 +31,7 @@ export class CreateuserComponent implements OnInit {
     this.adminService.createUser(this.userCreate).subscribe(
       data => {
         console.log(data);
-        swal({
+        swal.fire({
           title: 'Creating is successful.',
           icon: 'success'
         }).then(val => {
@@ -49,7 +49,7 @@ export class CreateuserComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error',
             icon: 'error',
@@ -107,7 +107,7 @@ export class CreateuserComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error while loading roles',
             icon: 'error',
