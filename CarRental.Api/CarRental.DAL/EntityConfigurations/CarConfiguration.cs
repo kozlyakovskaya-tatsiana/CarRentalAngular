@@ -31,6 +31,12 @@ namespace CarRental.DAL.EntityConfigurations
                 .WithOne(doc => doc.Car)
                 .HasForeignKey(doc => doc.CarId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasOne(car => car.RentalPoint)
+                .WithMany(point => point.Cars)
+                .HasForeignKey(car => car.RentalPointId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
