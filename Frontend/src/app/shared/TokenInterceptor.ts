@@ -13,7 +13,10 @@ export class TokenInterceptor implements HttpInterceptor {
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.authService.accessToken) {
+    if (!request.url.includes('localhost:44397')){
+      request = request.clone();
+    }
+    else if (this.authService.accessToken) {
       request = this.addToken(request, this.authService.accessToken);
     }
 
