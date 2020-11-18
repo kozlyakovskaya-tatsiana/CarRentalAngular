@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AgmCoreModule} from '@agm/core';
+import {GooglePlaceModule} from 'ngx-google-places-autocomplete';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './modules/Auth/login/login.component';
@@ -39,9 +40,9 @@ import { CarImagesManagementComponent } from './modules/cars/car-images-manageme
 import { HeadImageComponent } from './ui/head-image/head-image.component';
 import { RentalPointsManagementComponent } from './modules/renatlPoints/rental-points-management/rental-points-management.component';
 import { RentalPointCreateComponent } from './modules/renatlPoints/rental-point-create/rental-point-create.component';
-import { MapComponent } from './modules/maps/map/map.component';
-import { RentalPointCreateFormComponent } from './modules/renatlPoints/rental-point-create-form/rental-point-create-form.component';
 import { FilterArrayPipe } from './shared/pipes/filter-countries.pipe';
+import { MapSearchboxComponent } from './modules/maps/map-searchbox/map-searchbox.component';
+import { CreateRentalPointByLocationComponent } from './modules/renatlPoints/create-rental-point-by-location/create-rental-point-by-location.component';
 
 @NgModule({
   declarations: [
@@ -76,9 +77,9 @@ import { FilterArrayPipe } from './shared/pipes/filter-countries.pipe';
     HeadImageComponent,
     RentalPointsManagementComponent,
     RentalPointCreateComponent,
-    MapComponent,
-    RentalPointCreateFormComponent,
-    FilterArrayPipe
+    FilterArrayPipe,
+    MapSearchboxComponent,
+    CreateRentalPointByLocationComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +90,8 @@ import { FilterArrayPipe } from './shared/pipes/filter-countries.pipe';
     HttpClientModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLUeOZwMQ6QivFjbHBuauXjQAr6fYGpIQ'
-    })
+    }),
+    GooglePlaceModule
   ],
   providers: [AdminAccessGuard, {
     provide: HTTP_INTERCEPTORS,

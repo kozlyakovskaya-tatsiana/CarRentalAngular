@@ -1,0 +1,10 @@
+<div class="row text-center">
+  <input type="text" id="autocomplete" class="col-lg-3 offset-lg-5 mt-2 mb-2">
+</div>
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" id="map" (mapClick)="onChooseLocation($event)">
+  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+</agm-map>
+<div class="row text-center mt-3 mb-3">
+  <h5 class="col-lg-12">{{address}}</h5>
+</div>
+

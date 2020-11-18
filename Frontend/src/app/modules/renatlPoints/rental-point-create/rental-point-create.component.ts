@@ -16,7 +16,7 @@ export class RentalPointCreateComponent implements OnInit {
   }
 
   public showForm(): void{
-    this.choice = 'form';
+    this.choice = 'location';
   }
 
   ngOnInit(): void {
