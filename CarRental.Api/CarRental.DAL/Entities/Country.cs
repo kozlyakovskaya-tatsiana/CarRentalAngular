@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CarRental.DAL.Entities
 {
-    public class Country  :BaseEntity
+    public class Country: BaseEntity
     {
         public string Name { get; set; }
 

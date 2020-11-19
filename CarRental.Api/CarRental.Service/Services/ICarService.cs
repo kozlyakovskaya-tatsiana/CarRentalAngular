@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRental.Service.DTO.CarDtos;
-using CarRental.Service.DTO.DocumentsDto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Service.Services

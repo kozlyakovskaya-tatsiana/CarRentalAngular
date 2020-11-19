@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CarRental.Service.DTO.DocumentsDto
+namespace CarRental.Service.DTO.DocumentDtos
 {
     public class DocumentDto
     {

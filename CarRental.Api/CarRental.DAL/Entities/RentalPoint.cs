@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CarRental.DAL.Entities
 {
-    public class RentalPoint : BaseEntity
+    public class RentalPoint: BaseEntity
     {
         public Location Location { get; set; }
 

@@ -13,9 +13,7 @@ namespace CarRental.DAL
 
         Task<TEntity> FindByIdAsync(Guid id);
 
-        Task<IEnumerable<TEntity>> GetAsync();
-
-        Task<IEnumerable<TEntity>> GetAsync(Func<TEntity, bool> predicate);
+        Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate = null);
 
         Task RemoveAsync (TEntity entity);
 
