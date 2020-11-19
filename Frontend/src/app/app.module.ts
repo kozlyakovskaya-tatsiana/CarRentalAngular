@@ -41,7 +41,6 @@ import { HeadImageComponent } from './ui/head-image/head-image.component';
 import { RentalPointsManagementComponent } from './modules/renatlPoints/rental-points-management/rental-points-management.component';
 import { RentalPointCreateComponent } from './modules/renatlPoints/rental-point-create/rental-point-create.component';
 import { FilterArrayPipe } from './shared/pipes/filter-countries.pipe';
-import { MapSearchboxComponent } from './modules/maps/map-searchbox/map-searchbox.component';
 import { CreateRentalPointByLocationComponent } from './modules/renatlPoints/create-rental-point-by-location/create-rental-point-by-location.component';
 
 @NgModule({
@@ -78,7 +77,6 @@ import { CreateRentalPointByLocationComponent } from './modules/renatlPoints/cre
     RentalPointsManagementComponent,
     RentalPointCreateComponent,
     FilterArrayPipe,
-    MapSearchboxComponent,
     CreateRentalPointByLocationComponent
   ],
   imports: [

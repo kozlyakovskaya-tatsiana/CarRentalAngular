@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MapService} from '../../../shared/services/map.service';
+import {CreateRentalPoint} from '../../../shared/utils/rentalPoint/CreateRentalPoint';
+import {RentalPointService} from '../../../shared/services/rental-point.service';
+import {HttpResponseService} from '../../../shared/services/http-response.service';
 
 @Component({
   selector: 'app-create-rental-point-by-location',
@@ -8,10 +11,16 @@ import {MapService} from '../../../shared/services/map.service';
 })
 export class CreateRentalPointByLocationComponent implements OnInit {
 
-  constructor(private mapService: MapService) {}
+  constructor(private mapService: MapService,
+              private rentalPointService: RentalPointService,
+              private httpResponseService: HttpResponseService){
+    this.createRentalPoint = new CreateRentalPoint();
+  }
 
-  lat = 52.14052719475131;
-  lng = 26.102992085204164;
+  createRentalPoint: CreateRentalPoint;
+  lat = 53.8983631;
+  lng = 27.5538021;
+
   fullAddress = undefined;
   get fullAddressArray(): string[]{
     return this.fullAddress ? this.fullAddress.split(',') : new Array<string>();
@@ -41,7 +50,7 @@ export class CreateRentalPointByLocationComponent implements OnInit {
       document.getElementById('map') as HTMLElement,
       {
         center: {lat: this.lat, lng: this.lng},
-        zoom: 5,
+        zoom: 6,
         mapTypeId: 'roadmap',
       }
     );
@@ -68,7 +77,6 @@ export class CreateRentalPointByLocationComponent implements OnInit {
         })
       );
 
-      /*map.panTo(place.geometry.location);*/
       const bounds = new google.maps.LatLngBounds();
       if (place.geometry.viewport) {
         bounds.union(place.geometry.viewport);
@@ -96,6 +104,25 @@ export class CreateRentalPointByLocationComponent implements OnInit {
           console.log(err);
         }
       );
+    });
+  }
+
+  onSubmit(): void{
+    this.createRentalPoint.country = this.country;
+    this.createRentalPoint.city = this.city;
+    this.createRentalPoint.address = this.address;
+    this.createRentalPoint.lat = this.lat;
+    this.createRentalPoint.lng = this.lng;
+
+    this.rentalPointService.createRentalPoint(this.createRentalPoint).subscribe(
+      data => {
+        console.log(data);
+        this.httpResponseService.showSuccessMessage('Creating successful');
+        window.location.reload();
+    },
+    err => {
+        console.log(err);
+        this.httpResponseService.showErrorMessage(err);
     });
   }
 

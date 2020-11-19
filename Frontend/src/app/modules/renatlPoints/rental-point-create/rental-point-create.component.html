@@ -1,19 +1,12 @@
 <div class="container mt-3">
-    <h4 class="text-center">Adding a rental point</h4>
   <div class="row">
-    <div class="col-lg-2 offset-lg-2">
-      <button class="btn btn-warning" (click)="showMap()">By map <i class="fas fa-map-marker-alt"></i></button>
-    </div>
-    <div class="col-lg-2 offset-lg-4">
-      <button class="btn btn-warning" (click)="showForm()">By location <i class="fas fa-align-left"></i></button>
+    <div class="col-lg-12 text-center">
+      <h4>Adding a rental point</h4>
     </div>
   </div>
-  <div class="row mt-2 mb-2" *ngIf="choice==='location'; else map;">
-    <app-create-rental-point-by-location class="col-lg-12"></app-create-rental-point-by-location>
-  </div>
-  <ng-template #map>
-    <div class="mt-3">
-      <app-map-searchbox></app-map-searchbox>
+  <div class="row">
+    <div class="col-lg-12 text-center">
+      <app-create-rental-point-by-location></app-create-rental-point-by-location>
     </div>
-  </ng-template>
+  </div>
 </div>

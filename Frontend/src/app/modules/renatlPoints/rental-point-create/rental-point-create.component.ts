@@ -9,16 +9,6 @@ export class RentalPointCreateComponent implements OnInit {
 
   constructor() { }
 
-  choice = 'map';
-
-  public showMap(): void{
-    this.choice = 'map';
-  }
-
-  public showForm(): void{
-    this.choice = 'location';
-  }
-
   ngOnInit(): void {
 
   }
