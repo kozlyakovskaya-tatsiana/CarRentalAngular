@@ -1,10 +1,21 @@
 <div class="row text-center">
   <input type="text" id="autocomplete" class="col-lg-3 offset-lg-5 mt-2 mb-2">
 </div>
-<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" id="map" (mapClick)="onChooseLocation($event)">
-  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-</agm-map>
+<div id="map"></div>
 <div class="row text-center mt-3 mb-3">
-  <h5 class="col-lg-12">{{address}}</h5>
+  <h5 class="col-lg-12">{{fullAddress}}</h5>
 </div>
-
+<div class="row text-center mt-3 mb-3">
+  <h5 class="col-lg-12" *ngIf="country">Country: {{country}}</h5>
+</div>
+<div class="row text-center mt-3 mb-3">
+  <h5 class="col-lg-12" *ngIf="city">City: {{city}}</h5>
+</div>
+<div class="row text-center mt-3 mb-3">
+  <h5 class="col-lg-12" *ngIf="address">Address: {{address}}</h5>
+</div>
+<div class="row mt-3 mb-3">
+  <div class="col-lg-12 text-center">
+    <button class="btn btn-warning btn-sm" [disabled]="!fullAddress">Create point</button>
+  </div>
+</div>

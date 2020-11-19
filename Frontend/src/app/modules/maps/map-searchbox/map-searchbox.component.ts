@@ -20,7 +20,7 @@ export class MapSearchboxComponent implements OnInit {
       document.getElementById('map') as HTMLElement,
       {
         center: {lat: this.lat, lng: this.lng},
-        zoom: 9,
+        zoom: 6,
         mapTypeId: 'roadmap',
       }
     );

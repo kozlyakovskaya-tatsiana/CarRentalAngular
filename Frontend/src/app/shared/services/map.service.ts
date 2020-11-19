@@ -15,7 +15,7 @@ export class MapService {
 
   public geocodeReverse(lat: number, lng: number): Observable<any>{
     return this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${this.apiKey}
-    &result_type=street_address&location_type=ROOFTOP`);
+    &result_type=street_address`);
   }
 
 }
