@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LoginComponent } from './modules/Auth/login/login.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {AgmCoreModule} from '@agm/core';
+import {GooglePlaceModule} from 'ngx-google-places-autocomplete';
+
+import { AppComponent } from './app.component';
+import { LoginComponent } from './modules/Auth/login/login.component';
 import { NotFoundComponent } from './ui/not-found/not-found.component';
 import { RegisterComponent } from './modules/Auth/register/register.component';
 import { HeaderComponent } from './ui/header/header.component';
@@ -36,6 +38,10 @@ import { AutoparkComponent } from './modules/cars/autopark/autopark.component';
 import { CarCardSmallComponent } from './modules/cars/car-card-small/car-card-small.component';
 import { CarImagesManagementComponent } from './modules/cars/car-images-management/car-images-management.component';
 import { HeadImageComponent } from './ui/head-image/head-image.component';
+import { RentalPointsManagementComponent } from './modules/renatlPoints/rental-points-management/rental-points-management.component';
+import { RentalPointCreateComponent } from './modules/renatlPoints/rental-point-create/rental-point-create.component';
+import { FilterArrayPipe } from './shared/pipes/filter-countries.pipe';
+import { CreateRentalPointByLocationComponent } from './modules/renatlPoints/create-rental-point-by-location/create-rental-point-by-location.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +73,11 @@ import { HeadImageComponent } from './ui/head-image/head-image.component';
     AutoparkComponent,
     CarCardSmallComponent,
     CarImagesManagementComponent,
-    HeadImageComponent
+    HeadImageComponent,
+    RentalPointsManagementComponent,
+    RentalPointCreateComponent,
+    FilterArrayPipe,
+    CreateRentalPointByLocationComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +85,11 @@ import { HeadImageComponent } from './ui/head-image/head-image.component';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDLUeOZwMQ6QivFjbHBuauXjQAr6fYGpIQ'
+    }),
+    GooglePlaceModule
   ],
   providers: [AdminAccessGuard, {
     provide: HTTP_INTERCEPTORS,

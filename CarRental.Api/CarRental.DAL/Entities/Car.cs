@@ -35,5 +35,9 @@ namespace CarRental.DAL.Entities
         public decimal CostPerDay { get; set; }
 
         public List<Document> Documents { get; set; }
+
+        public Guid? RentalPointId { get; set; }
+
+        public RentalPoint RentalPoint { get; set; }
     }
 }

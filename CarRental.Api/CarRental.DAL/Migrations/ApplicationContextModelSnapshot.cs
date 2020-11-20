@@ -57,6 +57,9 @@ namespace CarRental.DAL.Migrations
                     b.Property<int>("ReleaseYear")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("RentalPointId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -73,7 +76,42 @@ namespace CarRental.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RentalPointId");
+
                     b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("CarRental.DAL.Entities.City", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Cities");
+                });
+
+            modelBuilder.Entity("CarRental.DAL.Entities.Country", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("CarRental.DAL.Entities.Document", b =>
@@ -101,6 +139,31 @@ namespace CarRental.DAL.Migrations
                     b.ToTable("Documents");
                 });
 
+            modelBuilder.Entity("CarRental.DAL.Entities.Location", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Lat")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Lng")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.ToTable("Locations");
+                });
+
             modelBuilder.Entity("CarRental.DAL.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
@@ -113,6 +176,23 @@ namespace CarRental.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("CarRental.DAL.Entities.RentalPoint", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId")
+                        .IsUnique();
+
+                    b.ToTable("RentalPoints");
                 });
 
             modelBuilder.Entity("CarRental.DAL.Entities.User", b =>
@@ -326,12 +406,43 @@ namespace CarRental.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("CarRental.DAL.Entities.Car", b =>
+                {
+                    b.HasOne("CarRental.DAL.Entities.RentalPoint", "RentalPoint")
+                        .WithMany("Cars")
+                        .HasForeignKey("RentalPointId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CarRental.DAL.Entities.City", b =>
+                {
+                    b.HasOne("CarRental.DAL.Entities.Country", "Country")
+                        .WithMany("Cities")
+                        .HasForeignKey("CountryId");
+                });
+
             modelBuilder.Entity("CarRental.DAL.Entities.Document", b =>
                 {
                     b.HasOne("CarRental.DAL.Entities.Car", "Car")
                         .WithMany("Documents")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CarRental.DAL.Entities.Location", b =>
+                {
+                    b.HasOne("CarRental.DAL.Entities.City", "City")
+                        .WithMany("Locations")
+                        .HasForeignKey("CityId");
+                });
+
+            modelBuilder.Entity("CarRental.DAL.Entities.RentalPoint", b =>
+                {
+                    b.HasOne("CarRental.DAL.Entities.Location", "Location")
+                        .WithOne("RentalPoint")
+                        .HasForeignKey("CarRental.DAL.Entities.RentalPoint", "LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

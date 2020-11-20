@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } fro
 import { Observable } from 'rxjs';
 import {AuthorizeService} from '../services/authorize.service';
 import {Location} from '@angular/common';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class CarManagementAccessGuard implements CanActivate {
       return true;
     }
     else {
-      swal({
+      swal.fire({
         title: 'Access denied!',
         icon: 'info'
       }).then(value =>

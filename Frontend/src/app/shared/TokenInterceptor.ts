@@ -3,6 +3,7 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {AuthorizeService} from './services/authorize.service';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, filter, switchMap, take} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -13,7 +14,10 @@ export class TokenInterceptor implements HttpInterceptor {
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.authService.accessToken) {
+    if (!request.url.includes(environment.baseApi)){
+      request = request.clone();
+    }
+    else if (this.authService.accessToken) {
       request = this.addToken(request, this.authService.accessToken);
     }
 
@@ -47,12 +51,13 @@ export class TokenInterceptor implements HttpInterceptor {
         })
       );
     } else {
-      return this.refreshTokenSubject.pipe(
+      /*return this.refreshTokenSubject.pipe(
         filter(token => token != null),
         take(1),
         switchMap(jwt => {
           return next.handle(this.addToken(request, jwt));
-        }));
+        }));*/
+      this.authService.logout();
     }
   }
 }

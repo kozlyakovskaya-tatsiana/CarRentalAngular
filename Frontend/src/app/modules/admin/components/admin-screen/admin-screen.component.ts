@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserReadInfo} from '../../../../shared/utils/User/UserReadInfo';
 import {AdminService} from '../../services/admin.service';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 import {UsersTableComponent} from '../users-table/users-table.component';
 
 @Component({
@@ -37,7 +37,7 @@ export class AdminScreenComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error',
             icon: 'error',

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CarService} from '../../../shared/services/car.service';
-import {DocumentDto} from '../../../shared/utils/Document/DocumentDto';
 import {map} from 'rxjs/operators';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 import {DocumentService} from '../../../shared/services/document.service';
 import {CarForEditImageRead} from '../../../shared/utils/Car/CarForEditImageRead';
 
@@ -30,16 +29,18 @@ export class CarImagesManagementComponent implements OnInit {
 
   deleteCarImage(index: number): void {
     console.log(index);
-    swal({
+    swal.fire({
       title: 'Do you really want to delete this image?',
       icon: 'warning',
-      buttons: ['No', 'Yes']
-    }).then(yes => {
-      if (yes)
+      cancelButtonText: 'No',
+      confirmButtonText: 'Yes',
+      showCancelButton: true
+    }).then(res => {
+      if (res.isConfirmed)
       {
         const imgId = this.carForEditImages.images[index].id;
         this.documentService.deleteDocument(imgId).subscribe(data => {
-          swal({
+            swal.fire({
             title: 'Deleting is successful',
             icon: 'success'
           }).then(val => {
@@ -56,7 +57,7 @@ export class CarImagesManagementComponent implements OnInit {
             } else {
               errorMessage = err.message;
             }
-            swal(
+            swal.fire(
               {
                 title: 'Error while loading fuel types',
                 icon: 'error',
@@ -93,7 +94,7 @@ export class CarImagesManagementComponent implements OnInit {
     this.imagesToAdd.forEach(img => formData.append('images', img));
     this.carService.addCarImages(formData).subscribe(data => {
         console.log(data);
-        swal({
+        swal.fire({
           title: 'Updating is successful',
           icon: 'success'
         }).then(val => {
@@ -112,7 +113,7 @@ export class CarImagesManagementComponent implements OnInit {
     else {
       errorMessage = err.message;
     }
-      swal(
+      swal.fire(
       {
         title: 'Error',
         icon: 'error',
@@ -145,7 +146,7 @@ export class CarImagesManagementComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error while loading fuel types',
             icon: 'error',

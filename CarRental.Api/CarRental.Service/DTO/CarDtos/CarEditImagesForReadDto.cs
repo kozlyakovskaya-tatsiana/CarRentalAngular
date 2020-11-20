@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using CarRental.Service.DTO.DocumentsDto;
+using CarRental.Service.DTO.DocumentDtos;
 
 namespace CarRental.Service.DTO.CarDtos
 {

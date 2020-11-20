@@ -3,7 +3,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-4" *ngFor="let car of cars">
-        <app-car-card-small [car]="car" btnName="More info" [btnLink]="['', 'carinfo', car?.id]"></app-car-card-small>
+        <app-car-card-small [car]="car" btnInfoName="More info" [btnInfoLink]="['', 'carinfo', car?.id]" btnSimpleName="Book it!" (onClickedSimpleBtn)="showModalForBooking()"></app-car-card-small>
       </div>
     </div>
   </div>

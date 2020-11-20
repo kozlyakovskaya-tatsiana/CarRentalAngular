@@ -1,5 +1,6 @@
 ﻿using CarRental.DAL;
 using CarRental.DAL.Repositories;
+using CarRental.DAL.Repositories.Realization;
 using CarRental.Service.Helpers;
 using CarRental.Service.Identity;
 using CarRental.Service.Identity.Services;
@@ -30,6 +31,14 @@ namespace CarRental.Api.Extensions
             services.AddScoped<ITokenRepository, TokenRepository>();
 
             services.AddScoped<ICarRepository, CarRepository>();
+
+            services.AddScoped<IRentalPointService, RentalPointService>();
+
+            services.AddScoped<ICountryRepository, CountryRepository>();
+
+            services.AddScoped<ICityRepository, CityRepository>();
+
+            services.AddScoped<ILocationRepository, LocationRepository>();
         }
     }
 }

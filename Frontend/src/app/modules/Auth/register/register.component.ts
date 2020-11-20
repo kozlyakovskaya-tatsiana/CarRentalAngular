@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RegisterRequest} from '../../../shared/utils/Authorize/RegisterRequest';
 import {FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {AuthorizeService} from '../../../shared/services/authorize.service';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 import {Router} from '@angular/router';
 
 @Component({
@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
     this.isLoading = true;
     this.authorizeService.register(this.registerModel).subscribe(
       data => {
-        swal({
+        swal.fire({
             title: 'Registration successful. Now you can sign in.',
             icon: 'success'
           });
@@ -59,7 +59,7 @@ export class RegisterComponent implements OnInit {
         else {
           errorMessage = err.error;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error',
             icon: 'error',

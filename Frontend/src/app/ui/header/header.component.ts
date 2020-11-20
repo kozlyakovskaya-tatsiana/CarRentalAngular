@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AuthorizeService} from '../../shared/services/authorize.service';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
@@ -12,13 +12,14 @@ export class HeaderComponent implements OnInit {
   constructor(public authorizeService: AuthorizeService) { }
 
   onLogOut(): void{
-    swal({
+    swal.fire({
       text: 'Do you really want to log out?',
       icon: 'info',
-      buttons: ['No', 'Yes'],
-      dangerMode: true
-    }).then(logout => {
-        if (logout) {
+      cancelButtonText: 'No',
+      confirmButtonText: 'Yes',
+      showCancelButton: true
+    }).then(res => {
+        if (res.isConfirmed) {
           this.authorizeService.logout();
         }
     });

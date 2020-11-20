@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CarService} from '../../../shared/services/car.service';
 import {ActivatedRoute} from '@angular/router';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 import {CarReadWithImage} from '../../../shared/utils/Car/CarReadWithImage';
 import {map} from 'rxjs/operators';
 
@@ -43,7 +43,7 @@ export class CarInfoComponent implements OnInit {
         else {
           errorMessage = err.message;
         }
-        swal(
+        swal.fire(
           {
             title: 'Error',
             icon: 'error',

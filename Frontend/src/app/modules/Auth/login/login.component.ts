@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoginRequest} from '../../../shared/utils/Authorize/LoginRequest';
 import {AuthorizeService} from '../../../shared/services/authorize.service';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 import {Router} from '@angular/router';
 import {UserInfoService} from '../../../shared/services/user-info.service';
 
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit{
         if (err?.error?.errors?.Email[0]) {
           errorMessage = err.error.errors.Email[0];
         }
-        swal(
+        swal.fire(
           {
             title: 'Error',
             icon: 'error',
