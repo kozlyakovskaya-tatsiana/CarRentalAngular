@@ -17,5 +17,7 @@ namespace CarRental.DAL.Entities
         public Guid? CityId { get; set; }
 
         public RentalPoint RentalPoint { get; set; }
+
+        public Guid? RentalPointId { get; set; }
     }
 }

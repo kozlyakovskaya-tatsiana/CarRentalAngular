@@ -73,6 +73,13 @@ namespace CarRental.Service.DTO
                 .ForPath(point => point.Location.Lng, opt => opt.MapFrom(dto => dto.Lng))
                 .ForPath(point => point.Location.City.Name, opt => opt.MapFrom(dto => dto.City))
                 .ForPath(point => point.Location.City.Country.Name, opt => opt.MapFrom(dto => dto.Country));
+
+            CreateMap<RentalPoint, RentalPointLocationsDto>()
+                .ForMember(dto => dto.Address, opt => opt.MapFrom(point => point.Location.Address))
+                .ForMember(dto => dto.City, opt => opt.MapFrom(point => point.Location.City.Name))
+                .ForMember(dto => dto.Country, opt => opt.MapFrom(point => point.Location.City.Country.Name))
+                .ForMember(dto => dto.Lat, opt => opt.MapFrom(point => point.Location.Lat))
+                .ForMember(dto => dto.Lng, opt => opt.MapFrom(point => point.Location.Lng));
         }
     }
 }

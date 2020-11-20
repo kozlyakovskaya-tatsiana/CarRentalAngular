@@ -26,6 +26,13 @@ namespace CarRental.DAL.EFCore
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new CarConfiguration());
+
+            builder.ApplyConfiguration(new CityConfiguration());
+
+            builder.ApplyConfiguration(new LocationConfiguration());
+
+            builder.ApplyConfiguration(new RentalPointConfiguration());
+
         }
     }
 }

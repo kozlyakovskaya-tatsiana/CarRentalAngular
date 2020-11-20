@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.DTO.RentalPointDtos;
 using CarRental.Service.Services;
 using CarRental.Service.WebModels.RentalPoint;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -31,6 +27,16 @@ namespace CarRental.Api.Controllers
             _mapper = mapper;
 
             _rentalPointService = rentalPointService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRentalPointsLocations()
+        {
+            var rentalPoints = await _rentalPointService.GetRentalPointsLocations();
+
+            var locationsInfo = _mapper.Map<RentalPointLocationsDto[]>(rentalPoints);
+
+            return Ok(locationsInfo);
         }
 
         [HttpPost]

@@ -1,13 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL;
 using CarRental.DAL.Entities;
-using CarRental.Service.DTO.RentalPointDtos;
-using Microsoft.Extensions.Logging;
-using System.Linq;
 using CarRental.DAL.Repositories;
+using CarRental.Service.DTO.RentalPointDtos;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
-namespace CarRental.Service.Services.Models
+namespace CarRental.Service.Services.Realization
 {
     public class RentalPointService : IRentalPointService
     {
@@ -15,7 +17,7 @@ namespace CarRental.Service.Services.Models
 
         private readonly IMapper _mapper;
 
-        private readonly IRepository<RentalPoint> _rentalPointRepository;
+        private readonly IRentalPointRepository _rentalPointRepository;
 
         private readonly ICountryRepository _countryRepository;
 
@@ -23,7 +25,7 @@ namespace CarRental.Service.Services.Models
 
         private readonly ILocationRepository _locationRepository;
 
-        public RentalPointService(ILogger<RentalPointService> logger, IMapper mapper, IRepository<RentalPoint> rentalPointRepository,
+        public RentalPointService(ILogger<RentalPointService> logger, IMapper mapper, IRentalPointRepository rentalPointRepository,
             ICountryRepository countryRepository, ICityRepository cityRepository, ILocationRepository locationRepository)
         {
             _logger = logger;
@@ -56,8 +58,11 @@ namespace CarRental.Service.Services.Models
             rentalPoint.Location = existingLocation ?? rentalPoint.Location;
 
             await _rentalPointRepository.CreateAsync(rentalPoint);
+        }
 
-            // add checking if this address is already exists
+        public async Task<IEnumerable<RentalPoint>> GetRentalPointsLocations()
+        {
+            return await _rentalPointRepository.GetRentalPointsWithLocations();
         }
     }
 }
