@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import swal from 'sweetalert2';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,8 @@ export class HttpResponseService {
       });
   }
 
-  public showSuccessMessage(title?: string, text?: string): void{
-    swal.fire({
+  public showSuccessMessage(title?: string, text?: string): Promise<any>{
+    return swal.fire({
       title,
       text,
       icon: 'success'

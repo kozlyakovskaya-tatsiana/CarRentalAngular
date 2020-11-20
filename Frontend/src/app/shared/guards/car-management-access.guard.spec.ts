@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CarManagementAccessGuard } from './car-management-access.guard';
+import { AdminManagerAccessGuard } from './admin-manager-access-guard.service';
 
 describe('ManagerAccessGuard', () => {
-  let guard: CarManagementAccessGuard;
+  let guard: AdminManagerAccessGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    guard = TestBed.inject(CarManagementAccessGuard);
+    guard = TestBed.inject(AdminManagerAccessGuard);
   });
 
   it('should be created', () => {

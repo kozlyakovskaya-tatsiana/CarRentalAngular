@@ -1,4 +1,4 @@
-export class CreateRentalPoint{
+export class RentalPointLocationInfo{
   country: string;
   city: string;
   address: string;

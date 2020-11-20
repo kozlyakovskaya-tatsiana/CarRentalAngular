@@ -12,7 +12,7 @@ import {UserinfoComponent} from './modules/admin/components/userinfo/userinfo.co
 import {AdminAccessGuard} from './shared/guards/admin-access-guard.service';
 import {AboutComponent} from './ui/about/about.component';
 import {CreateCarComponent} from './modules/cars/create-car/create-car.component';
-import {CarManagementAccessGuard} from './shared/guards/car-management-access.guard';
+import {AdminManagerAccessGuard} from './shared/guards/admin-manager-access-guard.service';
 import {CarManagementScreenComponent} from './modules/cars/car-management-screen/car-management-screen.component';
 import {CarInfoComponent} from './modules/cars/car-info/car-info.component';
 import {CarEditComponent} from './modules/cars/car-edit/car-edit.component';
@@ -20,6 +20,8 @@ import {CarImagesManagementComponent} from './modules/cars/car-images-management
 import {AutoparkComponent} from './modules/cars/autopark/autopark.component';
 import {RentalPointsManagementComponent} from './modules/renatlPoints/rental-points-management/rental-points-management.component';
 import {RentalPointCreateComponent} from './modules/renatlPoints/rental-point-create/rental-point-create.component';
+import {RentalInfoComponent} from './modules/renatlPoints/rental-info/rental-info.component';
+import {RentalEditComponent} from './modules/renatlPoints/rental-edit/rental-edit.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent},
@@ -31,14 +33,16 @@ const routes: Routes = [
   { path: 'admin/createuser', component: CreateuserComponent, canActivate: [AdminAccessGuard]},
   { path: 'userinfo/:id', component: UserinfoComponent, canActivate: [AdminAccessGuard]},
   { path: 'about', component: AboutComponent},
-  { path: 'createcar', component: CreateCarComponent, canActivate: [CarManagementAccessGuard]},
-  { path: 'carmanagement', component: CarManagementScreenComponent, canActivate: [CarManagementAccessGuard]},
+  { path: 'createcar', component: CreateCarComponent, canActivate: [AdminManagerAccessGuard]},
+  { path: 'carmanagement', component: CarManagementScreenComponent, canActivate: [AdminManagerAccessGuard]},
   { path: 'carinfo/:id', component: CarInfoComponent},
-  { path: 'caredit/:id', component: CarEditComponent, canActivate: [CarManagementAccessGuard]},
-  { path: 'careditimages/:id', component: CarImagesManagementComponent, canActivate: [CarManagementAccessGuard]},
+  { path: 'caredit/:id', component: CarEditComponent, canActivate: [AdminManagerAccessGuard]},
+  { path: 'careditimages/:id', component: CarImagesManagementComponent, canActivate: [AdminManagerAccessGuard]},
   { path: 'autopark', component: AutoparkComponent},
-  { path: 'rentalpoints', component: RentalPointsManagementComponent, canActivate: [AdminAccessGuard]},
-  { path: 'createrentalpoint', component: RentalPointCreateComponent, canActivate: [AdminAccessGuard]},
+  { path: 'rentalpointsmanagement', component: RentalPointsManagementComponent, canActivate: [AdminManagerAccessGuard]},
+  { path: 'createrentalpoint', component: RentalPointCreateComponent, canActivate: [AdminManagerAccessGuard]},
+  { path: 'rentalinfo', component: RentalInfoComponent},
+  { path: 'rentaledit', component: RentalEditComponent, canActivate: [AdminManagerAccessGuard]},
   { path: '**', component: NotFoundComponent}
 ];
 

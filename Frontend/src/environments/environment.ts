@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  baseApi: 'https://localhost:44397/api/'
+  baseApi: 'https://localhost:44397/api/',
+  defaultLat: 53.8983631,
+  defaultLng: 27.5538021
 };
 
 /*

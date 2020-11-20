@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {RentalPointService} from '../../../shared/services/rental-point.service';
+import {RentalPointTableInfo} from '../../../shared/utils/rentalPoint/RentalPointTableInfo';
 
 @Component({
   selector: 'app-rental-points-management',
@@ -7,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RentalPointsManagementComponent implements OnInit {
 
-  constructor() { }
+  constructor(private rentalPointService: RentalPointService) {}
+
+  pointsForTable: Array<RentalPointTableInfo>;
 
   ngOnInit(): void {
   }

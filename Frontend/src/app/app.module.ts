@@ -42,6 +42,10 @@ import { RentalPointsManagementComponent } from './modules/renatlPoints/rental-p
 import { RentalPointCreateComponent } from './modules/renatlPoints/rental-point-create/rental-point-create.component';
 import { FilterArrayPipe } from './shared/pipes/filter-countries.pipe';
 import { CreateRentalPointByLocationComponent } from './modules/renatlPoints/create-rental-point-by-location/create-rental-point-by-location.component';
+import { RentalPointTableComponent } from './modules/renatlPoints/rental-point-table/rental-point-table.component';
+import { RentalInfoComponent } from './modules/renatlPoints/rental-info/rental-info.component';
+import { RentalEditComponent } from './modules/renatlPoints/rental-edit/rental-edit.component';
+import { MapMarkersComponent } from './modules/maps/map-markers/map-markers.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +81,11 @@ import { CreateRentalPointByLocationComponent } from './modules/renatlPoints/cre
     RentalPointsManagementComponent,
     RentalPointCreateComponent,
     FilterArrayPipe,
-    CreateRentalPointByLocationComponent
+    CreateRentalPointByLocationComponent,
+    RentalPointTableComponent,
+    RentalInfoComponent,
+    RentalEditComponent,
+    MapMarkersComponent
   ],
   imports: [
     BrowserModule,
