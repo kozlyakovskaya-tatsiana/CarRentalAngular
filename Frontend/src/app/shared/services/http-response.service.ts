@@ -26,12 +26,4 @@ export class HttpResponseService {
         text: errorMessage
       });
   }
-
-  public showSuccessMessage(title?: string, text?: string): Promise<any>{
-    return swal.fire({
-      title,
-      text,
-      icon: 'success'
-    });
-  }
 }

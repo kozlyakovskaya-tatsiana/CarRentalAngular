@@ -147,6 +147,18 @@
           </div>
         </ngb-alert>
       </div>
+      <div class="form-group">
+        <label for="rentpoint">Rental point</label>
+        <select id="rentpoint" class="form-control" [(ngModel)]="carToUpdate.rentalPointName" name="rentalPointName" formControlName="rentalPoint">
+          <option selected disabled value="">Choose rental point</option>
+          <option *ngFor="let point of rentalPoints" [value]="point">{{point}}</option>
+        </select>
+        <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="CarForm.get('rentalPoint').invalid && CarForm.get('rentalPoint').touched">
+          <div *ngIf="CarForm.get('rentalPoint').errors">
+            Is a required field.
+          </div>
+        </ngb-alert>
+      </div>
     </div>
       <div class="text-center">
         <button type="submit" class="btn btn-success" [disabled]="CarForm.invalid || isLoading" >Update</button>

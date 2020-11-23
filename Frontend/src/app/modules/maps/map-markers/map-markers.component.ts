@@ -1,19 +1,20 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {LocationCoords} from '../../../shared/utils/rentalPoint/LocationCoords';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {environment} from '../../../../environments/environment';
+import {RentalPointLocationInfo} from '../../../shared/utils/rentalPoint/RentalPointLocationInfo';
 
 @Component({
   selector: 'app-map-markers',
   templateUrl: './map-markers.component.html',
   styleUrls: ['./map-markers.component.css']
 })
-export class MapMarkersComponent implements OnInit {
+export class MapMarkersComponent implements OnChanges {
 
   constructor() { }
 
-  @Input() centerLat: number;
-  @Input() centerLng: number;
-
-  @Input() coords: Array<LocationCoords>;
+  @Input() centerLat: number = environment.defaultLat;
+  @Input() centerLng: number = environment.defaultLng;
+  @Input() iconUrl: string;
+  @Input() locations: Array<RentalPointLocationInfo> = new Array<RentalPointLocationInfo>();
 
   private initMap(): void{
     const map = new google.maps.Map(
@@ -25,32 +26,41 @@ export class MapMarkersComponent implements OnInit {
       }
     );
 
-    const carIcon = {
-      url: 'assets/car-icon.png',
-      scaledSize: new google.maps.Size(30, 30), // scaled size
-      origin: new google.maps.Point(0, 0), // origin
-      anchor: new google.maps.Point(0, 0) // anchor
-    };
+    let icon;
+    if (this.iconUrl)
+    {
+      icon = {
+        url: this.iconUrl,
+        scaledSize: new google.maps.Size(30, 30), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+      };
+    }
 
-    this.coords?.forEach((coords) => {
-      const markerCar = new google.maps.Marker({
+    this.locations?.forEach((loc) => {
+      const marker = new google.maps.Marker({
         map,
-        position: new google.maps.LatLng(coords.lat, coords.lng),
-        icon: carIcon,
-        animation: google.maps.Animation.BOUNCE
+        position: new google.maps.LatLng(loc.lat, loc.lng),
+        animation: google.maps.Animation.BOUNCE,
+        title: `${loc.country} ${loc.city} ${loc.address}`
       });
+      marker.addListener('click', () => {
+        map.setZoom(map.getZoom() + 8);
+        map.setCenter(marker.getPosition() as google.maps.LatLng);
+      });
+      if (icon){
+        marker.setIcon(icon);
+      }
     });
 
     google.maps.event.addListener(map, 'click', (event) => {
-
       map.panTo(event.latLng);
-
-      /*map.setZoom(map.getZoom() + 1);
-      map.setCenter(marker.getPosition() as google.maps.LatLng);*/
+      map.setZoom(map.getZoom() + 1);
+      map.setCenter(event.latLng);
     });
   }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    this.initMap();
   }
-
 }

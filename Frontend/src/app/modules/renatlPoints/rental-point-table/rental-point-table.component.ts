@@ -15,7 +15,6 @@ export class RentalPointTableComponent {
   @Output() deletePoint: EventEmitter<string> = new EventEmitter<string>();
 
   onDelete(id): void{
-    alert('in child');
     this.deletePoint.emit(id);
   }
 }

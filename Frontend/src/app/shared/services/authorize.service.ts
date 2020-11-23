@@ -65,7 +65,7 @@ export class AuthorizeService {
   }
 
   logout(): void{
-    this.router.navigate(['']);
+    this.router.navigate(['', 'login']);
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('user_id');
@@ -76,8 +76,8 @@ export class AuthorizeService {
   doRefreshToken(): Observable<any>{
     return this.http.post(this.tokenUrl + 'refresh', JSON.stringify(this.refreshToken), { headers: Headers.jsonHeader}).pipe(
       tap((tokens) => {
-      localStorage.setItem('access_token', tokens['accessToken']);
-      localStorage.setItem('refresh_token', tokens['refreshToken']);
+      localStorage.setItem('access_token', tokens.accessToken);
+      localStorage.setItem('refresh_token', tokens.refreshToken);
       console.log(`Refresh token\n ${tokens} `);
     }));
   }

@@ -13,4 +13,5 @@ export class CarToCreate{
   status: string;
   passengersAmount: string;
   doorsAmount: string;
+  rentalPointName: string;
 }

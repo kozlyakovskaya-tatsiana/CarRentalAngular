@@ -6,6 +6,7 @@ import {HttpResponseService} from '../../../shared/services/http-response.servic
 import {environment} from '../../../../environments/environment';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {RentalPointCreateInfo} from '../../../shared/utils/rentalPoint/RentalPointCreateInfo';
+import {SwalService} from '../../../shared/services/swal.service';
 
 @Component({
   selector: 'app-create-rental-point-by-location',
@@ -16,7 +17,8 @@ export class CreateRentalPointByLocationComponent implements OnInit {
 
   constructor(private mapService: MapService,
               private rentalPointService: RentalPointService,
-              private httpResponseService: HttpResponseService){
+              private httpResponseService: HttpResponseService,
+              private swalService: SwalService){
     this.createRentalPoint = new RentalPointCreateInfo();
     this.lat = environment.defaultLat;
     this.lng = environment.defaultLng;
@@ -133,7 +135,10 @@ export class CreateRentalPointByLocationComponent implements OnInit {
       this.lat = event.latLng.lat();
       this.lng = event.latLng.lng();
 
-      map.setZoom(map.getZoom() + 1);
+      if(map.getZoom() < 17)
+      {
+        map.setZoom(map.getZoom() + 1);
+      }
       map.setCenter(marker.getPosition() as google.maps.LatLng);
     });
   }
@@ -148,7 +153,7 @@ export class CreateRentalPointByLocationComponent implements OnInit {
     this.rentalPointService.createRentalPoint(this.createRentalPoint).subscribe(
       data => {
         console.log(data);
-        this.httpResponseService.showSuccessMessage('Creating successful')
+        this.swalService.showSuccessMessage('Creating successful')
           .then(val => {
             window.location.reload();
             }

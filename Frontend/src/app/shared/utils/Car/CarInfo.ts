@@ -14,4 +14,5 @@ export class CarInfo{
   costPerDay: number;
   passengersAmount: string;
   doorsAmount: string;
+  rentalPointName: string;
 }

@@ -4,10 +4,8 @@
     <th scope="col">№</th>
     <th scope="col">Mark</th>
     <th scope="col">Model</th>
-    <th scope="col">Carcase</th>
+    <th scope="col">Rental point</th>
     <th scope="col">Release year</th>
-    <th scope="col">Transmission</th>
-    <th scope="col">Fuel type</th>
     <th scope="col">Status</th>
     <th scope="col">Cost</th>
     <th scope="col"></th>
@@ -21,10 +19,8 @@
       <th scope="row">{{i+1}}</th>
       <td>{{car?.mark}}</td>
       <td>{{car?.model}}</td>
-      <td>{{car?.carcase}}</td>
+      <td>{{car?.rentalPointName}}</td>
       <td>{{car?.releaseYear}}</td>
-      <td>{{car?.transmission}}</td>
-      <td>{{car?.fuelType}}</td>
       <td>{{car?.status}}</td>
       <td>{{car?.costPerDay | currency}}</td>
       <td><button type="button" class="btn btn-primary btn-sm" [routerLink]="['', 'carinfo', car.id]">Full info <i class="far fa-file-alt ml-1"></i></button></td>

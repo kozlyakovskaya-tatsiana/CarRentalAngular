@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {AuthorizeService} from './services/authorize.service';
-import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
 import {catchError, filter, switchMap, take} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -48,16 +49,21 @@ export class TokenInterceptor implements HttpInterceptor {
           this.isRefreshing = false;
           this.refreshTokenSubject.next(token.accessToken);
           return next.handle(this.addToken(request, token.accessToken));
+        }),
+        catchError(err => {
+          console.log('catch err');
+          console.log(err);
+          this.authService.logout();
+          return of(err);
         })
       );
     } else {
-      /*return this.refreshTokenSubject.pipe(
+      return this.refreshTokenSubject.pipe(
         filter(token => token != null),
         take(1),
         switchMap(jwt => {
           return next.handle(this.addToken(request, jwt));
-        }));*/
-      this.authService.logout();
+        }));
     }
   }
 }
