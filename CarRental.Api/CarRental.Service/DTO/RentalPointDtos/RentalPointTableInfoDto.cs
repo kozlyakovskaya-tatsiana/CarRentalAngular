@@ -4,8 +4,10 @@ using System.Text;
 
 namespace CarRental.Service.DTO.RentalPointDtos
 {
-    public class RentalPointCreateDto
+    public class RentalPointTableInfoDto
     {
+        public Guid Id { get; set; }
+
         public string Name { get; set; }
 
         public string Country { get; set; }
@@ -14,8 +16,6 @@ namespace CarRental.Service.DTO.RentalPointDtos
 
         public string Address { get; set; }
 
-        public double Lat { get; set; }
-
-        public double Lng { get; set; }
+        public int CarsAmount { get; set; }
     }
 }

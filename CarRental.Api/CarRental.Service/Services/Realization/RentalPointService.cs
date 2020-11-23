@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL;
 using CarRental.DAL.Entities;
+using CarRental.DAL.Exceptions;
 using CarRental.DAL.Repositories;
 using CarRental.Service.DTO.RentalPointDtos;
 using Microsoft.EntityFrameworkCore;
@@ -60,9 +62,35 @@ namespace CarRental.Service.Services.Realization
             await _rentalPointRepository.CreateAsync(rentalPoint);
         }
 
+        public async Task<IEnumerable<string>> GetRentalPointNames()
+        {
+            return (await _rentalPointRepository.GetAsync()).Select(p => p.Name);
+        }
+
         public async Task<IEnumerable<RentalPoint>> GetRentalPointsLocations()
         {
             return await _rentalPointRepository.GetRentalPointsWithLocations();
+        }
+
+        public async Task<IEnumerable<RentalPointTableInfoDto>> GetRentalPointsTableInfo()
+        {
+            var points = await _rentalPointRepository.GetAllAsync(includes:
+                point => point.Include(p => p.Location.City.Country)
+                    .Include(p => p.Cars));
+
+            var info = _mapper.Map<IEnumerable<RentalPointTableInfoDto>>(points);
+
+            return info;
+        }
+
+        public async Task RemoveRentalPoint(Guid id)
+        {
+            var point = await _rentalPointRepository.FindByIdAsync(id);
+
+            if(point==null)
+                throw new NotFoundException($"No rental point with id={id}");
+
+            await _rentalPointRepository.RemoveAsync(id);
         }
     }
 }

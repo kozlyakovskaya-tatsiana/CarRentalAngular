@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CarRental.DAL.EFCore;
@@ -11,6 +12,11 @@ namespace CarRental.DAL.Repositories.Realization
     public class RentalPointRepository : EfGenericRepository<RentalPoint>, IRentalPointRepository
     {
         public RentalPointRepository(ApplicationContext context) : base(context){}
+
+        public async Task<RentalPoint> GetRentalPointByNameAsync(string name)
+        {
+            return (await GetAsync(p => p.Name.Equals(name))).FirstOrDefault();
+        }
 
         public async Task<IEnumerable<RentalPoint>> GetRentalPointsWithLocations()
         {

@@ -15,13 +15,13 @@ namespace CarRental.DAL.EntityConfigurations
                 .HasMany(point => point.Cars)
                 .WithOne(car => car.RentalPoint)
                 .HasForeignKey(car => car.RentalPointId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder
                 .HasOne(point => point.Location)
                 .WithOne(loc => loc.RentalPoint)
-                .HasForeignKey<Location>(loc => loc.RentalPointId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey<RentalPoint>(point => point.LocationId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

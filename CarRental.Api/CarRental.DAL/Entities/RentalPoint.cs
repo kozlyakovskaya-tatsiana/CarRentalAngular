@@ -10,6 +10,8 @@ namespace CarRental.DAL.Entities
 
         public Location Location { get; set; }
 
+        public Guid? LocationId { get; set; }
+
         public List<Car> Cars { get; set; }
     }
 }

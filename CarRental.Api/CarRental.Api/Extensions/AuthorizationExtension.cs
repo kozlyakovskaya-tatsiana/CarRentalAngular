@@ -2,7 +2,7 @@
 
 namespace CarRental.Api.Extensions
 {
-    public static class AuthotizationExtension
+    public static class AuthorizationExtension
     {
         public static void AddAuthorizationService(this IServiceCollection services)
         {

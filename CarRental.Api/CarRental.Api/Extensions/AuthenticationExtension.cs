@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CarRental.Api.Extensions
 {
-    public static class AuthExtension
+    public static class AuthenticationExtension
     {
         public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
         {

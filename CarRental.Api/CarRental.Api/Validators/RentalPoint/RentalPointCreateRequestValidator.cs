@@ -16,6 +16,8 @@ namespace CarRental.Api.Validators.RentalPoint
             RuleFor(req => req.Lat).NotNull();
 
             RuleFor(req => req.Lng).NotNull();
+
+            RuleFor(req => req.Name).NotEmpty();
         }
     }
 }

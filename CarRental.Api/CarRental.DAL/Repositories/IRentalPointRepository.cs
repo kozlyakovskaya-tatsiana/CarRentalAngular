@@ -9,5 +9,7 @@ namespace CarRental.DAL.Repositories
     public interface IRentalPointRepository : IRepository<RentalPoint>
     {
         Task<IEnumerable<RentalPoint>> GetRentalPointsWithLocations();
+
+        Task<RentalPoint> GetRentalPointByNameAsync(string name);
     }
 }

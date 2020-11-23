@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.DTO.RentalPointDtos;
 using CarRental.Service.Services;
@@ -29,7 +30,7 @@ namespace CarRental.Api.Controllers
             _rentalPointService = rentalPointService;
         }
 
-        [HttpGet]
+        [HttpGet("locations")]
         public async Task<IActionResult> GetRentalPointsLocations()
         {
             var rentalPoints = await _rentalPointService.GetRentalPointsLocations();
@@ -37,6 +38,14 @@ namespace CarRental.Api.Controllers
             var locationsInfo = _mapper.Map<RentalPointLocationsDto[]>(rentalPoints);
 
             return Ok(locationsInfo);
+        }
+
+        [HttpGet("tableinfo")]
+        public async Task<IActionResult> GetTableInfo()
+        {
+            var info = await _rentalPointService.GetRentalPointsTableInfo();
+
+            return Ok(info);
         }
 
         [HttpPost]
@@ -47,6 +56,22 @@ namespace CarRental.Api.Controllers
             await _rentalPointService.CreateRentalPoint(rentalPointDto);
 
             return Ok();
+        }
+
+        [HttpGet("names")]
+        public async Task<IActionResult> GetPointsNames()
+        {
+            var names = await _rentalPointService.GetRentalPointNames();
+
+            return Ok(names);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveRentalPoint(Guid id)
+        {
+            await _rentalPointService.RemoveRentalPoint(id);
+
+            return NoContent();
         }
     }
 }
