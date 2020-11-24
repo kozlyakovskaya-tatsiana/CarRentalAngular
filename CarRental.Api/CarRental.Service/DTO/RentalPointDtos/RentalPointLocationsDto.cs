@@ -6,6 +6,8 @@ namespace CarRental.Service.DTO.RentalPointDtos
 {
     public class RentalPointLocationsDto
     {
+        public Guid Id { get; set; }
+
         public string Country { get; set; }
 
         public string City { get; set; }
@@ -15,5 +17,7 @@ namespace CarRental.Service.DTO.RentalPointDtos
         public double Lat { get; set; }
 
         public double Lng { get; set; }
+
+        public string Name { get; set; }
     }
 }

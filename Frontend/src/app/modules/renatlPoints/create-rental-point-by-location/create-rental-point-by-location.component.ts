@@ -135,7 +135,7 @@ export class CreateRentalPointByLocationComponent implements OnInit {
       this.lat = event.latLng.lat();
       this.lng = event.latLng.lng();
 
-      if(map.getZoom() < 17)
+      if (map.getZoom() < 17)
       {
         map.setZoom(map.getZoom() + 1);
       }

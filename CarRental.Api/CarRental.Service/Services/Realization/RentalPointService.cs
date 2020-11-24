@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CarRental.DAL;
 using CarRental.DAL.Entities;
 using CarRental.DAL.Exceptions;
 using CarRental.DAL.Repositories;
@@ -62,14 +61,27 @@ namespace CarRental.Service.Services.Realization
             await _rentalPointRepository.CreateAsync(rentalPoint);
         }
 
+        public async Task<RentalPointLocationsDto> GetRentalPointLocation(Guid id)
+        {
+            var point =  (await _rentalPointRepository.GetRentalPointsWithLocations(p => p.Id == id)).FirstOrDefault();
+
+            var pointDto = _mapper.Map<RentalPointLocationsDto>(point);
+
+            return pointDto;
+        }
+
         public async Task<IEnumerable<string>> GetRentalPointNames()
         {
             return (await _rentalPointRepository.GetAsync()).Select(p => p.Name);
         }
 
-        public async Task<IEnumerable<RentalPoint>> GetRentalPointsLocations()
+        public async Task<IEnumerable<RentalPointLocationsDto>> GetRentalPointsLocations()
         {
-            return await _rentalPointRepository.GetRentalPointsWithLocations();
+            var points = await _rentalPointRepository.GetRentalPointsWithLocations();
+
+            var pointsDto = _mapper.Map<IEnumerable<RentalPointLocationsDto>>(points);
+
+            return pointsDto;
         }
 
         public async Task<IEnumerable<RentalPointTableInfoDto>> GetRentalPointsTableInfo()

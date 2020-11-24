@@ -41,8 +41,7 @@ const routes: Routes = [
   { path: 'autopark', component: AutoparkComponent},
   { path: 'rentalpointsmanagement', component: RentalPointsManagementComponent, canActivate: [AdminManagerAccessGuard]},
   { path: 'createrentalpoint', component: RentalPointCreateComponent, canActivate: [AdminManagerAccessGuard]},
-  { path: 'rentalinfo', component: RentalInfoComponent},
-  { path: 'rentaledit', component: RentalEditComponent, canActivate: [AdminManagerAccessGuard]},
+  { path: 'editrentalpoint/:id', component: RentalEditComponent, canActivate: [AdminManagerAccessGuard]},
   { path: '**', component: NotFoundComponent}
 ];
 

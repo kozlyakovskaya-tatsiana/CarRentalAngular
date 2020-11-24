@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {RentalPointService} from '../../../shared/services/rental-point.service';
 import {RentalPointTableInfo} from '../../../shared/utils/rentalPoint/RentalPointTableInfo';
 import {HttpResponseService} from '../../../shared/services/http-response.service';
 import {RentalPointLocationInfo} from '../../../shared/utils/rentalPoint/RentalPointLocationInfo';
 import {SwalService} from '../../../shared/services/swal.service';
+import {RentalInfoComponent} from '../rental-info/rental-info.component';
+import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-rental-points-management',
@@ -14,11 +17,15 @@ export class RentalPointsManagementComponent implements OnInit {
 
   constructor(private rentalPointService: RentalPointService,
               private httResponseService: HttpResponseService,
-              private swalService: SwalService) {}
+              private swalService: SwalService,
+              private router: Router) {}
 
   pointsForTable: Array<RentalPointTableInfo>;
 
   pointsLocations: Array<RentalPointLocationInfo>;
+
+  @ViewChild(RentalInfoComponent, {static: false})
+  private infoModalComponent: RentalInfoComponent;
 
   onDelete(id: string): void{
     console.log(id);
@@ -39,6 +46,25 @@ export class RentalPointsManagementComponent implements OnInit {
           );
         }
       });
+  }
+
+  onGetInfo(id: string): void{
+    const location: RentalPointLocationInfo = this.pointsLocations.filter(p => p.id === id)[0];
+    this.infoModalComponent.showModal();
+    this.infoModalComponent.modalTitle = this.pointsForTable.filter(p => p.id === id)[0].name;
+    this.infoModalComponent.location = location;
+    this.infoModalComponent.centerLat = location.lat;
+    this.infoModalComponent.centerLng = location.lng;
+    this.infoModalComponent.address = `${location.country}, ${location.city}, ${location.address}`;
+  }
+
+  onGetInfoClickBtn(id: string): void{
+    this.infoModalComponent.closeModal();
+    this.router.navigate(['', 'autopark'], {queryParams: {pointid: id}});
+  }
+
+  onEdit(id: string): void{
+    this.router.navigate(['', 'editrentalpoint', id]);
   }
 
   ngOnInit(): void {

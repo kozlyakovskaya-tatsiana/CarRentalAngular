@@ -21,8 +21,8 @@
       <td>{{point.city}}</td>
       <td>{{point.address}}</td>
       <td>{{point.carsAmount}}</td>
-      <td><button type="button" class="btn btn-primary btn-sm" [routerLink]="['', 'rentalinfo', point.id]">Full info <i class="far fa-file-alt ml-1"></i></button></td>
-      <td><button type="button" class="btn btn-warning btn-sm" [routerLink]="['', 'rentaledit', point.id]">Edit<i class="fas fa-pencil-alt ml-1"></i></button></td>
+      <td><button type="button" class="btn btn-primary btn-sm" (click)="onGetInfo(point.id)">Full info<i class="far fa-file-alt ml-1"></i></button></td>
+      <td><button type="button" class="btn btn-warning btn-sm" (click)="onEdit(point.id)">Edit<i class="fas fa-pencil-alt ml-1"></i></button></td>
       <td><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(point.id)">Delete <i class="fas fa-trash-alt ml-1"></i></button></td>
     </tr>
   </ng-container>

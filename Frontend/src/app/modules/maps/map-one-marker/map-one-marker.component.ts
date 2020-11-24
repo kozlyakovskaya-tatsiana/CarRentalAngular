@@ -3,23 +3,23 @@ import {environment} from '../../../../environments/environment';
 import {RentalPointLocationInfo} from '../../../shared/utils/rentalPoint/RentalPointLocationInfo';
 
 @Component({
-  selector: 'app-map-markers',
-  templateUrl: './map-markers.component.html',
-  styleUrls: ['./map-markers.component.css']
+  selector: 'app-map-one-marker',
+  templateUrl: './map-one-marker.component.html',
+  styleUrls: ['./map-one-marker.component.css']
 })
-export class MapMarkersComponent implements OnChanges {
+export class MapOneMarkerComponent implements OnChanges {
 
   constructor() { }
 
   @Input() centerLat: number = environment.defaultLat;
   @Input() centerLng: number = environment.defaultLng;
   @Input() iconUrl: string;
-  @Input() locations: Array<RentalPointLocationInfo> = new Array<RentalPointLocationInfo>();
+  @Input() pointLocation: RentalPointLocationInfo = new RentalPointLocationInfo();
 
 
   public initMap(): void{
     const map = new google.maps.Map(
-      document.getElementById('map'), {
+      document.getElementById('map1'), {
         center: {lat: this.centerLat, lng: this.centerLng},
         zoom: 6,
         mapTypeId: 'roadmap',
@@ -36,23 +36,19 @@ export class MapMarkersComponent implements OnChanges {
         anchor: new google.maps.Point(0, 0) // anchor
       };
     }
-
-    this.locations?.forEach((loc) => {
-      const marker = new google.maps.Marker({
+    const marker = new google.maps.Marker({
         map,
-        position: new google.maps.LatLng(loc.lat, loc.lng),
+        position: new google.maps.LatLng(this.pointLocation.lat, this.pointLocation.lng),
         animation: google.maps.Animation.BOUNCE,
-        title: `${loc.country} ${loc.city} ${loc.address}`
+        title: `${this.pointLocation.country} ${this.pointLocation.city} ${this.pointLocation.address}`
       });
-      marker.addListener('click', () => {
+    if (icon){
+      marker.setIcon(icon);
+    }
+    marker.addListener('click', () => {
         map.setZoom(map.getZoom() + 8);
         map.setCenter(marker.getPosition() as google.maps.LatLng);
       });
-      if (icon){
-        marker.setIcon(icon);
-      }
-    });
-
     google.maps.event.addListener(map, 'click', (event) => {
       map.panTo(event.latLng);
       map.setZoom(map.getZoom() + 1);
@@ -63,4 +59,5 @@ export class MapMarkersComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.initMap();
   }
+
 }

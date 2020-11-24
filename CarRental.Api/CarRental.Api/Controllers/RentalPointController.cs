@@ -33,11 +33,17 @@ namespace CarRental.Api.Controllers
         [HttpGet("locations")]
         public async Task<IActionResult> GetRentalPointsLocations()
         {
-            var rentalPoints = await _rentalPointService.GetRentalPointsLocations();
-
-            var locationsInfo = _mapper.Map<RentalPointLocationsDto[]>(rentalPoints);
+            var locationsInfo = await _rentalPointService.GetRentalPointsLocations();
 
             return Ok(locationsInfo);
+        }
+
+        [HttpGet("location/{id}")]
+        public async Task<IActionResult> GetRentalPointLocation(Guid id)
+        {
+            var rentalPoint = await _rentalPointService.GetRentalPointLocation(id);
+
+            return Ok(rentalPoint);
         }
 
         [HttpGet("tableinfo")]

@@ -7,12 +7,13 @@
   </div>
   <div class="row mt-2 mb-2">
     <div class="col-lg-12">
-      <app-rental-point-table [rentalPoints]="pointsForTable" (deletePoint)="onDelete($event)"></app-rental-point-table>
+      <app-rental-point-table [rentalPoints]="pointsForTable" (deletePoint)="onDelete($event)" (editPoint)="onEdit($event)" (getInfoAboutPoint)="onGetInfo($event)"></app-rental-point-table>
     </div>
   </div>
   <div class="row">
     <div class="col-lg-12">
-      <app-map-markers [locations]="pointsLocations" [iconUrl]="'assets/car-icon.png'"></app-map-markers>
+     <app-map-markers [locations]="pointsLocations" [iconUrl]="'assets/car-icon.png'"></app-map-markers>
     </div>
   </div>
+  <app-rental-info [iconUrl]="'assets/car-icon.png'" btnName="All cars of this point" (clickConfirmBtn)="onGetInfoClickBtn($event)"></app-rental-info>
 </div>

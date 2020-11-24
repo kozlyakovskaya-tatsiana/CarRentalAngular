@@ -82,10 +82,6 @@ namespace CarRental.Service.DTO
                 .ForMember(dto => dto.Lat, opt => opt.MapFrom(point => point.Location.Lat))
                 .ForMember(dto => dto.Lng, opt => opt.MapFrom(point => point.Location.Lng));
 
-            CreateMap<RentalPoint, RentalPointCoordsDto>()
-                .ForMember(dto => dto.Lat, opt => opt.MapFrom(point => point.Location.Lat))
-                .ForMember(dto => dto.Lng, opt => opt.MapFrom(point => point.Location.Lng));
-
             CreateMap<RentalPoint, RentalPointTableInfoDto>()
                 .ForMember(dto => dto.Address, opt => opt.MapFrom(p => p.Location.Address))
                 .ForMember(dto => dto.City, opt => opt.MapFrom(p => p.Location.City.Name))

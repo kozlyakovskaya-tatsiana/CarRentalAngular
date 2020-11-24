@@ -13,8 +13,16 @@ export class RentalPointTableComponent {
   @Input() rentalPoints: Array<RentalPointTableInfo>;
 
   @Output() deletePoint: EventEmitter<string> = new EventEmitter<string>();
+  @Output() editPoint: EventEmitter<string> = new EventEmitter<string>();
+  @Output() getInfoAboutPoint: EventEmitter<string> = new EventEmitter<string>();
 
-  onDelete(id): void{
+  onDelete(id: string): void{
     this.deletePoint.emit(id);
+  }
+  onEdit(id: string): void{
+    this.editPoint.emit(id);
+  }
+  onGetInfo(id: string): void{
+    this.getInfoAboutPoint.emit(id);
   }
 }
