@@ -47,6 +47,8 @@ import { RentalInfoComponent } from './modules/renatlPoints/rental-info/rental-i
 import { RentalEditComponent } from './modules/renatlPoints/rental-edit/rental-edit.component';
 import { MapMarkersComponent } from './modules/maps/map-markers/map-markers.component';
 import { MapOneMarkerComponent } from './modules/maps/map-one-marker/map-one-marker.component';
+import { RentalPointsMapComponent } from './modules/renatlPoints/rental-points-map/rental-points-map.component';
+import { MapPointsComponent } from './modules/maps/map-points/map-points.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +89,9 @@ import { MapOneMarkerComponent } from './modules/maps/map-one-marker/map-one-mar
     RentalInfoComponent,
     RentalEditComponent,
     MapMarkersComponent,
-    MapOneMarkerComponent
+    MapOneMarkerComponent,
+    RentalPointsMapComponent,
+    MapPointsComponent
   ],
   imports: [
     BrowserModule,
