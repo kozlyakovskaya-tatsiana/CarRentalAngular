@@ -184,13 +184,17 @@ namespace CarRental.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("LocationId")
+                    b.Property<Guid?>("LocationId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LocationId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[LocationId] IS NOT NULL");
 
                     b.ToTable("RentalPoints");
                 });
@@ -411,14 +415,15 @@ namespace CarRental.DAL.Migrations
                     b.HasOne("CarRental.DAL.Entities.RentalPoint", "RentalPoint")
                         .WithMany("Cars")
                         .HasForeignKey("RentalPointId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("CarRental.DAL.Entities.City", b =>
                 {
                     b.HasOne("CarRental.DAL.Entities.Country", "Country")
                         .WithMany("Cities")
-                        .HasForeignKey("CountryId");
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("CarRental.DAL.Entities.Document", b =>
@@ -433,7 +438,8 @@ namespace CarRental.DAL.Migrations
                 {
                     b.HasOne("CarRental.DAL.Entities.City", "City")
                         .WithMany("Locations")
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("CarRental.DAL.Entities.RentalPoint", b =>
@@ -441,8 +447,7 @@ namespace CarRental.DAL.Migrations
                     b.HasOne("CarRental.DAL.Entities.Location", "Location")
                         .WithOne("RentalPoint")
                         .HasForeignKey("CarRental.DAL.Entities.RentalPoint", "LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

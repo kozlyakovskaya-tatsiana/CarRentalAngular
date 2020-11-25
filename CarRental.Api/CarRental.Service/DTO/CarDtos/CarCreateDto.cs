@@ -33,6 +33,8 @@ namespace CarRental.Service.DTO.CarDtos
 
         public decimal CostPerDay { get; set; }
 
+        public string RentalPointName { get; set; }
+
         public IFormFile[] Images { get; set; }
 
         public string PathToStoreImages { get; set; }

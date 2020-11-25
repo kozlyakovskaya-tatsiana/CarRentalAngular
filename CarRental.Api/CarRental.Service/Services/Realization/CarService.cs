@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CarRental.Service.Services.Models
+namespace CarRental.Service.Services.Realization
 {
     public class CarService : ICarService
     {
@@ -25,6 +25,8 @@ namespace CarRental.Service.Services.Models
 
         private readonly ICarRepository _carRepository;
 
+        private readonly IRentalPointRepository _rentalPointRepository;
+
         private readonly IDocumentService _documentService;
 
         private readonly StaticFilesOptions _staticFilesOptions;
@@ -33,7 +35,7 @@ namespace CarRental.Service.Services.Models
 
         public CarService(ILogger<CarService> logger, IMapper mapper, ICarRepository carRepository, 
             IRepository<Document> fileRepository, IOptions<StaticFilesOptions> options, IDocumentService documentService,
-            IWebHostEnvironment environment)
+            IWebHostEnvironment environment, IRentalPointRepository rentalPointRepository)
         {
             _logger = logger;
 
@@ -46,11 +48,20 @@ namespace CarRental.Service.Services.Models
             _documentService = documentService;
 
             _environment = environment;
+
+            _rentalPointRepository = rentalPointRepository;
         }
 
         public async Task CreateCarAsync(CarCreateDto carCreateDto)
         {
             var carToCreate = _mapper.Map<Car>(carCreateDto);
+
+            var rentalPoint = await _rentalPointRepository.GetRentalPointByNameAsync(carCreateDto.RentalPointName);
+
+            if(rentalPoint==null)
+                throw new NotFoundException($"RentalPoint with name {carCreateDto.RentalPointName} is not found.");
+
+            carToCreate.RentalPointId = rentalPoint.Id;
 
             carCreateDto.PathToStoreImages = Path.Combine(_environment.WebRootPath, _staticFilesOptions.ImagesStore);
 
@@ -66,7 +77,7 @@ namespace CarRental.Service.Services.Models
 
         public async Task<IEnumerable<CarReadTableInfoDto>> GetCarsForTableAsync()
         {
-            var cars = await _carRepository.GetAsync();
+            var cars = await _carRepository.GetAllAsync(includes: car => car.Include(c => c.RentalPoint));
 
             var carReadDtos = _mapper.Map<IEnumerable<CarReadTableInfoDto>>(cars);
 
@@ -99,6 +110,13 @@ namespace CarRental.Service.Services.Models
         public async ValueTask UpdateCarTechInfoAsync(CarInfoDto carTechInfo)
         {
             var car = _mapper.Map<Car>(carTechInfo);
+
+            var rentalPoint = await _rentalPointRepository.GetRentalPointByNameAsync(carTechInfo.RentalPointName);
+
+            if(rentalPoint==null)
+                throw new NotFoundException($"Rental point ${carTechInfo.RentalPointName} is not found.");
+
+            car.RentalPoint = rentalPoint;
 
             await _carRepository.UpdateOneAsync(car);
         }

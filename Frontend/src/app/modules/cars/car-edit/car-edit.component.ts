@@ -6,6 +6,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CarInfo} from '../../../shared/utils/Car/CarInfo';
 import {CarReadWithImage} from '../../../shared/utils/Car/CarReadWithImage';
 import swal from 'sweetalert2';
+import {RentalPointService} from '../../../shared/services/rental-point.service';
+import {HttpResponseService} from '../../../shared/services/http-response.service';
 
 @Component({
   selector: 'app-car-edit',
@@ -16,7 +18,9 @@ export class CarEditComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
               private carService: CarService,
-              private location: Location) {
+              private location: Location,
+              private rentalPointService: RentalPointService,
+              private httpResponseService: HttpResponseService) {
     this.id = activatedRoute.snapshot.params.id;
     this.car = new CarReadWithImage();
     this.carToUpdate = new CarInfo();
@@ -30,6 +34,8 @@ export class CarEditComponent implements OnInit {
   fuelTypes: string[];
   statusTypes: string[];
   carImgSrc: string;
+
+  rentalPoints: Array<string>;
 
   CarForm: FormGroup;
   isLoading: boolean;
@@ -198,21 +204,31 @@ export class CarEditComponent implements OnInit {
           });
       });
 
+    this.rentalPointService.getRentalPointsNames().subscribe(
+      data => {
+        this.rentalPoints = data;
+      },
+      err => {
+        this.httpResponseService.showErrorMessage(err);
+      }
+    );
+
     this.CarForm = new FormGroup({
       mark: new FormControl('', Validators.required),
       model: new FormControl('', Validators.required),
-      carcase: new FormControl(this.car.carcase, Validators.required),
+      carcase: new FormControl('', Validators.required),
       releaseYear: new FormControl('', Validators.required),
-      transmission: new FormControl(this.car.transmission, Validators.required),
+      transmission: new FormControl('', Validators.required),
       enginePower: new FormControl('', Validators.required),
       fuelConsumption: new FormControl('', Validators.required),
       tankVolume: new FormControl('', Validators.required),
-      fuelType: new FormControl(this.car.fuelType, Validators.required),
+      fuelType: new FormControl('', Validators.required),
       trunkVolume: new FormControl('', Validators.required),
       status: new FormControl('', Validators.required),
       costPerDay: new FormControl('', Validators.required),
       passengersAmount: new FormControl('', Validators.required),
-      doorsAmount: new FormControl('', Validators.required)
+      doorsAmount: new FormControl('', Validators.required),
+      rentalPoint: new FormControl('', Validators.required)
     });
   }
 }

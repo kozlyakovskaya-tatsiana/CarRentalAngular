@@ -98,7 +98,9 @@ namespace CarRental.DAL
         {
             return await Task.Run(() =>
             {
-                var result = DbSet.AsQueryable();
+                var result = predicate==null
+                    ? DbSet.AsQueryable() 
+                    : DbSet.Where(predicate).AsQueryable();
 
                 if (includes != null)
                     result = includes(result);

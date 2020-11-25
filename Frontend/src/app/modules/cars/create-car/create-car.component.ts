@@ -5,6 +5,8 @@ import {CarToCreate} from '../../../shared/utils/Car/CarToCreate';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Location} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
+import {RentalPointService} from '../../../shared/services/rental-point.service';
+import {HttpResponseService} from '../../../shared/services/http-response.service';
 
 @Component({
   selector: 'app-create-car',
@@ -15,7 +17,9 @@ export class CreateCarComponent implements OnInit {
 
   constructor(private carService: CarService,
               private location: Location,
-              private http: HttpClient) {
+              private http: HttpClient,
+              private rentalPointService: RentalPointService,
+              private httpResponseService: HttpResponseService) {
     this.carToCreate = new CarToCreate();
     this.imageSrcs = [];
     this.imageFilesArray = new Array<File>();
@@ -31,6 +35,8 @@ export class CreateCarComponent implements OnInit {
 
   imageSrcs: any;
   imageFilesArray: Array<File>;
+
+  rentalPoints: Array<string>;
 
   onChangeImages(event): void {
     if (event.target.files && event.target.files.length) {
@@ -198,6 +204,15 @@ export class CreateCarComponent implements OnInit {
             });
         });
 
+    this.rentalPointService.getRentalPointsNames().subscribe(
+      data => {
+        this.rentalPoints = data;
+      },
+      err => {
+        this.httpResponseService.showErrorMessage(err);
+      }
+    );
+
     this.CarForm = new FormGroup({
       mark: new FormControl('', Validators.required),
       model: new FormControl('', Validators.required),
@@ -214,6 +229,7 @@ export class CreateCarComponent implements OnInit {
       costPerDay: new FormControl('', Validators.required),
       passengersAmount: new FormControl('', Validators.required),
       doorsAmount: new FormControl('', Validators.required),
+      rentalPoint: new FormControl('', Validators.required)
     });
   }
 }

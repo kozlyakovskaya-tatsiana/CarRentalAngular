@@ -36,5 +36,7 @@ namespace CarRental.Service.WebModels.Car
         public Status Status { get; set; }
 
         public decimal CostPerDay { get; set; }
+
+        public string RentalPointName { get; set; }
     }
 }

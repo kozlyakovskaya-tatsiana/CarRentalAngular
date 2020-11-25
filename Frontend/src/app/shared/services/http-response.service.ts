@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import swal from 'sweetalert2';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,13 +25,5 @@ export class HttpResponseService {
         icon: 'error',
         text: errorMessage
       });
-  }
-
-  public showSuccessMessage(title?: string, text?: string): void{
-    swal.fire({
-      title,
-      text,
-      icon: 'success'
-    });
   }
 }

@@ -8,7 +8,7 @@ import swal from 'sweetalert2';
 @Injectable({
   providedIn: 'root'
 })
-export class CarManagementAccessGuard implements CanActivate {
+export class AdminManagerAccessGuard implements CanActivate {
   constructor(private authService: AuthorizeService,
               private location: Location) {
   }

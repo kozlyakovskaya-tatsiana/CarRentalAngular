@@ -1,0 +1,31 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">№</th>
+    <th scope="col">Name</th>
+    <th scope="col">Country</th>
+    <th scope="col">City</th>
+    <th scope="col">Address</th>
+    <th scope="col">Car's amount</th>
+    <th scope="col"></th>
+    <th scope="col"></th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngFor="let point of rentalPoints; let i = index;">
+    <tr>
+      <th scope="row">{{i+1}}</th>
+      <td>{{point.name}}</td>
+      <td>{{point.country}}</td>
+      <td>{{point.city}}</td>
+      <td>{{point.address}}</td>
+      <td>{{point.carsAmount}}</td>
+      <td><button type="button" class="btn btn-primary btn-sm" (click)="onGetInfo(point.id)">Full info<i class="far fa-file-alt ml-1"></i></button></td>
+      <td><button type="button" class="btn btn-warning btn-sm" (click)="onEdit(point.id)">Edit<i class="fas fa-pencil-alt ml-1"></i></button></td>
+      <td><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(point.id)">Delete <i class="fas fa-trash-alt ml-1"></i></button></td>
+    </tr>
+  </ng-container>
+  </tbody>
+</table>
+

@@ -3,6 +3,7 @@ using AutoMapper;
 using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.Identity;
 using CarRental.Service.WebModels;
+using CarRental.Service.WebModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

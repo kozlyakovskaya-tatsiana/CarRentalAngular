@@ -6,6 +6,7 @@ using CarRental.Service.Identity;
 using CarRental.Service.Identity.Services;
 using CarRental.Service.Services;
 using CarRental.Service.Services.Models;
+using CarRental.Service.Services.Realization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CarRental.Api.Extensions
@@ -39,6 +40,8 @@ namespace CarRental.Api.Extensions
             services.AddScoped<ICityRepository, CityRepository>();
 
             services.AddScoped<ILocationRepository, LocationRepository>();
+
+            services.AddScoped<IRentalPointRepository, RentalPointRepository>();
         }
     }
 }

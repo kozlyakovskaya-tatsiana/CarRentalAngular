@@ -1,7 +1,9 @@
 ﻿namespace CarRental.Service.WebModels.RentalPoint
 {
-    public class RentalPointCreatingRequest
+    public class RentalPointCreateRequest
     {
+        public string Name { get; set; }
+
         public string Country { get; set; }
 
         public string City { get; set; }
