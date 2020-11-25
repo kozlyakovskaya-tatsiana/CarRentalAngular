@@ -4,7 +4,7 @@
   <h5 *ngIf="location" class="text-center my-3 mb-3">{{location?.address}}, {{location?.city}}, {{location?.country}}</h5>
   <div class="row">
     <div class="col-lg-4 offset-lg-4 text-center">
-      <button *ngIf="location" class="btn btn-info" [routerLink]="['', 'autopark']" [queryParams]="{id: location.id}">Show cars of point</button>
+      <button *ngIf="location" class="btn btn-info" [routerLink]="['', 'autopark']" [queryParams]="{pointid: location.id}">Show cars of point</button>
     </div>
   </div>
 </div>

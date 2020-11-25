@@ -47,6 +47,14 @@ namespace CarRental.Api.Controllers
             return Ok(rentalPoint);
         }
 
+        [HttpGet("cars/{id?}")]
+        public async Task<IActionResult> GetCarsOfRentalPoint(Guid? id = null)
+        {
+            var cars = await _rentalPointService.GetCarsOfRentalPoint(id);
+
+            return Ok(cars);
+        }
+
         [HttpGet("names")]
         public async Task<IActionResult> GetPointsNames()
         {

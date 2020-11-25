@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using CarRental.DAL.Entities;
+using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.RentalPointDtos;
 
 namespace CarRental.Service.Services
@@ -18,6 +19,8 @@ namespace CarRental.Service.Services
         Task<IEnumerable<RentalPointTableInfoDto>> GetRentalPointsTableInfo();
 
         Task<IEnumerable<string>> GetRentalPointNames();
+
+        Task<IEnumerable<CarForSmallCardDto>> GetCarsOfRentalPoint(Guid? id);
 
         Task RemoveRentalPoint(Guid id);
 

@@ -7,6 +7,8 @@ import {map} from 'rxjs/operators';
 import {RentalPointTableInfo} from '../utils/rentalPoint/RentalPointTableInfo';
 import {RentalPointCreateInfo} from '../utils/rentalPoint/RentalPointCreateInfo';
 import {RentalPointEditInfo} from '../utils/rentalPoint/RentalPointEditInfo';
+import {CarForSmallCard} from '../utils/Car/CarForSmallCard';
+import {Guid} from 'guid-typescript';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +41,12 @@ export class RentalPointService {
   public getRentalPointsNames(): Observable<Array<string>>{
     return this.http.get(this.url + 'names').pipe(
       map(data => data as Array<string>)
+    );
+  }
+
+  public getRentalPointCars(pointId: string): Observable<Array<CarForSmallCard>>{
+    return this.http.get(this.url + 'cars/' + pointId).pipe(
+      map(data => data as Array<CarForSmallCard>)
     );
   }
 
