@@ -51,7 +51,7 @@ namespace CarRental.Service.Services.Realization
             var existingCity = await _cityRepository.GetCityByNameAsync(rentalPointDto.City);
 
             var existingLocation = await _locationRepository.GetLocationByAddressAsync(rentalPointDto.Address);
-            
+
             rentalPoint.Location.City.Country = existingCountry ?? rentalPoint.Location.City.Country;
 
             rentalPoint.Location.City = existingCity ?? rentalPoint.Location.City;
@@ -61,11 +61,11 @@ namespace CarRental.Service.Services.Realization
             await _rentalPointRepository.CreateAsync(rentalPoint);
         }
 
-        public async Task<RentalPointLocationsDto> GetRentalPointLocation(Guid id)
+        public async Task<RentalPointLocationDto> GetRentalPointLocation(Guid id)
         {
-            var point =  (await _rentalPointRepository.GetRentalPointsWithLocations(p => p.Id == id)).FirstOrDefault();
+            var point = (await _rentalPointRepository.GetRentalPointsWithLocations(p => p.Id == id)).FirstOrDefault();
 
-            var pointDto = _mapper.Map<RentalPointLocationsDto>(point);
+            var pointDto = _mapper.Map<RentalPointLocationDto>(point);
 
             return pointDto;
         }
@@ -75,11 +75,11 @@ namespace CarRental.Service.Services.Realization
             return (await _rentalPointRepository.GetAsync()).Select(p => p.Name);
         }
 
-        public async Task<IEnumerable<RentalPointLocationsDto>> GetRentalPointsLocations()
+        public async Task<IEnumerable<RentalPointLocationDto>> GetRentalPointsLocations()
         {
             var points = await _rentalPointRepository.GetRentalPointsWithLocations();
 
-            var pointsDto = _mapper.Map<IEnumerable<RentalPointLocationsDto>>(points);
+            var pointsDto = _mapper.Map<IEnumerable<RentalPointLocationDto>>(points);
 
             return pointsDto;
         }
@@ -99,10 +99,29 @@ namespace CarRental.Service.Services.Realization
         {
             var point = await _rentalPointRepository.FindByIdAsync(id);
 
-            if(point==null)
+            if (point == null)
                 throw new NotFoundException($"No rental point with id={id}");
 
             await _rentalPointRepository.RemoveAsync(id);
+        }
+
+        public async Task UpdateRentalPoint(RentalPointEditDto rentalPointDto)
+        {
+            var point = _mapper.Map<RentalPoint>(rentalPointDto);
+
+            var existingCountry = await _countryRepository.GetCountryByNameAsync(rentalPointDto.Country);
+
+            var existingCity = await _cityRepository.GetCityByNameAsync(rentalPointDto.City);
+
+            var existingLocation = await _locationRepository.GetLocationByAddressAsync(rentalPointDto.Address);
+
+            point.Location.City.Country = existingCountry ?? point.Location.City.Country;
+
+            point.Location.City = existingCity ?? point.Location.City;
+
+            point.Location = existingLocation ?? point.Location;
+
+            await _rentalPointRepository.UpdateOneAsync(point);
         }
     }
 }

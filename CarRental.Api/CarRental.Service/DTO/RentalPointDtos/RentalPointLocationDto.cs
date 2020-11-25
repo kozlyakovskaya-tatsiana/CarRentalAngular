@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CarRental.Service.DTO.RentalPointDtos
 {
-    public class RentalPointLocationsDto
+    public class RentalPointLocationDto
     {
         public Guid Id { get; set; }
 

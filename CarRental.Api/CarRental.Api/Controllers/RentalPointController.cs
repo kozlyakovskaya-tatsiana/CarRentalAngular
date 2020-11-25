@@ -30,22 +30,6 @@ namespace CarRental.Api.Controllers
             _rentalPointService = rentalPointService;
         }
 
-        [HttpGet("locations")]
-        public async Task<IActionResult> GetRentalPointsLocations()
-        {
-            var locationsInfo = await _rentalPointService.GetRentalPointsLocations();
-
-            return Ok(locationsInfo);
-        }
-
-        [HttpGet("location/{id}")]
-        public async Task<IActionResult> GetRentalPointLocation(Guid id)
-        {
-            var rentalPoint = await _rentalPointService.GetRentalPointLocation(id);
-
-            return Ok(rentalPoint);
-        }
-
         [HttpGet("tableinfo")]
         public async Task<IActionResult> GetTableInfo()
         {
@@ -55,7 +39,7 @@ namespace CarRental.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRentalPoint(RentalPointCreatingRequest request)
+        public async Task<IActionResult> CreateRentalPoint(RentalPointCreateRequest request)
         {
             var rentalPointDto = _mapper.Map<RentalPointCreateDto>(request);
 
@@ -64,12 +48,14 @@ namespace CarRental.Api.Controllers
             return Ok();
         }
 
-        [HttpGet("names")]
-        public async Task<IActionResult> GetPointsNames()
+        [HttpPut]
+        public async Task<IActionResult> UpdateRentalPoint(RentalPointEditRequest request)
         {
-            var names = await _rentalPointService.GetRentalPointNames();
+            var pointDto = _mapper.Map<RentalPointEditDto>(request);
 
-            return Ok(names);
+            await _rentalPointService.UpdateRentalPoint(pointDto);
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

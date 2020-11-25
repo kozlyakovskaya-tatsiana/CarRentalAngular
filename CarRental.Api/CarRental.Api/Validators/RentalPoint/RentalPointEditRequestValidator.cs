@@ -3,10 +3,12 @@ using FluentValidation;
 
 namespace CarRental.Api.Validators.RentalPoint
 {
-    public class RentalPointCreateRequestValidator : AbstractValidator<RentalPointCreateRequest>
+    public class RentalPointEditRequestValidator : AbstractValidator<RentalPointEditRequest>
     {
-        public RentalPointCreateRequestValidator()
+        public RentalPointEditRequestValidator()
         {
+            RuleFor(req => req.Id).NotEmpty();
+
             RuleFor(req => req.Country).NotEmpty();
 
             RuleFor(req => req.City).NotEmpty();

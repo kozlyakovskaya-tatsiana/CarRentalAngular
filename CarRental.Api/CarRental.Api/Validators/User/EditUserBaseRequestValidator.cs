@@ -1,4 +1,5 @@
 ﻿using CarRental.Service.WebModels;
+using CarRental.Service.WebModels.User;
 using FluentValidation;
 
 namespace CarRental.Api.Validators.User

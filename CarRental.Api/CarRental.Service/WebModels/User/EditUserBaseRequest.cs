@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CarRental.Service.WebModels
+namespace CarRental.Service.WebModels.User
 {
     public class EditUserBaseRequest
     {

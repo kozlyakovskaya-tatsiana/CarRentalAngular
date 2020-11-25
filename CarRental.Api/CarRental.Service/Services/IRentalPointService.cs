@@ -11,14 +11,16 @@ namespace CarRental.Service.Services
     {
         Task CreateRentalPoint(RentalPointCreateDto rentalPointDto);
 
-        Task<IEnumerable<RentalPointLocationsDto>> GetRentalPointsLocations();
+        Task<IEnumerable<RentalPointLocationDto>> GetRentalPointsLocations();
 
-        Task<RentalPointLocationsDto> GetRentalPointLocation(Guid id);
+        Task<RentalPointLocationDto> GetRentalPointLocation(Guid id);
 
         Task<IEnumerable<RentalPointTableInfoDto>> GetRentalPointsTableInfo();
 
         Task<IEnumerable<string>> GetRentalPointNames();
 
         Task RemoveRentalPoint(Guid id);
+
+        Task UpdateRentalPoint(RentalPointEditDto rentalPointDto);
     }
 }
