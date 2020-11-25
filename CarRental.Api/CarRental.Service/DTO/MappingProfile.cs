@@ -46,7 +46,8 @@ namespace CarRental.Service.DTO
                 .ForMember(car => car.Documents, opt => opt.MapFrom(dto => dto.Images))
                 .ForMember(car => car.Id, opt => opt.MapFrom(dto => Guid.NewGuid()));
 
-            CreateMap<Car, CarReadWithImagesDto>();
+            CreateMap<Car, CarReadWithImagesDto>()
+                .ForMember(dto => dto.RentalPointName, opt => opt.MapFrom(c => c.RentalPoint.Name));
 
             CreateMap<CarCreatingFormDataRequest, CarCreateDto>();
 

@@ -55,10 +55,10 @@ namespace CarRental.Api.Controllers
             return Ok(cars);
         }
 
-        [HttpGet("names")]
-        public async Task<IActionResult> GetPointsNames()
+        [HttpGet("names/{id?}")]
+        public async Task<IActionResult> GetPointsNames(Guid? id = null)
         {
-            var names = await _rentalPointService.GetRentalPointNames();
+            var names = await _rentalPointService.GetRentalPointNames(id);
 
             return Ok(names);
         }

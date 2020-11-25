@@ -38,8 +38,8 @@ export class RentalPointService {
     );
   }
 
-  public getRentalPointsNames(): Observable<Array<string>>{
-    return this.http.get(this.url + 'names').pipe(
+  public getRentalPointsNames(id = ''): Observable<Array<string>>{
+    return this.http.get(this.url + 'names/' + id).pipe(
       map(data => data as Array<string>)
     );
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CarForSmallCard} from '../../../shared/utils/Car/CarForSmallCard';
 import {CarService} from '../../../shared/services/car.service';
-import {catchError, map} from 'rxjs/operators';
+import {catchError, first, map, switchMap} from 'rxjs/operators';
 import swal from 'sweetalert2';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, of} from 'rxjs';
@@ -20,16 +20,14 @@ export class AutoparkComponent implements OnInit {
               private rentalPointService: RentalPointService,
               private route: ActivatedRoute,
               private httpResponseService: HttpResponseService) {
-    this.rentalPointId = this.route.snapshot.params.id;
-    this.route.queryParams.subscribe(params => {
-      this.rentalPointId = params.pointid ?? '';
-    });
+    this.rentalPointId = this.route.snapshot.params.pointid ?? '';
   }
 
   cars: CarForSmallCard[];
   cars$: Observable<Array<CarForSmallCard>>;
   private rentalPointId: string;
-  private rentalPointName: string;
+  rentalPointName: string;
+  rentalPointName$: Observable<string>;
 
   showModalForBooking(): void{
     swal.fire({
@@ -52,5 +50,14 @@ export class AutoparkComponent implements OnInit {
         return of(err);
       })
     );
+    if (this.rentalPointId){
+      this.rentalPointName$ = this.rentalPointService.getRentalPointsNames(this.rentalPointId).pipe(
+        first(),
+        catchError(err  => {
+          this.httpResponseService.showErrorMessage(err);
+          return of(err);
+        })
+      );
+    }
   }
 }

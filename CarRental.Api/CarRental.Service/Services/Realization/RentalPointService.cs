@@ -87,9 +87,13 @@ namespace CarRental.Service.Services.Realization
             return pointDto;
         }
 
-        public async Task<IEnumerable<string>> GetRentalPointNames()
+        public async Task<IEnumerable<string>> GetRentalPointNames(Guid? id)
         {
-            return (await _rentalPointRepository.GetAsync()).Select(p => p.Name);
+            var names = id == null
+                ? (await _rentalPointRepository.GetAsync()).Select(p => p.Name)
+                : (await _rentalPointRepository.GetAsync(p => p.Id == id)).Select(p => p.Name);
+
+            return names;
         }
 
         public async Task<IEnumerable<RentalPointLocationDto>> GetRentalPointsLocations()

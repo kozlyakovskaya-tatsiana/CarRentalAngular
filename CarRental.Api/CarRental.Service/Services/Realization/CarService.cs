@@ -86,7 +86,10 @@ namespace CarRental.Service.Services.Realization
 
         public async Task<CarReadWithImagesDto> GetCarWithImagesAsync(Guid id)
         {
-            var car = (await _carRepository.GetAllAsync(includes: query => query.Include(c => c.Documents))).FirstOrDefault(c => c.Id == id);
+            var car = (await _carRepository.GetAllAsync(includes: query => query
+                .Include(c => c.Documents)
+                .Include(c => c.RentalPoint)))
+                .FirstOrDefault(c => c.Id == id);
 
             if (car == null)
                 throw new NotFoundException("There is no car with such Id");

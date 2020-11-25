@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using CarRental.DAL.Entities;
@@ -18,7 +19,7 @@ namespace CarRental.Service.Services
 
         Task<IEnumerable<RentalPointTableInfoDto>> GetRentalPointsTableInfo();
 
-        Task<IEnumerable<string>> GetRentalPointNames();
+        Task<IEnumerable<string>> GetRentalPointNames(Guid? id);
 
         Task<IEnumerable<CarForSmallCardDto>> GetCarsOfRentalPoint(Guid? id);
 
