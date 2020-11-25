@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {RentalPointCreateInfo} from '../../../shared/utils/rentalPoint/RentalPointCreateInfo';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {RentalPointService} from '../../../shared/services/rental-point.service';
 import {HttpResponseService} from '../../../shared/services/http-response.service';
 import {SwalService} from '../../../shared/services/swal.service';
@@ -7,32 +6,39 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {RentalPointLocationInfo} from '../../../shared/utils/rentalPoint/RentalPointLocationInfo';
 import {MapService} from '../../../shared/services/map.service';
+import {environment} from '../../../../environments/environment';
+import {RentalPointEditInfo} from '../../../shared/utils/rentalPoint/RentalPointEditInfo';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-rental-edit',
   templateUrl: './rental-edit.component.html',
   styleUrls: ['./rental-edit.component.css']
 })
-export class RentalEditComponent implements OnInit {
+export class RentalEditComponent implements OnInit{
 
   constructor(private rentalPointService: RentalPointService,
               private httpResponseService: HttpResponseService,
               private swalService: SwalService,
               private mapService: MapService,
-              private activatedRoute: ActivatedRoute) {
-    this.createRentalPoint = new RentalPointCreateInfo();
+              private activatedRoute: ActivatedRoute,
+              private location: Location) {
+    this.editRentalPoint = new RentalPointEditInfo();
     this.currentPoint = new RentalPointLocationInfo();
     this.id = this.activatedRoute.snapshot.params.id;
   }
 
   id: string;
   fullAddress: string;
+  lat: number = environment.defaultLat;
+  lng: number = environment.defaultLng;
+  rentalName: string;
   currentPoint: RentalPointLocationInfo;
   rentalPointForm: FormGroup;
 
-  createRentalPoint: RentalPointCreateInfo;
+  editRentalPoint: RentalPointEditInfo;
 
-  /*get fullAddressArray(): string[]{
+  get fullAddressArray(): string[]{
     return this.fullAddress ? this.fullAddress.split(',') : new Array<string>();
   }
 
@@ -46,13 +52,13 @@ export class RentalEditComponent implements OnInit {
 
   get address(): string {
     return this.fullAddressArray[0];
-  }*/
+  }
 
   private initMap(): void{
     const map = new google.maps.Map(
       document.getElementById('map-edit') as HTMLElement,
       {
-        center: {lat: this.currentPoint.lat, lng: this.currentPoint.lng},
+        center: {lat: this.lat, lng: this.lng},
         zoom: 6,
         mapTypeId: 'roadmap',
       }
@@ -60,8 +66,11 @@ export class RentalEditComponent implements OnInit {
     const autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete') as HTMLInputElement, {
       types: ['address']
     });
-
-    let marker: google.maps.Marker;
+    document.getElementById('autocomplete').addEventListener('keydown', event => {
+      if (event.key === 'Enter'){
+        event.preventDefault();
+      }
+    });
 
     const carIcon = {
       url: 'assets/car-icon.png',
@@ -70,28 +79,27 @@ export class RentalEditComponent implements OnInit {
       anchor: new google.maps.Point(0, 0) // anchor
     };
 
-    const markerCar = new google.maps.Marker({
+    let markerCar = new google.maps.Marker({
         map,
-        title: `${this.currentPoint.country}, ${this.currentPoint.city}, ${this.currentPoint.address}`,
-        position: new google.maps.LatLng(this.currentPoint.lat, this.currentPoint.lng),
+        title: this.fullAddress,
+        position: new google.maps.LatLng(this.lat, this.lng),
         icon: carIcon,
-        animation: google.maps.Animation.DROP,
-        draggable: true
+        animation: google.maps.Animation.DROP
       });
 
     google.maps.event.addListener(autocomplete, 'place_changed', () => {
       const place = autocomplete.getPlace();
 
-      this.currentPoint.address = place.formatted_address;
-      this.currentPoint.lat = place.geometry.location.lat();
-      this.currentPoint.lng = place.geometry.location.lng();
+      this.fullAddress = place.formatted_address;
+      this.rentalPointForm.patchValue({
+        fullAddress: this.fullAddress
+      });
+      this.lat = place.geometry.location.lat();
+      this.lng = place.geometry.location.lng();
 
       markerCar.setMap(null);
-      marker?.setMap(null);
 
-      marker = null;
-
-      marker = new google.maps.Marker({
+      markerCar = new google.maps.Marker({
         map,
         title: place.name,
         position: place.geometry.location,
@@ -108,14 +116,12 @@ export class RentalEditComponent implements OnInit {
     });
 
     google.maps.event.addListener(map, 'click', (event) => {
-      this.currentPoint.address = '';
+      this.fullAddress = '';
       (document.getElementById('autocomplete')as HTMLInputElement).value = '';
 
       markerCar.setMap(null);
-      marker?.setMap(null);
-      marker = null;
 
-      marker = new google.maps.Marker({
+      markerCar = new google.maps.Marker({
         map,
         position: event.latLng,
         animation: google.maps.Animation.BOUNCE
@@ -125,61 +131,72 @@ export class RentalEditComponent implements OnInit {
       this.mapService.geocodeReverse(event.latLng.lat(), event.latLng.lng()).subscribe(
         data => {
           this.fullAddress = data?.results[0]?.formatted_address;
+          this.rentalPointForm.patchValue({
+            fullAddress: this.fullAddress
+          });
         },
         err => {
           console.log(err);
         }
       );
 
-      this.currentPoint.lat = event.latLng.lat();
-      this.currentPoint.lng = event.latLng.lng();
+      this.lat = event.latLng.lat();
+      this.lng = event.latLng.lng();
 
       if (map.getZoom() < 17)
       {
         map.setZoom(map.getZoom() + 1);
       }
-      map.setCenter(marker.getPosition() as google.maps.LatLng);
+      map.setCenter(markerCar.getPosition() as google.maps.LatLng);
+
     });
   }
 
   onSubmit(): void{
-    /*this.createRentalPoint.country = this.country;
-    this.createRentalPoint.city = this.city;
-    this.createRentalPoint.address = this.address;
-    this.createRentalPoint.lat = this.lat;
-    this.createRentalPoint.lng = this.lng;
+    this.editRentalPoint.id = this.id;
+    this.editRentalPoint.country = this.country;
+    this.editRentalPoint.city = this.city;
+    this.editRentalPoint.address = this.address;
+    this.editRentalPoint.lat = this.lat;
+    this.editRentalPoint.lng = this.lng;
+    this.editRentalPoint.name = this.rentalName;
+    console.log(this.editRentalPoint);
 
-    this.rentalPointService.createRentalPoint(this.createRentalPoint).subscribe(
+    this.rentalPointService.editRentalPoint(this.editRentalPoint).subscribe(
       data => {
-        console.log(data);
-        this.swalService.showSuccessMessage('Creating successful')
+        this.swalService.showSuccessMessage('Updating successful')
           .then(val => {
-              window.location.reload();
+              this.location.back();
             }
           );
       },
       err => {
         console.log(err);
         this.httpResponseService.showErrorMessage(err);
-      });*/
+      });
   }
 
   ngOnInit(): void {
+    this.rentalPointForm = new FormGroup({
+      name: new FormControl('', Validators.required),
+      fullAddress: new FormControl('', Validators.required)
+    });
+    console.log(this.rentalPointForm);
     this.rentalPointService.getRentalPointLocation(this.id).subscribe(
       data => {
         console.log(data);
         this.currentPoint = data;
         this.fullAddress = `${data.address}, ${data.city}, ${data.country}`;
+        this.rentalName = data.name;
+        this.lat = data.lat;
+        this.lng = data.lng;
         this.initMap();
+        this.rentalPointForm.patchValue({
+          fullAddress: this.fullAddress
+        });
       },
       err => {
         this.httpResponseService.showErrorMessage(err);
-      }
-    );
-
-    this.rentalPointForm = new FormGroup({
-      name: new FormControl('', Validators.required)
-    });
+      });
   }
-
 }

@@ -216,19 +216,19 @@ export class CarEditComponent implements OnInit {
     this.CarForm = new FormGroup({
       mark: new FormControl('', Validators.required),
       model: new FormControl('', Validators.required),
-      carcase: new FormControl(this.car.carcase, Validators.required),
+      carcase: new FormControl('', Validators.required),
       releaseYear: new FormControl('', Validators.required),
-      transmission: new FormControl(this.car.transmission, Validators.required),
+      transmission: new FormControl('', Validators.required),
       enginePower: new FormControl('', Validators.required),
       fuelConsumption: new FormControl('', Validators.required),
       tankVolume: new FormControl('', Validators.required),
-      fuelType: new FormControl(this.car.fuelType, Validators.required),
+      fuelType: new FormControl('', Validators.required),
       trunkVolume: new FormControl('', Validators.required),
       status: new FormControl('', Validators.required),
       costPerDay: new FormControl('', Validators.required),
       passengersAmount: new FormControl('', Validators.required),
       doorsAmount: new FormControl('', Validators.required),
-      rentalPoint: new FormControl(this.carToUpdate.rentalPointName, Validators.required)
+      rentalPoint: new FormControl('', Validators.required)
     });
   }
 }

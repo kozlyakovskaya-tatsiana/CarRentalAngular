@@ -86,6 +86,9 @@ export class CreateRentalPointByLocationComponent implements OnInit {
       const place = autocomplete.getPlace();
 
       this.fullAddress = place.formatted_address;
+      this.rentalPointForm.patchValue({
+        fullAddress: this.fullAddress
+      });
       this.lat = place.geometry.location.lat();
       this.lng = place.geometry.location.lng();
 
@@ -127,6 +130,9 @@ export class CreateRentalPointByLocationComponent implements OnInit {
         data => {
           console.log(data);
           this.fullAddress = data?.results[0]?.formatted_address;
+          this.rentalPointForm.patchValue({
+            fullAddress: this.fullAddress
+          });
       },
         err => {
           console.log(err);
@@ -181,7 +187,8 @@ export class CreateRentalPointByLocationComponent implements OnInit {
     );
 
     this.rentalPointForm = new FormGroup({
-      name: new FormControl('', Validators.required)
+      name: new FormControl('', Validators.required),
+      fullAddress: new FormControl('', Validators.required),
     });
   }
 }

@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {RentalPointTableInfo} from '../utils/rentalPoint/RentalPointTableInfo';
 import {RentalPointCreateInfo} from '../utils/rentalPoint/RentalPointCreateInfo';
+import {RentalPointEditInfo} from '../utils/rentalPoint/RentalPointEditInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,6 @@ export class RentalPointService {
   }
 
   private url = environment.baseApi + 'RentalPoint/';
-
-  public createRentalPoint(point: RentalPointCreateInfo): Observable<any>{
-    return this.http.post(this.url, point);
-  }
 
   public getRentalPointLocations(): Observable<RentalPointLocationInfo[]>{
     return this.http.get(this.url + 'locations').pipe(
@@ -39,13 +36,21 @@ export class RentalPointService {
     );
   }
 
-  public deleteRentalPoint(id: string): Observable<any>{
-    return this.http.delete(this.url + id);
-  }
-
   public getRentalPointsNames(): Observable<Array<string>>{
     return this.http.get(this.url + 'names').pipe(
       map(data => data as Array<string>)
     );
+  }
+
+  public createRentalPoint(point: RentalPointCreateInfo): Observable<any>{
+    return this.http.post(this.url, point);
+  }
+
+  public editRentalPoint(point: RentalPointEditInfo): Observable<any>{
+    return this.http.put(this.url, point);
+  }
+
+  public deleteRentalPoint(id: string): Observable<any>{
+    return this.http.delete(this.url + id);
   }
 }

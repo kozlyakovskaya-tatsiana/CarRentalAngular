@@ -5,6 +5,9 @@
     </div>
   </div>
   <div id="map"></div>
+  <div class="row text-center mt-3 mb-1" *ngIf="fullAddress" >
+    <h5 class="col-lg-12">{{fullAddress}}</h5>
+  </div>
   <div class="row">
     <div class="form-group col-lg-4 offset-lg-4 mt-3 mb-2">
       <input type="text" placeholder="Rental point's name" formControlName="name" [(ngModel)]="createRentalPoint.name">
@@ -12,9 +15,6 @@
         It is a required field.
       </div>
     </div>
-  </div>
-  <div class="row text-center mt-3 mb-1" *ngIf="fullAddress" >
-    <h5 class="col-lg-12">{{fullAddress}}</h5>
   </div>
   <div class="row mt-1 mb-3">
     <div class="col-lg-12 text-center">
