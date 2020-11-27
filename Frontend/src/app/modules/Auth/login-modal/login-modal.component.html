@@ -1,7 +1,7 @@
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal" hidden id="loginModalBtn"></button>
 
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Log in</h5>
@@ -10,7 +10,16 @@
         </button>
       </div>
       <div class="modal-body">
-      <app-login></app-login>
+        <div class="text-center mb-3 mt-2">
+          <i class="far fa-user-circle fa-8x"></i>
+        </div>
+        <div class="text-center">
+          <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+              <app-login-form (Submit)="onSubmit($event)"></app-login-form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
