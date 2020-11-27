@@ -2,26 +2,25 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRental.Service.DTO.CarDtos;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Service.Services
 {
     public interface ICarService
     {
-        Task CreateCarAsync(CarCreateDto carCreateDto);
+        Task CreateAsync(CarForCreate carCreateDto);
 
-        Task<IEnumerable<CarReadTableInfoDto>> GetCarsForTableAsync();
+        Task<IEnumerable<CarTableInfo>> GetCarsTableInfoAsync();
 
-        Task<CarReadWithImagesDto> GetCarWithImagesAsync(Guid id);
+        Task<CarWithImages> GetCarWithImagesAsync(Guid id);
 
-        Task RemoveCarAsync(Guid id);
+        Task RemoveAsync(Guid id);
 
-        ValueTask UpdateCarTechInfoAsync(CarInfoDto carTechInfo);
+        ValueTask UpdateCarTechInfoAsync(CarInfo carTechInfo);
 
-        Task<CarEditImagesForReadDto> GetCarForEditImagesAsync(Guid id);
+        Task<CarForEditImages> GetCarForEditImagesAsync(Guid id);
 
-        Task AddImagesToCarAsync(CarAddImagesDto carAddImagesDto);
+        Task AddImagesToCarAsync(CarForAddImages carAddImagesDto);
 
-        Task<IEnumerable<CarForSmallCardDto>> GetCarsForSmallCardsAsync();
+        Task<IEnumerable<CarForSmallCard>> GetCarsForSmallCardsAsync();
     }
 }

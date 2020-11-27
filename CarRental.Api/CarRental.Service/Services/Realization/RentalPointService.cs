@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL.Entities;
@@ -10,14 +9,12 @@ using CarRental.DAL.Repositories;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.RentalPointDtos;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+
 
 namespace CarRental.Service.Services.Realization
 {
     public class RentalPointService : IRentalPointService
     {
-        private readonly ILogger<RentalPointService> _logger;
-
         private readonly IMapper _mapper;
 
         private readonly IRentalPointRepository _rentalPointRepository;
@@ -28,11 +25,9 @@ namespace CarRental.Service.Services.Realization
 
         private readonly ILocationRepository _locationRepository;
 
-        public RentalPointService(ILogger<RentalPointService> logger, IMapper mapper, IRentalPointRepository rentalPointRepository,
+        public RentalPointService(IMapper mapper, IRentalPointRepository rentalPointRepository,
             ICountryRepository countryRepository, ICityRepository cityRepository, ILocationRepository locationRepository)
         {
-            _logger = logger;
-
             _mapper = mapper;
 
             _rentalPointRepository = rentalPointRepository;
@@ -44,7 +39,7 @@ namespace CarRental.Service.Services.Realization
             _locationRepository = locationRepository;
         }
 
-        public async Task CreateRentalPoint(RentalPointCreateDto rentalPointDto)
+        public async Task Create(RentalPointForCreate rentalPointDto)
         {
             var rentalPoint = _mapper.Map<RentalPoint>(rentalPointDto);
 
@@ -63,7 +58,7 @@ namespace CarRental.Service.Services.Realization
             await _rentalPointRepository.CreateAsync(rentalPoint);
         }
 
-        public async Task<IEnumerable<CarForSmallCardDto>> GetCarsOfRentalPoint(Guid? id)
+        public async Task<IEnumerable<CarForSmallCard>> GetCars(Guid? id)
         {
             var cars = id == null
                     ? (await _rentalPointRepository.GetAllAsync(includes:
@@ -73,21 +68,21 @@ namespace CarRental.Service.Services.Realization
                         p => p.Include(p => p.Cars).ThenInclude(car => car.Documents)))
                     .SelectMany(p => p.Cars);
 
-            var carsForCards = _mapper.Map<IEnumerable<CarForSmallCardDto>>(cars);
+            var carsForCards = _mapper.Map<IEnumerable<CarForSmallCard>>(cars);
 
             return carsForCards;
         }
 
-        public async Task<RentalPointLocationDto> GetRentalPointLocation(Guid id)
+        public async Task<RentalPointLocation> GetLocation(Guid id)
         {
             var point = (await _rentalPointRepository.GetRentalPointsWithLocations(p => p.Id == id)).FirstOrDefault();
 
-            var pointDto = _mapper.Map<RentalPointLocationDto>(point);
+            var pointDto = _mapper.Map<RentalPointLocation>(point);
 
             return pointDto;
         }
 
-        public async Task<IEnumerable<string>> GetRentalPointNames(Guid? id)
+        public async Task<IEnumerable<string>> GetNames(Guid? id)
         {
             var names = id == null
                 ? (await _rentalPointRepository.GetAsync()).Select(p => p.Name)
@@ -96,27 +91,27 @@ namespace CarRental.Service.Services.Realization
             return names;
         }
 
-        public async Task<IEnumerable<RentalPointLocationDto>> GetRentalPointsLocations()
+        public async Task<IEnumerable<RentalPointLocation>> GetLocations()
         {
             var points = await _rentalPointRepository.GetRentalPointsWithLocations();
 
-            var pointsDto = _mapper.Map<IEnumerable<RentalPointLocationDto>>(points);
+            var pointsDto = _mapper.Map<IEnumerable<RentalPointLocation>>(points);
 
             return pointsDto;
         }
 
-        public async Task<IEnumerable<RentalPointTableInfoDto>> GetRentalPointsTableInfo()
+        public async Task<IEnumerable<RentalPointTableInfo>> GetTableInfo()
         {
             var points = await _rentalPointRepository.GetAllAsync(includes:
                 point => point.Include(p => p.Location.City.Country)
                     .Include(p => p.Cars));
 
-            var info = _mapper.Map<IEnumerable<RentalPointTableInfoDto>>(points);
+            var info = _mapper.Map<IEnumerable<RentalPointTableInfo>>(points);
 
             return info;
         }
 
-        public async Task RemoveRentalPoint(Guid id)
+        public async Task Remove(Guid id)
         {
             var point = await _rentalPointRepository.FindByIdAsync(id);
 
@@ -126,7 +121,7 @@ namespace CarRental.Service.Services.Realization
             await _rentalPointRepository.RemoveAsync(id);
         }
 
-        public async Task UpdateRentalPoint(RentalPointEditDto rentalPointDto)
+        public async Task Update(RentalPointForEdit rentalPointDto)
         {
             var point = _mapper.Map<RentalPoint>(rentalPointDto);
 

@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
+using CarRental.Api.Security;
 using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.Identity;
-using CarRental.Service.WebModels;
 using CarRental.Service.WebModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CarRental.Api.Controllers
 {
-    [Authorize(Policy = "ForUserOnly")]
+    [Authorize(Policy = Policy.ForUserOnly)]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -19,17 +19,20 @@ namespace CarRental.Api.Controllers
 
         private readonly IMapper _mapper;
 
-        public UserController(ILogger<AccountController> logger, IAuthorizeService authorizeService, IMapper mapper)
+        private readonly IUserManagementService _userManagementService;
+
+        public UserController(ILogger<AccountController> logger, IAuthorizeService authorizeService, IMapper mapper, IUserManagementService userManagementService)
         {
             _logger = logger;
 
             _mapper = mapper;
+
+            _userManagementService = userManagementService;
         }
 
         /// <summary>
         /// Update user's info.
         /// </summary>
-        /// <param name="userService">Service used to update user</param>
         /// <param name="editUserBaseRequest">Data for updating user.</param>
         /// <returns>Result of updating.</returns>
         /// <response code="200">Updating is successful</response>
@@ -43,13 +46,11 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> UpdateUserBaseInfo(
-            [FromServices] IUserManagementService userService,
-            [FromBody] EditUserBaseRequest editUserBaseRequest)
+        public async Task<IActionResult> Update([FromBody] EditUserBaseRequest editUserBaseRequest)
         {
-            var userToUpdate = _mapper.Map<UserDtoBase>(editUserBaseRequest);
+            var userToUpdate = _mapper.Map<UserBase>(editUserBaseRequest);
 
-            await userService.UpdateUserBaseInfo(userToUpdate);
+            await _userManagementService.UpdateUserBaseInfo(userToUpdate);
 
             return Ok();
         }

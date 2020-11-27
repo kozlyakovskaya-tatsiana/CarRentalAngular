@@ -2,7 +2,7 @@
 
 namespace CarRental.Service.DTO.UserDtos
 {
-    public class UserDtoBase
+    public class UserBase
     {
         public string Id { get; set; }
 

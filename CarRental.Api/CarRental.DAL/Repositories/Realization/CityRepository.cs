@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
-using System.Text;
 using System.Threading.Tasks;
 using CarRental.DAL.EFCore;
 using CarRental.DAL.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.DAL.Repositories.Realization
 {

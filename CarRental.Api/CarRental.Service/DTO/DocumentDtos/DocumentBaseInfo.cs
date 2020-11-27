@@ -2,7 +2,7 @@
 
 namespace CarRental.Service.DTO.DocumentDtos
 {
-    public class DocumentDto
+    public class DocumentBaseInfo
     {
         public Guid Id { get; set; }
 

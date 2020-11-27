@@ -1,10 +1,12 @@
-﻿using CarRental.DAL.Enums;
-using Microsoft.AspNetCore.Http;
+﻿using System;
+using CarRental.DAL.Enums;
 
-namespace CarRental.Service.WebModels.Car
+namespace CarRental.Service.DTO.CarDtos
 {
-    public class CarCreatingFormDataRequest
+    public class CarInfo
     {
+        public Guid Id { get; set; }
+
         public string Mark { get; set; }
 
         public string Model { get; set; }
@@ -34,7 +36,5 @@ namespace CarRental.Service.WebModels.Car
         public decimal CostPerDay { get; set; }
 
         public string RentalPointName { get; set; }
-
-        public IFormFile[] Images { get; set; }
     }
 }

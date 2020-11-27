@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CarRental.Api.Security;
 using CarRental.Service.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace CarRental.Api.Controllers
 {
-    [Authorize(Policy = "ForManagersAdmins")]
+    [Authorize(Policy = Policy.ForManagersAdmins)]
     [Route("api/[controller]")]
     [ApiController]
     public class DocumentController : ControllerBase
@@ -36,9 +33,9 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> RemoveDocument(Guid id)
+        public async Task<IActionResult> Remove(Guid id)
         {
-            await _documentService.RemoveDocumentAsync(id);
+            await _documentService.RemoveAsync(id);
 
             return Ok();
         }

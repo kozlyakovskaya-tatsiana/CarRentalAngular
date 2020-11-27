@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
+using CarRental.Api.Security;
 using CarRental.Service.DTO.RentalPointDtos;
 using CarRental.Service.Services;
 using CarRental.Service.WebModels.RentalPoint;
@@ -10,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CarRental.Api.Controllers
 {
-    [Authorize(Policy = "ForManagersAdmins")]
+    [Authorize(Policy = Policy.ForManagersAdmins)]
     [Route("api/[controller]")]
     [ApiController]
     public class RentalPointController : ControllerBase
@@ -33,35 +34,35 @@ namespace CarRental.Api.Controllers
         [HttpGet("tableinfo")]
         public async Task<IActionResult> GetTableInfo()
         {
-            var info = await _rentalPointService.GetRentalPointsTableInfo();
+            var info = await _rentalPointService.GetTableInfo();
 
             return Ok(info);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRentalPoint(RentalPointCreateRequest request)
+        public async Task<IActionResult> Create(RentalPointCreateRequest request)
         {
-            var rentalPointDto = _mapper.Map<RentalPointCreateDto>(request);
+            var rentalPointDto = _mapper.Map<RentalPointForCreate>(request);
 
-            await _rentalPointService.CreateRentalPoint(rentalPointDto);
+            await _rentalPointService.Create(rentalPointDto);
 
             return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateRentalPoint(RentalPointEditRequest request)
+        public async Task<IActionResult> Update(RentalPointEditRequest request)
         {
-            var pointDto = _mapper.Map<RentalPointEditDto>(request);
+            var pointDto = _mapper.Map<RentalPointForEdit>(request);
 
-            await _rentalPointService.UpdateRentalPoint(pointDto);
+            await _rentalPointService.Update(pointDto);
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> RemoveRentalPoint(Guid id)
+        public async Task<IActionResult> Remove(Guid id)
         {
-            await _rentalPointService.RemoveRentalPoint(id);
+            await _rentalPointService.Remove(id);
 
             return NoContent();
         }

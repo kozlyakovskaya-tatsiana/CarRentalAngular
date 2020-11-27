@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.AspNetCore.Http;
 
-namespace CarRental.Service.WebModels.Car
+namespace CarRental.Service.DTO.CarDtos
 {
-    public class CarAddImagesFormDataRequest
+    public class CarForAddImages
     {
         public Guid CarId { get; set; }
 

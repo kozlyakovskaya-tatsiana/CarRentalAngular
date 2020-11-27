@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using CarRental.Api.Security;
 using CarRental.Service.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Api.Controllers
 {
-    [Authorize(Policy = "ForUsersAdmins")]
+    [Authorize(Policy = Policy.ForUsersAdmins)]
     [Route("api/[controller]")]
     [ApiController]
     public class UserInfoController : ControllerBase
@@ -28,7 +28,7 @@ namespace CarRental.Api.Controllers
         /// <response code="404">User with such id not found.</response>
         /// <response code="500">Server error.</response>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(Guid id)
+        public async Task<IActionResult> GetUserById(string id)
         {
             var user = await _userService.GetUserById(id);
 

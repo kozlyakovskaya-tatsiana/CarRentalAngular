@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
-using CarRental.DAL.Entities;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.RentalPointDtos;
 
@@ -11,20 +8,20 @@ namespace CarRental.Service.Services
 {
     public interface IRentalPointService
     {
-        Task CreateRentalPoint(RentalPointCreateDto rentalPointDto);
+        Task Create(RentalPointForCreate rentalPointDto);
 
-        Task<IEnumerable<RentalPointLocationDto>> GetRentalPointsLocations();
+        Task<IEnumerable<RentalPointLocation>> GetLocations();
 
-        Task<RentalPointLocationDto> GetRentalPointLocation(Guid id);
+        Task<RentalPointLocation> GetLocation(Guid id);
 
-        Task<IEnumerable<RentalPointTableInfoDto>> GetRentalPointsTableInfo();
+        Task<IEnumerable<RentalPointTableInfo>> GetTableInfo();
 
-        Task<IEnumerable<string>> GetRentalPointNames(Guid? id);
+        Task<IEnumerable<string>> GetNames(Guid? id);
 
-        Task<IEnumerable<CarForSmallCardDto>> GetCarsOfRentalPoint(Guid? id);
+        Task<IEnumerable<CarForSmallCard>> GetCars(Guid? id);
 
-        Task RemoveRentalPoint(Guid id);
+        Task Remove(Guid id);
 
-        Task UpdateRentalPoint(RentalPointEditDto rentalPointDto);
+        Task Update(RentalPointForEdit rentalPointDto);
     }
 }
