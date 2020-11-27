@@ -1,8 +1,8 @@
 hr {
   height: 3px;
   border-top: 1px dashed #ff7609;
-  display: block;
-  position: relative;
+  /*display: block;*/
+  /*position: relative;*/
   top: 1px;
-  width: 100%
+  /*width: 100%*/
 }

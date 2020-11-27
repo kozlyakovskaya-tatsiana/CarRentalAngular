@@ -50,6 +50,8 @@ import { MapOneMarkerComponent } from './modules/maps/map-one-marker/map-one-mar
 import { RentalPointsMapComponent } from './modules/renatlPoints/rental-points-map/rental-points-map.component';
 import { MapPointsComponent } from './modules/maps/map-points/map-points.component';
 import { BookingFlowComponent } from './modules/cars/booking-flow/booking-flow.component';
+import { LoginModalComponent } from './modules/Auth/login-modal/login-modal.component';
+import { LoginFormComponent } from './modules/Auth/login-form/login-form.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +95,9 @@ import { BookingFlowComponent } from './modules/cars/booking-flow/booking-flow.c
     MapOneMarkerComponent,
     RentalPointsMapComponent,
     MapPointsComponent,
-    BookingFlowComponent
+    BookingFlowComponent,
+    LoginModalComponent,
+    LoginFormComponent
   ],
   imports: [
     BrowserModule,

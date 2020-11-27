@@ -10,6 +10,7 @@ import {BookingFlowComponent} from '../booking-flow/booking-flow.component';
 import {BookingRequest} from '../../../shared/utils/Car/BookingRequest';
 import {UserInfoService} from '../../../shared/services/user-info.service';
 import {AuthorizeService} from '../../../shared/services/authorize.service';
+import {LoginModalComponent} from '../../Auth/login-modal/login-modal.component';
 
 @Component({
   selector: 'app-autopark',
@@ -28,30 +29,38 @@ export class AutoparkComponent implements OnInit {
   @ViewChild(BookingFlowComponent, {static: false})
   private bookingFlowComponent: BookingFlowComponent;
 
+  @ViewChild(LoginModalComponent, {static: false})
+  private loginModalComponent: LoginModalComponent;
+
   cars: CarForSmallCard[];
   cars$: Observable<Array<CarForSmallCard>>;
   private rentalPointId: string;
   rentalPointName$: Observable<string>;
 
   showModalForBooking(index: number): void{
-    this.bookingFlowComponent.showModal();
-    this.bookingFlowComponent.imageSrc = this.cars[index]?.imageName;
-    this.bookingFlowComponent.carName = this.cars[index]?.name;
-    this.bookingFlowComponent.bookingRequest.carId = this.cars[index]?.id;
-    this.userInfoService.getUser(this.authorizeService.userId).subscribe(
-      user => {
-        for (const key in user){
-          if (key in this.bookingFlowComponent.bookingRequest){
-            this.bookingFlowComponent.bookingRequest[key] = user[key];
+    if (!this.authorizeService.isAuthorized){
+      this.loginModalComponent.showModal();
+    }else{
+      this.bookingFlowComponent.showModal();
+      this.bookingFlowComponent.imageSrc = this.cars[index]?.imageName;
+      this.bookingFlowComponent.carName = this.cars[index]?.name;
+      this.bookingFlowComponent.bookingRequest.carId = this.cars[index]?.id;
+      this.userInfoService.getUser(this.authorizeService.userId).subscribe(
+        user => {
+          for (const key in user){
+            if (key in this.bookingFlowComponent.bookingRequest){
+              this.bookingFlowComponent.bookingRequest[key] = user[key];
+            }
+            this.bookingFlowComponent.bookingRequest.userId = user.id;
           }
-          this.bookingFlowComponent.bookingRequest.userId = user.id;
+          console.log(this.bookingFlowComponent.bookingRequest);
+        },
+        err => {
+          this.httpResponseService.showErrorMessage(err);
         }
-        console.log(this.bookingFlowComponent.bookingRequest);
-      },
-      err => {
-        this.httpResponseService.showErrorMessage(err);
-      }
-    );
+      );
+    }
+
   }
 
   bookCar(request: BookingRequest): void{

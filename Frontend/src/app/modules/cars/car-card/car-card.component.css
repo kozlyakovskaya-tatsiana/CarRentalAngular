@@ -5,4 +5,6 @@
   border: none;
   outline: none;
 }
-
+.card{
+  min-height: 1250px;
+}
