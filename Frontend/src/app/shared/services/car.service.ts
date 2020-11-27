@@ -15,7 +15,7 @@ export class CarService {
   private url = 'https://localhost:44397/api/Car/';
 
   public getCars(): Observable<any>{
-    return this.http.get(this.url + 'cars');
+    return this.http.get(this.url + 'tableinfo');
   }
 
   public getCarWithImages(id: string): Observable<any>{
