@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.DAL.Repositories.Realization
 {
-    public class RentalPointRepository : EfGenericRepository<RentalPoint>, IRentalPointRepository
+    public class RentalPointRepositoryBase : RepositoryBase<RentalPoint>, IRentalPointRepository
     {
-        public RentalPointRepository(ApplicationContext context) : base(context) { }
+        public RentalPointRepositoryBase(ApplicationContext context) : base(context) { }
 
         public async Task<RentalPoint> GetRentalPointByNameAsync(string name)
         {

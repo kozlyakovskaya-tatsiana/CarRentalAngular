@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.DAL.Repositories.Realization
 {
-    public class CarRepository : EfGenericRepository<Car>, ICarRepository
+    public class CarRepositoryBase : RepositoryBase<Car>, ICarRepository
     {
-        public CarRepository(ApplicationContext context) : base(context)
+        public CarRepositoryBase(ApplicationContext context) : base(context)
         {
             IncludesFunc = query => query.Include(car => car.Documents);
         }

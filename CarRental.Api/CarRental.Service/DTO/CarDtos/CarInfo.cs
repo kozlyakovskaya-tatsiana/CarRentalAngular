@@ -31,7 +31,7 @@ namespace CarRental.Service.DTO.CarDtos
 
         public int DoorsAmount { get; set; }
 
-        public Status Status { get; set; }
+        public CarStatus Status { get; set; }
 
         public decimal CostPerDay { get; set; }
 

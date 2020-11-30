@@ -21,6 +21,8 @@ namespace CarRental.DAL.EFCore
 
         public DbSet<Location> Locations { get; set; }
 
+        public DbSet<BookingInfo> Bookings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -33,6 +35,7 @@ namespace CarRental.DAL.EFCore
 
             builder.ApplyConfiguration(new RentalPointConfiguration());
 
+            builder.ApplyConfiguration(new BookingConfiguration());
         }
     }
 }

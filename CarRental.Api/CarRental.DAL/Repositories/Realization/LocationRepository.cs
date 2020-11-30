@@ -6,9 +6,9 @@ using CarRental.DAL.Entities;
 
 namespace CarRental.DAL.Repositories.Realization
 {
-    public class LocationRepository : EfGenericRepository<Location>, ILocationRepository
+    public class LocationRepositoryBase : RepositoryBase<Location>, ILocationRepository
     {
-        public LocationRepository(ApplicationContext context) : base(context) {}
+        public LocationRepositoryBase(ApplicationContext context) : base(context) {}
 
         public async Task<Location> GetLocationByAddressAsync(string address)
         {

@@ -24,7 +24,7 @@ namespace CarRental.DAL.EntityConfigurations
 
             builder
                 .Property(car => car.Status)
-                .HasConversion(new EnumToStringConverter<Status>());
+                .HasConversion(new EnumToStringConverter<CarStatus>());
 
             builder
                 .HasMany(car => car.Documents)
@@ -37,6 +37,12 @@ namespace CarRental.DAL.EntityConfigurations
                 .WithMany(point => point.Cars)
                 .HasForeignKey(car => car.RentalPointId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasMany<BookingInfo>(c => c.Bookings)
+                .WithOne(b => b.Car)
+                .HasForeignKey(b => b.CarId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

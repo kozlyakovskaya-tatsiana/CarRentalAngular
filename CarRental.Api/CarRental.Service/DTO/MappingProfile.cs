@@ -7,6 +7,7 @@ using CarRental.Service.DTO.DocumentDtos;
 using CarRental.Service.DTO.RentalPointDtos;
 using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.WebModels;
+using CarRental.Service.WebModels.Booking;
 using CarRental.Service.WebModels.Car;
 using CarRental.Service.WebModels.RentalPoint;
 using CarRental.Service.WebModels.User;
@@ -98,6 +99,8 @@ namespace CarRental.Service.DTO
                 .ForMember(dto => dto.City, opt => opt.MapFrom(p => p.Location.City.Name))
                 .ForMember(dto => dto.Country, opt => opt.MapFrom(p => p.Location.City.Country.Name))
                 .ForMember(dto => dto.CarsAmount, opt => opt.MapFrom(p => p.Cars.Count));
+
+            CreateMap<BookingRequest, BookingInfo>();
         }
     }
 }

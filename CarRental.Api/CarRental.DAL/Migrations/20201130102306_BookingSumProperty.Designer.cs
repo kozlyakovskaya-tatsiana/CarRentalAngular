@@ -4,14 +4,16 @@ using CarRental.DAL.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarRental.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20201130102306_BookingSumProperty")]
+    partial class BookingSumProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,10 +45,10 @@ namespace CarRental.DAL.Migrations
                     b.Property<string>("PersonPassportId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PersonPassportSerialNumber")
+                    b.Property<string>("PersonPhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PersonPhoneNumber")
+                    b.Property<string>("PersonPassportSerialNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PersonSurname")
@@ -55,19 +57,19 @@ namespace CarRental.DAL.Migrations
                     b.Property<DateTime>("StartDateOfRenting")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("Sum")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("BookingInfo");
                 });
 
             modelBuilder.Entity("CarRental.DAL.Entities.Car", b =>
@@ -469,9 +471,8 @@ namespace CarRental.DAL.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("CarRental.DAL.Entities.User", "User")
-                        .WithMany("Bookings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany()
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("CarRental.DAL.Entities.Car", b =>

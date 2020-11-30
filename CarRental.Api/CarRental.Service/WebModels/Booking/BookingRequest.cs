@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using CarRental.DAL.Enums;
 
-namespace CarRental.DAL.Entities
+namespace CarRental.Service.WebModels.Booking
 {
-    public class BookingInfo : BaseEntity
+    public class BookingRequest
     {
+        public Guid Id { get; set; }
+
         public string PersonName { get; set; }
 
         public string PersonSurname { get; set; }
@@ -23,20 +24,8 @@ namespace CarRental.DAL.Entities
 
         public DateTime EndDateOfRenting { get; set; }
 
-        public decimal Sum
-        {
-            get => (EndDateOfRenting - StartDateOfRenting).Days * Car.CostPerDay;
-            set => Sum = value;
-        } 
-
-        public BookingStatus BookingStatus { get; set; }
-
         public Guid? CarId { get; set; }
 
-        public Car Car { get; set; }
-
         public string UserId { get; set; }
-
-        public User User { get; set; }
     }
 }
