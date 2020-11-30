@@ -43,7 +43,7 @@ export class AutoparkComponent implements OnInit {
     this.chosenCarIndex = index;
     if (!this.authorizeService.isAuthorized){
       this.loginModalComponent.showModal();
-    }else{
+   }else{
       this.showBookingFlow(this.chosenCarIndex);
     }
 
@@ -73,7 +73,7 @@ export class AutoparkComponent implements OnInit {
     this.authorizeService.login(loginRequest).subscribe(
       data => {
         this.loginModalComponent.closeModal();
-        setTimeout(() => this.showBookingFlow(this.chosenCarIndex), 0);
+        this.showBookingFlow(this.chosenCarIndex);
       },
       err => {
         this.httpResponseService.showErrorMessage(err);
