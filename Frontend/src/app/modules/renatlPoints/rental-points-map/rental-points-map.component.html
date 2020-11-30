@@ -1,0 +1,10 @@
+<h4 class="text-center mt-3">Our Rental points</h4>
+<div class="container mt-4 mb-2">
+  <app-map-points [locations]="locations$ | async" (markerClicked)="onClickMarker($event)" [iconUrl]="'assets/car-icon.png'"></app-map-points>
+  <h5 *ngIf="location" class="text-center my-3 mb-3">{{location?.address}}, {{location?.city}}, {{location?.country}}</h5>
+  <div class="row">
+    <div class="col-lg-4 offset-lg-4 text-center">
+      <button *ngIf="location" class="btn btn-info" [routerLink]="['', 'autopark']" [queryParams]="{pointid: location.id}">Show cars of point</button>
+    </div>
+  </div>
+</div>

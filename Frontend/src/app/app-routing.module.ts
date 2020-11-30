@@ -22,6 +22,7 @@ import {RentalPointsManagementComponent} from './modules/renatlPoints/rental-poi
 import {RentalPointCreateComponent} from './modules/renatlPoints/rental-point-create/rental-point-create.component';
 import {RentalInfoComponent} from './modules/renatlPoints/rental-info/rental-info.component';
 import {RentalEditComponent} from './modules/renatlPoints/rental-edit/rental-edit.component';
+import {RentalPointsMapComponent} from './modules/renatlPoints/rental-points-map/rental-points-map.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent},
@@ -42,6 +43,7 @@ const routes: Routes = [
   { path: 'rentalpointsmanagement', component: RentalPointsManagementComponent, canActivate: [AdminManagerAccessGuard]},
   { path: 'createrentalpoint', component: RentalPointCreateComponent, canActivate: [AdminManagerAccessGuard]},
   { path: 'editrentalpoint/:id', component: RentalEditComponent, canActivate: [AdminManagerAccessGuard]},
+  { path: 'rentalpoints', component: RentalPointsMapComponent},
   { path: '**', component: NotFoundComponent}
 ];
 

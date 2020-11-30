@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.DAL.Exceptions;
 using CarRental.DAL.Repositories;
+using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.RentalPointDtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -61,6 +63,21 @@ namespace CarRental.Service.Services.Realization
             await _rentalPointRepository.CreateAsync(rentalPoint);
         }
 
+        public async Task<IEnumerable<CarForSmallCardDto>> GetCarsOfRentalPoint(Guid? id)
+        {
+            var cars = id == null
+                    ? (await _rentalPointRepository.GetAllAsync(includes:
+                        p => p.Include(p => p.Cars).ThenInclude(car => car.Documents)))
+                    .SelectMany(p => p.Cars)
+                    : (await _rentalPointRepository.GetAllAsync(p => p.Id ==id,
+                        p => p.Include(p => p.Cars).ThenInclude(car => car.Documents)))
+                    .SelectMany(p => p.Cars);
+
+            var carsForCards = _mapper.Map<IEnumerable<CarForSmallCardDto>>(cars);
+
+            return carsForCards;
+        }
+
         public async Task<RentalPointLocationDto> GetRentalPointLocation(Guid id)
         {
             var point = (await _rentalPointRepository.GetRentalPointsWithLocations(p => p.Id == id)).FirstOrDefault();
@@ -70,9 +87,13 @@ namespace CarRental.Service.Services.Realization
             return pointDto;
         }
 
-        public async Task<IEnumerable<string>> GetRentalPointNames()
+        public async Task<IEnumerable<string>> GetRentalPointNames(Guid? id)
         {
-            return (await _rentalPointRepository.GetAsync()).Select(p => p.Name);
+            var names = id == null
+                ? (await _rentalPointRepository.GetAsync()).Select(p => p.Name)
+                : (await _rentalPointRepository.GetAsync(p => p.Id == id)).Select(p => p.Name);
+
+            return names;
         }
 
         public async Task<IEnumerable<RentalPointLocationDto>> GetRentalPointsLocations()

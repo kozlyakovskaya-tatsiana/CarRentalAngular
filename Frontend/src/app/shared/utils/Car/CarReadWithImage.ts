@@ -15,4 +15,5 @@ export class CarReadWithImage{
   passengersAmount: string;
   doorsAmount: string;
   imageNames: string[];
+  rentalPointName: string;
 }

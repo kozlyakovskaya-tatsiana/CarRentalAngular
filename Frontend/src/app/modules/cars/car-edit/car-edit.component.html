@@ -149,7 +149,7 @@
       </div>
       <div class="form-group">
         <label for="rentpoint">Rental point</label>
-        <select id="rentpoint" class="form-control" [(ngModel)]="carToUpdate.rentalPointName" name="rentalPointName" formControlName="rentalPoint">
+        <select id="rentpoint" class="form-control" [(ngModel)]="car.rentalPointName" name="rentalPointName" formControlName="rentalPoint">
           <option selected disabled value="">Choose rental point</option>
           <option *ngFor="let point of rentalPoints" [value]="point">{{point}}</option>
         </select>
@@ -165,4 +165,3 @@
       </div>
   </form>
 </div>
-

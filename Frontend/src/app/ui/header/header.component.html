@@ -9,12 +9,13 @@
       <ng-container *ngIf="authorizeService.isAdmin">
         <a class="nav-link ml-3" routerLink="/adminpage" routerLinkActive="active">Admin page <i class="fas fa-user-shield ml-1"></i></a>
         <a class="nav-link ml-3" routerLink="/carmanagement" routerLinkActive="active">Car's management <i class="fas fa-tasks ml-1"></i></a>
-        <a class="nav-link ml-3" routerLink="/rentalpointsmanagement" routerLinkActive="active">Rental points <i class="fas fa-map-marked ml-1"></i></a>
+        <a class="nav-link ml-3" routerLink="/rentalpointsmanagement" routerLinkActive="active">Points management <i class="fas fa-tasks ml-1"></i></a>
       </ng-container>
       <ng-container *ngIf="authorizeService.isManager">
         <a class="nav-link ml-3" routerLink="/carmanagement" routerLinkActive="active">Car's management <i class="fas fa-user-shield ml-1"></i></a>
       </ng-container>
         <a class="nav-link ml-3" routerLink="/autopark" routerLinkActive="active">Autopark</a>
+        <a class="nav-link ml-3" routerLink="/rentalpoints" routerLinkActive="active">Rental points<i class="fas fa-map-marked ml-1"></i></a>
         <a class="nav-link ml-3" routerLink="/about" routerLinkActive="active">About us</a>
       <div class="navbar-nav ml-auto" >
         <ng-container *ngIf="!authorizeService.isAuthorized; else logout">

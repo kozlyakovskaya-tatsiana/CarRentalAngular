@@ -1,8 +1,9 @@
 <app-head-image mainTitle="Our cars" additionalTitle="Autopark"></app-head-image>
 <div class="products mt-4 mb-3">
   <div class="container">
+    <h4 class="text-center mt-3 mb-3">{{rentalPointName$ | async}}</h4>
     <div class="row">
-      <div class="col-lg-4" *ngFor="let car of cars">
+      <div class="col-lg-4" *ngFor="let car of cars$ | async">
         <app-car-card-small [car]="car" btnInfoName="More info" [btnInfoLink]="['', 'carinfo', car?.id]" btnSimpleName="Book it!" (onClickedSimpleBtn)="showModalForBooking()"></app-car-card-small>
       </div>
     </div>
