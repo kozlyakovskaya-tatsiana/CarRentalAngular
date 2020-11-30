@@ -83,7 +83,6 @@ export class EditUserComponent implements OnInit {
     this.userInfoService.getUser(this.userEditId).subscribe(
       data => {
         this.userBaseInfo = data;
-        this.userBaseInfo.dateOfBirth = new Date(data.dateOfBirth).toISOString().split('T')[0];
       },
       err => {
         console.log(err);

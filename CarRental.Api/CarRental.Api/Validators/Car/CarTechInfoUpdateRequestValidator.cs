@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CarRental.Service.WebModels.Car;
+﻿using CarRental.Service.WebModels.Car;
 using FluentValidation;
 
 namespace CarRental.Api.Validators.Car

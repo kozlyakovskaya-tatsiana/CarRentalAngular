@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CarRental.Api.Security;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.Helpers;
 using CarRental.Service.Services;
 using CarRental.Service.WebModels.Car;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace CarRental.Api.Controllers
 {
-    [Authorize(Policy = "ForManagersAdmins")]
+    [Authorize(Policy = Policy.ForManagersAdmins)]
     [Route("api/[controller]")]
     [ApiController]
     public class CarController : ControllerBase
@@ -44,12 +42,12 @@ namespace CarRental.Api.Controllers
         /// <returns>An array of cars.</returns>
         /// <response code="200">Returns cars.</response>
         /// <response code="401">Access denied. Authorization failed.</response>
-        [HttpGet("cars")]
+        [HttpGet("tableinfo")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         public async Task<IActionResult> GetCarsForTable()
         {
-            var cars = await _carService.GetCarsForTableAsync();
+            var cars = await _carService.GetCarsTableInfoAsync();
 
             return Ok(cars);
         }
@@ -74,19 +72,19 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public async Task<IActionResult> CreateCar([FromForm] CarCreatingFormDataRequest carCreatingFormData)
+        public async Task<IActionResult> Create([FromForm] CarCreatingRequest carCreatingFormData)
         {
-            var carCreatingDto = _mapper.Map<CarCreateDto>(carCreatingFormData);
+            var carCreatingDto = _mapper.Map<CarForCreate>(carCreatingFormData);
 
-            await _carService.CreateCarAsync(carCreatingDto);
+            await _carService.CreateAsync(carCreatingDto);
 
             return Ok();
         }
 
         [HttpPost("addimages")]
-        public async Task<IActionResult> AddImagesToCar([FromForm] CarAddImagesFormDataRequest carAddImagesFormData)
+        public async Task<IActionResult> AddImagesToCar([FromForm] CarAddImagesRequest carAddImages)
         {
-            var carAddImagesDto = _mapper.Map<CarAddImagesDto>(carAddImagesFormData);
+            var carAddImagesDto = _mapper.Map<CarForAddImages>(carAddImages);
 
             await _carService.AddImagesToCarAsync(carAddImagesDto);
 
@@ -96,7 +94,7 @@ namespace CarRental.Api.Controllers
         [HttpPut("info")]
         public async Task<IActionResult> UpdateCarTechInfo([FromBody] CarInfoUpdateRequest request)
         {
-            var carDto = _mapper.Map<CarInfoDto>(request);
+            var carDto = _mapper.Map<CarInfo>(request);
 
             await _carService.UpdateCarTechInfoAsync(carDto);
 
@@ -115,9 +113,9 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> RemoveCar(Guid id)
+        public async Task<IActionResult> Remove(Guid id)
         {
-            await _carService.RemoveCarAsync(id);
+            await _carService.RemoveAsync(id);
 
             return Ok();
         }

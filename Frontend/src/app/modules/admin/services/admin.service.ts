@@ -18,7 +18,7 @@ export class AdminService {
   }
 
   public getAllUsers(): Observable<any>{
-    return this.http.get(this.url + 'users' );
+    return this.http.get(this.url + 'userslist' );
   }
 
   public updateUser(userToUpdate: EditUser): Observable<any>{

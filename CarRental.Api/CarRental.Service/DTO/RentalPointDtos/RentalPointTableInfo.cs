@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CarRental.Service.DTO.RentalPointDtos
 {
-    public class RentalPointTableInfoDto
+    public class RentalPointTableInfo
     {
         public Guid Id { get; set; }
 

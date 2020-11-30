@@ -6,7 +6,7 @@ using CarRental.DAL.Entities;
 using CarRental.DAL.Exceptions;
 using Microsoft.AspNetCore.Http;
 
-namespace CarRental.Service.Services.Models
+namespace CarRental.Service.Services.Realization
 {
     public class DocumentService : IDocumentService
     {
@@ -25,7 +25,7 @@ namespace CarRental.Service.Services.Models
             }
         }
 
-        public async Task RemoveDocumentAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             var doc = await _documentRepository.FindByIdAsync(id);
 

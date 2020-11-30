@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using CarRental.Api.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CarRental.Api.Controllers
 {
-    [Authorize(Policy = "ForUsersAdmins")]
+    [Authorize(Policy = Policy.ForUsersAdmins)]
     [Route("api/[controller]")]
     [ApiController]
     public class RoleController : ControllerBase

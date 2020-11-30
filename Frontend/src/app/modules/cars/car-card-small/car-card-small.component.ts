@@ -6,7 +6,7 @@ import {CarForSmallCard} from '../../../shared/utils/Car/CarForSmallCard';
   templateUrl: './car-card-small.component.html',
   styleUrls: ['./car-card-small.component.css']
 })
-export class CarCardSmallComponent implements OnInit {
+export class CarCardSmallComponent {
 
   constructor() { }
 
@@ -19,9 +19,6 @@ export class CarCardSmallComponent implements OnInit {
 
   clickSimpleBtn(): void{
     this.onClickedSimpleBtn.emit();
-  }
-
-  ngOnInit(): void {
   }
 
 }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using CarRental.DAL.Enums;
 
 namespace CarRental.Service.WebModels.Car

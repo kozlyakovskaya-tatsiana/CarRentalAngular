@@ -2,7 +2,7 @@
 
 namespace CarRental.Service.DTO.CarDtos
 {
-    public class CarReadTableInfoDto
+    public class CarTableInfo
     {
         public Guid Id { get; set; }
 

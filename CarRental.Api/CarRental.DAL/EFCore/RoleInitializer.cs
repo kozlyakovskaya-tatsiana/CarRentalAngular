@@ -13,11 +13,11 @@ namespace CarRental.DAL.EFCore
 
             var password = "qwerty";
 
-            var adminRoleName = Roles.Admin.ToString().ToLower();
+            var adminRoleName = Role.Admin.ToString().ToLower();
 
-            var userRoleName = Roles.User.ToString().ToLower();
+            var userRoleName = Role.User.ToString().ToLower();
 
-            var managerRoleName = Roles.Manager.ToString().ToLower();
+            var managerRoleName = Role.Manager.ToString().ToLower();
 
             var roles = new[] {adminRoleName, userRoleName, managerRoleName};
 

@@ -5,7 +5,6 @@ using CarRental.Service.Helpers;
 using CarRental.Service.Identity;
 using CarRental.Service.Identity.Services;
 using CarRental.Service.Services;
-using CarRental.Service.Services.Models;
 using CarRental.Service.Services.Realization;
 using Microsoft.Extensions.DependencyInjection;
 

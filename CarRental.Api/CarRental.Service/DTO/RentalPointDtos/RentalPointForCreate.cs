@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CarRental.Service.DTO.RentalPointDtos
+﻿namespace CarRental.Service.DTO.RentalPointDtos
 {
-    public class RentalPointCreateDto
+    public class RentalPointForCreate
     {
         public string Name { get; set; }
 

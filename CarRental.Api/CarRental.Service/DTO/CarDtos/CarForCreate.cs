@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace CarRental.Service.DTO.CarDtos
 {
-    public class CarCreateDto
+    public class CarForCreate
     {
         public string Mark { get; set; }
 

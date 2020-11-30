@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CarRental.Api.Security;
+using CarRental.DAL.Enums;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CarRental.Api.Extensions
 {
@@ -8,20 +10,20 @@ namespace CarRental.Api.Extensions
         {
             services.AddAuthorization(opts =>
             {
-                opts.AddPolicy("ForAdminOnly", policy =>
-                    policy.RequireRole("admin"));
+                opts.AddPolicy(Policy.ForAdminOnly, policy =>
+                    policy.RequireRole(Role.Admin.GetRoleName()));
 
-                opts.AddPolicy("ForUserOnly", policy =>
-                    policy.RequireRole("user"));
+                opts.AddPolicy(Policy.ForUserOnly, policy =>
+                    policy.RequireRole(Role.User.GetRoleName()));
 
-                opts.AddPolicy("ForUsersAdmins", policy =>
-                    policy.RequireRole("admin", "user"));
+                opts.AddPolicy(Policy.ForUsersAdmins, policy =>
+                    policy.RequireRole(Role.User.GetRoleName(), Role.Admin.GetRoleName()));
 
-                opts.AddPolicy("ForManagerOnly", policy =>
-                    policy.RequireRole("manager"));
+                opts.AddPolicy(Policy.ForManagerOnly, policy =>
+                    policy.RequireRole(Role.Manager.GetRoleName()));
 
-                opts.AddPolicy("ForManagersAdmins", policy =>
-                    policy.RequireRole("manager", "admin"));
+                opts.AddPolicy(Policy.ForManagersAdmins, policy =>
+                    policy.RequireRole(Role.Manager.GetRoleName(), Role.Admin.GetRoleName()));
             });
         }
     }

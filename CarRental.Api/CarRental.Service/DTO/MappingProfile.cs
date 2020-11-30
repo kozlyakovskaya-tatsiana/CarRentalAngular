@@ -18,82 +18,82 @@ namespace CarRental.Service.DTO
     {
         public MappingProfile()
         {
-            CreateMap<User, UserReadDto>();
+            CreateMap<User, UserForRead>();
 
-            CreateMap<UserReadDto, User>();
+            CreateMap<UserForRead, User>();
 
-            CreateMap<UserCreateDto, User>()
+            CreateMap<UserForCreate, User>()
                 .ForMember(u => u.UserName, opt => opt.MapFrom(udto => udto.Email));
 
-            CreateMap<UserUpdateDto, User>();
+            CreateMap<UserForUpdate, User>();
 
-            CreateMap<UserCreatingRequest, UserCreateDto>();
+            CreateMap<UserCreatingRequest, UserForCreate>();
 
-            CreateMap<EditUserRequest, UserUpdateDto>();
+            CreateMap<EditUserRequest, UserForUpdate>();
 
-            CreateMap<EditUserBaseRequest, UserDtoBase>();
+            CreateMap<EditUserBaseRequest, UserBase>();
 
-            CreateMap<UserDtoBase, User>();
+            CreateMap<UserBase, User>();
 
-            CreateMap<Car, CarReadTableInfoDto>()
+            CreateMap<Car, CarTableInfo>()
                 .ForMember(dto => dto.RentalPointName, opt => opt.MapFrom(c => c.RentalPoint.Name));
 
             CreateMap<IFormFile, Document>()
                 .ForMember(doc => doc.Type, opt => opt.MapFrom(file => file.ContentType))
                 .ForMember(doc => doc.Name, opt => opt.MapFrom(file => file.FileName));
 
-            CreateMap<CarCreateDto, Car>()
+            CreateMap<CarForCreate, Car>()
                 .ForMember(car => car.Documents, opt => opt.MapFrom(dto => dto.Images))
                 .ForMember(car => car.Id, opt => opt.MapFrom(dto => Guid.NewGuid()));
 
-            CreateMap<Car, CarReadWithImagesDto>()
+            CreateMap<Car, CarWithImages>()
                 .ForMember(dto => dto.RentalPointName, opt => opt.MapFrom(c => c.RentalPoint.Name));
 
-            CreateMap<CarCreatingFormDataRequest, CarCreateDto>();
+            CreateMap<CarCreatingRequest, CarForCreate>();
 
-            CreateMap<CarInfoUpdateRequest, CarInfoDto>();
+            CreateMap<CarInfoUpdateRequest, CarInfo>();
 
-            CreateMap<CarInfoDto, Car>();
+            CreateMap<CarInfo, Car>();
 
-            CreateMap<Car, CarEditImagesForReadDto>()
+            CreateMap<Car, CarForEditImages>()
                 .ForMember(dto => dto.CarId, opt => opt.MapFrom(car => car.Id))
                 .ForMember(dto => dto.CarName, opt => opt.MapFrom(car => car.Mark  + " " + car.Model))
                 .ForMember(dto => dto.Images, opt => opt.MapFrom(car => car.Documents));
 
-            CreateMap<CarAddImagesFormDataRequest, CarAddImagesDto>();
+            CreateMap<CarAddImagesRequest, CarForAddImages>();
 
-            CreateMap<Document, DocumentDto>();
+            CreateMap<Document, DocumentBaseInfo>();
 
-            CreateMap<Car, CarForSmallCardDto>()
+            CreateMap<Car, CarForSmallCard>()
                 .ForMember(dto => dto.ImageName, opt => opt.MapFrom(car => car.Documents.FirstOrDefault().Name))
                 .ForMember(dto => dto.Name, opt => opt.MapFrom(car => car.Mark + " " + car.Model));
 
-            CreateMap<RentalPointCreateRequest, RentalPointCreateDto>();
+            CreateMap<RentalPointCreateRequest, RentalPointForCreate>();
 
-            CreateMap<RentalPointEditRequest, RentalPointEditDto>();
+            CreateMap<RentalPointEditRequest, RentalPointForEdit>();
 
-            CreateMap<RentalPointCreateDto, RentalPoint>()
+            CreateMap<RentalPointForCreate, RentalPoint>()
                 .ForPath(point => point.Location.Address, opt => opt.MapFrom(dto => dto.Address))
                 .ForPath(point => point.Location.Lat, opt => opt.MapFrom(dto => dto.Lat))
                 .ForPath(point => point.Location.Lng, opt => opt.MapFrom(dto => dto.Lng))
                 .ForPath(point => point.Location.City.Name, opt => opt.MapFrom(dto => dto.City))
                 .ForPath(point => point.Location.City.Country.Name, opt => opt.MapFrom(dto => dto.Country));
 
-            CreateMap<RentalPointEditDto, RentalPoint>()
+            CreateMap<RentalPointForEdit, RentalPoint>()
                 .ForPath(point => point.Location.Address, opt => opt.MapFrom(dto => dto.Address))
                 .ForPath(point => point.Location.Lat, opt => opt.MapFrom(dto => dto.Lat))
                 .ForPath(point => point.Location.Lng, opt => opt.MapFrom(dto => dto.Lng))
                 .ForPath(point => point.Location.City.Name, opt => opt.MapFrom(dto => dto.City))
                 .ForPath(point => point.Location.City.Country.Name, opt => opt.MapFrom(dto => dto.Country));
 
-            CreateMap<RentalPoint, RentalPointLocationDto>()
+            CreateMap<RentalPoint, RentalPointLocation>()
                 .ForMember(dto => dto.Address, opt => opt.MapFrom(point => point.Location.Address))
                 .ForMember(dto => dto.City, opt => opt.MapFrom(point => point.Location.City.Name))
                 .ForMember(dto => dto.Country, opt => opt.MapFrom(point => point.Location.City.Country.Name))
                 .ForMember(dto => dto.Lat, opt => opt.MapFrom(point => point.Location.Lat))
                 .ForMember(dto => dto.Lng, opt => opt.MapFrom(point => point.Location.Lng));
 
-            CreateMap<RentalPoint, RentalPointTableInfoDto>()
+            CreateMap<RentalPoint, RentalPointTableInfo>()
                 .ForMember(dto => dto.Address, opt => opt.MapFrom(p => p.Location.Address))
                 .ForMember(dto => dto.City, opt => opt.MapFrom(p => p.Location.City.Name))
                 .ForMember(dto => dto.Country, opt => opt.MapFrom(p => p.Location.City.Country.Name))

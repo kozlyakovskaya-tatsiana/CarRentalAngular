@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRental.Service.DTO.UserDtos;
 
@@ -7,20 +6,20 @@ namespace CarRental.Service.Identity
 {
     public interface IUserManagementService
     {
-        Task<IEnumerable<UserReadDto>> GetUsers();
+        Task<IEnumerable<UserForRead>> GetUsers();
 
-        Task<UserReadDto> GetUserByEmail(string email);
+        Task<UserForRead> GetUserByEmail(string email);
 
-        Task<UserReadDto> GetUserById(Guid id);
+        Task<UserForRead> GetUserById(string id);
 
         Task<bool> IsUserExists(string email, string password);
 
-        Task CreateUser(UserCreateDto userCreateDto);
+        Task CreateUser(UserForCreate userCreateDto);
 
-        Task UpdateUser(UserUpdateDto userUpdateDto);
+        Task UpdateUser(UserForUpdate userUpdateDto);
 
-        Task DeleteUser(Guid id);
+        Task DeleteUser(string id);
 
-        Task UpdateUserBaseInfo(UserDtoBase userDtoBase);
+        Task UpdateUserBaseInfo(UserBase userDtoBase);
     }
 }

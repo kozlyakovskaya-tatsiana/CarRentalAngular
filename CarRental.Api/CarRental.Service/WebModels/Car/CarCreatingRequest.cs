@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CarRental.DAL.Enums;
+﻿using CarRental.DAL.Enums;
+using Microsoft.AspNetCore.Http;
 
-namespace CarRental.Service.DTO.CarDtos
+namespace CarRental.Service.WebModels.Car
 {
-    public class CarInfoDto
+    public class CarCreatingRequest
     {
-        public Guid Id { get; set; }
-
         public string Mark { get; set; }
 
         public string Model { get; set; }
@@ -38,5 +34,7 @@ namespace CarRental.Service.DTO.CarDtos
         public decimal CostPerDay { get; set; }
 
         public string RentalPointName { get; set; }
+
+        public IFormFile[] Images { get; set; }
     }
 }

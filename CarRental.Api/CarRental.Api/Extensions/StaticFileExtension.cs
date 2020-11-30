@@ -1,9 +1,4 @@
-﻿using System.Linq;
-using CarRental.Api.Options;
-using CarRental.Service.Identity.Options;
-using CarRental.Service.Options;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+﻿using CarRental.Service.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

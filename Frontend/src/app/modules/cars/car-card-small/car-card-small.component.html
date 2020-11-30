@@ -18,7 +18,7 @@
     </small>
     <div class="row mt-2">
       <a class="col-lg-4 offset-lg-1 btn btn-info btn-sm" [routerLink]="btnInfoLink">{{btnInfoName}}</a>
-      <a class="col-lg-3 offset-lg-3 float-right btn btn-danger btn-sm" (click)="clickSimpleBtn()">{{btnSimpleName}}</a>
+      <a class="col-lg-3 offset-lg-3 float-right btn btn-danger btn-sm" [class.disabled]="car.status!=='Free'" (click)="clickSimpleBtn()">{{btnSimpleName}}</a>
     </div>
   </div>
 </div>

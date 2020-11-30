@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
+using CarRental.Api.Security;
 using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.Identity;
 using CarRental.Service.WebModels;
@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Api.Controllers
 {
-    [Authorize(Policy = "ForAdminOnly")]
+    [Authorize(Policy = Policy.ForAdminOnly)]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -32,11 +32,11 @@ namespace CarRental.Api.Controllers
         /// <response code="200">Return array of users</response>
         /// <response code="401">Access denied. Authorization failed.</response>
         /// <response code="500">Server error</response>
-        [HttpGet("users")]
+        [HttpGet("userslist")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsersList()
         {
             var users = await _userService.GetUsers();
 
@@ -61,7 +61,7 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> CreateUser([FromBody] UserCreatingRequest userCreatingRequest)
         {
-            var userToCreate = _mapper.Map<UserCreateDto>(userCreatingRequest);
+            var userToCreate = _mapper.Map<UserForCreate>(userCreatingRequest);
 
             await _userService.CreateUser(userToCreate);
 
@@ -84,7 +84,7 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> UpdateUser([FromBody] EditUserRequest editUserRequest)
         {
-            var userToUpdate = _mapper.Map<UserUpdateDto>(editUserRequest);
+            var userToUpdate = _mapper.Map<UserForUpdate>(editUserRequest);
 
             await _userService.UpdateUser(userToUpdate);
 
@@ -105,7 +105,7 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult> Delete(string id)
         {
             await _userService.DeleteUser(id);
 

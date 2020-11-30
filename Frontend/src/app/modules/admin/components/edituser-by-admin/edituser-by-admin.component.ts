@@ -90,7 +90,6 @@ export class EdituserByAdminComponent implements OnInit {
     this.userInfoService.getUser(this.userEditId).subscribe(
       data => {
         this.editUser = data;
-        this.editUser.dateOfBirth = new Date(data.dateOfBirth).toISOString().split('T')[0];
         console.log(this.editUser);
       },
       err => {

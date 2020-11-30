@@ -21,11 +21,14 @@ export class TokenInterceptor implements HttpInterceptor {
     else if (this.authService.accessToken) {
       request = this.addToken(request, this.authService.accessToken);
     }
+    console.log('intercept1');
 
     return next.handle(request).pipe(catchError(error => {
       if (error instanceof HttpErrorResponse && error.status === 401) {
         return this.handle401Error(request, next);
       } else {
+        console.log('non 401 error');
+        console.log(error);
         return throwError(error);
       }
     }));
@@ -44,6 +47,8 @@ export class TokenInterceptor implements HttpInterceptor {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
 
+      console.log('!isrefrshing ');
+
       return this.authService.doRefreshToken().pipe(
         switchMap((token: any) => {
           this.isRefreshing = false;
@@ -51,13 +56,13 @@ export class TokenInterceptor implements HttpInterceptor {
           return next.handle(this.addToken(request, token.accessToken));
         }),
         catchError(err => {
-          console.log('catch err');
+          console.log('catch err while refresh');
           console.log(err);
-          this.authService.logout();
           return of(err);
         })
       );
     } else {
+      console.log('refreshing');
       return this.refreshTokenSubject.pipe(
         filter(token => token != null),
         take(1),

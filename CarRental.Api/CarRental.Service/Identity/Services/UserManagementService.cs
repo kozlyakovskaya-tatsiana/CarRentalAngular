@@ -28,11 +28,11 @@ namespace CarRental.Service.Identity.Services
             _roleManager = roleManager;
         }
 
-        public async Task<IEnumerable<UserReadDto>> GetUsers()
+        public async Task<IEnumerable<UserForRead>> GetUsers()
         {
             var users = await _userManager.Users.ToArrayAsync();
 
-            var usersReadDto = _mapper.Map<IEnumerable<UserReadDto>>(users);
+            var usersReadDto = _mapper.Map<IEnumerable<UserForRead>>(users);
 
             foreach (var user in usersReadDto)
             {
@@ -44,28 +44,28 @@ namespace CarRental.Service.Identity.Services
             return usersReadDto;
         }
 
-        public async Task<UserReadDto> GetUserByEmail(string email)
+        public async Task<UserForRead> GetUserByEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user == null)
                 throw new NotFoundException("There is no user with such email");
 
-            var userReadDto = _mapper.Map<UserReadDto>(user);
+            var userReadDto = _mapper.Map<UserForRead>(user);
 
             userReadDto.Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
             return userReadDto;
         }
 
-        public async Task<UserReadDto> GetUserById(Guid id)
+        public async Task<UserForRead> GetUserById(string id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
+            var user = await _userManager.FindByIdAsync(id);
 
             if (user == null)
                 throw new NotFoundException("There is no user with such id");
 
-            var userReadDto = _mapper.Map<UserReadDto>(user);
+            var userReadDto = _mapper.Map<UserForRead>(user);
 
             userReadDto.Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
@@ -82,7 +82,7 @@ namespace CarRental.Service.Identity.Services
             return await _userManager.CheckPasswordAsync(user, password);
         }
 
-        public async Task CreateUser(UserCreateDto userCreateDto)
+        public async Task CreateUser(UserForCreate userCreateDto)
         {
             var roleExists = await _roleManager.RoleExistsAsync(userCreateDto.Role);
 
@@ -104,7 +104,7 @@ namespace CarRental.Service.Identity.Services
                 throw new Exception(string.Join("/r/n", result.Errors.Select(err => err.Description)));
         }
 
-        public async Task UpdateUser(UserUpdateDto userUpdateDto)
+        public async Task UpdateUser(UserForUpdate userUpdateDto)
         {
             var user = await _userManager.FindByIdAsync(userUpdateDto.Id);
 
@@ -122,9 +122,9 @@ namespace CarRental.Service.Identity.Services
 
         }
 
-        public async Task DeleteUser(Guid id)
+        public async Task DeleteUser(string id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
+            var user = await _userManager.FindByIdAsync(id);
 
             if (user == null)
                 throw new NotFoundException("There is no such user");
@@ -160,7 +160,7 @@ namespace CarRental.Service.Identity.Services
             }
         }
 
-        public async Task UpdateUserBaseInfo(UserDtoBase userDtoBase)
+        public async Task UpdateUserBaseInfo(UserBase userDtoBase)
         {
             var user = await _userManager.FindByIdAsync(userDtoBase.Id);
 
