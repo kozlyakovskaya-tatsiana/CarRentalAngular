@@ -1,10 +1,6 @@
 ﻿using CarRental.Service.WebModels.Booking;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using CarRental.DAL;
 using CarRental.DAL.Entities;
 using CarRental.DAL.Repositories;
 

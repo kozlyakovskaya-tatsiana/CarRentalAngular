@@ -131,7 +131,7 @@
       <label for="status">Status</label>
       <select id="status" class="form-control" [(ngModel)]="car.status" name="status" formControlName="status">
         <option disabled selected>Status</option>
-        <option *ngFor="let status of statusTypes">{{status}}</option>
+        <option *ngFor="let status of statusTypes" [selected]="status===car.status">{{status}}</option>
       </select>
       <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="CarForm.get('status').invalid && CarForm.get('status').touched">
         <div *ngIf="CarForm.get('status').errors">
