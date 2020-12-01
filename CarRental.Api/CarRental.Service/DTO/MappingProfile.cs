@@ -105,7 +105,7 @@ namespace CarRental.Service.DTO
             CreateMap<BookingRequest, BookingInfo>();
 
             CreateMap<BookingInfo, BookingInfoForRead>()
-                .ForMember(read => read.CarImagePath, opt => opt.MapFrom(b => b.Car.Documents[0].Path))
+                .ForMember(read => read.CarImageName, opt => opt.MapFrom(b => b.Car.Documents[0].Name))
                 .ForMember(read => read.RentalPointName, opt => opt.MapFrom(b => b.Car.RentalPoint.Name))
                 .ForMember(read => read.RentalPointId, opt => opt.MapFrom(b => b.Car.RentalPoint.Id))
                 .ForMember(read => read.CarName, opt => opt.MapFrom(b => b.Car.Mark + b.Car.Model))

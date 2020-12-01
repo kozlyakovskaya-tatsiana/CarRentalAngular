@@ -1,5 +1,4 @@
 ﻿using System;
-using CarRental.DAL.Enums;
 
 namespace CarRental.Service.DTO.BookingDtos
 {
@@ -29,7 +28,7 @@ namespace CarRental.Service.DTO.BookingDtos
 
         public string CarName { get; set; }
 
-        public string CarImagePath { get; set; }
+        public string CarImageName { get; set; }
 
         public string RentalPointName { get; set; }
 

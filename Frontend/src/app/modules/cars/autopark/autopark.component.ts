@@ -9,7 +9,7 @@ import {HttpResponseService} from '../../../shared/services/http-response.servic
 import {UserInfoService} from '../../../shared/services/user-info.service';
 import {AuthorizeService} from '../../../shared/services/authorize.service';
 import {LoginRequest} from '../../../shared/utils/Authorize/LoginRequest';
-import {BookingFlowComponent} from '../booking-flow/booking-flow.component';
+import {BookingFlowComponent} from '../../booking/booking-flow/booking-flow.component';
 import {LoginModalComponent} from '../../Auth/login-modal/login-modal.component';
 import {BookingRequest} from '../../../shared/utils/booking/BookingRequest';
 import {BookingService} from '../../../shared/services/booking.service';

@@ -49,9 +49,11 @@ import { MapMarkersComponent } from './modules/maps/map-markers/map-markers.comp
 import { MapOneMarkerComponent } from './modules/maps/map-one-marker/map-one-marker.component';
 import { RentalPointsMapComponent } from './modules/renatlPoints/rental-points-map/rental-points-map.component';
 import { MapPointsComponent } from './modules/maps/map-points/map-points.component';
-import { BookingFlowComponent } from './modules/cars/booking-flow/booking-flow.component';
+import { BookingFlowComponent } from './modules/booking/booking-flow/booking-flow.component';
 import { LoginModalComponent } from './modules/Auth/login-modal/login-modal.component';
 import { LoginFormComponent } from './modules/Auth/login-form/login-form.component';
+import { BookingListComponent } from './modules/booking/booking-list/booking-list.component';
+import { BookingManagementComponent } from './modules/booking/booking-management/booking-management.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +99,9 @@ import { LoginFormComponent } from './modules/Auth/login-form/login-form.compone
     MapPointsComponent,
     BookingFlowComponent,
     LoginModalComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    BookingListComponent,
+    BookingManagementComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,7 @@
+<div class="container">
+  <div class="row" *ngFor="let booking of bookings$| async">
+    <div class="col-lg-10 offset-lg-1">
+      <app-booking-list [bookingInfoForRead]="booking"></app-booking-list>
+    </div>
+  </div>
+</div>

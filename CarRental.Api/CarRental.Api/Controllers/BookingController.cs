@@ -26,13 +26,5 @@ namespace CarRental.Api.Controllers
 
             return Ok();
         }
-
-        [HttpGet("list")]
-        public async Task<IActionResult> List()
-        {
-            var bookings = await _bookingService.GetAllBookings();
-
-            return Ok(bookings);
-        }
     }
 }
