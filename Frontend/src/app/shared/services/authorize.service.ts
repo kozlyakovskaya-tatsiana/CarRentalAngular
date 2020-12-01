@@ -57,7 +57,15 @@ export class AuthorizeService {
   }
 
   login(loginModel: LoginRequest): Observable<any>{
-    return this.http.post(this.url + 'login', loginModel);
+    return this.http.post(this.url + 'login', loginModel).pipe(
+      tap(data => {
+        localStorage.setItem('access_token', data.accessToken);
+        localStorage.setItem('refresh_token', data.refreshToken);
+        localStorage.setItem('user_id', data.userId);
+        localStorage.setItem('user_email', data.userEmail);
+        localStorage.setItem('user_role', data.userRole);
+      })
+    );
   }
 
   register(registerModel: RegisterRequest): Observable<any>{

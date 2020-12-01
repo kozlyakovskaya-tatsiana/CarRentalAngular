@@ -1,0 +1,29 @@
+<form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" formControlName="email"  [(ngModel)]="loginModel.email" >
+    <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">
+      <div *ngIf="loginForm.get('email').errors.required">
+        Email is a required field.
+      </div>
+      <div *ngIf="loginForm.get('email').errors.email">
+        Email is in incorrect format.
+      </div>
+    </ngb-alert>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password"  formControlName="password" [(ngModel)]="loginModel.password">
+    <ngb-alert type="danger" class="mt-2" [dismissible]="false" *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
+      <div *ngIf="loginForm.get('password').errors.required">
+        Password is a required field.
+      </div>
+      <div *ngIf="loginForm.get('password').errors.minlength">
+        Password must contain at least 5 symbols. Now it is {{loginModel.password.length}} symbols.
+      </div>
+    </ngb-alert>
+  </div>
+  <div class="text-center">
+    <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid || loginForm.untouched">Log in</button>
+  </div>
+</form>

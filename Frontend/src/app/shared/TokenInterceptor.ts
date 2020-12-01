@@ -53,11 +53,13 @@ export class TokenInterceptor implements HttpInterceptor {
         switchMap((token: any) => {
           this.isRefreshing = false;
           this.refreshTokenSubject.next(token.accessToken);
+          console.log('switch map');
           return next.handle(this.addToken(request, token.accessToken));
         }),
         catchError(err => {
           console.log('catch err while refresh');
           console.log(err);
+          this.authService.logout();
           return of(err);
         })
       );

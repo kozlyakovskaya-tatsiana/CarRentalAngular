@@ -6,10 +6,12 @@ import {ActivatedRoute} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {RentalPointService} from '../../../shared/services/rental-point.service';
 import {HttpResponseService} from '../../../shared/services/http-response.service';
-import {BookingFlowComponent} from '../booking-flow/booking-flow.component';
-import {BookingRequest} from '../../../shared/utils/Car/BookingRequest';
 import {UserInfoService} from '../../../shared/services/user-info.service';
 import {AuthorizeService} from '../../../shared/services/authorize.service';
+import {LoginRequest} from '../../../shared/utils/Authorize/LoginRequest';
+import {BookingFlowComponent} from '../booking-flow/booking-flow.component';
+import {LoginModalComponent} from '../../Auth/login-modal/login-modal.component';
+import {BookingRequest} from '../../../shared/utils/Car/BookingRequest';
 
 @Component({
   selector: 'app-autopark',
@@ -28,12 +30,25 @@ export class AutoparkComponent implements OnInit {
   @ViewChild(BookingFlowComponent, {static: false})
   private bookingFlowComponent: BookingFlowComponent;
 
+  @ViewChild(LoginModalComponent, {static: false})
+  private loginModalComponent: LoginModalComponent;
+
+  chosenCarIndex: number;
   cars: CarForSmallCard[];
   cars$: Observable<Array<CarForSmallCard>>;
   private rentalPointId: string;
   rentalPointName$: Observable<string>;
 
   showModalForBooking(index: number): void{
+    this.chosenCarIndex = index;
+    if (!this.authorizeService.isAuthorized){
+      this.loginModalComponent.showModal();
+   }else{
+      this.showBookingFlow(this.chosenCarIndex);
+    }
+
+  }
+  showBookingFlow(index): void{
     this.bookingFlowComponent.showModal();
     this.bookingFlowComponent.imageSrc = this.cars[index]?.imageName;
     this.bookingFlowComponent.carName = this.cars[index]?.name;
@@ -47,6 +62,18 @@ export class AutoparkComponent implements OnInit {
           this.bookingFlowComponent.bookingRequest.userId = user.id;
         }
         console.log(this.bookingFlowComponent.bookingRequest);
+      },
+      err => {
+        this.httpResponseService.showErrorMessage(err);
+      }
+    );
+  }
+
+  login(loginRequest: LoginRequest): void{
+    this.authorizeService.login(loginRequest).subscribe(
+      data => {
+        this.loginModalComponent.closeModal();
+        this.showBookingFlow(this.chosenCarIndex);
       },
       err => {
         this.httpResponseService.showErrorMessage(err);

@@ -39,5 +39,7 @@ namespace CarRental.DAL.Entities
         public Guid? RentalPointId { get; set; }
 
         public RentalPoint RentalPoint { get; set; }
+
+        public List<BookingInfo> Bookings { get; set; }
     }
 }
