@@ -14,21 +14,13 @@ namespace CarRental.Api.Controllers
     [ApiController]
     public class CarOpenController : ControllerBase
     {
-        private readonly ILogger<CarOpenController> _logger;
-
-        private readonly IMapper _mapper;
-
         private readonly ICarService _carService;
 
         private readonly ICarHelper _carHelper;
 
         public CarOpenController(ILogger<CarOpenController> logger, IMapper mapper, ICarService carService, ICarHelper carHelper)
         {
-            _logger = logger;
-
             _carService = carService;
-
-            _mapper = mapper;
 
             _carHelper = carHelper;
         }
@@ -42,7 +34,7 @@ namespace CarRental.Api.Controllers
         [HttpGet("carcases")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<IActionResult> GetCarcases()
+        public IActionResult GetCarcases()
         {
             var carcases = _carHelper.GetCarcasesTypes();
 
@@ -58,7 +50,7 @@ namespace CarRental.Api.Controllers
         [HttpGet("fueltypes")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<IActionResult> GetFuelTypes()
+        public IActionResult GetFuelTypes()
         {
             var fuelTypes = _carHelper.GetFuelTypes();
 
@@ -74,7 +66,7 @@ namespace CarRental.Api.Controllers
         [HttpGet("transmissionstypes")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<IActionResult> GetTransmissionTypes()
+        public IActionResult GetTransmissionTypes()
         {
             var transmissionTypes = _carHelper.GetTransmissionTypes();
 
@@ -90,7 +82,7 @@ namespace CarRental.Api.Controllers
         [HttpGet("statustypes")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<IActionResult> GetStatusTypes()
+        public IActionResult GetStatusTypes()
         {
             var statusTypes = _carHelper.GetStatusTypes();
 

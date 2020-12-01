@@ -1,8 +1,12 @@
-﻿using CarRental.Service.WebModels.Booking;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CarRental.Service.WebModels.Booking;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL.Entities;
 using CarRental.DAL.Repositories;
+using CarRental.Service.DTO.BookingDtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Service.Services.Realization
 {
@@ -24,6 +28,19 @@ namespace CarRental.Service.Services.Realization
             var bookingInfo = _mapper.Map<BookingInfo>(bookingRequest);
 
             await _bookingRepository.BookCarAsync(bookingInfo);
+        }
+
+        public async Task<IEnumerable<BookingInfoForRead>> GetAllBookings()
+        {
+            var bookings = await (await _bookingRepository.GetAllAsync(includes:
+                    b => b
+                        .Include(booking => booking.Car.Documents)
+                        .Include(booking => booking.Car.RentalPoint.Location.City.Country)))
+                .ToArrayAsync();
+
+            var bookingsForRead = _mapper.Map<BookingInfoForRead[]>(bookings);
+
+            return bookingsForRead;
         }
 
     }

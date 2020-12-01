@@ -32,7 +32,7 @@ namespace CarRental.DAL.Repositories.Realization
 
                     await transaction.CommitAsync();
                 }
-                catch (Exception ex)
+                catch
                 {
                     await transaction.RollbackAsync();
 

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CarRental.Api.Security;
-using CarRental.DAL.Entities;
 using CarRental.Service.Services;
 using CarRental.Service.WebModels.Booking;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Api.Controllers
@@ -32,10 +27,12 @@ namespace CarRental.Api.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Bookings()
+        [HttpGet("list")]
+        public async Task<IActionResult> List()
         {
-            return Ok();
+            var bookings = await _bookingService.GetAllBookings();
+
+            return Ok(bookings);
         }
     }
 }

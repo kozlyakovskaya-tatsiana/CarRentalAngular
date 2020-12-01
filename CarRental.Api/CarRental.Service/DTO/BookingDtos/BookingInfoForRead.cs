@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using CarRental.DAL.Enums;
 
-namespace CarRental.DAL.Entities
+namespace CarRental.Service.DTO.BookingDtos
 {
-    public class BookingInfo : BaseEntity
+    public class BookingInfoForRead
     {
         public string PersonName { get; set; }
 
@@ -23,22 +21,20 @@ namespace CarRental.DAL.Entities
 
         public DateTime EndDateOfRenting { get; set; }
 
-        public decimal Sum
-        {
-            get => _sum;
-            set => _sum = (EndDateOfRenting - StartDateOfRenting).Days * Car.CostPerDay;
-        }
+        public decimal Sum { get; set; }
 
-        private decimal _sum;
-
-        public BookingStatus BookingStatus { get; set; }
+        public string BookingStatus { get; set; }
 
         public Guid? CarId { get; set; }
 
-        public Car Car { get; set; }
+        public string CarName { get; set; }
 
-        public string UserId { get; set; }
+        public string CarImagePath { get; set; }
 
-        public User User { get; set; }
+        public string RentalPointName { get; set; }
+
+        public string RentalPointAddress { get; set; }
+
+        public Guid RentalPointId { get; set; }
     }
 }

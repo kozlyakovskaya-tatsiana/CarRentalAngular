@@ -19,7 +19,7 @@ namespace CarRental.DAL.EntityConfigurations
 
             builder
                 .Property(b => b.Sum)
-                .UsePropertyAccessMode(PropertyAccessMode.Property);
+                .ValueGeneratedOnAddOrUpdate();
         }
     }
 }

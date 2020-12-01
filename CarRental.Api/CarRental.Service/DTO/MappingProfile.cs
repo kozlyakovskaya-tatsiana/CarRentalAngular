@@ -2,6 +2,8 @@
 using System.Linq;
 using AutoMapper;
 using CarRental.DAL.Entities;
+using CarRental.DAL.Enums;
+using CarRental.Service.DTO.BookingDtos;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.DocumentDtos;
 using CarRental.Service.DTO.RentalPointDtos;
@@ -101,6 +103,16 @@ namespace CarRental.Service.DTO
                 .ForMember(dto => dto.CarsAmount, opt => opt.MapFrom(p => p.Cars.Count));
 
             CreateMap<BookingRequest, BookingInfo>();
+
+            CreateMap<BookingInfo, BookingInfoForRead>()
+                .ForMember(read => read.CarImagePath, opt => opt.MapFrom(b => b.Car.Documents[0].Path))
+                .ForMember(read => read.RentalPointName, opt => opt.MapFrom(b => b.Car.RentalPoint.Name))
+                .ForMember(read => read.RentalPointId, opt => opt.MapFrom(b => b.Car.RentalPoint.Id))
+                .ForMember(read => read.CarName, opt => opt.MapFrom(b => b.Car.Mark + b.Car.Model))
+                .ForMember(read => read.RentalPointAddress, opt =>
+                    opt.MapFrom(b => string.Join(",", b.Car.RentalPoint.Location.City.Country.Name,
+                        b.Car.RentalPoint.Location.City.Name, b.Car.RentalPoint.Location.Address)))
+                .ForMember(read => read.BookingStatus, opt => opt.MapFrom(b => b.BookingStatus.GetStatusName()));
         }
     }
 }
