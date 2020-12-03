@@ -1,8 +1,9 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using AutoMapper;
 using CarRental.DAL.Entities;
-using CarRental.DAL.Enums;
 using CarRental.Service.DTO.BookingDtos;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.DocumentDtos;
@@ -112,7 +113,9 @@ namespace CarRental.Service.DTO
                 .ForMember(read => read.RentalPointAddress, opt =>
                     opt.MapFrom(b => string.Join(",", b.Car.RentalPoint.Location.City.Country.Name,
                         b.Car.RentalPoint.Location.City.Name, b.Car.RentalPoint.Location.Address)))
-                .ForMember(read => read.BookingStatus, opt => opt.MapFrom(b => b.BookingStatus.GetStatusName()));
+                .ForMember(read => read.BookingStatusName, 
+                    opt => opt.MapFrom(b => b.BookingStatus.GetType().GetMember(b.BookingStatus.ToString()).First().GetCustomAttribute<DisplayAttribute>().Name))
+                .ForMember(read => read.BookingId, opt => opt.MapFrom(b => b.Id));
         }
     }
 }

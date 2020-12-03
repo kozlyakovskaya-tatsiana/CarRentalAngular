@@ -2,6 +2,7 @@
 using CarRental.DAL.Repositories;
 using CarRental.DAL.Repositories.Realization;
 using CarRental.Service.Helpers;
+using CarRental.Service.Helpers.Realization;
 using CarRental.Service.Identity;
 using CarRental.Service.Identity.Services;
 using CarRental.Service.Services;
@@ -45,6 +46,8 @@ namespace CarRental.Api.Extensions
             services.AddScoped<IBookingService, BookingService>();
 
             services.AddScoped<IBookingRepository, BookingRepository>();
+
+            services.AddScoped<IBookingHelper, BookingHelper>();
         }
     }
 }

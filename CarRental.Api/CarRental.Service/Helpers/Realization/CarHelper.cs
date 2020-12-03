@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CarRental.DAL.Enums;
 
-namespace CarRental.Service.Helpers
+namespace CarRental.Service.Helpers.Realization
 {
     public class CarHelper : ICarHelper
     {

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using CarRental.DAL.Enums;
 
 namespace CarRental.DAL.Entities
@@ -23,13 +21,7 @@ namespace CarRental.DAL.Entities
 
         public DateTime EndDateOfRenting { get; set; }
 
-        public decimal Sum
-        {
-            get => _sum;
-            set => _sum = (EndDateOfRenting - StartDateOfRenting).Days * Car.CostPerDay;
-        }
-
-        private decimal _sum;
+        public decimal Sum { get; set; }
 
         public BookingStatus BookingStatus { get; set; }
 

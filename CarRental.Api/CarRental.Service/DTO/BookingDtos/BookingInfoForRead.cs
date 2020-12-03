@@ -1,9 +1,12 @@
 ﻿using System;
+using CarRental.DAL.Enums;
 
 namespace CarRental.Service.DTO.BookingDtos
 {
     public class BookingInfoForRead
     {
+        public string BookingId { get; set; }
+
         public string PersonName { get; set; }
 
         public string PersonSurname { get; set; }
@@ -22,7 +25,9 @@ namespace CarRental.Service.DTO.BookingDtos
 
         public decimal Sum { get; set; }
 
-        public string BookingStatus { get; set; }
+        public string BookingStatusName { get; set; }
+
+        public BookingStatus BookingStatus { get; set; }
 
         public Guid? CarId { get; set; }
 

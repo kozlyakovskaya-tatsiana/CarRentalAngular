@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CarRental.DAL.Entities;
+﻿using CarRental.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,10 +13,6 @@ namespace CarRental.DAL.EntityConfigurations
                 .WithMany(u => u.Bookings)
                 .HasForeignKey(b => b.UserId)
                 .OnDelete(DeleteBehavior.SetNull);
-
-            builder
-                .Property(b => b.Sum)
-                .ValueGeneratedOnAddOrUpdate();
         }
     }
 }
