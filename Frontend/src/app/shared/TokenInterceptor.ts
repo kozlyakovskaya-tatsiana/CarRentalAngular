@@ -74,5 +74,6 @@ export class TokenInterceptor implements HttpInterceptor {
           return next.handle(this.addToken(request, jwt));
         }));
     }
+    console.log('finish');
   }
 }

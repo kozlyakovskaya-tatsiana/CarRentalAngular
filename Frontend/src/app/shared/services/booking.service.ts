@@ -23,6 +23,10 @@ export class BookingService {
     return this.http.get(this.url + 'approve/' + bookingId);
   }
 
+  public closeBooking(bookingId: string): Observable<any>{
+    return this.http.get(this.url + 'close/' + bookingId);
+  }
+
   public rejectBookingByManager(bookingId: string): Observable<any>{
     return this.http.get(this.url + 'reject/' + bookingId);
   }
@@ -66,6 +70,21 @@ export class BookingService {
 
   public getUserBookingList(userId: string): Observable<Array<BookingInfoForRead>>{
     return this.http.get(this.url + 'user/' + userId + '/list').pipe(
+      map(list => {
+        const books = list as Array<BookingInfoForRead>;
+        books.forEach(book => {
+          book.carImageName = environment.backendUrlForImages + book.carImageName;
+          book.startDateOfRenting = new Date(book.startDateOfRenting).toISOString().split('T')[0];
+          book.endDateOfRenting = new Date(book.endDateOfRenting).toISOString().split('T')[0];
+          book.personDateOfBirth = new Date(book.personDateOfBirth).toISOString().split('T')[0];
+        });
+        return books;
+      })
+    );
+  }
+
+  public getUserBookingListByStatus(userId: string, status: number): Observable<Array<BookingInfoForRead>>{
+    return this.http.get(this.url + 'user/' + userId + '/list/' + status).pipe(
       map(list => {
         const books = list as Array<BookingInfoForRead>;
         books.forEach(book => {

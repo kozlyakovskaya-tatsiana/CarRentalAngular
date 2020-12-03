@@ -98,8 +98,32 @@ export class BookingManagementComponent implements OnInit {
     );
   }
 
+  closeBooking(bookingId: string): void{
+    this.bookingService.closeBooking(bookingId).subscribe(
+      data => {
+        this.swalService.showSuccessMessage('Closing is successful').then(
+          val => {
+            window.location.reload();
+          }
+        );
+      },
+      err => {
+        this.httpResponseService.showErrorMessage(err);
+      }
+    );
+  }
+
   getAllUserBookings(): void {
     this.bookings$ = this.bookingService.getUserBookingList(this.authorizeService.userId).pipe(
+      catchError(err => {
+        this.httpResponseService.showErrorMessage(err);
+        return of(err);
+      })
+    );
+  }
+
+  getAllUserBookingsByStatus(status: number): void {
+    this.bookings$ = this.bookingService.getUserBookingListByStatus(this.authorizeService.userId, status).pipe(
       catchError(err => {
         this.httpResponseService.showErrorMessage(err);
         return of(err);
