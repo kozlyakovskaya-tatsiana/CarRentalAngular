@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRental.Service.DTO.CarDtos;
+using CarRental.Service.DTO.RentalPointDtos;
 
 namespace CarRental.Service.Services
 {
@@ -22,5 +23,9 @@ namespace CarRental.Service.Services
         Task AddImagesToCarAsync(CarForAddImages carAddImagesDto);
 
         Task<IEnumerable<CarForSmallCard>> GetCarsForSmallCardsAsync();
+
+        Task<IEnumerable<CountryBaseInfo>> GetCarsCountriesAsync();
+
+        Task<IEnumerable<string>> GetCarsCitiesAsync(Guid countryId);
     }
 }

@@ -3,8 +3,8 @@
   <ng-container *ngIf="authorizeService.isAdmin || authorizeService.isManager">
     <div class="row mb-4">
       <div class="col-lg-12 text-center">
-        <button class="btn btn-warning mr-2" (click)="getAllBookings()">All</button>
-        <button class="btn btn-warning mr-2" *ngFor="let status of statuses; let i = index;" (click)="getBookingByStatus(i)">{{status}}</button>
+        <button class="btn mr-2 status-btn" (click)="getAllBookings()">All</button>
+        <button class="btn mr-2 status-btn" *ngFor="let status of statuses; let i = index;" (click)="getBookingByStatus(i)">{{status}}</button>
       </div>
     </div>
     <div class="row" *ngFor="let booking of bookings$| async">
@@ -17,8 +17,8 @@
   <ng-container *ngIf="authorizeService.isUser">
     <div class="row mb-4">
       <div class="col-lg-12 text-center">
-        <button class="btn btn-warning mr-2" (click)="getAllUserBookings()">All</button>
-        <button class="btn btn-warning mr-2" *ngFor="let status of statuses; let i = index;" (click)="getAllUserBookingsByStatus(i)">{{status}}</button>
+        <button class="btn  mr-2 status-btn" (click)="getAllUserBookings()">All</button>
+        <button class="btn  mr-2 status-btn" *ngFor="let status of statuses; let i = index;" (click)="getAllUserBookingsByStatus(i)">{{status}}</button>
       </div>
     </div>
     <div class="row" *ngFor="let booking of bookings$| async">
@@ -26,5 +26,6 @@
         <app-booking-card [bookingInfoForRead]="booking" (clickReject)="rejectBookingByUser($event)"></app-booking-card>
       </div>
     </div>
+    <h4 class="text-center" *ngIf="!(bookings$ | async)?.length">There are no such bookings.</h4>
   </ng-container>
 </div>

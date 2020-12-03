@@ -1,13 +1,21 @@
 <app-head-image mainTitle="Our cars" additionalTitle="Autopark"></app-head-image>
 <div class="products mt-4 mb-3">
-  <div class="container">
-    <h4 class="text-center mt-3 mb-3">{{rentalPointName$ | async}}</h4>
-    <div class="row">
-      <div class="col-lg-4" *ngFor="let car of cars$ | async; let i = index;">
-        <app-car-card-small [car]="car" btnInfoName="More info" [btnInfoLink]="['', 'carinfo', car?.id]" btnSimpleName="Book it!" (onClickedSimpleBtn)="showModalForBooking(i)"></app-car-card-small>
+  <h4 class="text-center mt-3 mb-3">{{rentalPointName$ | async}}</h4>
+  <div class="row" style="width: 100%">
+    <div class="col-md-3 col-lg-2 offset-lg-1">
+          <app-filter-bar></app-filter-bar>
+      </div>
+    <div class="col-md-9 col-lg-9">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 col-lg-4" *ngFor="let car of cars$ | async; let i = index;">
+            <app-car-card-small [car]="car" btnInfoName="More info" [btnInfoLink]="['', 'carinfo', car?.id]" btnSimpleName="Book it!" (onClickedSimpleBtn)="showModalForBooking(i)" class="m-2"></app-car-card-small>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 <app-booking-flow (clickSubmit)="bookCar($event)"></app-booking-flow>
 <app-login-modal (Submit)="login($event)"></app-login-modal>
+

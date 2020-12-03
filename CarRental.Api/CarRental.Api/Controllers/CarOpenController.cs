@@ -115,5 +115,13 @@ namespace CarRental.Api.Controllers
 
             return Ok(cars);
         }
+
+        [HttpGet("countries")]
+        public async Task<IActionResult> GetCarsCountries()
+        {
+            var countries = await _carService.GetCarsCountriesAsync();
+
+            return Ok(countries);
+        }
     }
 }

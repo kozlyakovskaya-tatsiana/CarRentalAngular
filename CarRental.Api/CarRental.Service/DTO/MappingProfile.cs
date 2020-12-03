@@ -116,6 +116,10 @@ namespace CarRental.Service.DTO
                 .ForMember(read => read.BookingStatusName, 
                     opt => opt.MapFrom(b => b.BookingStatus.GetType().GetMember(b.BookingStatus.ToString()).First().GetCustomAttribute<DisplayAttribute>().Name))
                 .ForMember(read => read.BookingId, opt => opt.MapFrom(b => b.Id));
+
+            CreateMap<Country, CountryBaseInfo>()
+                .ForMember(info => info.CountryId, opt => opt.MapFrom(c => c.Id))
+                .ForMember(info => info.CountryName, opt => opt.MapFrom(c => c.Name));
         }
     }
 }
