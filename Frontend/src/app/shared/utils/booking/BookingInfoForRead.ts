@@ -1,4 +1,5 @@
 export class BookingInfoForRead{
+  bookingId: string;
   personName: string;
   personSurname: string;
   personDateOfBirth: string;
@@ -8,7 +9,8 @@ export class BookingInfoForRead{
   startDateOfRenting: string;
   endDateOfRenting: string;
   sum: string;
-  bookingStatus: string;
+  bookingStatusName: string;
+  bookingStatus: number;
   carId: string;
   carName: string;
   carImageName: string;

@@ -54,6 +54,8 @@ export class TokenInterceptor implements HttpInterceptor {
           this.isRefreshing = false;
           this.refreshTokenSubject.next(token.accessToken);
           console.log('switch map');
+          console.log(token);
+          console.log(request);
           return next.handle(this.addToken(request, token.accessToken));
         }),
         catchError(err => {

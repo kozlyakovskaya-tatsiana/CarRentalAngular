@@ -52,7 +52,7 @@ import { MapPointsComponent } from './modules/maps/map-points/map-points.compone
 import { BookingFlowComponent } from './modules/booking/booking-flow/booking-flow.component';
 import { LoginModalComponent } from './modules/Auth/login-modal/login-modal.component';
 import { LoginFormComponent } from './modules/Auth/login-form/login-form.component';
-import { BookingListComponent } from './modules/booking/booking-list/booking-list.component';
+import { BookingCardComponent } from './modules/booking/booking-card/booking-card.component';
 import { BookingManagementComponent } from './modules/booking/booking-management/booking-management.component';
 
 @NgModule({
@@ -100,7 +100,7 @@ import { BookingManagementComponent } from './modules/booking/booking-management
     BookingFlowComponent,
     LoginModalComponent,
     LoginFormComponent,
-    BookingListComponent,
+    BookingCardComponent,
     BookingManagementComponent
   ],
   imports: [

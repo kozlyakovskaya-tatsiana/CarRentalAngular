@@ -26,4 +26,15 @@ export class SwalService {
       confirmButtonText: 'Yes'
     });
   }
+
+  public showWarningMessage(text: string): Promise<any>{
+    return swal.fire({
+      text,
+      icon: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      cancelButtonText: 'No',
+      confirmButtonText: 'Yes'
+    });
+  }
 }
