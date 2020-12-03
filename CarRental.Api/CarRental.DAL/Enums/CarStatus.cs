@@ -1,6 +1,6 @@
 ﻿namespace CarRental.DAL.Enums
 {
-    public enum Status
+    public enum CarStatus
     {
         Free,
         BookingRequest,

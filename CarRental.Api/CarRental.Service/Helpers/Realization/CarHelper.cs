@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CarRental.DAL.Enums;
 
-namespace CarRental.Service.Helpers
+namespace CarRental.Service.Helpers.Realization
 {
     public class CarHelper : ICarHelper
     {
@@ -30,7 +30,7 @@ namespace CarRental.Service.Helpers
 
         public IEnumerable<string> GetStatusTypes()
         {
-            var statusTypes = Enum.GetValues(typeof(Status)).Cast<Status>().Select(status => status.ToString());
+            var statusTypes = Enum.GetValues(typeof(CarStatus)).Cast<CarStatus>().Select(status => status.ToString());
 
             return statusTypes;
         }

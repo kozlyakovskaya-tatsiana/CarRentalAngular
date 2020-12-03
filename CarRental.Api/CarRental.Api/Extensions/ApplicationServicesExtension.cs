@@ -2,6 +2,7 @@
 using CarRental.DAL.Repositories;
 using CarRental.DAL.Repositories.Realization;
 using CarRental.Service.Helpers;
+using CarRental.Service.Helpers.Realization;
 using CarRental.Service.Identity;
 using CarRental.Service.Identity.Services;
 using CarRental.Service.Services;
@@ -20,7 +21,7 @@ namespace CarRental.Api.Extensions
 
             services.AddScoped<ICarService, CarService>();
 
-            services.AddScoped(typeof(IRepository<>), typeof(EfGenericRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(RepositoryBase<>));
 
             services.AddScoped<IUserManagementService, UserManagementService>();
 
@@ -28,19 +29,25 @@ namespace CarRental.Api.Extensions
 
             services.AddScoped<IDocumentService, DocumentService>();
 
-            services.AddScoped<ITokenRepository, TokenRepository>();
+            services.AddScoped<ITokenRepository, TokenRepositoryBase>();
 
-            services.AddScoped<ICarRepository, CarRepository>();
+            services.AddScoped<ICarRepository, CarRepositoryBase>();
 
             services.AddScoped<IRentalPointService, RentalPointService>();
 
-            services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<ICountryRepository, CountryRepositoryBase>();
 
-            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<ICityRepository, CityRepositoryBase>();
 
-            services.AddScoped<ILocationRepository, LocationRepository>();
+            services.AddScoped<ILocationRepository, LocationRepositoryBase>();
 
-            services.AddScoped<IRentalPointRepository, RentalPointRepository>();
+            services.AddScoped<IRentalPointRepository, RentalPointRepositoryBase>();
+
+            services.AddScoped<IBookingService, BookingService>();
+
+            services.AddScoped<IBookingRepository, BookingRepository>();
+
+            services.AddScoped<IBookingHelper, BookingHelper>();
         }
     }
 }

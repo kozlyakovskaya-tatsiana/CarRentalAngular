@@ -4,24 +4,23 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CarRental.DAL.EFCore;
-using CarRental.DAL.Enums;
 using CarRental.DAL.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
 namespace CarRental.DAL
 {
-    public class EfGenericRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
+    public class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
-        private readonly ApplicationContext _context;
+        protected readonly ApplicationContext Context;
 
         protected readonly DbSet<TEntity> DbSet;
 
         protected Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> IncludesFunc;
 
-        public EfGenericRepository(ApplicationContext context)
+        public RepositoryBase(ApplicationContext context)
         {
-            _context = context;
+            Context = context;
 
             DbSet = context.Set<TEntity>();
         }
@@ -32,7 +31,7 @@ namespace CarRental.DAL
             {
                 await DbSet.AddAsync(entity);
 
-                await _context.SaveChangesAsync();
+                await Context.SaveChangesAsync();
             }
             else
                 throw new Exception("Object is null. It can not be created.");
@@ -61,7 +60,7 @@ namespace CarRental.DAL
             {
                 DbSet.Remove(entity);
 
-                await _context.SaveChangesAsync();
+                await Context.SaveChangesAsync();
             }
                
             else
@@ -76,7 +75,7 @@ namespace CarRental.DAL
             {
                 DbSet.Remove(entityToDelete);
 
-                await _context.SaveChangesAsync();
+                await Context.SaveChangesAsync();
             }
             else
                 throw new NotFoundException($"id: {id}");
@@ -89,7 +88,7 @@ namespace CarRental.DAL
 
             var valTask = new ValueTask<TEntity>(DbSet.Update(entity).Entity);
 
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
 
             return valTask.Result;
         }

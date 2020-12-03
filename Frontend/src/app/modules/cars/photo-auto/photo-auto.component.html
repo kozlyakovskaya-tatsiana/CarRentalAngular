@@ -1,7 +1,7 @@
 <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="5000">
   <div class="carousel-inner">
     <div class="carousel-item" [class.active]="i===0" *ngFor="let imgUrl of imageDataUrls; let i = index;">
-      <img [src]="imgUrl" class="d-block w-100" alt="Car's photo">
+      <img [src]="imgUrl" class="d-block w-100" alt="Car's photo" height="340px" width="500px">
     </div>
   </div>
   <ng-container *ngIf="imageDataUrls?.length>1">

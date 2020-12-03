@@ -9,9 +9,11 @@ import {HttpResponseService} from '../../../shared/services/http-response.servic
 import {UserInfoService} from '../../../shared/services/user-info.service';
 import {AuthorizeService} from '../../../shared/services/authorize.service';
 import {LoginRequest} from '../../../shared/utils/Authorize/LoginRequest';
-import {BookingFlowComponent} from '../booking-flow/booking-flow.component';
+import {BookingFlowComponent} from '../../booking/booking-flow/booking-flow.component';
 import {LoginModalComponent} from '../../Auth/login-modal/login-modal.component';
-import {BookingRequest} from '../../../shared/utils/Car/BookingRequest';
+import {BookingRequest} from '../../../shared/utils/booking/BookingRequest';
+import {BookingService} from '../../../shared/services/booking.service';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-autopark',
@@ -25,7 +27,8 @@ export class AutoparkComponent implements OnInit {
               private route: ActivatedRoute,
               private httpResponseService: HttpResponseService,
               private userInfoService: UserInfoService,
-              private authorizeService: AuthorizeService) {}
+              private authorizeService: AuthorizeService,
+              private bookingService: BookingService) {}
 
   @ViewChild(BookingFlowComponent, {static: false})
   private bookingFlowComponent: BookingFlowComponent;
@@ -50,17 +53,20 @@ export class AutoparkComponent implements OnInit {
   }
   showBookingFlow(index): void{
     this.bookingFlowComponent.showModal();
+    this.bookingFlowComponent.carCostPerDay = this.cars[index]?.costPerDay;
     this.bookingFlowComponent.imageSrc = this.cars[index]?.imageName;
     this.bookingFlowComponent.carName = this.cars[index]?.name;
     this.bookingFlowComponent.bookingRequest.carId = this.cars[index]?.id;
     this.userInfoService.getUser(this.authorizeService.userId).subscribe(
       user => {
-        for (const key in user){
-          if (key in this.bookingFlowComponent.bookingRequest){
-            this.bookingFlowComponent.bookingRequest[key] = user[key];
-          }
-          this.bookingFlowComponent.bookingRequest.userId = user.id;
-        }
+        this.bookingFlowComponent.bookingRequest.personName = user.name;
+        this.bookingFlowComponent.bookingRequest.personSurname = user.surname;
+        this.bookingFlowComponent.bookingRequest.personPassportId = user.passportId;
+        this.bookingFlowComponent.bookingRequest.personPassportSerialNumber = user.passportSerialNumber;
+        this.bookingFlowComponent.bookingRequest.personDateOfBirth = user.dateOfBirth;
+        this.bookingFlowComponent.bookingRequest.personPhoneNumber = user.phoneNumber;
+        this.bookingFlowComponent.bookingRequest.userId = user.id;
+        this.bookingFlowComponent.bookingRequest.carId = this.cars[index]?.id;
         console.log(this.bookingFlowComponent.bookingRequest);
       },
       err => {
@@ -82,7 +88,20 @@ export class AutoparkComponent implements OnInit {
   }
 
   bookCar(request: BookingRequest): void{
-    console.log(request);
+    this.bookingService.bookCar(this.bookingFlowComponent.bookingRequest).subscribe(
+      data => {
+        console.log(data);
+        swal.fire({
+          title: 'You request is accepted',
+          icon: 'success'
+        }).then(val => {
+          window.location.reload();
+        });
+      },
+      err => {
+        this.httpResponseService.showErrorMessage(err);
+      }
+    );
   }
 
   ngOnInit(): void {

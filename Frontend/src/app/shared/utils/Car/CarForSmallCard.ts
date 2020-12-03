@@ -1,8 +1,8 @@
 export class CarForSmallCard{
   id: string;
   name: string;
-  costPerDay: string;
-  releaseYear: string;
+  costPerDay: number;
+  releaseYear: number;
   transmission: string;
   status: string;
   passengersAmount: number;

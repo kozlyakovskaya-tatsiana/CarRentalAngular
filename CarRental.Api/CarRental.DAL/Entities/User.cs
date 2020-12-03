@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.DAL.Entities
@@ -14,5 +15,7 @@ namespace CarRental.DAL.Entities
         public string PassportSerialNumber { get; set; }
 
         public string PassportId { get; set; }
+
+        public List<BookingInfo> Bookings { get; set; }
     }
 }

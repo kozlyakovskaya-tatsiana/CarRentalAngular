@@ -25,7 +25,7 @@ namespace CarRental.Service.DTO.CarDtos
 
         public double TrunkVolume { get; set; }
 
-        public Status Status { get; set; }
+        public CarStatus Status { get; set; }
 
         public int PassengersAmount { get; set; }
 

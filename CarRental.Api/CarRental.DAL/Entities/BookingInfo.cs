@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using CarRental.DAL.Enums;
 
 namespace CarRental.DAL.Entities
 {
@@ -16,14 +15,22 @@ namespace CarRental.DAL.Entities
 
         public string PersonPassportId { get; set; }
 
-        public string PersonSerialNumber { get; set; }
+        public string PersonPassportSerialNumber { get; set; }
 
         public DateTime StartDateOfRenting { get; set; }
 
         public DateTime EndDateOfRenting { get; set; }
 
+        public decimal Sum { get; set; }
+
+        public BookingStatus BookingStatus { get; set; }
+
         public Guid? CarId { get; set; }
 
         public Car Car { get; set; }
+
+        public string UserId { get; set; }
+
+        public User User { get; set; }
     }
 }

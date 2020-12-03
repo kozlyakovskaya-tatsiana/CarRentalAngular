@@ -6,9 +6,9 @@ using CarRental.DAL.Entities;
 
 namespace CarRental.DAL.Repositories.Realization
 {
-    public class CityRepository : EfGenericRepository<City>, ICityRepository
+    public class CityRepositoryBase : RepositoryBase<City>, ICityRepository
     {
-        public CityRepository(ApplicationContext context) : base(context) {}
+        public CityRepositoryBase(ApplicationContext context) : base(context) {}
 
         public async Task<City> GetCityByNameAsync(string city)
         {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.DAL.Repositories.Realization
 {
-    public class TokenRepository : EfGenericRepository<RefreshToken>, ITokenRepository
+    public class TokenRepositoryBase : RepositoryBase<RefreshToken>, ITokenRepository
     {
         public async Task<RefreshToken> FindTokenAsync(string queryToken)
         {
@@ -14,6 +14,6 @@ namespace CarRental.DAL.Repositories.Realization
             return token;
         }
 
-        public TokenRepository(ApplicationContext context) : base(context) { }
+        public TokenRepositoryBase(ApplicationContext context) : base(context) { }
     }
 }

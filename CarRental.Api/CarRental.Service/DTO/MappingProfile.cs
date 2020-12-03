@@ -1,12 +1,16 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using AutoMapper;
 using CarRental.DAL.Entities;
+using CarRental.Service.DTO.BookingDtos;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.DocumentDtos;
 using CarRental.Service.DTO.RentalPointDtos;
 using CarRental.Service.DTO.UserDtos;
 using CarRental.Service.WebModels;
+using CarRental.Service.WebModels.Booking;
 using CarRental.Service.WebModels.Car;
 using CarRental.Service.WebModels.RentalPoint;
 using CarRental.Service.WebModels.User;
@@ -98,6 +102,20 @@ namespace CarRental.Service.DTO
                 .ForMember(dto => dto.City, opt => opt.MapFrom(p => p.Location.City.Name))
                 .ForMember(dto => dto.Country, opt => opt.MapFrom(p => p.Location.City.Country.Name))
                 .ForMember(dto => dto.CarsAmount, opt => opt.MapFrom(p => p.Cars.Count));
+
+            CreateMap<BookingRequest, BookingInfo>();
+
+            CreateMap<BookingInfo, BookingInfoForRead>()
+                .ForMember(read => read.CarImageName, opt => opt.MapFrom(b => b.Car.Documents[0].Name))
+                .ForMember(read => read.RentalPointName, opt => opt.MapFrom(b => b.Car.RentalPoint.Name))
+                .ForMember(read => read.RentalPointId, opt => opt.MapFrom(b => b.Car.RentalPoint.Id))
+                .ForMember(read => read.CarName, opt => opt.MapFrom(b => b.Car.Mark + b.Car.Model))
+                .ForMember(read => read.RentalPointAddress, opt =>
+                    opt.MapFrom(b => string.Join(",", b.Car.RentalPoint.Location.City.Country.Name,
+                        b.Car.RentalPoint.Location.City.Name, b.Car.RentalPoint.Location.Address)))
+                .ForMember(read => read.BookingStatusName, 
+                    opt => opt.MapFrom(b => b.BookingStatus.GetType().GetMember(b.BookingStatus.ToString()).First().GetCustomAttribute<DisplayAttribute>().Name))
+                .ForMember(read => read.BookingId, opt => opt.MapFrom(b => b.Id));
         }
     }
 }

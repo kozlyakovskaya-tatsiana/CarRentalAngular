@@ -4,6 +4,7 @@ using CarRental.DAL.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarRental.DAL.Migrations
 {
@@ -17,6 +18,57 @@ namespace CarRental.DAL.Migrations
                 .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CarRental.DAL.Entities.BookingInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("BookingStatus")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("CarId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("EndDateOfRenting")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("PersonDateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PersonName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonPassportId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonPassportSerialNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonSurname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDateOfRenting")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Sum")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bookings");
+                });
 
             modelBuilder.Entity("CarRental.DAL.Entities.Car", b =>
                 {
@@ -407,6 +459,19 @@ namespace CarRental.DAL.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CarRental.DAL.Entities.BookingInfo", b =>
+                {
+                    b.HasOne("CarRental.DAL.Entities.Car", "Car")
+                        .WithMany("Bookings")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("CarRental.DAL.Entities.User", "User")
+                        .WithMany("Bookings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("CarRental.DAL.Entities.Car", b =>

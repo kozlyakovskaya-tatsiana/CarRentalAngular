@@ -54,6 +54,8 @@ export class TokenInterceptor implements HttpInterceptor {
           this.isRefreshing = false;
           this.refreshTokenSubject.next(token.accessToken);
           console.log('switch map');
+          console.log(token);
+          console.log(request);
           return next.handle(this.addToken(request, token.accessToken));
         }),
         catchError(err => {
@@ -72,5 +74,6 @@ export class TokenInterceptor implements HttpInterceptor {
           return next.handle(this.addToken(request, jwt));
         }));
     }
+    console.log('finish');
   }
 }

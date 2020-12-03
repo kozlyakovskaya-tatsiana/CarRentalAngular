@@ -12,38 +12,38 @@
         <div class="text-center">
           <img *ngIf="imageSrc; else noimage" [src]="imageSrc" width="80%">
           <ng-template #noimage>
-            <img src="assets/no-image%20(1).png" width="80%">
+            <img src="../../../../assets/no-image%20(1).png" width="80%">
           </ng-template>
           <h5 class="mt-2 mb-2">{{carName}}</h5>
         </div>
         <form class="row" [formGroup]="bookingRequestForm" (ngSubmit)="submit(bookingRequest)">
           <div class="form-group col-lg-10 offset-lg-1">
             <label for="name">Name</label>
-            <input type="text" class="form-control text-center" id="name" formControlName="name"  [(ngModel)]="bookingRequest.name" >
+            <input type="text" class="form-control text-center" id="name" formControlName="name"  [(ngModel)]="bookingRequest.personName" >
             <div class="mt-2 error" *ngIf="bookingRequestForm.get('name').invalid && bookingRequestForm.get('name').touched">
               <div *ngIf="bookingRequestForm.get('name').errors.required">
                 It is a required field.
               </div>
               <div *ngIf="bookingRequestForm.get('name').errors.maxlength">
-                Maximum length of name equals 20 symbols. Now it is {{bookingRequest.name.length}}
+                Maximum length of name equals 20 symbols. Now it is {{bookingRequest.personName.length}}
               </div>
             </div>
           </div>
           <div class="form-group col-lg-10 offset-lg-1">
             <label for="name">Surname</label>
-            <input type="text" class="form-control text-center" id="surname" formControlName="surname"  [(ngModel)]="bookingRequest.surname" >
+            <input type="text" class="form-control text-center" id="surname" formControlName="surname"  [(ngModel)]="bookingRequest.personSurname" >
             <div class="mt-2 error" *ngIf="bookingRequestForm.get('surname').invalid && bookingRequestForm.get('surname').touched">
               <div *ngIf="bookingRequestForm.get('surname').errors.required">
                 It is a required field.
               </div>
               <div *ngIf="bookingRequestForm.get('surname').errors.maxlength">
-                Maximum length of name equals 20 symbols. Now it is {{bookingRequest.surname.length}}
+                Maximum length of name equals 20 symbols. Now it is {{bookingRequest.personSurname.length}}
               </div>
             </div>
           </div>
           <div class="form-group col-lg-10 offset-lg-1">
             <label for="dateOfBirth">Date of birth</label>
-            <input type="date" class="form-control text-center" id="dateOfBirth" formControlName="dateOfBirth"  [(ngModel)]="bookingRequest.dateOfBirth" >
+            <input type="date" class="form-control text-center" id="dateOfBirth" formControlName="dateOfBirth"  [(ngModel)]="bookingRequest.personDateOfBirth" >
             <div class="mt-2 error" *ngIf="bookingRequestForm.get('dateOfBirth').invalid && bookingRequestForm.get('dateOfBirth').touched">
               <div *ngIf="bookingRequestForm.get('dateOfBirth').errors.required">
                 It is a required field.
@@ -51,20 +51,8 @@
             </div>
           </div>
           <div class="form-group col-lg-10 offset-lg-1">
-            <label for="email">Email</label>
-            <input type="text" class="form-control text-center" id="email" formControlName="email"  [(ngModel)]="bookingRequest.email" >
-            <div class="mt-2 error" *ngIf="bookingRequestForm.get('email').invalid && bookingRequestForm.get('email').touched">
-              <div *ngIf="bookingRequestForm.get('email').errors.required">
-                It is a required field.
-              </div>
-              <div *ngIf="bookingRequestForm.get('email').errors.email">
-                Incorrect format of email.
-              </div>
-            </div>
-          </div>
-          <div class="form-group col-lg-10 offset-lg-1">
             <label for="phoneNumber">Telephone number</label>
-            <input type="text" class="form-control text-center" id="phoneNumber" formControlName="telephoneNumber"  [(ngModel)]="bookingRequest.phoneNumber" >
+            <input type="text" class="form-control text-center" id="phoneNumber" formControlName="telephoneNumber"  [(ngModel)]="bookingRequest.personPhoneNumber" >
             <div class="mt-2 error" *ngIf="bookingRequestForm.get('telephoneNumber').invalid && bookingRequestForm.get('telephoneNumber').touched">
               <div *ngIf="bookingRequestForm.get('telephoneNumber').errors.required">
                 It is a required field.
@@ -76,7 +64,7 @@
           </div>
           <div class="form-group col-lg-10 offset-lg-1">
             <label for="passportId">Passport id</label>
-            <input type="text" class="form-control text-center" id="passportId" formControlName="passportId"  [(ngModel)]="bookingRequest.passportId" >
+            <input type="text" class="form-control text-center" id="passportId" formControlName="passportId"  [(ngModel)]="bookingRequest.personPassportId" >
             <div class="mt-2 error" *ngIf="bookingRequestForm.get('passportId').invalid && bookingRequestForm.get('passportId').touched">
               <div *ngIf="bookingRequestForm.get('passportId').errors.required">
                 It is a required field.
@@ -85,7 +73,7 @@
           </div>
           <div class="form-group col-lg-10 offset-lg-1">
             <label for="passportNumber">Passport serial number</label>
-            <input type="text" class="form-control text-center" id="passportNumber" formControlName="passportSerialNumber"  [(ngModel)]="bookingRequest.passportSerialNumber" >
+            <input type="text" class="form-control text-center" id="passportNumber" formControlName="passportSerialNumber"  [(ngModel)]="bookingRequest.personPassportSerialNumber" >
             <div class="mt-2 error" *ngIf="bookingRequestForm.get('passportSerialNumber').invalid && bookingRequestForm.get('passportSerialNumber').touched">
               <div *ngIf="bookingRequestForm.get('passportSerialNumber').errors.required">
                 It is a required field.
@@ -114,6 +102,9 @@
             <div class="error" *ngIf="bookingRequestForm.hasError('incorrectDates') && bookingRequestForm.get('startDate').valid && bookingRequestForm.get('endDate').valid">
               Choose dates correctly.
             </div>
+          </div>
+          <div class="form-group col-lg-10 offset-lg-1" *ngIf="!bookingRequestForm.hasError('incorrectDates')">
+            <h5 class="text-center mb-1">{{totalSum | currency}}</h5>
           </div>
           <div class="col-lg-5 offset-lg-4">
             <button type="submit" class="btn btn-warning btn-sm" [disabled]="bookingRequestForm.invalid || bookingRequestForm.untouched">Do request!</button>

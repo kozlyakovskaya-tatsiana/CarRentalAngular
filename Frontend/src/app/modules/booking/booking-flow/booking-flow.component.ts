@@ -1,7 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BookingRequest} from '../../../shared/utils/Car/BookingRequest';
-import {UserReadInfo} from '../../../shared/utils/User/UserReadInfo';
+import {BookingRequest} from '../../../shared/utils/booking/BookingRequest';
 
 @Component({
   selector: 'app-booking-flow',
@@ -16,6 +15,8 @@ export class BookingFlowComponent implements OnInit{
 
   @Input() imageSrc: string;
   @Input() carName: string;
+  @Input() carCostPerDay: number;
+
   @Output() clickSubmit: EventEmitter<BookingRequest> = new EventEmitter<BookingRequest>();
 
   bookingRequest: BookingRequest;
@@ -33,6 +34,14 @@ export class BookingFlowComponent implements OnInit{
 
   showModal(): void{
     document.getElementById('bookingFlowBtn').click();
+  }
+
+  get totalSum(): number{
+    const start = new Date(this.bookingRequest.startDateOfRenting).getTime();
+    const end = new Date(this.bookingRequest.endDateOfRenting).getTime();
+    const oneDay = 24 * 60 * 60 * 1000;
+    const daysAmount =  Math.round(Math.abs((end - start) / oneDay)) + 1;
+    return daysAmount * this.carCostPerDay;
   }
 
   closeModal(): void{
@@ -57,10 +66,6 @@ export class BookingFlowComponent implements OnInit{
       telephoneNumber: new FormControl('', [
         Validators.required,
         Validators.pattern(/\(?\d{3}\)?-? *\d{3}-? *-?\d{4}/)
-      ]),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.email
       ]),
       passportId: new FormControl('', [
         Validators.required
