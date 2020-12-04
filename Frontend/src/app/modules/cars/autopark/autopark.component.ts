@@ -14,6 +14,10 @@ import {LoginModalComponent} from '../../Auth/login-modal/login-modal.component'
 import {BookingRequest} from '../../../shared/utils/booking/BookingRequest';
 import {BookingService} from '../../../shared/services/booking.service';
 import swal from 'sweetalert2';
+import {CountyInfo} from '../../../shared/utils/filters/CountyInfo';
+import {CityInfo} from '../../../shared/utils/filters/CityInfo';
+import {FilterBarComponent} from '../filter-bar/filter-bar.component';
+import {CarFilter} from '../../../shared/utils/filters/CarFilter';
 
 @Component({
   selector: 'app-autopark',
@@ -36,11 +40,19 @@ export class AutoparkComponent implements OnInit {
   @ViewChild(LoginModalComponent, {static: false})
   private loginModalComponent: LoginModalComponent;
 
+  @ViewChild(FilterBarComponent, {static: false})
+  private filterBarComponent: FilterBarComponent;
+
   chosenCarIndex: number;
   cars: CarForSmallCard[];
   cars$: Observable<Array<CarForSmallCard>>;
   private rentalPointId: string;
   rentalPointName$: Observable<string>;
+
+  countries: Array<CountyInfo>;
+  cities: Array<CityInfo>;
+  marks: Array<string>;
+  transmissions: Array<string>;
 
   showModalForBooking(index: number): void{
     this.chosenCarIndex = index;
@@ -104,6 +116,53 @@ export class AutoparkComponent implements OnInit {
     );
   }
 
+  getCountries(): void{
+    this.carService.getCarsCountries().subscribe(
+      data => {
+        this.countries = data;
+        console.log(this.countries);
+      },
+       err => {
+        this.httpResponseService.showErrorMessage(err);
+       }
+    );
+  }
+
+  getCities(countryId: string): void{
+    this.carService.getCarsCities(countryId).subscribe(
+      data => {
+        this.cities = data;
+      },
+      err => {
+        this.httpResponseService.showErrorMessage(err);
+      }
+    );
+  }
+
+  getMarks(): void{
+    this.carService.getCarsMarks().subscribe(
+      data => {
+        this.marks = data;
+      },
+      err => {
+        this.httpResponseService.showErrorMessage(err);
+      }
+    );
+  }
+
+  onCountryChanged(countryId: string): void{
+    if (this.filterBarComponent.countryChanged){
+      this.carService.getCarsCities(countryId).subscribe(
+        data => {
+          this.filterBarComponent.cities = data;
+        },
+        err => {
+          this.httpResponseService.showErrorMessage(err);
+        }
+      );
+    }
+  }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.rentalPointId = params.pointid ?? '';
@@ -135,5 +194,24 @@ export class AutoparkComponent implements OnInit {
         this.rentalPointName$ = null;
       }
     });
+    this.getCountries();
+    this.getMarks();
+    this.carService.getTransmissionsTypes().subscribe(
+      data => {
+        this.transmissions = data;
+        console.log(data);
+      },
+      err => {
+        this.httpResponseService.showErrorMessage(err);
+      }
+    );
+    this.carService.getCarcases().subscribe(
+      data => {
+        this.filterBarComponent.carcases = data;
+      },
+      err => {
+        this.httpResponseService.showErrorMessage(err);
+      }
+    );
   }
 }

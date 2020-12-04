@@ -24,7 +24,7 @@ export class TokenInterceptor implements HttpInterceptor {
     console.log('intercept1');
 
     return next.handle(request).pipe(catchError(error => {
-      if (error instanceof HttpErrorResponse && error.status === 401) {
+      if (error instanceof HttpErrorResponse && error.status === 401 && this.authService.isAuthorized) {
         return this.handle401Error(request, next);
       } else {
         console.log('non 401 error');
@@ -56,7 +56,11 @@ export class TokenInterceptor implements HttpInterceptor {
           console.log('switch map');
           console.log(token);
           console.log(request);
-          return next.handle(this.addToken(request, token.accessToken));
+          return next.handle(this.addToken(request, token.accessToken)).pipe(
+            catchError(err => {
+              return of(err);
+            })
+          );
         }),
         catchError(err => {
           console.log('catch err while refresh');

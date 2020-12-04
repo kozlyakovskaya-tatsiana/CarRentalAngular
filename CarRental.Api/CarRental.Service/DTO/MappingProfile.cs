@@ -9,6 +9,7 @@ using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.DocumentDtos;
 using CarRental.Service.DTO.RentalPointDtos;
 using CarRental.Service.DTO.UserDtos;
+using CarRental.Service.Filter;
 using CarRental.Service.WebModels;
 using CarRental.Service.WebModels.Booking;
 using CarRental.Service.WebModels.Car;
@@ -118,8 +119,12 @@ namespace CarRental.Service.DTO
                 .ForMember(read => read.BookingId, opt => opt.MapFrom(b => b.Id));
 
             CreateMap<Country, CountryBaseInfo>()
-                .ForMember(info => info.CountryId, opt => opt.MapFrom(c => c.Id))
-                .ForMember(info => info.CountryName, opt => opt.MapFrom(c => c.Name));
+                .ForMember(info => info.Id, opt => opt.MapFrom(c => c.Id))
+                .ForMember(info => info.Name, opt => opt.MapFrom(c => c.Name));
+
+            CreateMap<City, CityBaseInfo>()
+                .ForMember(info => info.Id, opt => opt.MapFrom(c => c.Id))
+                .ForMember(info => info.Name, opt => opt.MapFrom(c => c.Name));
         }
     }
 }

@@ -10,6 +10,7 @@ using CarRental.DAL.Exceptions;
 using CarRental.DAL.Repositories;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.RentalPointDtos;
+using CarRental.Service.Filter;
 using CarRental.Service.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -192,14 +193,25 @@ namespace CarRental.Service.Services.Realization
             return countriesInfo;
         }
 
-        public async Task<IEnumerable<string>> GetCarsCitiesAsync(Guid countryId)
+        public async Task<IEnumerable<CityBaseInfo>> GetCarsCitiesAsync(Guid countryId)
         {
-            var cities = (await _carRepository.GetAllAsync(includes: car => car
+            var cities = await (await _carRepository.GetAllAsync(includes: car => car
                     .Include(c => c.RentalPoint.Location.City.Country)))
                 .Where(c => c.RentalPoint.Location.City.CountryId == countryId)
-                .Select(c => c.RentalPoint.Location.City.Name);
+                .Select(c => c.RentalPoint.Location.City)
+                .Distinct()
+                .ToArrayAsync();
 
-            return await cities.ToArrayAsync();
+            var citiesInfo = _mapper.Map<IEnumerable<CityBaseInfo>>(cities);
+
+            return citiesInfo;
+        }
+
+        public async Task<IEnumerable<string>> GetCarsMarksAsync()
+        {
+            var marks = (await _carRepository.GetAllAsync()).Select(c => c.Mark).Distinct();
+
+            return marks;
         }
     }
 }

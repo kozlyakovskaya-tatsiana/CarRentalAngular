@@ -123,5 +123,21 @@ namespace CarRental.Api.Controllers
 
             return Ok(countries);
         }
+
+        [HttpGet("countries/{id}/cities")]
+        public async Task<IActionResult> GetCarsCities(Guid id)
+        {
+            var cities = await _carService.GetCarsCitiesAsync(id);
+
+            return Ok(cities);
+        }
+
+        [HttpGet("marks")]
+        public async Task<IActionResult> GetCarMarks()
+        {
+            var marks = await _carService.GetCarsMarksAsync();
+
+            return Ok(marks);
+        }
     }
 }

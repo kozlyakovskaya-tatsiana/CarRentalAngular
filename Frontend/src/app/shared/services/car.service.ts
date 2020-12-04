@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {CarInfo} from '../utils/Car/CarInfo';
+import {CountyInfo} from '../utils/filters/CountyInfo';
+import {CityInfo} from '../utils/filters/CityInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +46,18 @@ export class CarService {
 
   public getCarsForSmallCards(): Observable<any>{
     return this.http.get(this.url + 'carsforsmallcards');
+  }
+
+  public getCarsCountries(): Observable<Array<CountyInfo>>{
+    return this.http.get<Array<CountyInfo>>(this.url + 'countries');
+  }
+
+  public getCarsCities(countryId: string): Observable<Array<CityInfo>>{
+    return this.http.get<Array<CityInfo>>(this.url + 'countries/' + countryId + '/cities');
+  }
+
+  public getCarsMarks(): Observable<Array<string>>{
+    return this.http.get<Array<string>>(this.url + 'marks');
   }
 
   public createCar(formData: FormData): Observable<any>{
