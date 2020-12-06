@@ -163,6 +163,10 @@ export class AutoparkComponent implements OnInit {
     }
   }
 
+  filterCars(filter: CarFilter): void{
+    console.log(filter);
+  }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.rentalPointId = params.pointid ?? '';

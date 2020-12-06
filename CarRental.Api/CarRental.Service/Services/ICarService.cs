@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CarRental.DAL.Entities;
 using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.RentalPointDtos;
 using CarRental.Service.Filter;
+using CarRental.Service.WebModels.Car;
 
 namespace CarRental.Service.Services
 {
@@ -30,5 +32,7 @@ namespace CarRental.Service.Services
         Task<IEnumerable<CityBaseInfo>> GetCarsCitiesAsync(Guid countryId);
 
         Task<IEnumerable<string>> GetCarsMarksAsync();
+
+        Task<PagedCollection<CarForSmallCard>> FilterAndPaginateCars(CarFilterPagingRequest filterPagingRequest);
     }
 }

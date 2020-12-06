@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL;
@@ -12,6 +13,7 @@ using CarRental.Service.DTO.CarDtos;
 using CarRental.Service.DTO.RentalPointDtos;
 using CarRental.Service.Filter;
 using CarRental.Service.Options;
+using CarRental.Service.WebModels.Car;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -212,6 +214,31 @@ namespace CarRental.Service.Services.Realization
             var marks = (await _carRepository.GetAllAsync()).Select(c => c.Mark).Distinct();
 
             return marks;
+        }
+
+        public async Task<PagedCollection<CarForSmallCard>> FilterAndPaginateCars(CarFilterPagingRequest filterPagingRequest)
+        {
+            Expression<Func<Car, bool>> carFiltering = car =>
+                (filterPagingRequest.CountryId == null ? true : car.RentalPoint.Location.City.CountryId == filterPagingRequest.CountryId) &&
+                (filterPagingRequest.CityId == null ? true : car.RentalPoint.Location.CityId == filterPagingRequest.CityId) &&
+                (filterPagingRequest.Marks == null ? true : filterPagingRequest.Marks.Contains(car.Mark)) &&
+                (filterPagingRequest.Transmissions == null ? true : filterPagingRequest.Transmissions.Contains(car.Transmission)) &&
+                (filterPagingRequest.Carcases == null ? true : filterPagingRequest.Carcases.Contains(car.Carcase));
+
+            var cars = await _carRepository.GetAllAsync(carFiltering);
+
+            var totalCars = await cars.CountAsync();
+            var totalpages = (int)Math.Ceiling(totalCars / (double)filterPagingRequest.PageSize);
+
+            var carsPerPage = await cars.Skip((filterPagingRequest.PageNumber - 1) * filterPagingRequest.PageSize)
+                .Take(filterPagingRequest.PageSize)
+                .ToArrayAsync();
+
+            var carsToShow = _mapper.Map<IEnumerable<CarForSmallCard>>(carsPerPage);
+
+            var result = new PagedCollection<CarForSmallCard>(carsToShow, filterPagingRequest.PageNumber, totalpages);
+
+            return result;
         }
     }
 }

@@ -18,6 +18,7 @@ export class FilterBarComponent{
 
   @Output() countryChanged: EventEmitter<string> = new EventEmitter<string>();
   @Output() cityChanged: EventEmitter<string> = new EventEmitter<string>();
+  @Output() filter: EventEmitter<CarFilter> = new EventEmitter<CarFilter>();
 
   cities: Array<CityInfo>;
 
@@ -63,5 +64,9 @@ export class FilterBarComponent{
         this.carFilter.transmissions.splice(index, 1);
       }
     }
+  }
+
+  onFilter(): void{
+    this.filter.emit(this.carFilter);
   }
 }

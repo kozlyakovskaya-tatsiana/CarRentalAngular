@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.Helpers;
 using CarRental.Service.Services;
+using CarRental.Service.WebModels.Car;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -138,6 +139,14 @@ namespace CarRental.Api.Controllers
             var marks = await _carService.GetCarsMarksAsync();
 
             return Ok(marks);
+        }
+
+        [HttpPost("filter")]
+        public async Task<IActionResult> FilterCars(CarFilterPagingRequest filterPagingRequest)
+        {
+            var response = await _carService.FilterAndPaginateCars(filterPagingRequest);
+
+            return Ok(response);
         }
     }
 }
