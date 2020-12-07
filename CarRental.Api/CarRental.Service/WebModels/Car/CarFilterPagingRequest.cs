@@ -11,6 +11,8 @@ namespace CarRental.Service.WebModels.Car
 
         public Guid? CityId { get; set; }
 
+        public Guid? RentalPointId { get; set; }
+
         public IEnumerable<string> Marks { get; set; }
 
         public IEnumerable<TransmissionType> Transmissions { get; set; }

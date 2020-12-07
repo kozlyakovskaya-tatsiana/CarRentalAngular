@@ -7,13 +7,29 @@
                           [marks]="marks"
                           [transmissions]="transmissions"
                           (countryChanged)="onCountryChanged($event)"
+                          (cityChanged)="onCityChanged($event)"
                           (filter)="filterCars($event)"></app-filter-bar>
       </div>
     <div class="col-md-8 col-lg-8">
       <div class="container">
         <div class="row">
-          <div class="col-md-3 col-lg-4" *ngFor="let car of cars$ | async; let i = index;">
+          <div class="col-lg-12 d-flex justify-content-end">
+            Cars on the page
+            <a class="cars-per-page ml-1 mr-1 underline" href="#" (click)="setPageNumber($event, 2)">2</a>
+            <a class="cars-per-page ml-1 mr-1" href="#" (click)="setPageNumber($event, 4)">4</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-lg-4" *ngFor="let car of pagedResponse.itemsPerPage; let i = index;">
             <app-car-card-small [car]="car" btnInfoName="More info" [btnInfoLink]="['', 'carinfo', car?.id]" btnSimpleName="Book it!" (onClickedSimpleBtn)="showModalForBooking(i)" class="m-2"></app-car-card-small>
+          </div>
+          <div class="text-center" *ngIf="(cars$ | async)">
+            No results.
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+              <button class="btn btn-info" *ngIf="pagedResponse?.hasNextPage" (click)="loadMoreCars()">More cars</button>
           </div>
         </div>
       </div>

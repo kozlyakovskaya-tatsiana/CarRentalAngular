@@ -21,6 +21,18 @@
         <option *ngFor="let city of cities" [value]="city?.id">{{city?.name}}</option>
       </select>
     </div>
+  <div class="form-group m-2">
+    <label for="points">Rental points</label>
+    <select name="" id="points" class="form-control"
+            [disabled]="!carFilter?.cityId"
+            (focus)= "pointSelect.size = 3" (blur)="pointSelect.size = 1"
+            (change)="pointSelect.size = 1;pointSelect.blur();"
+            (change)="onPointChange(pointSelect.value)"
+            #pointSelect>
+      <option value="" selected [disabled]="carFilter?.rentalPointId">Choose</option>
+      <option *ngFor="let point of rentalPoints" [value]="point?.id">{{point?.name}}</option>
+    </select>
+  </div>
     <div class="form-group m-2">
     <label for="marks">Mark</label>
     <div class="content-list">
@@ -53,7 +65,7 @@
         <div class="content-item">
           <div id="carcases" class="row w-100">
             <div *ngFor="let carcase of carcases" class="col-lg-6">
-              <input type="checkbox" [value]="carcase">
+              <input type="checkbox" [value]="carcase" (change)="onCarcasesChange($event, carcase)">
               <label  class="ml-2">{{carcase}}</label>
             </div>
           </div>

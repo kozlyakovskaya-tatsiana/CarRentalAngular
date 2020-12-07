@@ -125,6 +125,10 @@ namespace CarRental.Service.DTO
             CreateMap<City, CityBaseInfo>()
                 .ForMember(info => info.Id, opt => opt.MapFrom(c => c.Id))
                 .ForMember(info => info.Name, opt => opt.MapFrom(c => c.Name));
+
+            CreateMap<RentalPoint, RentalPointBaseInfo>()
+                .ForMember(info => info.Id, opt => opt.MapFrom(p => p.Id))
+                .ForMember(info => info.Name, opt => opt.MapFrom(p => p.Name));
         }
     }
 }

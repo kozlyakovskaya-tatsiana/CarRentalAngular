@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {CarForSmallCard} from '../../../shared/utils/Car/CarForSmallCard';
 import {CarService} from '../../../shared/services/car.service';
 import {catchError, first, map, tap} from 'rxjs/operators';
@@ -18,13 +18,14 @@ import {CountyInfo} from '../../../shared/utils/filters/CountyInfo';
 import {CityInfo} from '../../../shared/utils/filters/CityInfo';
 import {FilterBarComponent} from '../filter-bar/filter-bar.component';
 import {CarFilter} from '../../../shared/utils/filters/CarFilter';
+import {PagedResponse} from '../../../shared/utils/filters/PagedResponse';
 
 @Component({
   selector: 'app-autopark',
   templateUrl: './autopark.component.html',
   styleUrls: ['./autopark.component.css']
 })
-export class AutoparkComponent implements OnInit {
+export class AutoparkComponent implements OnInit, AfterViewInit {
 
   constructor(private carService: CarService,
               private rentalPointService: RentalPointService,
@@ -32,7 +33,13 @@ export class AutoparkComponent implements OnInit {
               private httpResponseService: HttpResponseService,
               private userInfoService: UserInfoService,
               private authorizeService: AuthorizeService,
-              private bookingService: BookingService) {}
+              private bookingService: BookingService) {
+    this.pagedResponse = new PagedResponse<CarForSmallCard>();
+    this.pagedResponse.pageNumber = 1;
+    this.pageSize = 2;
+  }
+
+  public pageSize: number;
 
   @ViewChild(BookingFlowComponent, {static: false})
   private bookingFlowComponent: BookingFlowComponent;
@@ -42,6 +49,8 @@ export class AutoparkComponent implements OnInit {
 
   @ViewChild(FilterBarComponent, {static: false})
   private filterBarComponent: FilterBarComponent;
+
+  public pagedResponse: PagedResponse<CarForSmallCard>;
 
   chosenCarIndex: number;
   cars: CarForSmallCard[];
@@ -151,7 +160,6 @@ export class AutoparkComponent implements OnInit {
   }
 
   onCountryChanged(countryId: string): void{
-    if (this.filterBarComponent.countryChanged){
       this.carService.getCarsCities(countryId).subscribe(
         data => {
           this.filterBarComponent.cities = data;
@@ -160,43 +168,87 @@ export class AutoparkComponent implements OnInit {
           this.httpResponseService.showErrorMessage(err);
         }
       );
-    }
+  }
+
+  onCityChanged(cityId: string): void{
+    this.carService.getCarsPoints(cityId).subscribe(
+      data => {
+        console.log(data);
+        this.filterBarComponent.rentalPoints = data;
+      },
+      err => {
+        this.httpResponseService.showErrorMessage(err);
+      }
+    );
   }
 
   filterCars(filter: CarFilter): void{
+    filter.pageSize = this.pageSize;
+    filter.pageNumber = 1;
     console.log(filter);
-  }
-
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.rentalPointId = params.pointid ?? '';
-      this.cars$ = this.rentalPointService.getRentalPointCars(this.rentalPointId).pipe(
-      map(cars => {
-        cars?.forEach(car => {
+    this.carService.filterAndPaginateCars(filter).pipe(
+      tap(data => {
+        console.log(data);
+      }),
+      map(data => {
+         data.itemsPerPage.forEach(car => {
           if (car.imageName) {
             car.imageName = this.carService.backendUrlForImages + car.imageName;
           }
         });
-        return cars;
-      }),
-      tap(data => this.cars = data),
-      catchError(err  => {
-        this.httpResponseService.showErrorMessage(err);
-        return of(err);
+         return data;
       })
-    );
-      if (this.rentalPointId){
-        this.rentalPointName$ = this.rentalPointService.getRentalPointsNames(this.rentalPointId).pipe(
-          first(),
-          catchError(err  => {
-            this.httpResponseService.showErrorMessage(err);
-            return of(err);
-          })
-        );
-      }
-      else {
-        this.rentalPointName$ = null;
-      }
+    ).subscribe(data => {
+      this.pagedResponse = data;
+    },
+      err => {
+      this.httpResponseService.showErrorMessage(err);
+    });
+  }
+
+  loadMoreCars(): void{
+    this.filterBarComponent.carFilter.pageNumber += 1;
+    console.log(this.filterBarComponent.carFilter.pageNumber);
+    this.carService.filterAndPaginateCars(this.filterBarComponent.carFilter).pipe(
+      tap(data => {
+        console.log(data);
+      }),
+      map(data => {
+        data.itemsPerPage.forEach(car => {
+          if (car.imageName) {
+            car.imageName = this.carService.backendUrlForImages + car.imageName;
+          }
+        });
+        return data;
+      })
+    ).subscribe(data => {
+        this.pagedResponse.itemsPerPage.push(...data.itemsPerPage);
+        const cars = this.pagedResponse.itemsPerPage;
+        this.pagedResponse = data;
+        this.pagedResponse.itemsPerPage = cars;
+      },
+      err => {
+        this.httpResponseService.showErrorMessage(err);
+      });
+  }
+
+  setPageNumber(event, pageSize: number): void{
+    event.preventDefault();
+    Array.from(document.getElementsByClassName('cars-per-page')).forEach(el => {
+        el.className = el.className.replace('underline', '');
+    });
+    event.target.className += ' underline ';
+
+    this.pageSize = pageSize;
+
+    this.filterCars(this.filterBarComponent.carFilter);
+  }
+
+  ngAfterViewInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.filterBarComponent.carFilter.rentalPointId = params.pointid ?? '';
+      console.log(params.pointid);
+      this.filterCars(this.filterBarComponent.carFilter);
     });
     this.getCountries();
     this.getMarks();
@@ -217,5 +269,9 @@ export class AutoparkComponent implements OnInit {
         this.httpResponseService.showErrorMessage(err);
       }
     );
+  }
+
+  ngOnInit(): void {
+
   }
 }

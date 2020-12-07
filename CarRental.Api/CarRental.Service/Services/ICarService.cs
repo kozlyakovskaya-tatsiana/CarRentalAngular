@@ -31,6 +31,8 @@ namespace CarRental.Service.Services
 
         Task<IEnumerable<CityBaseInfo>> GetCarsCitiesAsync(Guid countryId);
 
+        Task<IEnumerable<RentalPointBaseInfo>> GetCarsRentalPointsAsync(Guid cityId);
+
         Task<IEnumerable<string>> GetCarsMarksAsync();
 
         Task<PagedCollection<CarForSmallCard>> FilterAndPaginateCars(CarFilterPagingRequest filterPagingRequest);

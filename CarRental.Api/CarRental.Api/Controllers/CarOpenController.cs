@@ -133,6 +133,14 @@ namespace CarRental.Api.Controllers
             return Ok(cities);
         }
 
+        [HttpGet("cities/{id}/points")]
+        public async Task<IActionResult> GetCarsPoints(Guid id)
+        {
+            var points = await _carService.GetCarsRentalPointsAsync(id);
+
+            return Ok(points);
+        }
+
         [HttpGet("marks")]
         public async Task<IActionResult> GetCarMarks()
         {
@@ -141,8 +149,8 @@ namespace CarRental.Api.Controllers
             return Ok(marks);
         }
 
-        [HttpPost("filter")]
-        public async Task<IActionResult> FilterCars(CarFilterPagingRequest filterPagingRequest)
+        [HttpGet("filter")]
+        public async Task<IActionResult> FilterCars([FromQuery]CarFilterPagingRequest filterPagingRequest)
         {
             var response = await _carService.FilterAndPaginateCars(filterPagingRequest);
 

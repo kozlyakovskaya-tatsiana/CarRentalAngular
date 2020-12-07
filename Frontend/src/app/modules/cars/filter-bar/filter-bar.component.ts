@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CountyInfo} from '../../../shared/utils/filters/CountyInfo';
 import {CityInfo} from '../../../shared/utils/filters/CityInfo';
 import {CarFilter} from '../../../shared/utils/filters/CarFilter';
+import {RentalPointInfo} from '../../../shared/utils/filters/RentalPointInfo';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class FilterBarComponent{
   @Output() filter: EventEmitter<CarFilter> = new EventEmitter<CarFilter>();
 
   cities: Array<CityInfo>;
+  rentalPoints: Array<RentalPointInfo>;
 
   carFilter: CarFilter;
 
@@ -28,6 +30,7 @@ export class FilterBarComponent{
     this.carFilter = new CarFilter();
     this.carFilter.marks = new Array<string>();
     this.carFilter.transmissions = new Array<string>();
+    this.carFilter.carcases = new Array<string>();
   }
 
   onCountryChange(countryId: string): void{
@@ -38,6 +41,11 @@ export class FilterBarComponent{
   onCityChange(cityId: string): void{
     this.carFilter.cityId = cityId;
     this.cityChanged.emit(cityId);
+  }
+
+  onPointChange(pointId: string): void{
+    this.carFilter.rentalPointId = pointId;
+    console.log(pointId);
   }
 
   onMarkChange(event: any, mark: string): void{
@@ -62,6 +70,18 @@ export class FilterBarComponent{
       const index = this.carFilter.transmissions.indexOf(transmission);
       if (index !== -1){
         this.carFilter.transmissions.splice(index, 1);
+      }
+    }
+  }
+
+  onCarcasesChange(event: any, carcase: string): void{
+    if (event.target.checked){
+      this.carFilter.carcases.push(carcase);
+    }
+    else{
+      const index = this.carFilter.carcases.indexOf(carcase);
+      if (index !== -1){
+        this.carFilter.carcases.splice(index, 1);
       }
     }
   }

@@ -209,6 +209,20 @@ namespace CarRental.Service.Services.Realization
             return citiesInfo;
         }
 
+        public async Task<IEnumerable<RentalPointBaseInfo>> GetCarsRentalPointsAsync(Guid cityId)
+        {
+            var points = await (await _carRepository.GetAllAsync(includes: car => car
+                    .Include(c => c.RentalPoint.Location.City)))
+                .Where(c => c.RentalPoint.Location.City.Id == cityId)
+                .Select(c => c.RentalPoint)
+                .Distinct()
+                .ToArrayAsync();
+
+            var pointsInfo = _mapper.Map<IEnumerable<RentalPointBaseInfo>>(points);
+
+            return pointsInfo;
+        }
+
         public async Task<IEnumerable<string>> GetCarsMarksAsync()
         {
             var marks = (await _carRepository.GetAllAsync()).Select(c => c.Mark).Distinct();
@@ -219,16 +233,17 @@ namespace CarRental.Service.Services.Realization
         public async Task<PagedCollection<CarForSmallCard>> FilterAndPaginateCars(CarFilterPagingRequest filterPagingRequest)
         {
             Expression<Func<Car, bool>> carFiltering = car =>
-                (filterPagingRequest.CountryId == null ? true : car.RentalPoint.Location.City.CountryId == filterPagingRequest.CountryId) &&
-                (filterPagingRequest.CityId == null ? true : car.RentalPoint.Location.CityId == filterPagingRequest.CityId) &&
-                (filterPagingRequest.Marks == null ? true : filterPagingRequest.Marks.Contains(car.Mark)) &&
-                (filterPagingRequest.Transmissions == null ? true : filterPagingRequest.Transmissions.Contains(car.Transmission)) &&
-                (filterPagingRequest.Carcases == null ? true : filterPagingRequest.Carcases.Contains(car.Carcase));
+                (filterPagingRequest.CountryId == null || car.RentalPoint.Location.City.CountryId == filterPagingRequest.CountryId) &&
+                (filterPagingRequest.CityId == null || car.RentalPoint.Location.CityId == filterPagingRequest.CityId) &&
+                (filterPagingRequest.RentalPointId == null || car.RentalPoint.Id == filterPagingRequest.RentalPointId) &&
+                (filterPagingRequest.Marks == null || !filterPagingRequest.Marks.Any() || filterPagingRequest.Marks.Contains(car.Mark)) &&
+                (filterPagingRequest.Transmissions == null || !filterPagingRequest.Transmissions.Any() ||  filterPagingRequest.Transmissions.Contains(car.Transmission)) &&
+                (filterPagingRequest.Carcases == null || !filterPagingRequest.Carcases.Any() ||filterPagingRequest.Carcases.Contains(car.Carcase));
 
-            var cars = await _carRepository.GetAllAsync(carFiltering);
+            var cars = await _carRepository.GetAllAsync(carFiltering, car => car.Include(c => c.Documents));
 
             var totalCars = await cars.CountAsync();
-            var totalpages = (int)Math.Ceiling(totalCars / (double)filterPagingRequest.PageSize);
+            var totalPages = (int)Math.Ceiling(totalCars / (double)filterPagingRequest.PageSize);
 
             var carsPerPage = await cars.Skip((filterPagingRequest.PageNumber - 1) * filterPagingRequest.PageSize)
                 .Take(filterPagingRequest.PageSize)
@@ -236,7 +251,7 @@ namespace CarRental.Service.Services.Realization
 
             var carsToShow = _mapper.Map<IEnumerable<CarForSmallCard>>(carsPerPage);
 
-            var result = new PagedCollection<CarForSmallCard>(carsToShow, filterPagingRequest.PageNumber, totalpages);
+            var result = new PagedCollection<CarForSmallCard>(carsToShow, filterPagingRequest.PageNumber, totalPages);
 
             return result;
         }
