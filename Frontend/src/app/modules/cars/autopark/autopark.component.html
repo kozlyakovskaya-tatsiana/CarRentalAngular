@@ -23,8 +23,10 @@
           <div class="col-md-3 col-lg-4" *ngFor="let car of pagedResponse.itemsPerPage; let i = index;">
             <app-car-card-small [car]="car" btnInfoName="More info" [btnInfoLink]="['', 'carinfo', car?.id]" btnSimpleName="Book it!" (onClickedSimpleBtn)="showModalForBooking(i)" class="m-2"></app-car-card-small>
           </div>
-          <div class="text-center" *ngIf="(cars$ | async)">
-            No results.
+        </div>
+        <div class="row">
+          <div class="col-lg-12 text-center" *ngIf="!pagedResponse?.itemsPerPage?.length">
+            <h5>No results.</h5>
           </div>
         </div>
         <div class="row">

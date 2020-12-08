@@ -55,6 +55,8 @@ import { LoginFormComponent } from './modules/Auth/login-form/login-form.compone
 import { BookingCardComponent } from './modules/booking/booking-card/booking-card.component';
 import { BookingManagementComponent } from './modules/booking/booking-management/booking-management.component';
 import { FilterBarComponent } from './modules/cars/filter-bar/filter-bar.component';
+import { UserInfoModalComponent } from './modules/admin/components/user-info-modal/user-info-modal.component';
+import { EditUserModalComponent } from './modules/admin/components/edit-user-modal/edit-user-modal.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +105,9 @@ import { FilterBarComponent } from './modules/cars/filter-bar/filter-bar.compone
     LoginFormComponent,
     BookingCardComponent,
     BookingManagementComponent,
-    FilterBarComponent
+    FilterBarComponent,
+    UserInfoModalComponent,
+    EditUserModalComponent
   ],
   imports: [
     BrowserModule,

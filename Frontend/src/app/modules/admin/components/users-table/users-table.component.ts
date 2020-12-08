@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UserReadInfo} from '../../../../shared/utils/User/UserReadInfo';
 import {AdminService} from '../../services/admin.service';
 import swal from 'sweetalert2';
@@ -14,46 +14,19 @@ export class UsersTableComponent{
 
   @Input() users: UserReadInfo[];
 
-  onDelete(id: string): void{
-    swal.fire({
-      text: 'Do you really want to delete this user?',
-      icon: 'info',
-      cancelButtonText: 'No',
-      confirmButtonText: 'Yes',
-      showCancelButton: true
-    }).then(res => {
-      if (res.isConfirmed) {
-        this.adminService.deleteUser(id).subscribe(
-          data => {
-            console.log(data);
-            swal.fire({
-              text: 'Deleting is successful',
-              icon: 'success'
-            }).then(result => {
-              window.location.reload();
-            });
-          },
-          err => {
-            console.log(err);
-            let errorMessage: string;
-            if (err.error instanceof ProgressEvent){
-              errorMessage = 'HTTP Failure to get resource';
-            }
-            else if (err.error?.title){
-              errorMessage = err.error.title;
-            }
-            else {
-              errorMessage = err.message;
-            }
-            swal.fire(
-              {
-                title: 'Error',
-                icon: 'error',
-                text: errorMessage
-              });
-          });
-      }
-    });
+  @Output() deleteUser: EventEmitter<string> = new EventEmitter<string>();
+  @Output() getInfo: EventEmitter<string> = new EventEmitter<string>();
+  @Output() updateUser: EventEmitter<string> = new EventEmitter<string>();
+
+  onDeleteUser(id: string): void{
+    this.deleteUser.emit(id);
   }
 
+  onGetInfo(id: string): void{
+    this.getInfo.emit(id);
+  }
+
+  onUpdateUser(id: string): void{
+    this.updateUser.emit(id);
+  }
 }
