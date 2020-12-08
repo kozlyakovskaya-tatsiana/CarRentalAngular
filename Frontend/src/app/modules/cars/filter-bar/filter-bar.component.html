@@ -38,7 +38,7 @@
     <div class="content-list">
       <div class="content-item">
         <div id="marks" class="row w-100">
-            <div *ngFor="let mark of marks" class="col-lg-6">
+            <div *ngFor="let mark of marks" class="col-lg-12">
               <input type="checkbox" [value]="mark" (change)="onMarkChange($event, mark)">
               <label class="ml-2">{{mark}}</label>
             </div>
@@ -51,7 +51,7 @@
       <div class="content-list">
         <div class="content-item">
           <div id="transmissions" class="row w-100">
-            <div *ngFor="let transmission of transmissions" class="col-lg-6">
+            <div *ngFor="let transmission of transmissions" class="col-lg-12">
               <input type="checkbox" [value]="transmission" (change)="onTransmissionChange($event, transmission)">
               <label  class="ml-2">{{transmission}}</label>
             </div>
@@ -64,7 +64,7 @@
       <div class="content-list">
         <div class="content-item">
           <div id="carcases" class="row w-100">
-            <div *ngFor="let carcase of carcases" class="col-lg-6">
+            <div *ngFor="let carcase of carcases" class="col-lg-12">
               <input type="checkbox" [value]="carcase" (change)="onCarcasesChange($event, carcase)">
               <label  class="ml-2">{{carcase}}</label>
             </div>
