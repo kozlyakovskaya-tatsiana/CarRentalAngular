@@ -1,10 +1,41 @@
 <app-head-image mainTitle="Our cars" additionalTitle="Autopark"></app-head-image>
 <div class="products mt-4 mb-3">
-  <div class="container">
-    <h4 class="text-center mt-3 mb-3">{{rentalPointName$ | async}}</h4>
-    <div class="row">
-      <div class="col-lg-4" *ngFor="let car of cars$ | async; let i = index;">
-        <app-car-card-small [car]="car" btnInfoName="More info" [btnInfoLink]="['', 'carinfo', car?.id]" btnSimpleName="Book it!" (onClickedSimpleBtn)="showModalForBooking(i)"></app-car-card-small>
+  <h4 class="text-center mt-3 mb-3">{{rentalPointName$ | async}}</h4>
+  <div class="row" style="width: 100%">
+    <div class="col-md-3 col-lg-2 offset-lg-1">
+          <app-filter-bar [countries]="countries"
+                          [marks]="marks"
+                          [transmissions]="transmissions"
+                          (countryChanged)="onCountryChanged($event)"
+                          (cityChanged)="onCityChanged($event)"
+                          (filter)="filterCars($event)"></app-filter-bar>
+      </div>
+    <div class="col-md-8 col-lg-9">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 d-flex justify-content-end">
+            Cars on the page
+            <a class="cars-per-page ml-1 mr-1 underline" href="#" (click)="setPageNumber($event, 2)">2</a>
+            <a class="cars-per-page ml-1 mr-1" href="#" (click)="setPageNumber($event, 3)">3</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-lg-4" *ngFor="let car of pagedResponse.itemsPerPage; let i = index;">
+            <app-car-card-small [car]="car" btnInfoName="More info" [btnInfoLink]="['', 'carinfo', car?.id]" btnSimpleName="Book it!"
+                                (ClickSimpleBtn)="showModalForBooking(i)" class="m-2"
+                                #cards></app-car-card-small>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 text-center" *ngIf="!pagedResponse?.itemsPerPage?.length">
+            <h5>No results.</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+              <button class="btn btn-info" *ngIf="pagedResponse?.hasNextPage" (click)="loadMoreCars()">More cars</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

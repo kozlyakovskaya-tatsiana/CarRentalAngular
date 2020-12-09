@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.Service.Helpers;
 using CarRental.Service.Services;
+using CarRental.Service.WebModels.Car;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -114,6 +115,46 @@ namespace CarRental.Api.Controllers
             var cars = await _carService.GetCarsForSmallCardsAsync();
 
             return Ok(cars);
+        }
+
+        [HttpGet("countries")]
+        public async Task<IActionResult> GetCarsCountries()
+        {
+            var countries = await _carService.GetCarsCountriesAsync();
+
+            return Ok(countries);
+        }
+
+        [HttpGet("countries/{id}/cities")]
+        public async Task<IActionResult> GetCarsCities(Guid id)
+        {
+            var cities = await _carService.GetCarsCitiesAsync(id);
+
+            return Ok(cities);
+        }
+
+        [HttpGet("cities/{id}/points")]
+        public async Task<IActionResult> GetCarsPoints(Guid id)
+        {
+            var points = await _carService.GetCarsRentalPointsAsync(id);
+
+            return Ok(points);
+        }
+
+        [HttpGet("marks")]
+        public async Task<IActionResult> GetCarMarks()
+        {
+            var marks = await _carService.GetCarsMarksAsync();
+
+            return Ok(marks);
+        }
+
+        [HttpGet("filter")]
+        public async Task<IActionResult> FilterCars([FromQuery]CarFilterPagingRequest filterPagingRequest)
+        {
+            var response = await _carService.FilterAndPaginateCars(filterPagingRequest);
+
+            return Ok(response);
         }
     }
 }

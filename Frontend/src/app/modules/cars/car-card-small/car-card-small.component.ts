@@ -10,15 +10,19 @@ export class CarCardSmallComponent {
 
   constructor() { }
 
-  @Input() car: CarForSmallCard;
+  @Input() car: CarForSmallCard = undefined;
   @Input() btnInfoName: string;
   @Input() btnInfoLink: string;
   @Input() btnSimpleName: string;
 
-  @Output() onClickedSimpleBtn: EventEmitter<void> = new EventEmitter<void>();
+  get isHidden(): boolean{
+    return this.car?.status !== 'Free';
+  }
+
+  @Output() ClickSimpleBtn: EventEmitter<void> = new EventEmitter<void>();
 
   clickSimpleBtn(): void{
-    this.onClickedSimpleBtn.emit();
+    this.ClickSimpleBtn.emit();
   }
 
 }

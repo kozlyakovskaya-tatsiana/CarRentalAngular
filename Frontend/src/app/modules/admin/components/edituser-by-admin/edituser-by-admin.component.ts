@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UserInfoService} from '../../../../shared/services/user-info.service';
-import {UserService} from '../../../../shared/services/user.service';
 import {ActivatedRoute} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import swal from 'sweetalert2';
@@ -21,51 +20,17 @@ export class EdituserByAdminComponent implements OnInit {
               private roleService: RoleService,
               private activateRoute: ActivatedRoute,
               private location: Location) {
-    this.editUser = new EditUser();
-    this.userEditId = activateRoute.snapshot.params.id;
   }
-  editUser: EditUser;
+  @Input() editUser: EditUser = new EditUser();
   editForm: FormGroup;
   isLoading: boolean;
-  userEditId: string;
+
   roles: string[];
 
-  onSubmit(): void{
-    console.log(this.editUser);
-    this.isLoading = true;
-    this.adminService.updateUser(this.editUser).subscribe(
-      data => {
-        console.log(data);
-        swal.fire({
-          title: 'Updating is successful.',
-          icon: 'success'
-        });
-      },
-      err => {
-        let errorMessage: string;
-        if (err.error instanceof ProgressEvent){
-          errorMessage = 'HTTP Failure to get resource';
-        }
-        else if (err.error?.title){
-          errorMessage = err.error.title;
-        }
-        else {
-          errorMessage = err.message;
-        }
-        swal.fire(
-          {
-            title: 'Error',
-            icon: 'error',
-            text: errorMessage
-          });
+  @Output() edit: EventEmitter<EditUser> = new EventEmitter<EditUser>();
 
-        this.isLoading = false;
-      },
-      () => {
-        this.isLoading = false;
-        this.location.back();
-      }
-    );
+  onSubmit(): void{
+    this.edit.emit(this.editUser);
   }
   ngOnInit(): void {
     this.editForm = new FormGroup({
@@ -86,32 +51,6 @@ export class EdituserByAdminComponent implements OnInit {
       passportId: new FormControl(),
       role: new FormControl(Validators.required)
     });
-
-    this.userInfoService.getUser(this.userEditId).subscribe(
-      data => {
-        this.editUser = data;
-        console.log(this.editUser);
-      },
-      err => {
-        console.log(err);
-        let errorMessage: string;
-        if (err.error instanceof ProgressEvent){
-          errorMessage = 'HTTP Failure to get resource';
-        }
-        else if (err.error?.title){
-          errorMessage = err.error.title;
-        }
-        else {
-          errorMessage = err.message;
-        }
-        swal.fire(
-          {
-            title: 'Error',
-            icon: 'error',
-            text: errorMessage
-          });
-      }
-    );
 
     this.roleService.getRoles().subscribe(data => {
         this.roles = data;

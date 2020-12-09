@@ -3,5 +3,11 @@
   <div class="row col-lg-3 mt-2 mb-2">
     <button type="button" routerLink="/admin/createuser" class="btn btn-success btn-sm">Add new user<i class="fas fa-plus-circle ml-1"></i></button>
   </div>
-  <app-users-table class="row" [users]="users"></app-users-table>
+  <app-users-table class="row" [users]="users"
+                   (deleteUser)="onDelete($event)"
+                   (getInfo)="onGetInfo($event)"
+                   (updateUser)="getUserForEdit($event)"></app-users-table>
 </div>
+
+<app-user-info-modal></app-user-info-modal>
+<app-edit-user-modal (edit)="onEditUser($event)"></app-edit-user-modal>

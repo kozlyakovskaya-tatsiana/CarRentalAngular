@@ -3,6 +3,7 @@ using AutoMapper;
 using CarRental.Api.Extensions;
 using CarRental.DAL.EFCore;
 using CarRental.DAL.Entities;
+using CarRental.Service.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -50,6 +51,8 @@ namespace CarRental.Api
             services.AddCors();
 
             services.ConfigureImagesStore(Configuration);
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,9 +84,11 @@ namespace CarRental.Api
             app.UseRouting();
 
             app.UseCors(builder =>
-                builder.WithOrigins(Configuration.GetSection("AngularOriginDomain").Value)
+                builder
                     .AllowAnyMethod()
-                    .AllowAnyHeader());
+                    .AllowAnyHeader()
+                    .WithOrigins(Configuration.GetSection("AngularOriginDomain").Value)
+                    .AllowCredentials());
 
             app.UseAuthentication();
 
@@ -92,6 +97,8 @@ namespace CarRental.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                endpoints.MapHub<CarBookingHub>("/carstatus");
             });
 
             using (var scope = app.ApplicationServices.CreateScope())
