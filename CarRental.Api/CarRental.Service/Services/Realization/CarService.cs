@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRental.DAL;
@@ -10,7 +9,6 @@ using CarRental.DAL.Entities;
 using CarRental.DAL.Exceptions;
 using CarRental.DAL.Repositories;
 using CarRental.Service.DTO.CarDtos;
-using CarRental.Service.DTO.RentalPointDtos;
 using CarRental.Service.Filter;
 using CarRental.Service.Options;
 using CarRental.Service.WebModels.Car;
@@ -232,15 +230,33 @@ namespace CarRental.Service.Services.Realization
 
         public async Task<PagedCollection<CarForSmallCard>> FilterAndPaginateCars(CarFilterPagingRequest filterPagingRequest)
         {
-            Expression<Func<Car, bool>> carFiltering = car =>
-                (filterPagingRequest.CountryId == null || car.RentalPoint.Location.City.CountryId == filterPagingRequest.CountryId) &&
-                (filterPagingRequest.CityId == null || car.RentalPoint.Location.CityId == filterPagingRequest.CityId) &&
-                (filterPagingRequest.RentalPointId == null || car.RentalPoint.Id == filterPagingRequest.RentalPointId) &&
-                (filterPagingRequest.Marks == null || !filterPagingRequest.Marks.Any() || filterPagingRequest.Marks.Contains(car.Mark)) &&
-                (filterPagingRequest.Transmissions == null || !filterPagingRequest.Transmissions.Any() ||  filterPagingRequest.Transmissions.Contains(car.Transmission)) &&
-                (filterPagingRequest.Carcases == null || !filterPagingRequest.Carcases.Any() ||filterPagingRequest.Carcases.Contains(car.Carcase));
+            var cars = await _carRepository.GetAllAsync(includes: car => car.Include(c => c.Documents));
 
-            var cars = await _carRepository.GetAllAsync(carFiltering, car => car.Include(c => c.Documents));
+            if (filterPagingRequest.CountryId != null)
+            {
+                cars = cars.Where(car => car.RentalPoint.Location.City.CountryId == filterPagingRequest.CountryId);
+            }
+
+            if (filterPagingRequest.CityId != null)
+            {
+                cars = cars.Where(car => car.RentalPoint.Location.CityId == filterPagingRequest.CityId);
+            }
+            if (filterPagingRequest.RentalPointId!= null)
+            {
+                cars = cars.Where(car => car.RentalPoint.Id == filterPagingRequest.RentalPointId);
+            }
+            if (filterPagingRequest.Marks != null && filterPagingRequest.Marks.Any())
+            {
+                cars = cars.Where(car => filterPagingRequest.Marks.Contains(car.Mark));
+            }
+            if (filterPagingRequest.Transmissions != null && filterPagingRequest.Transmissions.Any())
+            {
+                cars = cars.Where(car => filterPagingRequest.Transmissions.Contains(car.Transmission));
+            }
+            if (filterPagingRequest.Carcases != null && filterPagingRequest.Carcases.Any())
+            {
+                cars = cars.Where(car => filterPagingRequest.Carcases.Contains(car.Carcase));
+            }
 
             var totalCars = await cars.CountAsync();
             var totalPages = (int)Math.Ceiling(totalCars / (double)filterPagingRequest.PageSize);
