@@ -48,6 +48,8 @@ namespace CarRental.Api.Extensions
             services.AddScoped<IBookingRepository, BookingRepository>();
 
             services.AddScoped<IBookingHelper, BookingHelper>();
+
+            services.AddScoped<IHubService, HubService>();
         }
     }
 }

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {CarForSmallCard} from '../../../shared/utils/Car/CarForSmallCard';
 import {CarService} from '../../../shared/services/car.service';
 import {catchError, first, map, tap} from 'rxjs/operators';
@@ -19,6 +19,10 @@ import {CityInfo} from '../../../shared/utils/filters/CityInfo';
 import {FilterBarComponent} from '../filter-bar/filter-bar.component';
 import {CarFilter} from '../../../shared/utils/filters/CarFilter';
 import {PagedResponse} from '../../../shared/utils/filters/PagedResponse';
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import * as signalR from '@microsoft/signalr';
+import {environment} from '../../../../environments/environment';
+import {CarCardSmallComponent} from '../car-card-small/car-card-small.component';
 
 @Component({
   selector: 'app-autopark',
@@ -53,15 +57,15 @@ export class AutoparkComponent implements OnInit, AfterViewInit {
   public pagedResponse: PagedResponse<CarForSmallCard>;
 
   chosenCarIndex: number;
-  cars: CarForSmallCard[];
-  cars$: Observable<Array<CarForSmallCard>>;
-  private rentalPointId: string;
   rentalPointName$: Observable<string>;
+
+  hubConnection: HubConnection;
 
   countries: Array<CountyInfo>;
   cities: Array<CityInfo>;
   marks: Array<string>;
   transmissions: Array<string>;
+  messages = new Array<string>();
 
   showModalForBooking(index: number): void{
     this.chosenCarIndex = index;
@@ -74,10 +78,10 @@ export class AutoparkComponent implements OnInit, AfterViewInit {
   }
   showBookingFlow(index): void{
     this.bookingFlowComponent.showModal();
-    this.bookingFlowComponent.carCostPerDay = this.cars[index]?.costPerDay;
-    this.bookingFlowComponent.imageSrc = this.cars[index]?.imageName;
-    this.bookingFlowComponent.carName = this.cars[index]?.name;
-    this.bookingFlowComponent.bookingRequest.carId = this.cars[index]?.id;
+    this.bookingFlowComponent.carCostPerDay = this.pagedResponse.itemsPerPage[index]?.costPerDay;
+    this.bookingFlowComponent.imageSrc = this.pagedResponse.itemsPerPage[index]?.imageName;
+    this.bookingFlowComponent.carName = this.pagedResponse.itemsPerPage[index].name;
+    this.bookingFlowComponent.bookingRequest.carId = this.pagedResponse.itemsPerPage[index]?.id;
     this.userInfoService.getUser(this.authorizeService.userId).subscribe(
       user => {
         this.bookingFlowComponent.bookingRequest.personName = user.name;
@@ -87,7 +91,7 @@ export class AutoparkComponent implements OnInit, AfterViewInit {
         this.bookingFlowComponent.bookingRequest.personDateOfBirth = user.dateOfBirth;
         this.bookingFlowComponent.bookingRequest.personPhoneNumber = user.phoneNumber;
         this.bookingFlowComponent.bookingRequest.userId = user.id;
-        this.bookingFlowComponent.bookingRequest.carId = this.cars[index]?.id;
+        this.bookingFlowComponent.bookingRequest.carId = this.pagedResponse.itemsPerPage[index]?.id;
         console.log(this.bookingFlowComponent.bookingRequest);
       },
       err => {
@@ -111,12 +115,12 @@ export class AutoparkComponent implements OnInit, AfterViewInit {
   bookCar(request: BookingRequest): void{
     this.bookingService.bookCar(this.bookingFlowComponent.bookingRequest).subscribe(
       data => {
-        console.log(data);
+        /*this.hubConnection.invoke('RequestBooking', request.carId);*/
         swal.fire({
           title: 'You request is accepted',
           icon: 'success'
         }).then(val => {
-          window.location.reload();
+          this.bookingFlowComponent.closeModal();
         });
       },
       err => {
@@ -272,6 +276,12 @@ export class AutoparkComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.hubConnection = new signalR.HubConnectionBuilder().withUrl(environment.backendDomain + '/carstatus').build();
+    this.hubConnection.on('ChangeCarStatus', (carId: string, carStatus: string) => {
+      const carToDisable = this.pagedResponse.itemsPerPage.filter(car => car.id === carId)[0];
+      carToDisable.status = carStatus;
+    });
 
+    this.hubConnection.start();
   }
 }

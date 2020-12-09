@@ -1,7 +1,7 @@
 <div class="product-item">
   <div style="height: 50%">
-    <h6 class="ml-2 mt-2 not-available" [hidden]="car.status==='Free'">Not available now</h6>
-    <img [src]="car?.imageName" [class.transperent-item]="car.status!=='Free'" *ngIf="car?.imageName; else noimage;">
+    <h6 class="ml-2 mt-2 not-available" [hidden]="!isHidden">Not available now</h6>
+    <img [src]="car?.imageName" [class.transperent-item]="isHidden" *ngIf="car?.imageName; else noimage;">
     <ng-template #noimage>
       <div class="text-center">
       <img src="assets/no-image%20(1).png" [class.transperent-item]="car.status!=='Free'">
@@ -20,7 +20,7 @@
       </small>
       <div class="row mt-3 mb-2">
         <a class="col-lg-4 offset-lg-1 btn btn-info btn-sm" [routerLink]="btnInfoLink">{{btnInfoName}}</a>
-        <a class="col-lg-3 offset-lg-3 float-right btn btn-danger btn-sm" [class.disabled]="car.status!=='Free'" (click)="clickSimpleBtn()">{{btnSimpleName}}</a>
+        <a class="col-lg-3 offset-lg-3 float-right btn btn-danger btn-sm" [class.disabled]="isHidden " (click)="clickSimpleBtn()">{{btnSimpleName}}</a>
       </div>
     </div>
 </div>

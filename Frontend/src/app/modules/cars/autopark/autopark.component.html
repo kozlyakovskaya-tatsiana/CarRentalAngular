@@ -21,7 +21,9 @@
         </div>
         <div class="row">
           <div class="col-md-3 col-lg-4" *ngFor="let car of pagedResponse.itemsPerPage; let i = index;">
-            <app-car-card-small [car]="car" btnInfoName="More info" [btnInfoLink]="['', 'carinfo', car?.id]" btnSimpleName="Book it!" (onClickedSimpleBtn)="showModalForBooking(i)" class="m-2"></app-car-card-small>
+            <app-car-card-small [car]="car" btnInfoName="More info" [btnInfoLink]="['', 'carinfo', car?.id]" btnSimpleName="Book it!"
+                                (ClickSimpleBtn)="showModalForBooking(i)" class="m-2"
+                                #cards></app-car-card-small>
           </div>
         </div>
         <div class="row">
@@ -40,4 +42,3 @@
 </div>
 <app-booking-flow (clickSubmit)="bookCar($event)"></app-booking-flow>
 <app-login-modal (Submit)="login($event)"></app-login-modal>
-

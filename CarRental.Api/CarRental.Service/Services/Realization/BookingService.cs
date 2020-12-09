@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using CarRental.Service.WebModels.Booking;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -20,13 +22,17 @@ namespace CarRental.Service.Services.Realization
 
         private readonly IMapper _mapper;
 
-        public BookingService(IBookingRepository bookingRepository, IMapper mapper, ICarRepository carRepository)
+        private readonly IHubService _hubService;
+
+        public BookingService(IBookingRepository bookingRepository, IMapper mapper, ICarRepository carRepository, IHubService hubService)
         {
             _bookingRepository = bookingRepository;
 
             _mapper = mapper;
 
             _carRepository = carRepository;
+
+            _hubService = hubService;
         }
 
         public async Task BookCarAsync(BookingRequest bookingRequest)
@@ -45,6 +51,8 @@ namespace CarRental.Service.Services.Realization
             bookingInfo.Sum = ((bookingInfo.EndDateOfRenting - bookingInfo.StartDateOfRenting).Days + 1) * bookingInfo.Car.CostPerDay;
 
             await _bookingRepository.BookCarAsync(bookingInfo);
+
+            await _hubService.ChangeCarStatus(bookingInfo.CarId, bookingInfo.Car.Status.ToString());
         }
 
         public async Task ApproveBookingAsync(Guid bookingId)
