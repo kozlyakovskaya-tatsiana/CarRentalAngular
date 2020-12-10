@@ -25,6 +25,7 @@ import {RentalEditComponent} from './modules/renatlPoints/rental-edit/rental-edi
 import {RentalPointsMapComponent} from './modules/renatlPoints/rental-points-map/rental-points-map.component';
 import {BookingManagementComponent} from './modules/booking/booking-management/booking-management.component';
 import {AuthorizeGuard} from './shared/guards/authorize.guard';
+import {ChatComponent} from './modules/chatpage/chat/chat.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent},
@@ -47,6 +48,7 @@ const routes: Routes = [
   { path: 'editrentalpoint/:id', component: RentalEditComponent, canActivate: [AdminManagerAccessGuard]},
   { path: 'rentalpoints', component: RentalPointsMapComponent},
   { path: 'bookings', component: BookingManagementComponent, canActivate: [AuthorizeGuard]},
+  { path: 'chat', component: ChatComponent},
   { path: '**', component: NotFoundComponent}
 ];
 

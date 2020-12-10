@@ -1,0 +1,16 @@
+.sent-message{
+  min-height: 30px;
+  width: auto;
+  max-width: 70%;
+  background-color: #71951f;
+  border: 3px solid #71951f;
+  border-radius: 3px;
+  float: right;
+  margin: 4px;
+  padding: 4px;
+}
+.message-sent-date{
+  color: #878489;
+  float: right;
+  margin: 4px;
+}

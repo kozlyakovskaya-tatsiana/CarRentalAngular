@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Threading.Tasks;
 using CarRental.Service.Hubs;
 using Microsoft.AspNetCore.SignalR;
@@ -12,10 +9,15 @@ namespace CarRental.Service.Services.Realization
     {
         private readonly IHubContext<CarBookingHub> _bookingHub;
 
-        public HubService(IHubContext<CarBookingHub> bookingHub)
+        private readonly IHubContext<ChatHub> _chatHub;
+
+        public HubService(IHubContext<CarBookingHub> bookingHub, IHubContext<ChatHub> chatHub)
         {
             _bookingHub = bookingHub;
+
+            _chatHub = chatHub;
         }
+
         public async Task ChangeCarStatus(Guid? carId, string newCarStatus)
         {
             await _bookingHub.Clients.All.SendAsync("ChangeCarStatus", carId, newCarStatus);

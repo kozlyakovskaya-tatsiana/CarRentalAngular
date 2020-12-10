@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="text-center">
+    <h3 class="chat_header mt-3">Chat</h3>
+  </div>
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <div id="message-list" class="messaging">
+        <ng-container *ngFor="let mes of messages">
+          <app-sent-message [message]="mes.text" [date]="mes.sendDateTime | date: 'medium'" *ngIf="mes.type==='Sent'; else received"></app-sent-message>
+          <ng-template #received>
+            <app-received-message [message]="mes.text" [date]="mes.sendDateTime |date: 'medium'"></app-received-message>
+          </ng-template>
+        </ng-container>
+        <app-message-typing-box (sendMessage)="onSendMessage($event)"></app-message-typing-box>
+      </div>
+    </div>
+  </div>
+</div>

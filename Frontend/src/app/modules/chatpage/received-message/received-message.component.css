@@ -1,0 +1,17 @@
+.received-message{
+  max-width: 70%;
+  width: auto;
+  color: #121212;
+  background-color: #d7ded7;
+  min-height: 30px;
+  border: 3px solid #d7ded7;
+  border-radius: 3px;
+  float: left;
+  margin: 4px;
+  padding: 4px;
+}
+.message-received-date{
+  color: #878489;
+  float: left;
+  margin: 4px;
+}

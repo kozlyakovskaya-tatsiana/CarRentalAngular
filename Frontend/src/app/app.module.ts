@@ -57,6 +57,10 @@ import { BookingManagementComponent } from './modules/booking/booking-management
 import { FilterBarComponent } from './modules/cars/filter-bar/filter-bar.component';
 import { UserInfoModalComponent } from './modules/admin/components/user-info-modal/user-info-modal.component';
 import { EditUserModalComponent } from './modules/admin/components/edit-user-modal/edit-user-modal.component';
+import { ChatComponent } from './modules/chatpage/chat/chat.component';
+import { SentMessageComponent } from './modules/chatpage/sent-message/sent-message.component';
+import { ReceivedMessageComponent } from './modules/chatpage/received-message/received-message.component';
+import { MessageTypingBoxComponent } from './modules/chatpage/message-typing-box/message-typing-box.component';
 
 @NgModule({
   declarations: [
@@ -107,7 +111,11 @@ import { EditUserModalComponent } from './modules/admin/components/edit-user-mod
     BookingManagementComponent,
     FilterBarComponent,
     UserInfoModalComponent,
-    EditUserModalComponent
+    EditUserModalComponent,
+    ChatComponent,
+    SentMessageComponent,
+    ReceivedMessageComponent,
+    MessageTypingBoxComponent
   ],
   imports: [
     BrowserModule,

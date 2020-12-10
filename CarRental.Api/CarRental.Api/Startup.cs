@@ -99,6 +99,8 @@ namespace CarRental.Api
                 endpoints.MapControllers();
 
                 endpoints.MapHub<CarBookingHub>("/carstatus");
+
+                endpoints.MapHub<ChatHub>("/chat");
             });
 
             using (var scope = app.ApplicationServices.CreateScope())
