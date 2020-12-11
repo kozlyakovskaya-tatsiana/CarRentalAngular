@@ -1,48 +1,43 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import {HubConnection} from '@microsoft/signalr';
-import {environment} from '../../../environments/environment';
 import {Message} from '../utils/chat/Message';
+import {AuthorizeService} from './authorize.service';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
 
-  constructor() {
-    this.createConnection();
-    this.registerOnServerEvents();
-    this.startConnection();
+  constructor(private authService: AuthorizeService) {
   }
 
-  @Output() messageReceived: EventEmitter<Message> = new EventEmitter<Message>();
   public hubConnection: HubConnection;
 
-  private createConnection(): void{
+  public createConnection(): void{
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(environment.backendDomain + '/chat')
+      .withUrl( environment.backendDomain + '/chat', { accessTokenFactory: () => this.authService.accessToken})
       .build();
   }
 
-  private startConnection(): void{
-    this.hubConnection.start()
-      .then(
-      () => {
-        console.log('Connection started');
-      }
-    )
-      .catch(err => {
-        console.log(err);
-      });
+  public startConnection(): Promise<any>{
+    return this.hubConnection.start();
   }
 
-  sendMessage(mesasge: Message): void {
-    this.hubConnection.invoke('NewMessage', mesasge);
+  public sendChatRequest(): Promise<any>{
+    return this.hubConnection.invoke('SendChatRequest');
   }
 
-  private registerOnServerEvents(): void{
-    this.hubConnection.on('MessageReceived', (mes: Message) => {
-      this.messageReceived.emit(mes);
-    });
+  sendMessage(message: Message): Promise<any> {
+    return this.hubConnection.invoke('NewMessage', message);
+  }
+
+  approveChatRequest(connectionId: string): Promise<any>{
+    return this.hubConnection.invoke('ApproveChatRequest', connectionId);
+  }
+
+  joinToManagersGroup(): Promise<any> {
+    return this.hubConnection.invoke('JoinToManagersGroup');
   }
 }

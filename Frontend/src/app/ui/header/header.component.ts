@@ -1,6 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthorizeService} from '../../shared/services/authorize.service';
 import swal from 'sweetalert2';
+import {ChatService} from '../../shared/services/chat.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,9 @@ import swal from 'sweetalert2';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public authorizeService: AuthorizeService) { }
+  constructor(public authorizeService: AuthorizeService) {
+  }
+
 
   onLogOut(): void{
     swal.fire({

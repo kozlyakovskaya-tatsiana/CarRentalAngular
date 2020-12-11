@@ -3,10 +3,12 @@ using CarRental.DAL.Repositories;
 using CarRental.DAL.Repositories.Realization;
 using CarRental.Service.Helpers;
 using CarRental.Service.Helpers.Realization;
+using CarRental.Service.Hubs;
 using CarRental.Service.Identity;
 using CarRental.Service.Identity.Services;
 using CarRental.Service.Services;
 using CarRental.Service.Services.Realization;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CarRental.Api.Extensions
@@ -50,6 +52,8 @@ namespace CarRental.Api.Extensions
             services.AddScoped<IBookingHelper, BookingHelper>();
 
             services.AddScoped<IHubService, HubService>();
+
+            services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
         }
     }
 }
