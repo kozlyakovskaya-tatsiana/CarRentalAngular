@@ -3,6 +3,7 @@ using CarRental.DAL.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CarRental.Api.Controllers
 {
@@ -22,9 +23,12 @@ namespace CarRental.Api.Controllers
 
             var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
 
-            var errorType = context.Error.GetType();
-
-            var statusCode = errorType == typeof(NotFoundException) ? 404 : 500;
+            var statusCode = context.Error switch
+            {
+                SecurityTokenExpiredException tokenExpired => 401,
+                NotFoundException notFound => 404,
+                _ => 500,
+            };
 
             return Problem(
                 detail: context.Error.StackTrace,

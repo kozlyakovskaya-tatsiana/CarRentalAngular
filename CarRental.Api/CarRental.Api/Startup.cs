@@ -52,7 +52,10 @@ namespace CarRental.Api
 
             services.ConfigureImagesStore(Configuration);
 
-            services.AddSignalR();
+            services.AddSignalR(opt =>
+            {
+                opt.EnableDetailedErrors = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

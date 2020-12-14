@@ -1,5 +1,5 @@
-﻿using CarRental.Api.Security;
-using CarRental.DAL.Enums;
+﻿using CarRental.DAL.Enums;
+using CarRental.Service.Security;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CarRental.Api.Extensions

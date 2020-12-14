@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CarRental.Api.Security;
 using CarRental.DAL.Enums;
 using CarRental.Service.Helpers;
+using CarRental.Service.Security;
 using CarRental.Service.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

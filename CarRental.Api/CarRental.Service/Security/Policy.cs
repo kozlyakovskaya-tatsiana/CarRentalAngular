@@ -1,4 +1,4 @@
-﻿namespace CarRental.Api.Security
+﻿namespace CarRental.Service.Security
 {
     public static class Policy
     {

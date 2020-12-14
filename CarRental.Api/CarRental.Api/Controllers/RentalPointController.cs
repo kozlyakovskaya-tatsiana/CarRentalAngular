@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
-using CarRental.Api.Security;
 using CarRental.Service.DTO.RentalPointDtos;
+using CarRental.Service.Security;
 using CarRental.Service.Services;
 using CarRental.Service.WebModels.RentalPoint;
 using Microsoft.AspNetCore.Authorization;

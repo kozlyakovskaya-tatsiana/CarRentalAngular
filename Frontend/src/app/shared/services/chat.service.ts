@@ -17,7 +17,8 @@ export class ChatService {
 
   public createConnection(): void{
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl( environment.backendDomain + '/chat', { accessTokenFactory: () => this.authService.accessToken})
+      .withUrl( environment.backendDomain + '/chat', {accessTokenFactory: () => this.authService.accessToken})
+      .configureLogging(signalR.LogLevel.Information)
       .build();
   }
 

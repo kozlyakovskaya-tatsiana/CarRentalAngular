@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CarRental.Api.Security;
 using CarRental.DAL.Enums;
+using CarRental.Service.Security;
 using CarRental.Service.Services;
 using CarRental.Service.WebModels.Booking;
 using Microsoft.AspNetCore.Authorization;

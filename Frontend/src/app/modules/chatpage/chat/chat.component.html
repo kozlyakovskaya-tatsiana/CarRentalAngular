@@ -1,6 +1,6 @@
 <div class="container">
   <div class="text-center mt-5" *ngIf="!(authService.isAdmin || authService.isManager)">
-      <button class="btn btn-success" (click)="onStartChat()">Start chat</button>
+      <button class="btn btn-success" (click)="onStartChat()" *ngIf="!isChatting">Start chat</button>
   </div>
   <ng-container *ngIf="isChatting">
   <div class="text-center">
